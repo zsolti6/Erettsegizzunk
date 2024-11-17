@@ -22,9 +22,9 @@ Több platformon (PC, Mobile) is elérhetővé tervezzük tenni, a nagyobb hozz�
 
 ## Branch-ek
 A repository-nak három fő branch-je van:
-- **Frontend:** Ez a brancs tartalmazza a projekt **felhasználói felületét** (UI). Itt található minden, ami a frontend technológiákkal kapcsolatos, beleértve a HTML, CSS, JavaScript (React).
-- **Backend:** Ez a brancs tartalmazza a projekt **szerveroldali logikáját**, adatbázis műveleteit, API-kat és egyéb backend funkciókat. Itt találhatók a projekt szerveroldali kódjai, amelyeket a frontend alkalmazás adatainak kiszolgálására és a felhasználói kérések kezelésére használunk.
-- **Dokumentáció:** Ez a brancs a projekt **dokumentációját** tartalmazza, amely segít a fejlesztőknek és a felhasználóknak megérteni a projekt működését, telepítését, és használatát. A dokumentáció tartalmazza a telepítési útmutatókat, API referencia dokumentációkat, a projekt struktúráját, valamint a használati útmutatókat.
+- **Frontend:** Ez a branch tartalmazza a projekt **felhasználói felületét** (UI). Itt található minden, ami a frontend technológiákkal kapcsolatos, beleértve a HTML, CSS, JavaScript (React).
+- **Backend:** Ez a branch tartalmazza a projekt **szerveroldali logikáját**, adatbázis műveleteit, API-kat és egyéb backend funkciókat. Itt találhatók a projekt szerveroldali kódjai, amelyeket a frontend alkalmazás adatainak kiszolgálására és a felhasználói kérések kezelésére használunk.
+- **Dokumentáció:** Ez a branch a projekt **dokumentációját** tartalmazza, amely segít a fejlesztőknek és a felhasználóknak megérteni a projekt működését, telepítését, és használatát. A dokumentáció tartalmazza a telepítési útmutatókat, API referencia dokumentációkat, a projekt struktúráját, valamint a használati útmutatókat.
 
 ## Fejlesztői környezeteek és programnyelvek amelyeket használunk
 ### Két fő környezet:
