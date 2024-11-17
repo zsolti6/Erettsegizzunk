@@ -35,6 +35,6 @@ A repository-nak három fő branch-je van:
 - HTML
 - REACT, JS
 
-Látogasd meg a [**Trello**]([https://pelda.hu](https://trello.com/b/b6vkSv3I/érettségizzünk)) -nkat is!
+Látogasd meg a [Trello](https://trello.com/b/b6vkSv3I/érettségizzünk)-nkat is!
 
 **Presented by: *Pixel Pirates***
