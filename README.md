@@ -1,4 +1,5 @@
 # Érettségizzünk!
+Ez a projekt egy forradalmian új, jövőbe mutató megoldás, amely a legmodernebb technológiákat alkalmazza a felhasználói élmény és hatékonyság javítása érdekében.
 
 ## A projekt célja
 Ez egy középiskolás diákok számára, *matematika*, *történelem* és *magyar nyelv* érettségire való gyakorlásban segítséget nyújtó interaktív program, azonnali visszajelzéssel.
