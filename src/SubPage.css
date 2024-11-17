@@ -1,0 +1,10 @@
+.exercises{
+    top: 20vh;
+    width: 130vh;
+    height: 80vh;
+    margin: auto;
+    margin-top: 5vh;
+    /*margin-right: 25vh;*/
+    background-color: white;
+    border: 2px solid black;
+}
