@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Nov 26. 08:21
+-- Létrehozás ideje: 2024. Dec 03. 09:05
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -29,12 +29,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `feladatok` (
   `id` int(11) NOT NULL,
-  `nev` varchar(255) NOT NULL,
-  `leiras` varchar(255) DEFAULT NULL,
-  `helyesMegoldas` varchar(255) DEFAULT NULL,
-  `rosszMegoldas1` varchar(255) DEFAULT NULL,
-  `rosszMegoldas2` varchar(255) DEFAULT NULL,
-  `rosszMegoldas3` varchar(255) DEFAULT NULL,
+  `leiras` varchar(1024) DEFAULT NULL,
+  `megoldasok` varchar(1024) DEFAULT NULL,
+  `helyese` varchar(20) DEFAULT NULL,
   `tantargyId` int(11) DEFAULT NULL,
   `tipusId` int(11) DEFAULT NULL,
   `szintId` int(11) DEFAULT NULL
@@ -59,7 +56,7 @@ CREATE TABLE `feladatok_tema` (
 
 CREATE TABLE `szint` (
   `id` int(11) NOT NULL,
-  `nev` varchar(255) NOT NULL
+  `nev` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
@@ -67,8 +64,8 @@ CREATE TABLE `szint` (
 --
 
 INSERT INTO `szint` (`id`, `nev`) VALUES
-(1, 'emelt'),
-(2, 'közép');
+(1, 'közép'),
+(2, 'emelt');
 
 -- --------------------------------------------------------
 
@@ -86,10 +83,9 @@ CREATE TABLE `tantargyak` (
 --
 
 INSERT INTO `tantargyak` (`id`, `nev`) VALUES
-(1, 'matek'),
-(2, 'matematika'),
-(3, 'történelem'),
-(4, 'magyar');
+(1, 'matematika'),
+(2, 'történelem'),
+(3, 'magyar');
 
 -- --------------------------------------------------------
 
@@ -101,21 +97,6 @@ CREATE TABLE `tema` (
   `id` int(11) NOT NULL,
   `nev` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `tema`
---
-
-INSERT INTO `tema` (`id`, `nev`) VALUES
-(1, 'algebra'),
-(2, 'halmazok'),
-(3, 'kombinatorika'),
-(4, 'koordinátageometria'),
-(5, 'síkgeometria'),
-(6, 'sorozatok'),
-(7, 'statisztika'),
-(8, 'térgeometria'),
-(9, 'trigonometria');
 
 -- --------------------------------------------------------
 
@@ -134,9 +115,8 @@ CREATE TABLE `tipus` (
 
 INSERT INTO `tipus` (`id`, `nev`) VALUES
 (1, 'radio'),
-(2, 'radio'),
-(3, 'negyzet'),
-(4, 'sajat');
+(2, 'checkbox'),
+(3, 'textbox');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -202,19 +182,19 @@ ALTER TABLE `szint`
 -- AUTO_INCREMENT a táblához `tantargyak`
 --
 ALTER TABLE `tantargyak`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `tema`
 --
 ALTER TABLE `tema`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `tipus`
 --
 ALTER TABLE `tipus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -224,16 +204,16 @@ ALTER TABLE `tipus`
 -- Megkötések a táblához `feladatok`
 --
 ALTER TABLE `feladatok`
-  ADD CONSTRAINT `feladatok_ibfk_1` FOREIGN KEY (`tantargyId`) REFERENCES `tantargyak` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `feladatok_ibfk_2` FOREIGN KEY (`tipusId`) REFERENCES `tipus` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `feladatok_ibfk_3` FOREIGN KEY (`szintId`) REFERENCES `szint` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `feladatok_ibfk_1` FOREIGN KEY (`tantargyId`) REFERENCES `tantargyak` (`id`),
+  ADD CONSTRAINT `feladatok_ibfk_2` FOREIGN KEY (`tipusId`) REFERENCES `tipus` (`id`),
+  ADD CONSTRAINT `feladatok_ibfk_3` FOREIGN KEY (`szintId`) REFERENCES `szint` (`id`);
 
 --
 -- Megkötések a táblához `feladatok_tema`
 --
 ALTER TABLE `feladatok_tema`
-  ADD CONSTRAINT `feladatok_tema_ibfk_1` FOREIGN KEY (`feladatokId`) REFERENCES `feladatok` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `feladatok_tema_ibfk_2` FOREIGN KEY (`temaId`) REFERENCES `tema` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `feladatok_tema_ibfk_1` FOREIGN KEY (`feladatokId`) REFERENCES `feladatok` (`id`),
+  ADD CONSTRAINT `feladatok_tema_ibfk_2` FOREIGN KEY (`temaId`) REFERENCES `tema` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
