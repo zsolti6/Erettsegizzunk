@@ -1,0 +1,27 @@
+﻿<Window x:Class="ErettsegizzunkAdmin.Windows.FeladatokKezel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ErettsegizzunkAdmin.Windows"
+        mc:Ignorable="d"
+        Title="Feladatok Kezelése" Height="450" Width="800"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="550"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid x:Name="dgFeladatAdatok" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Leiras" Binding="{Binding Leiras}" />
+                <DataGridTextColumn Header="Megoldasok" Binding="{Binding Megoldasok}" />
+                <DataGridTextColumn Header="Tantargy" Binding="{Binding Tantargy}" />
+                <DataGridTextColumn Header="Tipus" Binding="{Binding Szint}" />
+                <DataGridTextColumn Header="Szint" Binding="{Binding Tipus}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
