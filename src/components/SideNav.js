@@ -1,12 +1,14 @@
 import React from 'react';
-import './Sidenav.css';
+import '../css/Sidenav.css';
 
 function Sidenav() {
   const buttons = [];
 
-  for (let i = 1; i <= 30; i++) {
+  for (let i = 1; i <= 15; i++) {
     buttons.push(
-      <button key={i}>Feladat {i}</button>
+      <button key={i} onClick={() => {
+        console.log(`Feladat ${i}`)
+      }}>Feladat {i}</button>
     );
   }
   return (

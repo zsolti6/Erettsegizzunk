@@ -1,0 +1,14 @@
+.exercise {
+  width: 50%; /* Flexible width */
+  height: auto; /* Adjust based on content */
+  margin: 10vh auto; /* Center horizontally and add top margin */
+  background-color: white;
+  border: 2px solid black;
+  padding: 20px;
+  box-sizing: border-box; /* Include padding in width/height calculation */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically center the content */
+  align-items: center; /* Horizontally center the content */
+  text-align: center; /* Center the text inside */
+}

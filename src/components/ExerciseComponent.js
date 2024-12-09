@@ -1,9 +1,9 @@
 import React from "react";
-import "./SubPage.css";
+import "../css/SubPage.css";
 import Sidenav from "./SideNav";
 import Navbar from "./Navbar";
 
-function ExerciseComponent({subject}){
+function ExerciseComponent(){
     return(
         <div style={{
             height: "92vh"
@@ -11,9 +11,11 @@ function ExerciseComponent({subject}){
             <Navbar/>
             <div style={{ display: 'flex' }}>
                 <Sidenav />
-                <div style={{ marginLeft: '250px', padding: '20px', flex: 1 }}/>
+                <div style={{ padding: '20px', flex: 1 }} />
             </div>
-            <div className="exercises"/>
+            <div className="exercise">
+                
+            </div>
         </div>
     );
 }
