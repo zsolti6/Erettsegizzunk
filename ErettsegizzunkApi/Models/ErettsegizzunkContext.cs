@@ -87,11 +87,11 @@ public partial class ErettsegizzunkContext : DbContext
             entity.HasMany(d => d.Temas).WithMany(p => p.Feladatoks)
                 .UsingEntity<Dictionary<string, object>>(
                     "FeladatokTema",
-                    r => r.HasOne<Tema>().WithMany()
+                    r => r.HasOne<Tema>().WithMany()//-------
                         .HasForeignKey("TemaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("feladatok_tema_ibfk_2"),
-                    l => l.HasOne<Feladatok>().WithMany()
+                    l => l.HasOne<Feladatok>().WithMany()//---------
                         .HasForeignKey("FeladatokId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("feladatok_tema_ibfk_1"),
@@ -117,10 +117,10 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
-                .HasColumnName("id");
+                .HasColumnName("SzintOwnId");
             entity.Property(e => e.Nev)
                 .HasMaxLength(15)
-                .HasColumnName("nev");
+                .HasColumnName("SzintNev");
         });
 
         modelBuilder.Entity<Tantargyak>(entity =>
@@ -131,10 +131,10 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
-                .HasColumnName("id");
+                .HasColumnName("TantargyOwnId");
             entity.Property(e => e.Nev)
                 .HasMaxLength(255)
-                .HasColumnName("nev");
+                .HasColumnName("TantargyNev");
         });
 
         modelBuilder.Entity<Tema>(entity =>
@@ -145,10 +145,10 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
-                .HasColumnName("id");
+                .HasColumnName("TemaOwnId");
             entity.Property(e => e.Nev)
                 .HasMaxLength(255)
-                .HasColumnName("nev");
+                .HasColumnName("TemaNev");
         });
 
         modelBuilder.Entity<Tipus>(entity =>
@@ -159,10 +159,10 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
-                .HasColumnName("id");
+                .HasColumnName("TipusOwnId");
             entity.Property(e => e.Nev)
                 .HasMaxLength(255)
-                .HasColumnName("nev");
+                .HasColumnName("TipusNev");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -19,9 +19,27 @@ namespace ErettsegizzunkApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks()
         {
-            return await _context.Feladatoks.ToListAsync();
+            return await _context.Feladatoks.Include(m => m.Szint).Include(m => m.Tantargy).Include(m => m.Temas).Include(m => m.Tipus).ToListAsync();
         }
 
+        [HttpGet("{tantargy}/{szint}")]
+        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoksTipusSzint(string tantargy, string szint)
+        {
+            List<Feladatok> randomItem = await _context.Feladatoks
+            .FromSql($"CALL GetFilteredRandomFeladat({tantargy}, {szint})").ToListAsync(); //.AsAsyncEnumerable
+            if (randomItem == null)
+            {
+                return NotFound($"No items found for type: {tantargy} and difficulty: {szint}");
+            }
+
+            return Ok(randomItem);
+        }
+
+
+
+
+
+        /*
         // GET: api/Feladatoks/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Feladatok>> GetFeladatok(int id)
@@ -92,7 +110,7 @@ namespace ErettsegizzunkApi.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
+        }*/
 
         private bool FeladatokExists(int id)
         {
