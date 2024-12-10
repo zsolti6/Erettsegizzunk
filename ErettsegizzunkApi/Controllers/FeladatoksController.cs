@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ErettsegizzunkApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("erettsegizzunk/[controller]")]
     [ApiController]
     public class FeladatoksController : ControllerBase
     {
@@ -15,7 +15,6 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
-        // GET: api/Feladatoks
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks()
         {
@@ -25,18 +24,23 @@ namespace ErettsegizzunkApi.Controllers
         [HttpGet("{tantargy}/{szint}")]
         public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoksTipusSzint(string tantargy, string szint)
         {
-            List<Feladatok> randomItem = await _context.Feladatoks
-            .FromSql($"CALL GetFilteredRandomFeladat({tantargy}, {szint})").ToListAsync(); //.AsAsyncEnumerable
-            if (randomItem == null)
+            List<Feladatok> randomFeladatok = await _context.Feladatoks
+            .FromSql($"CALL GetFilteredRandomFeladat({tantargy}, {szint})").ToListAsync();
+            if (randomFeladatok == null)
             {
                 return NotFound($"No items found for type: {tantargy} and difficulty: {szint}");
             }
 
-            return Ok(randomItem);
+            foreach (var feladat in randomFeladatok)//müksszik de nem feltétlen optimális
+            {
+                await _context.Entry(feladat).Reference(f => f.Szint).LoadAsync();
+                await _context.Entry(feladat).Reference(f => f.Tantargy).LoadAsync();
+                await _context.Entry(feladat).Reference(f => f.Tipus).LoadAsync();
+            }
+
+            //Console.WriteLine(randomFeladat[0].);
+            return Ok(randomFeladatok);
         }
-
-
-
 
 
         /*

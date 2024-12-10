@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Dec 03. 09:05
--- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Dec 10, 2024 at 06:29 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,59 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `erettsegizzunk`
+-- Database: `erettsegizzunk`
 --
+CREATE DATABASE IF NOT EXISTS `erettsegizzunk` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci;
+USE `erettsegizzunk`;
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetFilteredRandomFeladat` (IN `Tantargy` VARCHAR(255), IN `Szint` VARCHAR(255))   BEGIN
+    SELECT 
+        feladatok.id,
+        feladatok.leiras,
+        feladatok.megoldasok,
+        feladatok.helyese,
+        feladatok.tantargyId,
+        feladatok.tipusId,
+        feladatok.szintId,
+
+        -- Tantargyak
+        tantargyak.id AS TantargyOwnId,
+        tantargyak.nev AS TantargyNev,
+
+        -- Szint
+        szint.id AS SzintOwnId,
+        szint.nev AS SzintNev,
+
+        -- Tipus
+        tipus.id AS TipusOwnId,
+        tipus.nev AS TipusNev,
+
+        -- Tema (optional based on LEFT JOIN)
+        tema.id AS TemaOwnId,
+        tema.nev AS TemaNev
+
+    FROM feladatok
+    INNER JOIN tantargyak ON tantargyak.id = feladatok.tantargyId
+    INNER JOIN szint ON szint.id = feladatok.szintId
+    INNER JOIN tipus ON tipus.id = feladatok.tipusId
+    LEFT JOIN feladatok_tema ON feladatok_tema.feladatokId = feladatok.id
+    LEFT JOIN tema ON tema.id = feladatok_tema.temaId
+
+    WHERE tantargyak.nev = Tantargy AND szint.nev = Szint
+    ORDER BY RAND()
+    LIMIT 15;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `feladatok`
+-- Table structure for table `feladatok`
 --
 
 CREATE TABLE `feladatok` (
@@ -37,10 +83,23 @@ CREATE TABLE `feladatok` (
   `szintId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
+--
+-- Dumping data for table `feladatok`
+--
+
+INSERT INTO `feladatok` (`id`, `leiras`, `megoldasok`, `helyese`, `tantargyId`, `tipusId`, `szintId`) VALUES
+(1, 'igen', 'jo;jo;rossz;rossz', '1;1;0;0', 2, 2, 1),
+(2, 'jah', 'jo;rossz;jo;rossz', '1;0;1;0', 2, 2, 1),
+(3, 'vm', 'asd', '1;1;0;0', 1, 1, 2),
+(4, 'jahezisaz', 'jo;nem;nem;nem', '1;0;0;0', 2, 1, 1),
+(5, 'ez megint töri', 'nem;jo;nem;nem', '0;1;0;0', 2, 1, 1),
+(6, 'ezten itt most madzsar', 'fejtse kifele bazdki', 'mittom en', 3, 3, 1),
+(7, 'ezten magyjar tyú', 'emettet fejtesd tyú', 'nem tom', 3, 3, 2);
+
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `feladatok_tema`
+-- Table structure for table `feladatok_tema`
 --
 
 CREATE TABLE `feladatok_tema` (
@@ -51,7 +110,7 @@ CREATE TABLE `feladatok_tema` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `szint`
+-- Table structure for table `szint`
 --
 
 CREATE TABLE `szint` (
@@ -60,7 +119,7 @@ CREATE TABLE `szint` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
--- A tábla adatainak kiíratása `szint`
+-- Dumping data for table `szint`
 --
 
 INSERT INTO `szint` (`id`, `nev`) VALUES
@@ -70,7 +129,7 @@ INSERT INTO `szint` (`id`, `nev`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tantargyak`
+-- Table structure for table `tantargyak`
 --
 
 CREATE TABLE `tantargyak` (
@@ -79,7 +138,7 @@ CREATE TABLE `tantargyak` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
--- A tábla adatainak kiíratása `tantargyak`
+-- Dumping data for table `tantargyak`
 --
 
 INSERT INTO `tantargyak` (`id`, `nev`) VALUES
@@ -90,7 +149,7 @@ INSERT INTO `tantargyak` (`id`, `nev`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tema`
+-- Table structure for table `tema`
 --
 
 CREATE TABLE `tema` (
@@ -101,7 +160,7 @@ CREATE TABLE `tema` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tipus`
+-- Table structure for table `tipus`
 --
 
 CREATE TABLE `tipus` (
@@ -110,7 +169,7 @@ CREATE TABLE `tipus` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
--- A tábla adatainak kiíratása `tipus`
+-- Dumping data for table `tipus`
 --
 
 INSERT INTO `tipus` (`id`, `nev`) VALUES
@@ -119,11 +178,11 @@ INSERT INTO `tipus` (`id`, `nev`) VALUES
 (3, 'textbox');
 
 --
--- Indexek a kiírt táblákhoz
+-- Indexes for dumped tables
 --
 
 --
--- A tábla indexei `feladatok`
+-- Indexes for table `feladatok`
 --
 ALTER TABLE `feladatok`
   ADD PRIMARY KEY (`id`),
@@ -132,76 +191,76 @@ ALTER TABLE `feladatok`
   ADD KEY `szintId` (`szintId`);
 
 --
--- A tábla indexei `feladatok_tema`
+-- Indexes for table `feladatok_tema`
 --
 ALTER TABLE `feladatok_tema`
   ADD PRIMARY KEY (`feladatokId`,`temaId`),
   ADD KEY `temaId` (`temaId`);
 
 --
--- A tábla indexei `szint`
+-- Indexes for table `szint`
 --
 ALTER TABLE `szint`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `tantargyak`
+-- Indexes for table `tantargyak`
 --
 ALTER TABLE `tantargyak`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `tema`
+-- Indexes for table `tema`
 --
 ALTER TABLE `tema`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `tipus`
+-- Indexes for table `tipus`
 --
 ALTER TABLE `tipus`
   ADD PRIMARY KEY (`id`);
 
 --
--- A kiírt táblák AUTO_INCREMENT értéke
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT a táblához `feladatok`
+-- AUTO_INCREMENT for table `feladatok`
 --
 ALTER TABLE `feladatok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT a táblához `szint`
+-- AUTO_INCREMENT for table `szint`
 --
 ALTER TABLE `szint`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT a táblához `tantargyak`
+-- AUTO_INCREMENT for table `tantargyak`
 --
 ALTER TABLE `tantargyak`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT a táblához `tema`
+-- AUTO_INCREMENT for table `tema`
 --
 ALTER TABLE `tema`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `tipus`
+-- AUTO_INCREMENT for table `tipus`
 --
 ALTER TABLE `tipus`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Megkötések a kiírt táblákhoz
+-- Constraints for dumped tables
 --
 
 --
--- Megkötések a táblához `feladatok`
+-- Constraints for table `feladatok`
 --
 ALTER TABLE `feladatok`
   ADD CONSTRAINT `feladatok_ibfk_1` FOREIGN KEY (`tantargyId`) REFERENCES `tantargyak` (`id`),
@@ -209,12 +268,54 @@ ALTER TABLE `feladatok`
   ADD CONSTRAINT `feladatok_ibfk_3` FOREIGN KEY (`szintId`) REFERENCES `szint` (`id`);
 
 --
--- Megkötések a táblához `feladatok_tema`
+-- Constraints for table `feladatok_tema`
 --
 ALTER TABLE `feladatok_tema`
   ADD CONSTRAINT `feladatok_tema_ibfk_1` FOREIGN KEY (`feladatokId`) REFERENCES `feladatok` (`id`),
   ADD CONSTRAINT `feladatok_tema_ibfk_2` FOREIGN KEY (`temaId`) REFERENCES `tema` (`id`);
 COMMIT;
+
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetFilteredRandomFeladat`(IN `Tantargy` VARCHAR(255), IN `Szint` VARCHAR(255))
+BEGIN
+    SELECT 
+        feladatok.id,
+        feladatok.leiras,
+        feladatok.megoldasok,
+        feladatok.helyese,
+        feladatok.tantargyId,
+        feladatok.tipusId,
+        feladatok.szintId,
+
+        -- Tantargyak
+        tantargyak.id AS TantargyOwnId,
+        tantargyak.nev AS TantargyNev,
+
+        -- Szint
+        szint.id AS SzintOwnId,
+        szint.nev AS SzintNev,
+
+        -- Tipus
+        tipus.id AS TipusOwnId,
+        tipus.nev AS TipusNev,
+
+        -- Tema (optional based on LEFT JOIN)
+        tema.id AS TemaOwnId,
+        tema.nev AS TemaNev
+
+    FROM feladatok
+    INNER JOIN tantargyak ON tantargyak.id = feladatok.tantargyId
+    INNER JOIN szint ON szint.id = feladatok.szintId
+    INNER JOIN tipus ON tipus.id = feladatok.tipusId
+    LEFT JOIN feladatok_tema ON feladatok_tema.feladatokId = feladatok.id
+    LEFT JOIN tema ON tema.id = feladatok_tema.temaId
+
+    WHERE tantargyak.nev = Tantargy AND szint.nev = Szint
+    ORDER BY RAND()
+    LIMIT 15;
+END$$
+DELIMITER ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
