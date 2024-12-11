@@ -275,48 +275,6 @@ ALTER TABLE `feladatok_tema`
   ADD CONSTRAINT `feladatok_tema_ibfk_2` FOREIGN KEY (`temaId`) REFERENCES `tema` (`id`);
 COMMIT;
 
-
-DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetFilteredRandomFeladat`(IN `Tantargy` VARCHAR(255), IN `Szint` VARCHAR(255))
-BEGIN
-    SELECT 
-        feladatok.id,
-        feladatok.leiras,
-        feladatok.megoldasok,
-        feladatok.helyese,
-        feladatok.tantargyId,
-        feladatok.tipusId,
-        feladatok.szintId,
-
-        -- Tantargyak
-        tantargyak.id AS TantargyOwnId,
-        tantargyak.nev AS TantargyNev,
-
-        -- Szint
-        szint.id AS SzintOwnId,
-        szint.nev AS SzintNev,
-
-        -- Tipus
-        tipus.id AS TipusOwnId,
-        tipus.nev AS TipusNev,
-
-        -- Tema (optional based on LEFT JOIN)
-        tema.id AS TemaOwnId,
-        tema.nev AS TemaNev
-
-    FROM feladatok
-    INNER JOIN tantargyak ON tantargyak.id = feladatok.tantargyId
-    INNER JOIN szint ON szint.id = feladatok.szintId
-    INNER JOIN tipus ON tipus.id = feladatok.tipusId
-    LEFT JOIN feladatok_tema ON feladatok_tema.feladatokId = feladatok.id
-    LEFT JOIN tema ON tema.id = feladatok_tema.temaId
-
-    WHERE tantargyak.nev = Tantargy AND szint.nev = Szint
-    ORDER BY RAND()
-    LIMIT 15;
-END$$
-DELIMITER ;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
