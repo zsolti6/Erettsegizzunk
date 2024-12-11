@@ -1,8 +1,8 @@
 [
   {
-    "ContainingType": "ErettsegizzunkApi.Controllers.FeladatoksController",
+    "ContainingType": "ErettsegizzunkApi.Controllers.FeladatokController",
     "Method": "GetFeladatoks",
-    "RelativePath": "api/Feladatoks",
+    "RelativePath": "erettsegizzunk/Feladatok",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -20,9 +20,9 @@
     ]
   },
   {
-    "ContainingType": "ErettsegizzunkApi.Controllers.FeladatoksController",
+    "ContainingType": "ErettsegizzunkApi.Controllers.FeladatokController",
     "Method": "GetFeladatoksTipusSzint",
-    "RelativePath": "api/Feladatoks/{tantargy}/{szint}",
+    "RelativePath": "erettsegizzunk/Feladatok/{tantargy}/{szint}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -41,6 +41,26 @@
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.IEnumerable\u00601[[ErettsegizzunkApi.Models.Feladatok, ErettsegizzunkApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.TantargyakController",
+    "Method": "GetTantargyaks",
+    "RelativePath": "erettsegizzunk/Tantargyak",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ErettsegizzunkApi.Models.Tantargyak, ErettsegizzunkApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

@@ -14,7 +14,7 @@ namespace ErettsegizzunkAdmin.Services
         public ApiService()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7066/api/Feladatoks");
+            _httpClient.BaseAddress = new Uri("https://localhost:7066/erettsegizzunk");
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
@@ -22,7 +22,7 @@ namespace ErettsegizzunkAdmin.Services
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync("/api/Feladatoks");
+                HttpResponseMessage response = await _httpClient.GetAsync("/erettsegizzunk/Feladatok");
                 response.EnsureSuccessStatusCode();
                 string responseContent = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<Feladatok>>(responseContent);
@@ -34,6 +34,20 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
-
+        public async Task<List<Tantargyak>> GetTantargyaksAsync()
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync("/erettsegizzunk/Tantargyak");
+                response.EnsureSuccessStatusCode();
+                string responseContent = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Tantargyak>>(responseContent);
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine($"Request error: {e.Message}");//rendesen kiirni majd
+                return null;
+            }
+        }
     }
 }

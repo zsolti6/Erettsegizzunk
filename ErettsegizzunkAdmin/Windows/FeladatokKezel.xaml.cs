@@ -1,4 +1,6 @@
-﻿using ErettsegizzunkAdmin.Services;
+﻿using ErettsegizzunkAdmin.Models;
+using ErettsegizzunkAdmin.Services;
+using ErettsegizzunkApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,15 +32,16 @@ namespace ErettsegizzunkAdmin.Windows
 
         private async void Setup()
         {
-            var feladatok = await _apiService.GetFeladatoksAsync();
+            List<Feladatok> feladatok = await _apiService.GetFeladatoksAsync();
             if (feladatok != null)
-            {
+            {                
                 dgFeladatAdatok.ItemsSource = feladatok;
             }
             else
             {
                 MessageBox.Show("Failed to retrieve data.");
             }
+            
         }
     }
 }
