@@ -3,6 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", builder =>
+        builder.WithOrigins("http://localhost:3000") // React app URL
+               .AllowAnyHeader()
+               .AllowAnyMethod());
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
