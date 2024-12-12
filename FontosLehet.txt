@@ -35,3 +35,13 @@ BEGIN
     ORDER BY RAND()
     LIMIT 15;
 END
+
+
+
+
+
+
+{
+  "tantargy": "történelem",
+  "szint": "közép"
+}

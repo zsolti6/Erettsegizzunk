@@ -22,19 +22,14 @@
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.FeladatokController",
     "Method": "GetFeladatoksTipusSzint",
-    "RelativePath": "erettsegizzunk/Feladatok/{tantargy}/{szint}",
-    "HttpMethod": "GET",
+    "RelativePath": "erettsegizzunk/Feladatok/get-random-feladatok",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "tantargy",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "szint",
-        "Type": "System.String",
+        "Name": "keres",
+        "Type": "ErettsegizzunkApi.DTO.GetRandomFeladatok",
         "IsRequired": true
       }
     ],

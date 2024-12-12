@@ -1,4 +1,5 @@
-﻿using ErettsegizzunkApi.Models;
+﻿using ErettsegizzunkApi.DTO;
+using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,24 +22,40 @@ namespace ErettsegizzunkApi.Controllers
             return await _context.Feladatoks.Include(m => m.Szint).Include(m => m.Tantargy).Include(m => m.Temas).Include(m => m.Tipus).ToListAsync();
         }
 
-        [HttpGet("{tantargy}/{szint}")]
-        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoksTipusSzint(string tantargy, string szint)
+        [HttpPost("get-random-feladatok")]
+        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoksTipusSzint([FromBody] GetRandomFeladatok keres)
         {
-            List<Feladatok> randomFeladatok = await _context.Feladatoks
-            .FromSql($"CALL GetFilteredRandomFeladat({tantargy}, {szint})").ToListAsync();
-            if (randomFeladatok == null)
+            if (keres is null)
             {
-                return NotFound($"No items found for type: {tantargy} and difficulty: {szint}");
+                return BadRequest("Hibás keresési adatok");
             }
 
-            foreach (var feladat in randomFeladatok)//müksszik de nem feltétlen optimális
+            Random rnd = new Random();
+            HashSet<int> randomIds = new HashSet<int>();
+            while (randomIds.Count != 5)
+            {
+                randomIds.Add(rnd.Next(1,_context.Feladatoks.Where(m => m.Id > 0).OrderBy(m => m.Id).Last().Id));
+            }
+
+            List<Feladatok> randomFeladatok = await _context.Feladatoks.Include(m => m.Szint).Include(m => m.Tantargy).Include(m => m.Temas).Include(m => m.Tipus).
+                Where(m => randomIds.Contains(m.Id)).ToListAsync();
+
+            /*
+
+            List<Feladatok> randomFeladatok = await _context.Feladatoks
+            .FromSql($"CALL GetFilteredRandomFeladat({keres.Tantargy}, {keres.Szint})").ToListAsync();
+            if (randomFeladatok == null)
+            {
+                return NotFound($"No items found for type: {keres.Tantargy} and difficulty: {keres.Szint}");
+            }
+
+            foreach (var feladat in randomFeladatok)//mükszik de nem feltétlen optimális
             {
                 await _context.Entry(feladat).Reference(f => f.Szint).LoadAsync();
                 await _context.Entry(feladat).Reference(f => f.Tantargy).LoadAsync();
                 await _context.Entry(feladat).Reference(f => f.Tipus).LoadAsync();
-            }
+            }*/
 
-            //Console.WriteLine(randomFeladat[0].);
             return Ok(randomFeladatok);
         }
 
