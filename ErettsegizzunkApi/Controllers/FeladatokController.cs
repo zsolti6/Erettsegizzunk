@@ -16,14 +16,16 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks([FromBody] FeladatokDTO get)//lapozósra csinálni
+        //getnek nem lehet body
+        [HttpGet("get-sok-feladat")]
+        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks([FromBody] FeladatokGetSpecificDTO get)//lapozósra csinálni
         {
-            return await _context.Feladatoks.Include(m => m.Szint).Include(m => m.Tantargy).Include(m => m.Temas).Include(m => m.Tipus).Take(100).ToListAsync();
+            return await _context.Feladatoks.Include(x => x.Szint).Include(x => x.Tantargy).Include(x => x.Temas).Include(x => x.Tipus).Where(x => x.Id > get.mettol - 1).Take(100).ToListAsync();//nem fog működni ha törölnek vmt...
         }
 
-        [HttpPost("get-random-feladatok")]//Random 15 feladat tantárgy és szint (közép felső) paraméter alapján
-        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoksTipusSzint([FromBody] FeladatokDTO get)
+        //Random 15 feladat tantárgy és szint (közép felső) paraméter alapján
+        [HttpPost("get-random-feladat")]
+        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoksTipusSzint([FromBody] FeladatokGetSpecificDTO get)
         {
             if (get.Tantargy is null || get.Szint is null)
             {
@@ -31,21 +33,22 @@ namespace ErettsegizzunkApi.Controllers
             }
 
             List<Feladatok> randomFeladatok = await _context.Feladatoks
-                .Include(m => m.Szint)
-                .Include(m => m.Tantargy)
-                .Include(m => m.Temas)
-                .Include(m => m.Tipus)
-                .Where(m => m.Tantargy.Nev == get.Tantargy && m.Szint.Nev == get.Szint)
-                .OrderBy(m => EF.Functions.Random())
+                .Include(x => x.Szint)
+                .Include(x => x.Tantargy)
+                .Include(x => x.Temas)
+                .Include(x => x.Tipus)
+                .Where(x => x.Tantargy.Nev == get.Tantargy && x.Szint.Nev == get.Szint)
+                .OrderBy(x => EF.Functions.Random())
                 .Take(15)
                 .ToListAsync();
 
             return Ok(randomFeladatok);
         }
 
+        //Egy feladat lekérése id alapján
         // GET: erettsegizzunk/Feladatok/get-egy-feladat
-        [HttpPost("get-egy-feladat")]//Egy feladat lekérése id alapján
-        public async Task<ActionResult<Feladatok>> GetFeladatok(FeladatokDTO get)
+        [HttpPost("get-egy-feladat")]
+        public async Task<ActionResult<Feladatok>> GetFeladatok([FromBody] FeladatokGetSpecificDTO get)
         {
             if (get.Id is null)
             {
@@ -53,11 +56,11 @@ namespace ErettsegizzunkApi.Controllers
             }
 
             Feladatok? feladat = await _context.Feladatoks
-                .Include(m => m.Szint)
-                .Include(m => m.Tantargy)
-                .Include(m => m.Temas)
-                .Include(m => m.Tipus)
-                .Where(m => m.Id == get.Id)
+                .Include(x => x.Szint)
+                .Include(x => x.Tantargy)
+                .Include(x => x.Temas)
+                .Include(x => x.Tipus)
+                .Where(x => x.Id == get.Id)
                 .FirstOrDefaultAsync();
 
             if (feladat == null)
@@ -67,63 +70,96 @@ namespace ErettsegizzunkApi.Controllers
 
             return feladat;
         }
-        /*
+
+        //Egy feladat módosítása id alapján
         // PUT: api/Feladatoks/put-egy-feladat
-        [HttpPut("put-egy-feladat")]
-        public async Task<IActionResult> PutFeladatok(FeladatokDTO put, Feladatok feladatok)
+        [HttpPut("put-egy-feladat/{id}")]
+        public async Task<IActionResult> PutFeladatok(int id, [FromBody]FeladatokPutPostDTO put)
         {
-            if (put.Id != feladatok.Id)
+            if (id < 1)
             {
-                return BadRequest();
+                BadRequest("Nincs ilyen id");
             }
 
-            _context.Entry(feladatok).State = EntityState.Modified;
+            Feladatok? feladat = await _context.Feladatoks.FindAsync(id);
+
+            if (feladat is null)
+            {
+                BadRequest("Nincs ilyen id");
+            }
+
+            feladat.Leiras = put.Leiras;
+            feladat.Megoldasok = put.Megoldasok;
+            feladat.Helyese = put.Helyese;
+            feladat.TantargyId = put.TantargyId;
+            feladat.TipusId = put.TipusId;
+            feladat.SzintId = put.SzintId;
+            
+            _context.Entry(feladat).State = EntityState.Modified;
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
-                if (!FeladatokExists(put.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Hiba: {ex.Message}");
             }
 
-            return NoContent();
-        }*/
-        /*
-        // POST: api/Feladatoks
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Feladatok>> PostFeladatok(Feladatok feladatok)
-        {
-            _context.Feladatoks.Add(feladatok);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetFeladatok", new { id = feladatok.Id }, feladatok);
+            return Ok("Sikeres adatmódosítás");
         }
 
-        // DELETE: api/Feladatoks/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFeladatok(int id)
+        //Egy feladat felvitele
+        // POST: api/Feladatoks/post-egy-feladat
+        [HttpPost("post-egy-feladat")]
+        public async Task<ActionResult<Feladatok>> PostFeladatok(FeladatokPutPostDTO put)
+        {
+            Feladatok feladatok = new Feladatok
+            {
+                Leiras = put.Leiras,
+                Megoldasok = put.Megoldasok,
+                Helyese = put.Helyese,
+                TantargyId = put.TantargyId,
+                TipusId = put.TipusId,
+                SzintId = put.SzintId
+            };
+            try
+            {
+                _context.Feladatoks.Add(feladatok);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Hiba: {ex.Message}");
+            }
+
+            return Ok("Erőforrás sikeresen létrehozva");
+        }
+
+        //Egy feladat törlése id alapján
+        // DELETE: api/Feladatoks/delete-egy-feladat
+        [HttpDelete("delete-egy-feladat")]
+        public async Task<IActionResult> DeleteFeladatok([FromBody]int id)
         {
             var feladatok = await _context.Feladatoks.FindAsync(id);
             if (feladatok == null)
             {
-                return NotFound();
+                return NotFound("Nincs feladat ilyen id-vel.");
             }
 
             _context.Feladatoks.Remove(feladatok);
             await _context.SaveChangesAsync();
 
-            return NoContent();
-        }*/
+            return Ok("Törlés sikeresen végrahajtva");
+        }
 
         private bool FeladatokExists(int id)
         {

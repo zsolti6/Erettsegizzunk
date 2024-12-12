@@ -21,13 +21,13 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         // GET: api/Tantargyaks
-        [HttpGet]
+       /* [HttpGet]
         public async Task<ActionResult<IEnumerable<Tantargyak>>> GetTantargyaks()
         {
             return await _context.Tantargyaks.ToListAsync();
         }
 
-        /*
+        
 
         // GET: api/Tantargyaks/5
         [HttpGet("{id}")]

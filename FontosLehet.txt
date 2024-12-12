@@ -37,12 +37,17 @@ BEGIN
 END
 
 
-
-
-
-
 {
   "id": 0,
   "tantargy": "történelem",
   "szint": "közép"
+}
+
+{
+  "leiras": "faszkivan",
+  "megoldasok": "string",
+  "helyese": "string",
+  "tantargyId": 1,
+  "tipusId": 1,
+  "szintId": 2
 }
