@@ -42,6 +42,7 @@ END
 
 
 {
+  "id": 0,
   "tantargy": "történelem",
   "szint": "közép"
 }

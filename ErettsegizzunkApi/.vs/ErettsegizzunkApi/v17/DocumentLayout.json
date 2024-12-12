@@ -1,22 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkApi\\",
+  "WorkspaceRootPath": "D:\\Prog gyak\\Gyakorl\u00E1s\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkApi\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2C83B248-C79E-4EE2-BB9E-62411D8CB5AC}|ErettsegizzunkApi.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkapi\\controllers\\feladatokcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2C83B248-C79E-4EE2-BB9E-62411D8CB5AC}|ErettsegizzunkApi.csproj|d:\\prog gyak\\gyakorl\u00E1s\\14_d - hazi\\backend\\erettsegizzunk\\erettsegizzunkapi\\controllers\\feladatokcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2C83B248-C79E-4EE2-BB9E-62411D8CB5AC}|ErettsegizzunkApi.csproj|solutionrelative:controllers\\feladatokcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2C83B248-C79E-4EE2-BB9E-62411D8CB5AC}|ErettsegizzunkApi.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2C83B248-C79E-4EE2-BB9E-62411D8CB5AC}|ErettsegizzunkApi.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2C83B248-C79E-4EE2-BB9E-62411D8CB5AC}|ErettsegizzunkApi.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkapi\\dto\\getrandomfeladatok.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2C83B248-C79E-4EE2-BB9E-62411D8CB5AC}|ErettsegizzunkApi.csproj|solutionrelative:dto\\getrandomfeladatok.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2C83B248-C79E-4EE2-BB9E-62411D8CB5AC}|ErettsegizzunkApi.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkapi\\controllers\\tantargyakcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2C83B248-C79E-4EE2-BB9E-62411D8CB5AC}|ErettsegizzunkApi.csproj|d:\\prog gyak\\gyakorl\u00E1s\\14_d - hazi\\backend\\erettsegizzunk\\erettsegizzunkapi\\controllers\\tantargyakcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2C83B248-C79E-4EE2-BB9E-62411D8CB5AC}|ErettsegizzunkApi.csproj|solutionrelative:controllers\\tantargyakcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2C83B248-C79E-4EE2-BB9E-62411D8CB5AC}|ErettsegizzunkApi.csproj|d:\\prog gyak\\gyakorl\u00E1s\\14_d - hazi\\backend\\erettsegizzunk\\erettsegizzunkapi\\dto\\feladatokdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2C83B248-C79E-4EE2-BB9E-62411D8CB5AC}|ErettsegizzunkApi.csproj|solutionrelative:dto\\feladatokdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2C83B248-C79E-4EE2-BB9E-62411D8CB5AC}|ErettsegizzunkApi.csproj|d:\\prog gyak\\gyakorl\u00E1s\\14_d - hazi\\backend\\erettsegizzunk\\erettsegizzunkapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2C83B248-C79E-4EE2-BB9E-62411D8CB5AC}|ErettsegizzunkApi.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,13 +30,13 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkApi\\Program.cs",
+              "DocumentMoniker": "D:\\Prog gyak\\Gyakorl\u00E1s\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkApi\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkApi\\Program.cs",
+              "ToolTip": "D:\\Prog gyak\\Gyakorl\u00E1s\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkApi\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABFAAAAAAAAAA==",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-08T21:56:06.068Z",
               "IsPinned": true,
@@ -46,11 +46,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "FeladatokController.cs",
-              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkApi\\Controllers\\FeladatokController.cs",
+              "DocumentMoniker": "D:\\Prog gyak\\Gyakorl\u00E1s\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkApi\\Controllers\\FeladatokController.cs",
               "RelativeDocumentMoniker": "Controllers\\FeladatokController.cs",
-              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkApi\\Controllers\\FeladatokController.cs",
+              "ToolTip": "D:\\Prog gyak\\Gyakorl\u00E1s\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkApi\\Controllers\\FeladatokController.cs",
               "RelativeToolTip": "Controllers\\FeladatokController.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAADMAAAAMAAAAAAAAAA==",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAEwDAAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-09T08:35:22.583Z",
               "IsPinned": true,
@@ -58,27 +58,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "GetRandomFeladatok.cs",
-              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkApi\\DTO\\GetRandomFeladatok.cs",
-              "RelativeDocumentMoniker": "DTO\\GetRandomFeladatok.cs",
-              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkApi\\DTO\\GetRandomFeladatok.cs",
-              "RelativeToolTip": "DTO\\GetRandomFeladatok.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAjAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "TantargyakController.cs",
+              "DocumentMoniker": "D:\\Prog gyak\\Gyakorl\u00E1s\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkApi\\Controllers\\TantargyakController.cs",
+              "RelativeDocumentMoniker": "Controllers\\TantargyakController.cs",
+              "ToolTip": "D:\\Prog gyak\\Gyakorl\u00E1s\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkApi\\Controllers\\TantargyakController.cs",
+              "RelativeToolTip": "Controllers\\TantargyakController.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-12T11:45:59.733Z"
+              "WhenOpened": "2024-12-11T09:30:38.14Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TantargyakController.cs",
-              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkApi\\Controllers\\TantargyakController.cs",
-              "RelativeDocumentMoniker": "Controllers\\TantargyakController.cs",
-              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkApi\\Controllers\\TantargyakController.cs",
-              "RelativeToolTip": "Controllers\\TantargyakController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGUAAAALAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "FeladatokDTO.cs",
+              "DocumentMoniker": "D:\\Prog gyak\\Gyakorl\u00E1s\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkApi\\DTO\\FeladatokDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\FeladatokDTO.cs",
+              "ToolTip": "D:\\Prog gyak\\Gyakorl\u00E1s\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkApi\\DTO\\FeladatokDTO.cs",
+              "RelativeToolTip": "DTO\\FeladatokDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-11T09:30:38.14Z"
+              "WhenOpened": "2024-12-12T15:58:09.242Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -17,63 +17,62 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks()//limitálni 100ra MAX
+        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks([FromBody] FeladatokDTO get)//lapozósra csinálni
         {
-            return await _context.Feladatoks.Include(m => m.Szint).Include(m => m.Tantargy).Include(m => m.Temas).Include(m => m.Tipus).ToListAsync();
+            return await _context.Feladatoks.Include(m => m.Szint).Include(m => m.Tantargy).Include(m => m.Temas).Include(m => m.Tipus).Take(100).ToListAsync();
         }
 
-        [HttpPost("get-random-feladatok")]
-        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoksTipusSzint([FromBody] GetRandomFeladatok keres)
+        [HttpPost("get-random-feladatok")]//Random 15 feladat tantárgy és szint (közép felső) paraméter alapján
+        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoksTipusSzint([FromBody] FeladatokDTO get)
         {
-            if (keres is null)
+            if (get.Tantargy is null || get.Szint is null)
             {
-                return BadRequest("Hibás keresési adatok");
+                return BadRequest("Keresési adat nem lehet null.");
             }
-
-            List<Feladatok> randomFeladatok = await _context.Feladatoks.Include(m => m.Szint).Include(m => m.Tantargy).Include(m => m.Temas).Include(m => m.Tipus).
-                Where(m => m.Tantargy.Nev == keres.Tantargy && m.Szint.Nev == keres.Szint).OrderBy(m => Guid.NewGuid()).Take(15).ToListAsync();
-
-            /*
 
             List<Feladatok> randomFeladatok = await _context.Feladatoks
-            .FromSql($"CALL GetFilteredRandomFeladat({keres.Tantargy}, {keres.Szint})").ToListAsync();
-            if (randomFeladatok == null)
-            {
-                return NotFound($"No items found for type: {keres.Tantargy} and difficulty: {keres.Szint}");
-            }
-
-            foreach (var feladat in randomFeladatok)//mükszik de nem feltétlen optimális
-            {
-                await _context.Entry(feladat).Reference(f => f.Szint).LoadAsync();
-                await _context.Entry(feladat).Reference(f => f.Tantargy).LoadAsync();
-                await _context.Entry(feladat).Reference(f => f.Tipus).LoadAsync();
-            }*/
+                .Include(m => m.Szint)
+                .Include(m => m.Tantargy)
+                .Include(m => m.Temas)
+                .Include(m => m.Tipus)
+                .Where(m => m.Tantargy.Nev == get.Tantargy && m.Szint.Nev == get.Szint)
+                .OrderBy(m => EF.Functions.Random())
+                .Take(15)
+                .ToListAsync();
 
             return Ok(randomFeladatok);
         }
 
-
-        /*
-        // GET: api/Feladatoks/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Feladatok>> GetFeladatok(int id)
+        // GET: erettsegizzunk/Feladatok/get-egy-feladat
+        [HttpPost("get-egy-feladat")]//Egy feladat lekérése id alapján
+        public async Task<ActionResult<Feladatok>> GetFeladatok(FeladatokDTO get)
         {
-            var feladatok = await _context.Feladatoks.FindAsync(id);
-
-            if (feladatok == null)
+            if (get.Id is null)
             {
-                return NotFound();
+                return BadRequest("Keresési adat nem lehet null.");
             }
 
-            return feladatok;
-        }
+            Feladatok? feladat = await _context.Feladatoks
+                .Include(m => m.Szint)
+                .Include(m => m.Tantargy)
+                .Include(m => m.Temas)
+                .Include(m => m.Tipus)
+                .Where(m => m.Id == get.Id)
+                .FirstOrDefaultAsync();
 
-        // PUT: api/Feladatoks/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFeladatok(int id, Feladatok feladatok)
+            if (feladat == null)
+            {
+                return NotFound("Nincs a keresésnek megfelelő elem.");
+            }
+
+            return feladat;
+        }
+        /*
+        // PUT: api/Feladatoks/put-egy-feladat
+        [HttpPut("put-egy-feladat")]
+        public async Task<IActionResult> PutFeladatok(FeladatokDTO put, Feladatok feladatok)
         {
-            if (id != feladatok.Id)
+            if (put.Id != feladatok.Id)
             {
                 return BadRequest();
             }
@@ -86,7 +85,7 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FeladatokExists(id))
+                if (!FeladatokExists(put.Id))
                 {
                     return NotFound();
                 }
@@ -97,8 +96,8 @@ namespace ErettsegizzunkApi.Controllers
             }
 
             return NoContent();
-        }
-
+        }*/
+        /*
         // POST: api/Feladatoks
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
