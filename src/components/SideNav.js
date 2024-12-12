@@ -1,20 +1,18 @@
 import React from 'react';
 import '../css/Sidenav.css';
 
-function Sidenav() {
-  const buttons = [];
-
-  for (let i = 1; i <= 15; i++) {
-    buttons.push(
-      <button key={i} onClick={() => {
-        console.log(`Feladat ${i}`)
-      }}>Feladat {i}</button>
-    );
-  }
+function Sidenav({ tasks, setActiveComponent }) {
   return (
     <div className="sidenav">
-      {buttons}
-    </div> 
+      {tasks.map((task, index) => (
+        <button
+          key={task.id || index}
+          onClick={() => setActiveComponent(task)} // Update the active component
+        >
+          Feladat {index + 1}
+        </button>
+      ))}
+    </div>
   );
 }
 

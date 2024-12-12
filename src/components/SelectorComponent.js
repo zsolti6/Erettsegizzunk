@@ -1,13 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import "../css/Selector.css";
 import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
 
 function SelectorComponent() {
-  // State for the subject selection
   const [selectedSubject, setSelectedSubject] = useState("matematika");
+  const [selectedDifficulty, setSelectedDifficulty] = useState("közép");
 
-  // State for the difficulty level selection
-  const [selectedDifficulty, setSelectedDifficulty] = useState("value-1");
+  const navigate = useNavigate();
 
   const handleSubjectChange = (e) => {
     setSelectedSubject(e.target.value);
@@ -15,6 +16,12 @@ function SelectorComponent() {
 
   const handleDifficultyChange = (e) => {
     setSelectedDifficulty(e.target.value);
+  };
+
+  const handleStartExercise = () => {
+    navigate("/exercise", {
+      state: { tantargy: selectedSubject, szint: selectedDifficulty },
+    });
   };
 
   return (
@@ -38,8 +45,8 @@ function SelectorComponent() {
               <input
                 type="radio"
                 name="subject"
-                value="tortenelem"
-                checked={selectedSubject === "tortenelem"}
+                value="történelem"
+                checked={selectedSubject === "történelem"}
                 onChange={handleSubjectChange}
               />
               <span className="name">Történelem</span>
@@ -60,20 +67,20 @@ function SelectorComponent() {
           <div className="radio-input">
             <label>
               <input
-                value="value-1"
+                value="közép"
                 name="difficulty"
                 type="radio"
-                checked={selectedDifficulty === "value-1"}
+                checked={selectedDifficulty === "közép"}
                 onChange={handleDifficultyChange}
               />
               <span>Közép szint</span>
             </label>
             <label>
               <input
-                value="value-2"
+                value="emelt"
                 name="difficulty"
                 type="radio"
-                checked={selectedDifficulty === "value-2"}
+                checked={selectedDifficulty === "emelt"}
                 onChange={handleDifficultyChange}
               />
               <span>Emelt szint</span>
@@ -81,7 +88,9 @@ function SelectorComponent() {
             <span className="selection"></span>
           </div>
           <br />
-          <button type="submit">Feladatlap megkezdése</button>
+          <button type="button" onClick={handleStartExercise}>
+            Feladatlap megkezdése
+          </button>
         </form>
       </div>
     </div>
