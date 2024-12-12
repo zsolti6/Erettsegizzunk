@@ -30,15 +30,15 @@ namespace ErettsegizzunkApi.Controllers
                 return BadRequest("Hibás keresési adatok");
             }
 
-            Random rnd = new Random();
+           /* Random rnd = new Random();
             HashSet<int> randomIds = new HashSet<int>();
-            while (randomIds.Count != 5)
+            while (randomIds.Count != 4)//átírni 15-re a lesz megfelelő mennyiségű adat
             {
-                randomIds.Add(rnd.Next(1,_context.Feladatoks.Where(m => m.Id > 0).OrderBy(m => m.Id).Last().Id));
+                randomIds.Add(rnd.Next(1,_context.Feladatoks.Where(m => m.Id > 0 && m.Tantargy.Nev == keres.Tantargy).OrderBy(m => m.Id).Last().Id));
             }
-
+           */
             List<Feladatok> randomFeladatok = await _context.Feladatoks.Include(m => m.Szint).Include(m => m.Tantargy).Include(m => m.Temas).Include(m => m.Tipus).
-                Where(m => randomIds.Contains(m.Id)).ToListAsync();
+                Where(m => m.Tantargy.Nev == keres.Tantargy && m.Szint.Nev == keres.Szint).OrderBy(m => Guid.NewGuid()).Take(5).ToListAsync();
 
             /*
 

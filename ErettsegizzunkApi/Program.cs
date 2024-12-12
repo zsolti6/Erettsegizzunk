@@ -32,5 +32,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseCors("AllowReactApp");
+
 app.Run();
 
