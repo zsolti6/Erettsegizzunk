@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace ErettsegizzunkApi.Models;
 
@@ -15,6 +17,8 @@ public partial class ErettsegizzunkContext : DbContext
 
     public virtual DbSet<Feladatok> Feladatoks { get; set; }
 
+    public virtual DbSet<Permission> Permissions { get; set; }
+
     public virtual DbSet<Szint> Szints { get; set; }
 
     public virtual DbSet<Tantargyak> Tantargyaks { get; set; }
@@ -23,9 +27,11 @@ public partial class ErettsegizzunkContext : DbContext
 
     public virtual DbSet<Tipus> Tipus { get; set; }
 
+    public virtual DbSet<User> Users { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySQL("Server=localhost;Database=erettsegizzunk;User=root;Password=;");
+        => optionsBuilder.UseMySQL("SERVER=localhost;PORT=3306;DATABASE=erettsegizzunk;USER=root;PASSWORD=;SSL MODE=none;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -83,15 +89,15 @@ public partial class ErettsegizzunkContext : DbContext
                 .HasForeignKey(d => d.TipusId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("feladatok_ibfk_2");
-            //--------------------------------------------------
+
             entity.HasMany(d => d.Temas).WithMany(p => p.Feladatoks)
                 .UsingEntity<Dictionary<string, object>>(
                     "FeladatokTema",
-                    r => r.HasOne<Tema>().WithMany()//-------
+                    r => r.HasOne<Tema>().WithMany()
                         .HasForeignKey("TemaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("feladatok_tema_ibfk_2"),
-                    l => l.HasOne<Feladatok>().WithMany()//---------
+                    l => l.HasOne<Feladatok>().WithMany()
                         .HasForeignKey("FeladatokId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("feladatok_tema_ibfk_1"),
@@ -107,6 +113,22 @@ public partial class ErettsegizzunkContext : DbContext
                             .HasColumnType("int(11)")
                             .HasColumnName("temaId");
                     });
+        });
+
+        modelBuilder.Entity<Permission>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("permission");
+
+            entity.HasIndex(e => e.Name, "Nev").IsUnique();
+
+            entity.HasIndex(e => e.Level, "Szint").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnType("int(11)");
+            entity.Property(e => e.Description).HasMaxLength(100);
+            entity.Property(e => e.Level).HasColumnType("int(1)");
+            entity.Property(e => e.Name).HasMaxLength(32);
         });
 
         modelBuilder.Entity<Szint>(entity =>
@@ -163,6 +185,36 @@ public partial class ErettsegizzunkContext : DbContext
             entity.Property(e => e.Nev)
                 .HasMaxLength(255)
                 .HasColumnName("nev");
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("user");
+
+            entity.HasIndex(e => e.Email, "Email").IsUnique();
+
+            entity.HasIndex(e => e.PermissionId, "Jog");
+
+            entity.HasIndex(e => e.LoginNev, "LoginNev").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnType("int(11)");
+            entity.Property(e => e.Email).HasMaxLength(64);
+            entity.Property(e => e.Hash)
+                .HasMaxLength(64)
+                .HasColumnName("HASH");
+            entity.Property(e => e.LoginNev).HasMaxLength(16);
+            entity.Property(e => e.Name).HasMaxLength(64);
+            entity.Property(e => e.PermissionId).HasColumnType("int(11)");
+            entity.Property(e => e.ProfilePicturePath).HasMaxLength(64);
+            entity.Property(e => e.Salt)
+                .HasMaxLength(64)
+                .HasColumnName("SALT");
+
+            entity.HasOne(d => d.Permission).WithMany(p => p.Users)
+                .HasForeignKey(d => d.PermissionId)
+                .HasConstraintName("user_ibfk_1");
         });
 
         OnModelCreatingPartial(modelBuilder);

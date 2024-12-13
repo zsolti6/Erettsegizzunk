@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using ErettsegizzunkApi.Models;
+using System.Text;
 
 namespace ErettsegizzunkAdmin.Services
 {
@@ -20,9 +21,11 @@ namespace ErettsegizzunkAdmin.Services
 
         public async Task<List<Feladatok>> GetFeladatoksAsync()
         {
+            int mettol = 0;
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync("/erettsegizzunk/Feladatok");
+                var content = new StringContent(mettol.ToString(), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Feladatok/get-sok-feladat",content);
                 response.EnsureSuccessStatusCode();
                 string responseContent = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<Feladatok>>(responseContent);
@@ -31,6 +34,22 @@ namespace ErettsegizzunkAdmin.Services
             {
                 Console.WriteLine($"Request error: {e.Message}");//rendesen kiirni majd
                 return null;
+            }
+        }
+
+        public async Task<string> PostFeladatokFromExcel(List<Feladatok> feladatok)
+        {
+            try
+            {
+                var content = new StringContent(JsonConvert.SerializeObject(feladatok), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Feladatok/post-tobb-feladat", content);
+                response.EnsureSuccessStatusCode();
+                string responseContent = await response.Content.ReadAsStringAsync();
+                return responseContent;
+            }
+            catch (HttpRequestException ex)
+            {
+                return ex.Message;
             }
         }
 
@@ -43,10 +62,9 @@ namespace ErettsegizzunkAdmin.Services
                 string responseContent = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<Tantargyak>>(responseContent);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException ex)
             {
-                Console.WriteLine($"Request error: {e.Message}");//rendesen kiirni majd
-                return null;
+                return new List<Tantargyak> { new Tantargyak { Id = -1, Nev = ex.Message } };
             }
         }
     }

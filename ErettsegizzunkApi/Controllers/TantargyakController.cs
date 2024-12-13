@@ -20,15 +20,14 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
-        // GET: api/Tantargyaks
-       /* [HttpGet]
-        public async Task<ActionResult<IEnumerable<Tantargyak>>> GetTantargyaks()
+        // GET: api/Tantargyak
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Tantargyak>>> GetTantargyak()
         {
             return await _context.Tantargyaks.ToListAsync();
         }
 
-        
-
+        /*
         // GET: api/Tantargyaks/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Tantargyak>> GetTantargyak(int id)

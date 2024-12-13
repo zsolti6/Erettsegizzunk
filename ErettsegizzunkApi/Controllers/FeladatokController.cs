@@ -10,28 +10,27 @@ namespace ErettsegizzunkApi.Controllers
     public class FeladatokController : ControllerBase
     {
         private readonly ErettsegizzunkContext _context;
-
         public FeladatokController(ErettsegizzunkContext context)
         {
             _context = context;
         }
 
-        
-        [HttpGet("get-sok-feladat")]
-        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks()//lapozósra csinálni
+        [HttpPost("get-sok-feladat")]
+        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks([FromBody] int mettol)//lapozósra csinálni
         {
             return await _context.Feladatoks
                 .Include(x => x.Szint)
                 .Include(x => x.Tantargy)
                 .Include(x => x.Temas)
                 .Include(x => x.Tipus)
+                .Where(x => x.Id > mettol)
                 .Take(100)
-                .ToListAsync();//nem jo
+                .ToListAsync();//nem jo mert mindig az elso 100-at fogja mutatni
         }
 
         //Random 15 feladat tantárgy és szint (közép felső) paraméter alapján
         [HttpPost("get-random-feladat")]
-        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoksTipusSzint([FromBody] FeladatokGetSpecificDTO get)
+        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoksTipusSzint([FromBody] FeladatokGetRandomDTO get)
         {
             if (get.Tantargy is null || get.Szint is null)
             {
@@ -122,21 +121,57 @@ namespace ErettsegizzunkApi.Controllers
         //Egy feladat felvitele
         // POST: api/Feladatoks/post-egy-feladat
         [HttpPost("post-egy-feladat")]
-        public async Task<ActionResult<Feladatok>> PostFeladatok([FromBody]FeladatokPutPostDTO put)
+        public async Task<ActionResult<Feladatok>> PostFeladat([FromBody]FeladatokPutPostDTO post)
         {
             Feladatok feladatok = new Feladatok
             {
-                Leiras = put.Leiras,
-                Megoldasok = put.Megoldasok,
-                Helyese = put.Helyese,
-                TantargyId = put.TantargyId,
-                TipusId = put.TipusId,
-                SzintId = put.SzintId
+                Leiras = post.Leiras,
+                Megoldasok = post.Megoldasok,
+                Helyese = post.Helyese,
+                TantargyId = post.TantargyId,
+                TipusId = post.TipusId,
+                SzintId = post.SzintId
             };
 
             try
             {
                 _context.Feladatoks.Add(feladatok);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Hiba: {ex.Message}");
+            }
+
+            return Ok("Erőforrás sikeresen létrehozva");
+        }
+
+        //Több feladat felvitele
+        // POST: api/Feladatoks/post-egy-feladat
+        [HttpPost("post-tobb-feladat")]
+        public async Task<ActionResult<Feladatok>> PostFeladatok([FromBody] List<FeladatokPutPostDTO> put)
+        {
+
+            try
+            {
+                foreach (FeladatokPutPostDTO feladatok in put)
+                {
+                    Feladatok feladat = new Feladatok
+                    {
+                        Leiras = feladatok.Leiras,
+                        Megoldasok = feladatok.Megoldasok,
+                        Helyese = feladatok.Helyese,
+                        TantargyId = feladatok.TantargyId,
+                        TipusId = feladatok.TipusId,
+                        SzintId = feladatok.SzintId
+                    };
+
+                    _context.Feladatoks.Add(feladat);
+                }
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException ex)

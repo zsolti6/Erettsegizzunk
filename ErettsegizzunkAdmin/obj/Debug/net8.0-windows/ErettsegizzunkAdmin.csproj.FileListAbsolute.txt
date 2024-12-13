@@ -26,3 +26,31 @@ C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdm
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Erettseg.EE251CBC.Up2Date
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatokKezel.g.cs
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatokKezel.baml
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\ErettsegizzunkAdmin.exe
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\ErettsegizzunkAdmin.deps.json
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\ErettsegizzunkAdmin.runtimeconfig.json
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\ErettsegizzunkAdmin.dll
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\ErettsegizzunkAdmin.pdb
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.csproj.AssemblyReference.cache
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\MainWindow.g.cs
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatokKezel.g.cs
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\MenuWindow.g.cs
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\App.g.cs
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin_MarkupCompile.cache
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin_MarkupCompile.lref
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\MainWindow.baml
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatokKezel.baml
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\MenuWindow.baml
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.g.resources
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.GeneratedMSBuildEditorConfig.editorconfig
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.AssemblyInfoInputs.cache
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.AssemblyInfo.cs
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.csproj.CoreCompileInputs.cache
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.sourcelink.json
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Erettseg.EE251CBC.Up2Date
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.dll
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\refint\ErettsegizzunkAdmin.dll
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.pdb
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.genruntimeconfig.cache
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ref\ErettsegizzunkAdmin.dll

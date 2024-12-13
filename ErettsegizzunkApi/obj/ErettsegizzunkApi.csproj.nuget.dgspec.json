@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkApi\\ErettsegizzunkApi.csproj": {}
+    "D:\\Prog gyak\\Gyakorlás\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkApi\\ErettsegizzunkApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkApi\\ErettsegizzunkApi.csproj": {
+    "D:\\Prog gyak\\Gyakorlás\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkApi\\ErettsegizzunkApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkApi\\ErettsegizzunkApi.csproj",
+        "projectUniqueName": "D:\\Prog gyak\\Gyakorlás\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkApi\\ErettsegizzunkApi.csproj",
         "projectName": "ErettsegizzunkApi",
-        "projectPath": "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkApi\\ErettsegizzunkApi.csproj",
-        "packagesPath": "C:\\Users\\Bernát Olivér\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkApi\\obj\\",
+        "projectPath": "D:\\Prog gyak\\Gyakorlás\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkApi\\ErettsegizzunkApi.csproj",
+        "packagesPath": "C:\\Users\\Olivér\\.nuget\\packages\\",
+        "outputPath": "D:\\Prog gyak\\Gyakorlás\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkApi\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Bernát Olivér\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Olivér\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -88,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

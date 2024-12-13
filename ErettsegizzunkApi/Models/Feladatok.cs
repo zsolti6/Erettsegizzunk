@@ -22,7 +22,7 @@ public partial class Feladatok
     public virtual Szint? Szint { get; set; }
 
     public virtual Tantargyak? Tantargy { get; set; }
-    
+
     public virtual Tipus? Tipus { get; set; }
 
     public virtual ICollection<Tema> Temas { get; set; } = new List<Tema>();

@@ -23,5 +23,9 @@
                 <DataGridTextColumn Header="Szint" Binding="{Binding Tipus}" />
             </DataGrid.Columns>
         </DataGrid>
+
+        <StackPanel x:Name="spMuveletek" Grid.Column="1">
+            <Button x:Name="btnUjAdatokExcelbol" Content="Új feladatok feltöltése excel fileból" Margin="30" Click="btnUjAdatokExcelbol_Click"/>
+        </StackPanel>
     </Grid>
 </Window>
