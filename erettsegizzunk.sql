@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 10, 2024 at 06:29 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Gép: 127.0.0.1
+-- Létrehozás ideje: 2024. Dec 13. 07:33
+-- Kiszolgáló verziója: 10.4.28-MariaDB
+-- PHP verzió: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,21 +18,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `erettsegizzunk`
+-- Adatbázis: `erettsegizzunk`
 --
 CREATE DATABASE IF NOT EXISTS `erettsegizzunk` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci;
 USE `erettsegizzunk`;
 
-DELIMITER $$
---
--- Procedures
---
-
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `feladatok`
+-- Tábla szerkezet ehhez a táblához `feladatok`
 --
 
 CREATE TABLE `feladatok` (
@@ -46,7 +40,7 @@ CREATE TABLE `feladatok` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
--- Dumping data for table `feladatok`
+-- A tábla adatainak kiíratása `feladatok`
 --
 
 INSERT INTO `feladatok` (`id`, `leiras`, `megoldasok`, `helyese`, `tantargyId`, `tipusId`, `szintId`) VALUES
@@ -61,7 +55,7 @@ INSERT INTO `feladatok` (`id`, `leiras`, `megoldasok`, `helyese`, `tantargyId`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `feladatok_tema`
+-- Tábla szerkezet ehhez a táblához `feladatok_tema`
 --
 
 CREATE TABLE `feladatok_tema` (
@@ -72,7 +66,7 @@ CREATE TABLE `feladatok_tema` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `szint`
+-- Tábla szerkezet ehhez a táblához `szint`
 --
 
 CREATE TABLE `szint` (
@@ -81,7 +75,7 @@ CREATE TABLE `szint` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
--- Dumping data for table `szint`
+-- A tábla adatainak kiíratása `szint`
 --
 
 INSERT INTO `szint` (`id`, `nev`) VALUES
@@ -91,7 +85,7 @@ INSERT INTO `szint` (`id`, `nev`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tantargyak`
+-- Tábla szerkezet ehhez a táblához `tantargyak`
 --
 
 CREATE TABLE `tantargyak` (
@@ -100,7 +94,7 @@ CREATE TABLE `tantargyak` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
--- Dumping data for table `tantargyak`
+-- A tábla adatainak kiíratása `tantargyak`
 --
 
 INSERT INTO `tantargyak` (`id`, `nev`) VALUES
@@ -111,7 +105,7 @@ INSERT INTO `tantargyak` (`id`, `nev`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tema`
+-- Tábla szerkezet ehhez a táblához `tema`
 --
 
 CREATE TABLE `tema` (
@@ -122,7 +116,7 @@ CREATE TABLE `tema` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tipus`
+-- Tábla szerkezet ehhez a táblához `tipus`
 --
 
 CREATE TABLE `tipus` (
@@ -131,7 +125,7 @@ CREATE TABLE `tipus` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
--- Dumping data for table `tipus`
+-- A tábla adatainak kiíratása `tipus`
 --
 
 INSERT INTO `tipus` (`id`, `nev`) VALUES
@@ -140,11 +134,11 @@ INSERT INTO `tipus` (`id`, `nev`) VALUES
 (3, 'textbox');
 
 --
--- Indexes for dumped tables
+-- Indexek a kiírt táblákhoz
 --
 
 --
--- Indexes for table `feladatok`
+-- A tábla indexei `feladatok`
 --
 ALTER TABLE `feladatok`
   ADD PRIMARY KEY (`id`),
@@ -153,76 +147,76 @@ ALTER TABLE `feladatok`
   ADD KEY `szintId` (`szintId`);
 
 --
--- Indexes for table `feladatok_tema`
+-- A tábla indexei `feladatok_tema`
 --
 ALTER TABLE `feladatok_tema`
   ADD PRIMARY KEY (`feladatokId`,`temaId`),
   ADD KEY `temaId` (`temaId`);
 
 --
--- Indexes for table `szint`
+-- A tábla indexei `szint`
 --
 ALTER TABLE `szint`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tantargyak`
+-- A tábla indexei `tantargyak`
 --
 ALTER TABLE `tantargyak`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tema`
+-- A tábla indexei `tema`
 --
 ALTER TABLE `tema`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tipus`
+-- A tábla indexei `tipus`
 --
 ALTER TABLE `tipus`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- A kiírt táblák AUTO_INCREMENT értéke
 --
 
 --
--- AUTO_INCREMENT for table `feladatok`
+-- AUTO_INCREMENT a táblához `feladatok`
 --
 ALTER TABLE `feladatok`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `szint`
+-- AUTO_INCREMENT a táblához `szint`
 --
 ALTER TABLE `szint`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `tantargyak`
+-- AUTO_INCREMENT a táblához `tantargyak`
 --
 ALTER TABLE `tantargyak`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `tema`
+-- AUTO_INCREMENT a táblához `tema`
 --
 ALTER TABLE `tema`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tipus`
+-- AUTO_INCREMENT a táblához `tipus`
 --
 ALTER TABLE `tipus`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Constraints for dumped tables
+-- Megkötések a kiírt táblákhoz
 --
 
 --
--- Constraints for table `feladatok`
+-- Megkötések a táblához `feladatok`
 --
 ALTER TABLE `feladatok`
   ADD CONSTRAINT `feladatok_ibfk_1` FOREIGN KEY (`tantargyId`) REFERENCES `tantargyak` (`id`),
@@ -230,7 +224,7 @@ ALTER TABLE `feladatok`
   ADD CONSTRAINT `feladatok_ibfk_3` FOREIGN KEY (`szintId`) REFERENCES `szint` (`id`);
 
 --
--- Constraints for table `feladatok_tema`
+-- Megkötések a táblához `feladatok_tema`
 --
 ALTER TABLE `feladatok_tema`
   ADD CONSTRAINT `feladatok_tema_ibfk_1` FOREIGN KEY (`feladatokId`) REFERENCES `feladatok` (`id`),

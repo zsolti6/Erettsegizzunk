@@ -25,7 +25,6 @@ namespace ErettsegizzunkApi.Controllers
                 .Include(x => x.Tantargy)
                 .Include(x => x.Temas)
                 .Include(x => x.Tipus)
-                .
                 .Take(100)
                 .ToListAsync();//nem jo
         }
