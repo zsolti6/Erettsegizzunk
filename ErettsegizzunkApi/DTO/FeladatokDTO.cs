@@ -3,7 +3,6 @@
     public class FeladatokGetSpecificDTO
     {
         public int? Id { get; set; } = null;
-        public int? mettol { get; set; } = null;
         public string? Tantargy { get; set; } = null;
         public string? Szint { get; set; } = null;
     }

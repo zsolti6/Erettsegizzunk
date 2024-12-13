@@ -16,11 +16,18 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
-        //getnek nem lehet body
+        
         [HttpGet("get-sok-feladat")]
-        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks([FromBody] FeladatokGetSpecificDTO get)//lapozósra csinálni
+        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks()//lapozósra csinálni
         {
-            return await _context.Feladatoks.Include(x => x.Szint).Include(x => x.Tantargy).Include(x => x.Temas).Include(x => x.Tipus).Where(x => x.Id > get.mettol - 1).Take(100).ToListAsync();//nem fog működni ha törölnek vmt...
+            return await _context.Feladatoks
+                .Include(x => x.Szint)
+                .Include(x => x.Tantargy)
+                .Include(x => x.Temas)
+                .Include(x => x.Tipus)
+                .
+                .Take(100)
+                .ToListAsync();//nem jo
         }
 
         //Random 15 feladat tantárgy és szint (közép felső) paraméter alapján
@@ -85,7 +92,7 @@ namespace ErettsegizzunkApi.Controllers
 
             if (feladat is null)
             {
-                BadRequest("Nincs ilyen id");
+                BadRequest("Nincs ilyen id-vel rendelkező feladat");
             }
 
             feladat.Leiras = put.Leiras;
@@ -116,7 +123,7 @@ namespace ErettsegizzunkApi.Controllers
         //Egy feladat felvitele
         // POST: api/Feladatoks/post-egy-feladat
         [HttpPost("post-egy-feladat")]
-        public async Task<ActionResult<Feladatok>> PostFeladatok(FeladatokPutPostDTO put)
+        public async Task<ActionResult<Feladatok>> PostFeladatok([FromBody]FeladatokPutPostDTO put)
         {
             Feladatok feladatok = new Feladatok
             {
@@ -127,6 +134,7 @@ namespace ErettsegizzunkApi.Controllers
                 TipusId = put.TipusId,
                 SzintId = put.SzintId
             };
+
             try
             {
                 _context.Feladatoks.Add(feladatok);
@@ -155,8 +163,19 @@ namespace ErettsegizzunkApi.Controllers
                 return NotFound("Nincs feladat ilyen id-vel.");
             }
 
-            _context.Feladatoks.Remove(feladatok);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Feladatoks.Remove(feladatok);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Hiba: {ex.Message}");
+            }
 
             return Ok("Törlés sikeresen végrahajtva");
         }
