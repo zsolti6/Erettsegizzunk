@@ -29,7 +29,7 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         //Random 15 feladat tantárgy és szint (közép felső) paraméter alapján
-        [HttpPost("get-random-feladat")]
+        [HttpPost("get-random-feladatok")]
         public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoksTipusSzint([FromBody] FeladatokGetRandomDTO get)
         {
             if (get.Tantargy is null || get.Szint is null)
@@ -75,6 +75,8 @@ namespace ErettsegizzunkApi.Controllers
 
             return feladat;
         }
+
+        //-----------------Kell egy get get random feladat témára való szűrésre is------------------------------------
 
         //Egy feladat módosítása id alapján
         // PUT: api/Feladatoks/put-egy-feladat

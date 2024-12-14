@@ -43,14 +43,6 @@ CREATE TABLE `feladatok` (
 -- A tábla adatainak kiíratása `feladatok`
 --
 
-INSERT INTO `feladatok` (`id`, `leiras`, `megoldasok`, `helyese`, `tantargyId`, `tipusId`, `szintId`) VALUES
-(1, 'igen', 'jo;jo;rossz;rossz', '1;1;0;0', 2, 2, 1),
-(2, 'jah', 'jo;rossz;jo;rossz', '1;0;1;0', 2, 2, 1),
-(3, 'vm', 'asd', '1;1;0;0', 1, 1, 2),
-(4, 'jahezisaz', 'jo;nem;nem;nem', '1;0;0;0', 2, 1, 1),
-(5, 'ez megint töri', 'nem;jo;nem;nem', '0;1;0;0', 2, 1, 1),
-(6, 'ezten itt most madzsar', 'fejtse kifele bazdki', 'mittom en', 3, 3, 1),
-(7, 'ezten magyjar tyú', 'emettet fejtesd tyú', 'nem tom', 3, 3, 2);
 
 -- --------------------------------------------------------
 

@@ -19,9 +19,8 @@ namespace ErettsegizzunkAdmin.Services
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<List<Feladatok>> GetFeladatoksAsync()
+        public async Task<List<Feladatok>> GetFeladatoksAsync(int mettol)
         {
-            int mettol = 0;
             try
             {
                 var content = new StringContent(mettol.ToString(), Encoding.UTF8, "application/json");

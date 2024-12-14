@@ -13,7 +13,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid x:Name="dgFeladatAdatok" AutoGenerateColumns="False">
+        <DataGrid x:Name="dgFeladatAdatok" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Leiras" Binding="{Binding Leiras}" />
@@ -25,7 +25,9 @@
         </DataGrid>
 
         <StackPanel x:Name="spMuveletek" Grid.Column="1">
-            <Button x:Name="btnUjAdatokExcelbol" Content="Új feladatok feltöltése excel fileból" Margin="30" Click="btnUjAdatokExcelbol_Click"/>
+            <Button x:Name="btnUjAdatokExcelbol" Content="Új feladatok feltöltése txt-ből" Margin="30" Click="btnUjAdatokExcelbol_Click"/>
+            <Button x:Name="btnOldalKov" Content="Következő oldal" Click="btnOldalKov_Click"/>
+            <Button x:Name="btnOldalElozo" IsEnabled="False" Content="Előző oldal" Click="btnOldalElozo_Click"/>
         </StackPanel>
     </Grid>
 </Window>
