@@ -1,0 +1,92 @@
+/* General styles for the container */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+h3 {
+  font-size: 1.5rem;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+/* Styling for textboxes */
+.tbStyle {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+}
+
+.tbStyle:focus {
+  border-color: #007BFF;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Styling for radio buttons */
+.rStyle {
+  display: none;
+}
+
+.rStyle + label {
+  display: inline-block;
+  padding: 10px 30px;
+  margin: 5px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 50px;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rStyle:checked + label {
+  background-color: #007BFF;
+  color: #fff;
+  border-color: #007BFF;
+}
+
+/* Styling for checkboxes */
+.cbStyle {
+  display: none;
+}
+
+.cbStyle + label {
+  display: inline-block;
+  padding: 10px 15px;
+  margin: 5px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.cbStyle:checked + label {
+  background-color: #28A745;
+  color: #fff;
+  border-color: #28A745;
+}
+
+/* Group container for alignment */
+.group-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.group-container div {
+  margin-bottom: 0.5rem;
+}

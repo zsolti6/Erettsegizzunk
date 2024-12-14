@@ -29,13 +29,8 @@ export default Home;
 function SubjectComponent({text, linkto}){
     const navigate = useNavigate();
     return(
-        <div onClick={() => navigate(linkto)} className='bg-light w-75 p-3 d-inline-block border rounded align-middle' style={{
-            height: "25vh",
-            marginTop: "20vh"
-        }}>
-        <h3 style={{
-            marginTop: "8vh"
-        }}>{text}</h3>
+        <div onClick={() => navigate(linkto)} className='action bg-light w-75 p-3 d-inline-block border rounded align-middle'>
+        <h3>{text}</h3>
         </div>
     );
 }

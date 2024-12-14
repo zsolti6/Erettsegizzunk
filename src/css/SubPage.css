@@ -12,3 +12,20 @@
   align-items: center; /* Horizontally center the content */
   text-align: center; /* Center the text inside */
 }
+
+.action h3{
+  margin-top: 8vh;
+}
+
+.action{
+  height: 25vh;
+  margin-top: 20vh;
+  cursor: pointer;
+  transition-duration: 0.23s;
+}
+
+.action:hover{
+  box-shadow: 5px 5px 5px black;
+  transform: scale(1.1);
+  transition-duration: 0.23s;
+}

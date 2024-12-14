@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import "../css/Selector.css";
 import Navbar from "./Navbar";
-import { Link } from "react-router-dom";
 
 function SelectorComponent() {
   const [selectedSubject, setSelectedSubject] = useState("matematika");
@@ -23,7 +22,7 @@ function SelectorComponent() {
       state: { tantargy: selectedSubject, szint: selectedDifficulty },
     });
   };
-
+  
   return (
     <div className="exercise" style={{ height: "72vh" }}>
       <Navbar />

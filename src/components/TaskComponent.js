@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../css/taskStyle.css";
 
 function TaskComponent({ elem }) {
   console.log(elem.megoldasok);
@@ -66,6 +67,7 @@ function TaskComponent({ elem }) {
             return (
               <div key={index}>
                 <input
+                  className="tbStyle"
                   id={`textbox-${elem.id}-${index}`}
                   type="text"
                   value={checkedState[elem.id]?.textboxes[index] || ""} // Bind value to state
@@ -91,6 +93,7 @@ function TaskComponent({ elem }) {
           return (
             <div key={index}>
               <input
+                className="rStyle"
                 name={`radio-${elem.id}`}
                 type="radio"
                 id={`radio-${elem.id}-${index}`}
@@ -117,6 +120,7 @@ function TaskComponent({ elem }) {
           return (
             <div key={index}>
               <input
+                className="cbStyle"
                 name={`checkbox-${elem.id}`}
                 type="checkbox"
                 id={`checkbox-${elem.id}-${index}`}

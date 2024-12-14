@@ -19,7 +19,7 @@ function ExerciseComponent() {
         const postData = { tantargy, szint };
         console.log(postData);
         
-        const response = await axios.post("/erettsegizzunk/Feladatok/get-random-feladatok", postData);
+        const response = await axios.post("https://localhost:7066/erettsegizzunk/Feladatok/get-random-feladatok", postData);
         setExercises(response.data);
         console.log(response.data);
         
