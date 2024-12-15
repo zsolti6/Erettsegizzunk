@@ -15,7 +15,7 @@ function FooterComponent() {
         >
           <div className="text-center p-3">
             <span>
-              Elérhetőség: @<a href="">Pixel Pirates</a>
+              Elérhetőség: @<a href="https://github.com/pixel-pirates">Pixel Pirates</a>
             </span>
           </div>
         </Footer>

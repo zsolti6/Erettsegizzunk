@@ -1,0 +1,62 @@
+/* Navbar Styles */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    padding: 10px 20px;
+    color: #fff;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+/* Logo Styles */
+nav .logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: -5px;
+    cursor: pointer;
+}
+
+/* Link Container Styles */
+nav .link-container {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+/* Home Links Styles */
+nav .link-container .home-link {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    transition: color 0.3s;
+    margin-left: 25px;
+}
+
+/* Authentication Links Wrapper */
+nav .auth-links-wrapper {
+    display: flex;
+    gap: 15px;
+    margin-left: auto;
+}
+
+/* Authentication Links Styles */
+nav .auth-links-wrapper .auth-link, .logo {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    transition: color 0.2s;
+}
+
+nav div:hover{
+    color: #ccc;
+}
+
+nav .home-link:hover, nav .auth-link:hover{
+    color: #ccc;
+}

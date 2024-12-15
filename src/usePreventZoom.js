@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 function usePreventZoom(scrollCheck = true, keyboardCheck = true) {
     useEffect(() => {
@@ -6,12 +6,12 @@ function usePreventZoom(scrollCheck = true, keyboardCheck = true) {
         if (
           keyboardCheck &&
           e.ctrlKey &&
-          (e.keyCode == "61" ||
-            e.keyCode == "107" ||
-            e.keyCode == "173" ||
-            e.keyCode == "109" ||
-            e.keyCode == "187" ||
-            e.keyCode == "189")
+          (e.keyCode === "61" ||
+            e.keyCode === "107" ||
+            e.keyCode === "173" ||
+            e.keyCode === "109" ||
+            e.keyCode === "187" ||
+            e.keyCode === "189")
         ) {
           e.preventDefault();
         }
