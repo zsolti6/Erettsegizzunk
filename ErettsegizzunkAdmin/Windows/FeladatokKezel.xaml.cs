@@ -1,9 +1,11 @@
-﻿using ErettsegizzunkAdmin.Services;
+﻿using BespokeFusion;
+using ErettsegizzunkAdmin.Services;
 using ErettsegizzunkApi.Models;
 using Microsoft.Win32;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace ErettsegizzunkAdmin.Windows
 {
@@ -13,26 +15,14 @@ namespace ErettsegizzunkAdmin.Windows
     public partial class FeladatokKezel : Window
     {
         private readonly ApiService _apiService;
-        private int pageNumber = 0;
+        #warning ha egy feladat törlésre kerül bugos mert ugyanúgy a következő egész 100-tól kezd akkor is ha pl 101 már ott volt az előző oldalon
+        private double pageNumber = 0.00;
         private List<Feladatok> feladatok = new List<Feladatok>();
         public FeladatokKezel()
         {
             InitializeComponent();
             _apiService = new ApiService();
-            Loaded += MyWindow_Loaded;
-        }
-
-        private async void MyWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                feladatok = await LoadDatasAsync();
-                dgFeladatAdatok.ItemsSource = feladatok;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error during initialization: {ex.Message}");
-            }
+            RefreshUi();
         }
 
         private async Task<List<Feladatok>> LoadDatasAsync()
@@ -43,11 +33,11 @@ namespace ErettsegizzunkAdmin.Windows
                 MessageBox.Show("Failed to retrieve data.");
                 return null;
             }
-
+            btnOldalKov.IsEnabled = feladatoks.Count == 100;
             return feladatoks;
         }
 
-        private async void btnUjAdatokExcelbol_Click(object sender, RoutedEventArgs e)
+        private async void btnUjAdatokTxtbol_Click(object sender, RoutedEventArgs e)
         {
             string ret = string.Empty;
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -58,6 +48,9 @@ namespace ErettsegizzunkAdmin.Windows
 
             if (openFileDialog.ShowDialog() == true)
             {
+                MaterialMessageBox.Show("Your cool message here", "The awesome message title");
+                MaterialMessageBox.ShowError("baj");
+                
                 MessageBoxResult result = MessageBox.Show($"Biztosan fel akarod tölteni a {openFileDialog.FileName.Split("\\").ToList().Last()} adatait?","Figyelem",MessageBoxButton.YesNo,MessageBoxImage.Question);
                 if (result == MessageBoxResult.No)
                 {
@@ -77,8 +70,7 @@ namespace ErettsegizzunkAdmin.Windows
                         feladatoks.Add(new Feladatok { Leiras = sor[0], Megoldasok = sor[1], Helyese = sor[2], TantargyId = int.Parse(sor[3]), TipusId = int.Parse(sor[4]), SzintId = int.Parse(sor[5]) });
                     }
                     reader.Close();
-                    ret = await _apiService.PostFeladatokFromExcel(feladatoks);
-                    //LoadDatas();
+                    ret = await _apiService.PostFeladatokFromTxt(feladatoks);
                 }
                 catch (FileNotFoundException ex)
                 {
@@ -94,17 +86,23 @@ namespace ErettsegizzunkAdmin.Windows
                     {
                         MessageBox.Show(ret);
                     }
+                    RefreshUi();
                 }
             }
         }
 
-        private async void btnOldalKov_Click(object sender, RoutedEventArgs e)
+        private async void RefreshUi()
         {
-            pageNumber++;
-
             feladatok.Clear();
             feladatok = await LoadDatasAsync();
             dgFeladatAdatok.ItemsSource = feladatok;
+            cbSelectAll.IsChecked = false;
+        }
+
+        private void btnOldalKov_Click(object sender, RoutedEventArgs e)
+        {
+            pageNumber++;
+            RefreshUi();
 
             if (pageNumber > 0)
             {
@@ -117,13 +115,10 @@ namespace ErettsegizzunkAdmin.Windows
             }
         }
 
-        private async void btnOldalElozo_Click(object sender, RoutedEventArgs e)
+        private void btnOldalElozo_Click(object sender, RoutedEventArgs e)
         {
             pageNumber--;
-
-            feladatok.Clear();
-            feladatok = await LoadDatasAsync();
-            dgFeladatAdatok.ItemsSource = feladatok;
+            RefreshUi();
 
             if (pageNumber < 1)
             {
@@ -134,6 +129,44 @@ namespace ErettsegizzunkAdmin.Windows
             {
                 btnOldalKov.IsEnabled = true;
             }
+        }
+
+        private void cbSelectAll_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (Feladatok feladat in feladatok)
+            {
+                feladat.Kijelolve = true;
+            }
+            dgFeladatAdatok.Items.Refresh();
+        }
+
+        private void cbSelectAll_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (Feladatok feladat in feladatok)
+            {
+                feladat.Kijelolve = false;
+            }
+            dgFeladatAdatok.Items.Refresh();
+        }
+
+        private async void btnDelet_Click(object sender, RoutedEventArgs e)
+        {
+            List<int> ids = new List<int>();
+
+            foreach (Feladatok feladat in feladatok)
+            {
+                if (feladat.Kijelolve)
+                {
+                    ids.Add(feladat.Id);
+                }
+            }
+            MessageBox.Show(await _apiService.DeletFeladatok(ids));
+            RefreshUi();
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

@@ -5,6 +5,7 @@ namespace ErettsegizzunkApi.Models;
 
 public partial class Feladatok
 {
+    public bool Kijelolve { get; set; }
     public int Id { get; set; }
 
     public string? Leiras { get; set; }

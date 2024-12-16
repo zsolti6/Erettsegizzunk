@@ -19,11 +19,11 @@ namespace ErettsegizzunkAdmin.Services
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<List<Feladatok>> GetFeladatoksAsync(int mettol)
+        public async Task<List<Feladatok>> GetFeladatoksAsync(double mettol)
         {
             try
             {
-                var content = new StringContent(mettol.ToString(), Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(mettol.ToString(), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Feladatok/get-sok-feladat",content);
                 response.EnsureSuccessStatusCode();
                 string responseContent = await response.Content.ReadAsStringAsync();
@@ -36,15 +36,39 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
-        public async Task<string> PostFeladatokFromExcel(List<Feladatok> feladatok)
+        public async Task<string> PostFeladatokFromTxt(List<Feladatok> feladatok)
         {
             try
             {
-                var content = new StringContent(JsonConvert.SerializeObject(feladatok), Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(JsonConvert.SerializeObject(feladatok), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Feladatok/post-tobb-feladat", content);
                 response.EnsureSuccessStatusCode();
-                string responseContent = await response.Content.ReadAsStringAsync();
-                return responseContent;
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public async Task<string> DeletFeladatok(List<int> ids)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(ids), Encoding.UTF8, "application/json");
+
+                HttpRequestMessage request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Delete,
+                    RequestUri = new Uri(_httpClient.BaseAddress, "erettsegizzunk/Feladatok/delete-feladatok"),
+                    Content = content
+                };
+                HttpResponseMessage response = await _httpClient.SendAsync(request);
+
+                // Ensure success and return the response content
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+
             }
             catch (HttpRequestException ex)
             {

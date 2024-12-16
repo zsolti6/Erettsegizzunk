@@ -16,7 +16,7 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpPost("get-sok-feladat")]
-        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks([FromBody] int mettol)//lapozósra csinálni
+        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks([FromBody] double mettol)
         {
             return await _context.Feladatoks
                 .Include(x => x.Szint)
@@ -25,7 +25,7 @@ namespace ErettsegizzunkApi.Controllers
                 .Include(x => x.Tipus)
                 .Where(x => x.Id > mettol)
                 .Take(100)
-                .ToListAsync();//nem jo mert mindig az elso 100-at fogja mutatni
+                .ToListAsync();
         }
 
         //Random 15 feladat tantárgy és szint (közép felső) paraméter alapján
@@ -190,10 +190,10 @@ namespace ErettsegizzunkApi.Controllers
 
         //Egy feladat törlése id alapján
         // DELETE: api/Feladatoks/delete-egy-feladat
-        [HttpDelete("delete-egy-feladat")]
-        public async Task<IActionResult> DeleteFeladatok([FromBody]int id)
+        [HttpDelete("delete-feladatok")]
+        public async Task<IActionResult> DeleteFeladatok([FromBody] List<int> ids)
         {
-            var feladatok = await _context.Feladatoks.FindAsync(id);
+            List<Feladatok> feladatok = await _context.Feladatoks.Where(x => ids.Contains(x.Id)).ToListAsync();
             if (feladatok == null)
             {
                 return NotFound("Nincs feladat ilyen id-vel.");
@@ -201,7 +201,7 @@ namespace ErettsegizzunkApi.Controllers
 
             try
             {
-                _context.Feladatoks.Remove(feladatok);
+                _context.Feladatoks.RemoveRange(feladatok);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException ex)

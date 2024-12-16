@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "pqyojFdbpLI=",
+  "dgSpecHash": "SxPpHuX3VEk=",
   "success": true,
-  "projectFilePath": "D:\\Prog gyak\\Gyakorlás\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkAdmin\\ErettsegizzunkAdmin.csproj",
+  "projectFilePath": "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\ErettsegizzunkAdmin.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Olivér\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+    "C:\\Users\\Bernát Olivér\\.nuget\\packages\\materialdesigncolors\\3.1.0\\materialdesigncolors.3.1.0.nupkg.sha512",
+    "C:\\Users\\Bernát Olivér\\.nuget\\packages\\materialdesignthemes\\4.9.0\\materialdesignthemes.4.9.0.nupkg.sha512",
+    "C:\\Users\\Bernát Olivér\\.nuget\\packages\\materialmessagebox\\4.0.2\\materialmessagebox.4.0.2.nupkg.sha512",
+    "C:\\Users\\Bernát Olivér\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.39\\microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512",
+    "C:\\Users\\Bernát Olivér\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],
   "logs": []
 }
