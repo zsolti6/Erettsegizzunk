@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using ErettsegizzunkAdmin.CustomMessageBoxes;
 
 namespace ErettsegizzunkAdmin.Windows
 {
@@ -30,8 +31,8 @@ namespace ErettsegizzunkAdmin.Windows
             List<Feladatok> feladatoks = await _apiService.GetFeladatoksAsync(pageNumber * 100);
             if(feladatoks is null)
             {
-                MessageBox.Show("Failed to retrieve data.");
-                return null;
+                MessageBoxes.CustomError("Hiba az adatok lekérdezése közben","Error");
+                return new List<Feladatok>();
             }
             btnOldalKov.IsEnabled = feladatoks.Count == 100;
             return feladatoks;
@@ -47,14 +48,12 @@ namespace ErettsegizzunkAdmin.Windows
             };
 
             if (openFileDialog.ShowDialog() == true)
-            {
-                MaterialMessageBox.Show("Your cool message here", "The awesome message title");
-                MaterialMessageBox.ShowError("baj");
-                
-                MessageBoxResult result = MessageBox.Show($"Biztosan fel akarod tölteni a {openFileDialog.FileName.Split("\\").ToList().Last()} adatait?","Figyelem",MessageBoxButton.YesNo,MessageBoxImage.Question);
-                if (result == MessageBoxResult.No)
+            {                
+                MessageBoxResult result = MessageBoxes.CustomQuestion($"Biztosan fel akarod tölteni a {openFileDialog.FileName.Split("\\").ToList().Last()} adatait?","Figyelem");
+                if (result == MessageBoxResult.Cancel)
                 {
-                    MessageBox.Show("Feltöltés megszakítva!", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MaterialMessageBox.Show("Feltöltés megszakítva!");
+                    //MessageBox.Show("Feltöltés megszakítva!", "", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
 
