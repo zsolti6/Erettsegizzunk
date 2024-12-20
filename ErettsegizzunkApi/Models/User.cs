@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace ErettsegizzunkApi.Models;
 
@@ -23,5 +24,6 @@ public partial class User
 
     public string ProfilePicturePath { get; set; } = null!;
 
-    public virtual Permission Permission { get; set; } = null!;
+    [JsonIgnore]
+    public virtual Permission? Permission { get; set; } = null!;
 }

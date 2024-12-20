@@ -1,5 +1,6 @@
 using ErettsegizzunkApi.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -9,6 +10,11 @@ namespace ErettsegizzunkApi
     {
         public static int SaltLength = 64;
         public static Dictionary<string, User> LoggedInUsers = new Dictionary<string, User>();
+        public static string ftpUrl = "ftp.nethely.hu";
+        public static string ftpUserName = "erettsegizzunk";
+        public static string ftpPassword = "Eretsegizzunk_Ftp_2024";
+
+
         public static string GenerateSalt()
         {
             Random random = new Random();
@@ -34,6 +40,29 @@ namespace ErettsegizzunkApi
                 return sBuilder.ToString();
             }
         }
+
+        public static async Task SendEmail(string mailAddressTo, string subject, string body)
+        {
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+            mail.From = new MailAddress("noreplyerettsegizzunk@gmail.com");
+            mail.To.Add(mailAddressTo);
+            mail.Subject = subject;
+            mail.Body = body;
+
+            /*System.Net.Mail.Attachment attachment;
+            attachment = new System.Net.Mail.Attachment("");
+            mail.Attachments.Add(attachment);*/
+
+            SmtpServer.Port = 587;
+            SmtpServer.Credentials = new System.Net.NetworkCredential("noreplyerettsegizzunk@gmail.com", "oshelhrvotaqkuej");
+
+            SmtpServer.EnableSsl = true;
+
+            await SmtpServer.SendMailAsync(mail);
+
+        }
+
 
         public static void Main(string[] args)
         {

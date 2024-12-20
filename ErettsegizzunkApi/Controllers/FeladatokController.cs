@@ -77,6 +77,7 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         //-----------------Kell egy get get random feladat témára való szűrésre is------------------------------------
+        //adminban 100 egyszerre ne legyen dublikát: a lekért lista utolsó eleme alapjén kérjük le a következő adatokat
 
         //Egy feladat módosítása id alapján
         // PUT: api/Feladatoks/put-egy-feladat

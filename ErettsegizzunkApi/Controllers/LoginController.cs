@@ -10,8 +10,8 @@ namespace ErettsegizzunkApi.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        [HttpPost("SaltRequest/{loginName}")]
-        public async Task<IActionResult> SaltRequest(string loginName)
+        [HttpPost("SaltRequest")]
+        public async Task<IActionResult> SaltRequest([FromBody]string loginName)
         {
             using (var cx = new ErettsegizzunkContext())
             {
