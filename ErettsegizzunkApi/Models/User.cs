@@ -24,6 +24,5 @@ public partial class User
 
     public string ProfilePicturePath { get; set; } = null!;
 
-    [JsonIgnore]
     public virtual Permission? Permission { get; set; } = null!;
 }

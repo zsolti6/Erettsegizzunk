@@ -168,23 +168,22 @@
   },
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.FileUploadController",
-    "Method": "OnPostAsync",
-    "RelativePath": "erettsegizzunk/FileUpload/{uId},{type}",
+    "Method": "FileUploadBackEnd",
+    "RelativePath": "erettsegizzunk/FileUpload/BackEndServer",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "uId",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "type",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.FileUploadController",
+    "Method": "FileUploadFtp",
+    "RelativePath": "erettsegizzunk/FileUpload/FtpServer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -213,6 +212,22 @@
     "Parameters": [
       {
         "Name": "loginName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.LogoutController",
+    "Method": "Logout",
+    "RelativePath": "erettsegizzunk/Logout/{uId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "uId",
         "Type": "System.String",
         "IsRequired": true
       }
@@ -275,5 +290,105 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
+    "Method": "GetFull",
+    "RelativePath": "erettsegizzunk/User/{token}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
+    "Method": "Post",
+    "RelativePath": "erettsegizzunk/User/{token}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "user",
+        "Type": "ErettsegizzunkApi.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
+    "Method": "Put",
+    "RelativePath": "erettsegizzunk/User/{token}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "user",
+        "Type": "ErettsegizzunkApi.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
+    "Method": "Delete",
+    "RelativePath": "erettsegizzunk/User/{token}, {id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
+    "Method": "GetLoginName",
+    "RelativePath": "erettsegizzunk/User/{token},{loginname}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "loginname",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
