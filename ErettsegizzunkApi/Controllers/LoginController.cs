@@ -26,7 +26,7 @@ namespace ErettsegizzunkApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return BadRequest(ex.InnerException?.Message);
                 }
             }
             
@@ -53,7 +53,7 @@ namespace ErettsegizzunkApi.Controllers
                     }
                     else
                     {
-                        return BadRequest("Hibás név vagy jelszó / inaktív felhasználó");
+                        return BadRequest(new LoggedUser { Permission = -1, Name = "Hibás név, jelszó páros!"});
                     }
 
                 }

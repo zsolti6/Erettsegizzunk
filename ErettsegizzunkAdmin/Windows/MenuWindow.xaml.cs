@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ErettsegizzunkApi.Models;
+using ErettsegizzunkApi.DTOs;
 
 namespace ErettsegizzunkAdmin.Windows
 {
@@ -20,9 +22,12 @@ namespace ErettsegizzunkAdmin.Windows
     /// </summary>
     public partial class MenuWindow : Window
     {
-        public MenuWindow()
+        LoggedUser user;
+        public MenuWindow(LoggedUser user)
         {
             InitializeComponent();
+            this.user = user;
+            lbUdvozles.Content = "Üdv: " + user.Name;
         }
 
         //Feladatok kezelése

@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using ErettsegizzunkApi.Models;
 using System.Text;
+using ErettsegizzunkAdmin.DTOs;
+using System.Net.Http.Json;
+using ErettsegizzunkApi.DTOs;
+using System.Windows;
 
 namespace ErettsegizzunkAdmin.Services
 {
@@ -15,10 +19,11 @@ namespace ErettsegizzunkAdmin.Services
         public ApiService()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7066/erettsegizzunk");
+            _httpClient.BaseAddress = new Uri("https://localhost:7066/");
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+        //Feladatok
         public async Task<List<Feladatok>> GetFeladatoksAsync(double mettol)
         {
             try
@@ -76,6 +81,7 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
+        //Tantargyak
         public async Task<List<Tantargyak>> GetTantargyaksAsync()
         {
             try
@@ -88,6 +94,37 @@ namespace ErettsegizzunkAdmin.Services
             catch (HttpRequestException ex)
             {
                 return new List<Tantargyak> { new Tantargyak { Id = -1, Nev = ex.Message } };
+            }
+        }
+
+
+        //Login
+        public async Task<LoggedUser> Login(string name, string password)
+        {
+            try
+            {
+                //getsalt
+                string formatted = $"\"{name}\"";
+                StringContent contentGetSalt = new StringContent(formatted, Encoding.UTF8, "application/json");
+                HttpResponseMessage responseGetSalt = await _httpClient.PostAsync("erettsegizzunk/Login/SaltRequest", contentGetSalt);
+                responseGetSalt.EnsureSuccessStatusCode();
+                string salt = await responseGetSalt.Content.ReadAsStringAsync();
+
+                //login
+                string tmpHash = MainWindow.CreateSHA256(password + salt.Replace("\"",""));
+                StringContent contentLogin = new StringContent(JsonConvert.SerializeObject(new LoginRequest { LoginName = name, TmpHash = tmpHash}), Encoding.UTF8, "application/json");
+                HttpResponseMessage responseLogin = await _httpClient.PostAsync("erettsegizzunk/Login", contentLogin);
+                responseGetSalt.EnsureSuccessStatusCode();
+                LoggedUser user = await responseLogin.Content.ReadFromJsonAsync<LoggedUser>();
+                return user;
+            }
+            catch (HttpRequestException ex)
+            {
+                return new LoggedUser() {Permission = -2, Name = ex.Message };
+            }
+            catch(Exception ex)
+            {
+                return new LoggedUser() { Permission = -2, Name = ex.Message };
             }
         }
     }

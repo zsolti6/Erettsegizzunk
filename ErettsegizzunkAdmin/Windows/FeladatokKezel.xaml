@@ -78,7 +78,11 @@
                     Margin="8" 
                     Style="{DynamicResource MaterialDesignRaisedButton}" 
                     Click="btnBack_Click" />
-            </StackPanel>
+            <Button x:Name="btnAgain" 
+                    Content="Újra lekérdezés" 
+                    Margin="8" 
+                    Style="{DynamicResource MaterialDesignRaisedButton}"/>
+        </StackPanel>
         </Grid>
     
 

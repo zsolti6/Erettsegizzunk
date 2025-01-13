@@ -99,3 +99,12 @@ function Login(params) {
     })
     .catch((error) => alert(error));
 }
+
+            /*
+            //Egy felhasznalo SALT és HASH  adatbázisban történő megadásához.
+            string jelszo = "a";
+            string SALT = new Login().GenerateSalt();
+            string TESTHASH = new Login().CreateSHA256(jelszo+SALT);
+            string HASH = new Login().CreateSHA256(TESTHASH);
+            //Vége
+            */

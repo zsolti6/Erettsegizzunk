@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ErettsegizzunkAdmin.Windows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Menü" Height="450" Width="800"
         WindowState="Maximized"
@@ -11,19 +12,29 @@
         ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Menu>
+        <!-- Top Menu Bar -->
+        <Menu materialDesign:ColorZoneAssist.Mode="PrimaryDark">
             <MenuItem x:Name="feladatKezel" Header="Feladatok" Click="feladatKezelese_Click"/>
-            <MenuItem x:Name="feladatokTemaKezel" Header="Feladatok táma" Click="feladatokTemaKezelese_Click"/>
+            <MenuItem x:Name="feladatokTemaKezel" Header="Feladatok Téma" Click="feladatokTemaKezelese_Click"/>
             <MenuItem x:Name="szintKezel" Header="Szint" Click="segedKezelese_Click"/>
-            <MenuItem x:Name="tantargyKezel" Header="Tantargy" Click="segedKezelese_Click"/>
+            <MenuItem x:Name="tantargyKezel" Header="Tantárgy" Click="segedKezelese_Click"/>
             <MenuItem x:Name="temaKezel" Header="Téma" Click="segedKezelese_Click"/>
             <MenuItem x:Name="tipusKezel" Header="Típus" Click="segedKezelese_Click"/>
         </Menu>
 
-        <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="100" Content="Welcome 007!"/>
+        <!-- Welcome Label -->
+        <Label x:Name="lbUdvozles"
+               Grid.Row="1" 
+               HorizontalAlignment="Center" 
+               VerticalAlignment="Center" 
+               FontSize="50" 
+               Foreground="{DynamicResource PrimaryHueMidBrush}" 
+               Content="Welcome 007!"/>
     </Grid>
 </Window>
+
+    

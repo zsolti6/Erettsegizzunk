@@ -3,13 +3,59 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:ErettsegizzunkAdmin"
         mc:Ignorable="d"
         Title="Login" Height="450" Width="800"
-        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
         WindowStyle="ToolWindow"
         ResizeMode="NoResize">
     <Grid>
-        <Button x:Name="btnLogin" Content="Login" Click="btnLogin_Click"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top Header -->
+        <materialDesign:ColorZone Mode="PrimaryDark" Grid.Row="0" Height="60">
+            <TextBlock Text="Login" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center" 
+                       FontSize="24" 
+                       Foreground="White"/>
+        </materialDesign:ColorZone>
+
+        <!-- Login Form -->
+        <Grid Grid.Row="1" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Username Field -->
+            <StackPanel Grid.Row="0" Margin="0 10">
+                <TextBlock Text="Username" FontSize="16" Margin="0 0 0 5"/>
+                <TextBox x:Name="nev"  materialDesign:HintAssist.Hint="Enter your username"
+                         FontSize="14" Padding="10"/>
+            </StackPanel>
+
+            <!-- Password Field -->
+            <StackPanel Grid.Row="1" Margin="0 10">
+                <TextBlock Text="Password" FontSize="16" Margin="0 0 0 5"/>
+                <PasswordBox x:Name="jelszo" materialDesign:HintAssist.Hint="Enter your password"
+                             FontSize="14" Padding="10"/>
+            </StackPanel>
+
+            <!-- Login Button -->
+            <Button Grid.Row="3" 
+                    Content="Login" 
+                    HorizontalAlignment="Center" 
+                    Width="100" 
+                    Style="{DynamicResource MaterialDesignRaisedButton}" 
+                    Margin="0 10"
+                    Click="btnLogin_Click"/>
+        </Grid>
     </Grid>
 </Window>
