@@ -1,6 +1,8 @@
 ﻿using ErettsegizzunkApi.DTO;
 using ErettsegizzunkApi.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace ErettsegizzunkApi.Controllers
@@ -16,7 +18,7 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpPost("get-sok-feladat")]
-        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks([FromBody] double mettol)
+        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks([FromBody] int mettol)
         {
             return await _context.Feladatoks
                 .Include(x => x.Szint)
@@ -86,14 +88,14 @@ namespace ErettsegizzunkApi.Controllers
         {
             if (id < 1)
             {
-                BadRequest("Nincs ilyen id");
+                return BadRequest("Nincs ilyen id");
             }
 
             Feladatok? feladat = await _context.Feladatoks.FindAsync(id);
 
             if (feladat is null)
             {
-                BadRequest("Nincs ilyen id-vel rendelkező feladat");
+                return BadRequest("Nincs ilyen id-vel rendelkező feladat");
             }
 
             feladat.Leiras = put.Leiras;
@@ -102,6 +104,7 @@ namespace ErettsegizzunkApi.Controllers
             feladat.TantargyId = put.TantargyId;
             feladat.TipusId = put.TipusId;
             feladat.SzintId = put.SzintId;
+            feladat.KepNev = put.KepNev;
             
             _context.Entry(feladat).State = EntityState.Modified;
 
@@ -133,7 +136,8 @@ namespace ErettsegizzunkApi.Controllers
                 Helyese = post.Helyese,
                 TantargyId = post.TantargyId,
                 TipusId = post.TipusId,
-                SzintId = post.SzintId
+                SzintId = post.SzintId,
+                KepNev = post.KepNev                
             };
 
             try
@@ -170,7 +174,8 @@ namespace ErettsegizzunkApi.Controllers
                         Helyese = feladatok.Helyese,
                         TantargyId = feladatok.TantargyId,
                         TipusId = feladatok.TipusId,
-                        SzintId = feladatok.SzintId
+                        SzintId = feladatok.SzintId,
+                        KepNev = feladatok.KepNev
                     };
 
                     _context.Feladatoks.Add(feladat);
@@ -194,14 +199,19 @@ namespace ErettsegizzunkApi.Controllers
         [HttpDelete("delete-feladatok")]
         public async Task<IActionResult> DeleteFeladatok([FromBody] FeladatokDeleteDTO feladatokDeleteDTO)
         {
-            List<Feladatok> feladatok = await _context.Feladatoks.Where(x => feladatokDeleteDTO.Ids.Contains(x.Id)).ToListAsync();
-            if (feladatok == null)
-            {
-                return NotFound("Nincs feladat ilyen id-vel.");
-            }
-
             try
             {
+                ActionResult<Token> eredmeny = await VanToken(feladatokDeleteDTO);
+                if(eredmeny.Result is NotFoundResult || eredmeny.Result is BadRequestResult || eredmeny.Result is NotFoundObjectResult)
+                {
+                    throw new Exception(eredmeny.Result.ToString());
+                }
+
+                List<Feladatok> feladatok = await _context.Feladatoks.Where(x => feladatokDeleteDTO.Ids.Contains(x.Id)).ToListAsync();
+                if (feladatok == null)
+                {
+                    return NotFound("Nincs feladat ilyen id-vel.");
+                }
                 _context.Feladatoks.RemoveRange(feladatok);
                 await _context.SaveChangesAsync();
             }
@@ -215,6 +225,37 @@ namespace ErettsegizzunkApi.Controllers
             }
 
             return Ok("Törlés sikeresen végrahajtva");
+        }
+
+        
+        private async Task<ActionResult<Token>> VanToken(FeladatokDeleteDTO deleteDTO)
+        {
+            if (deleteDTO is null)
+            {
+                return BadRequest();
+            }
+
+            Token vaneToken;
+
+            try
+            {
+                vaneToken = await _context.Tokens.FirstOrDefaultAsync(x => x.Token1 == deleteDTO.Token && x.Aktiv);
+            }
+            catch(ArgumentNullException nex)
+            {
+                return NotFound(nex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            if (vaneToken is null)
+            {
+                return NotFound("Nincs ilyen token bazzeg!");
+            }
+
+            return vaneToken;
         }
 
         private bool FeladatokExists(int id)

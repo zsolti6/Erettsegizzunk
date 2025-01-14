@@ -9,6 +9,7 @@ using ErettsegizzunkAdmin.DTOs;
 using System.Net.Http.Json;
 using ErettsegizzunkApi.DTOs;
 using System.Windows;
+using ErettsegizzunkApi.DTO;
 
 namespace ErettsegizzunkAdmin.Services
 {
@@ -24,7 +25,7 @@ namespace ErettsegizzunkAdmin.Services
         }
 
         //Feladatok
-        public async Task<List<Feladatok>> GetFeladatoksAsync(double mettol)
+        public async Task<List<Feladatok>> GetFeladatoksAsync(int mettol)
         {
             try
             {
@@ -41,7 +42,7 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
-        public async Task<string> PostFeladatokFromTxt(List<Feladatok> feladatok)
+        public async Task<string> PostFeladatokFromTxt(List<FeladatokPutPostDTO> feladatok)
         {
             try
             {
@@ -60,11 +61,6 @@ namespace ErettsegizzunkAdmin.Services
         {
             try
             {
-                StringContent contentToken = new StringContent(JsonConvert.SerializeObject(feladatokDeleteDTO), Encoding.UTF8, "application/json");
-                HttpResponseMessage responseToken = await _httpClient.PostAsync("erettsegizzunk/Token/vane-token", contentToken);
-                responseToken.EnsureSuccessStatusCode();
-                
-
                 StringContent content = new StringContent(JsonConvert.SerializeObject(feladatokDeleteDTO), Encoding.UTF8, "application/json");
 
                 HttpRequestMessage request = new HttpRequestMessage
@@ -103,7 +99,7 @@ namespace ErettsegizzunkAdmin.Services
         }
 
 
-        //Login
+        //Login - logout
         public async Task<LoggedUser> Login(string name, string password)
         {
             try
@@ -158,5 +154,8 @@ namespace ErettsegizzunkAdmin.Services
                 return ex.Message;
             }
         }
+
+        //Kép feltölrés
+        
     }
 }

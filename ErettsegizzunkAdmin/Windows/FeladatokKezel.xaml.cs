@@ -9,6 +9,7 @@ using System.Windows.Media;
 using ErettsegizzunkAdmin.CustomMessageBoxes;
 using ErettsegizzunkAdmin.DTOs;
 using ErettsegizzunkApi.DTOs;
+using ErettsegizzunkApi.DTO;
 
 namespace ErettsegizzunkAdmin.Windows
 {
@@ -18,7 +19,6 @@ namespace ErettsegizzunkAdmin.Windows
     public partial class FeladatokKezel : Window
     {
         private readonly ApiService _apiService;
-        #warning ha egy feladat törlésre kerül bugos mert ugyanúgy a következő egész 100-tól kezd akkor is ha pl 101 már ott volt az előző oldalon
         private double pageNumber = 0.00;
         private List<Feladatok> feladatok = new List<Feladatok>();
         public LoggedUser user;
@@ -30,9 +30,10 @@ namespace ErettsegizzunkAdmin.Windows
             RefreshUi();
         }
 
-        private async Task<List<Feladatok>> LoadDatasAsync()
+        private async Task<List<Feladatok>> LoadDatasAsync(int mettol)
         {
-            List<Feladatok> feladatoks = await _apiService.GetFeladatoksAsync(pageNumber * 100);
+            feladatok.Clear();
+            List<Feladatok> feladatoks = await _apiService.GetFeladatoksAsync(mettol);
             if(feladatoks is null)
             {
                 MessageBoxes.CustomError("Hiba az adatok lekérdezése közben","Error");
@@ -63,14 +64,14 @@ namespace ErettsegizzunkAdmin.Windows
 
                 try
                 {
-                    List<Feladatok> feladatoks = new List<Feladatok>();
+                    List<FeladatokPutPostDTO> feladatoks = new List<FeladatokPutPostDTO>();
                     StreamReader reader = new StreamReader(openFileDialog.FileName);
                     reader.ReadLine();
 
                     while (!reader.EndOfStream)
                     {
                         string[] sor = reader.ReadLine().Split("\t");
-                        feladatoks.Add(new Feladatok { Leiras = sor[0], Megoldasok = sor[1], Helyese = sor[2], TantargyId = int.Parse(sor[3]), TipusId = int.Parse(sor[4]), SzintId = int.Parse(sor[5]) });
+                        feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Megoldasok = sor[1], Helyese = sor[2], TantargyId = int.Parse(sor[3]), TipusId = int.Parse(sor[4]), SzintId = int.Parse(sor[5])/*, KepNev = sor[6] */});
                     }
                     reader.Close();
                     ret = await _apiService.PostFeladatokFromTxt(feladatoks);
@@ -87,7 +88,7 @@ namespace ErettsegizzunkAdmin.Windows
                 {
                     if (ret != string.Empty)
                     {
-                        MessageBox.Show(ret);
+                        MessageBoxes.CustomMessage(ret);
                     }
                     RefreshUi();
                 }
@@ -96,8 +97,7 @@ namespace ErettsegizzunkAdmin.Windows
 
         private async void RefreshUi()
         {
-            feladatok.Clear();
-            feladatok = await LoadDatasAsync();
+            feladatok = await LoadDatasAsync(feladatok.Count == 100 ? feladatok[feladatok.Count - 1].Id : 0);//teszt
             dgFeladatAdatok.ItemsSource = feladatok;
             cbSelectAll.IsChecked = false;
         }
@@ -176,6 +176,8 @@ namespace ErettsegizzunkAdmin.Windows
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
+            MenuWindow menu = new MenuWindow(user);
+            menu.Show();
             Close();
         }
     }

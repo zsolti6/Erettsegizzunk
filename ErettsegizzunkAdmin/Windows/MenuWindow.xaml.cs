@@ -34,7 +34,8 @@ namespace ErettsegizzunkAdmin.Windows
         private void feladatKezelese_Click(object sender, RoutedEventArgs e)
         {
             FeladatokKezel kezel = new FeladatokKezel(user);
-            kezel.ShowDialog();
+            kezel.Show();
+            Close();
         }
 
         //Feladatok témáinak kezelése

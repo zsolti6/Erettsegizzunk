@@ -12,7 +12,7 @@ public partial class Token
 
     public string? Token1 { get; set; }
 
-    public bool? Aktiv { get; set; }
+    public bool Aktiv { get; set; }
 
     public DateTime? Login { get; set; }
 
