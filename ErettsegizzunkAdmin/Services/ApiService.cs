@@ -56,11 +56,16 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
-        public async Task<string> DeletFeladatok(List<int> ids)
+        public async Task<string> DeletFeladatok(FeladatokDeleteDTO feladatokDeleteDTO)
         {
             try
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(ids), Encoding.UTF8, "application/json");
+                StringContent contentToken = new StringContent(JsonConvert.SerializeObject(feladatokDeleteDTO), Encoding.UTF8, "application/json");
+                HttpResponseMessage responseToken = await _httpClient.PostAsync("erettsegizzunk/Token/vane-token", contentToken);
+                responseToken.EnsureSuccessStatusCode();
+                
+
+                StringContent content = new StringContent(JsonConvert.SerializeObject(feladatokDeleteDTO), Encoding.UTF8, "application/json");
 
                 HttpRequestMessage request = new HttpRequestMessage
                 {
@@ -116,6 +121,13 @@ namespace ErettsegizzunkAdmin.Services
                 HttpResponseMessage responseLogin = await _httpClient.PostAsync("erettsegizzunk/Login", contentLogin);
                 responseGetSalt.EnsureSuccessStatusCode();
                 LoggedUser user = await responseLogin.Content.ReadFromJsonAsync<LoggedUser>();
+
+                //saveToken
+                StringContent contentToken = new StringContent(JsonConvert.SerializeObject(new AddTokenDTO() { Token = user.Token, UserId = user.Id }), Encoding.UTF8, "application/json");
+                HttpResponseMessage responseToken = await _httpClient.PostAsync("erettsegizzunk/Token/add-token", contentToken);
+                responseToken.EnsureSuccessStatusCode();
+                string response = await responseToken.Content.ReadAsStringAsync();
+                App.id = int.Parse(response.Replace("\"", ""));
                 return user;
             }
             catch (HttpRequestException ex)
@@ -125,6 +137,25 @@ namespace ErettsegizzunkAdmin.Services
             catch(Exception ex)
             {
                 return new LoggedUser() { Permission = -2, Name = ex.Message };
+            }
+        }
+
+        public async Task<string> LogOut(ModifyToken modifyToken)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(modifyToken), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PutAsync("erettsegizzunk/Token/kijelentkez", content);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException ex)
+            {
+                return ex.Message;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
         }
     }

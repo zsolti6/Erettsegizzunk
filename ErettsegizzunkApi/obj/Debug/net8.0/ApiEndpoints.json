@@ -8,8 +8,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "ids",
-        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Name": "feladatokDeleteDTO",
+        "Type": "ErettsegizzunkApi.DTO.FeladatokDeleteDTO",
         "IsRequired": true
       }
     ],
@@ -282,6 +282,64 @@
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.IEnumerable\u00601[[ErettsegizzunkApi.Models.Tantargyak, ErettsegizzunkApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.TokenController",
+    "Method": "AddNewToken",
+    "RelativePath": "erettsegizzunk/Token/add-token",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "addTokenDTO",
+        "Type": "ErettsegizzunkApi.DTOs.AddTokenDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.TokenController",
+    "Method": "PutToken",
+    "RelativePath": "erettsegizzunk/Token/kijelentkez",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "modifyToken",
+        "Type": "ErettsegizzunkApi.DTOs.ModifyToken",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.TokenController",
+    "Method": "VanToken",
+    "RelativePath": "erettsegizzunk/Token/vane-token",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "deleteDTO",
+        "Type": "ErettsegizzunkApi.DTO.FeladatokDeleteDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ErettsegizzunkApi.Models.Token",
         "MediaTypes": [
           "text/plain",
           "application/json",

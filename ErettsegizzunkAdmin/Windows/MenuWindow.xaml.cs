@@ -33,7 +33,7 @@ namespace ErettsegizzunkAdmin.Windows
         //Feladatok kezelése
         private void feladatKezelese_Click(object sender, RoutedEventArgs e)
         {
-            FeladatokKezel kezel = new FeladatokKezel();
+            FeladatokKezel kezel = new FeladatokKezel(user);
             kezel.ShowDialog();
         }
 

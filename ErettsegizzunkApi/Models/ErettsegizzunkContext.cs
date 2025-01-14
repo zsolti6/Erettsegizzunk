@@ -27,6 +27,8 @@ public partial class ErettsegizzunkContext : DbContext
 
     public virtual DbSet<Tipus> Tipus { get; set; }
 
+    public virtual DbSet<Token> Tokens { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -54,6 +56,10 @@ public partial class ErettsegizzunkContext : DbContext
                 .HasMaxLength(20)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnName("helyese");
+            entity.Property(e => e.KepNev)
+                .HasMaxLength(18)
+                .HasDefaultValueSql("'NULL'")
+                .HasColumnName("kepNev");
             entity.Property(e => e.Leiras)
                 .HasMaxLength(1024)
                 .HasDefaultValueSql("'NULL'")
@@ -126,9 +132,15 @@ public partial class ErettsegizzunkContext : DbContext
             entity.HasIndex(e => e.Level, "Szint").IsUnique();
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
-            entity.Property(e => e.Description).HasMaxLength(100);
-            entity.Property(e => e.Level).HasColumnType("int(1)");
-            entity.Property(e => e.Name).HasMaxLength(32);
+            entity.Property(e => e.Description)
+                .HasMaxLength(100)
+                .HasDefaultValueSql("'NULL'");
+            entity.Property(e => e.Level)
+                .HasDefaultValueSql("'NULL'")
+                .HasColumnType("int(1)");
+            entity.Property(e => e.Name)
+                .HasMaxLength(32)
+                .HasDefaultValueSql("'NULL'");
         });
 
         modelBuilder.Entity<Szint>(entity =>
@@ -142,6 +154,7 @@ public partial class ErettsegizzunkContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.Nev)
                 .HasMaxLength(15)
+                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("nev");
         });
 
@@ -156,6 +169,7 @@ public partial class ErettsegizzunkContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.Nev)
                 .HasMaxLength(255)
+                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("nev");
         });
 
@@ -170,6 +184,7 @@ public partial class ErettsegizzunkContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.Nev)
                 .HasMaxLength(255)
+                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("nev");
         });
 
@@ -184,7 +199,45 @@ public partial class ErettsegizzunkContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.Nev)
                 .HasMaxLength(255)
+                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("nev");
+        });
+
+        modelBuilder.Entity<Token>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("token");
+
+            entity.HasIndex(e => e.UserId, "userId");
+
+            entity.Property(e => e.Id)
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
+            entity.Property(e => e.Aktiv)
+                .HasDefaultValueSql("'NULL'")
+                .HasColumnName("aktiv");
+            entity.Property(e => e.Login)
+                .HasDefaultValueSql("'NULL'")
+                .HasColumnType("datetime")
+                .HasColumnName("login");
+            entity.Property(e => e.Logout)
+                .HasDefaultValueSql("'NULL'")
+                .HasColumnType("datetime")
+                .HasColumnName("logout");
+            entity.Property(e => e.Token1)
+                .HasMaxLength(40)
+                .HasDefaultValueSql("'NULL'")
+                .HasColumnName("token");
+            entity.Property(e => e.UserId)
+                .HasDefaultValueSql("'NULL'")
+                .HasColumnType("int(11)")
+                .HasColumnName("userId");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Tokens)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("token_ibfk_1");
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -197,17 +250,21 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.HasIndex(e => e.PermissionId, "Jog");
 
-            entity.HasIndex(e => e.LoginNev, "LoginNev").IsUnique();
+            entity.HasIndex(e => e.LoginName, "LoginNev").IsUnique();
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Email).HasMaxLength(64);
             entity.Property(e => e.Hash)
                 .HasMaxLength(64)
                 .HasColumnName("HASH");
-            entity.Property(e => e.LoginNev).HasMaxLength(16);
-            entity.Property(e => e.Name).HasMaxLength(64);
+            entity.Property(e => e.LoginName).HasMaxLength(16);
+            entity.Property(e => e.Name)
+                .HasMaxLength(64)
+                .HasDefaultValueSql("'NULL'");
             entity.Property(e => e.PermissionId).HasColumnType("int(11)");
-            entity.Property(e => e.ProfilePicturePath).HasMaxLength(64);
+            entity.Property(e => e.ProfilePicturePath)
+                .HasMaxLength(64)
+                .HasDefaultValueSql("'NULL'");
             entity.Property(e => e.Salt)
                 .HasMaxLength(64)
                 .HasColumnName("SALT");

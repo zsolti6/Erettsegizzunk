@@ -68,8 +68,7 @@
                       Checked="cbSelectAll_Checked" 
                       Unchecked="cbSelectAll_Unchecked" />
                 <Button x:Name="btnDelet" 
-                    Content="Törlés" 
-                    IsEnabled="False"
+                    Content="Törlés"
                     Margin="8" 
                     Style="{DynamicResource MaterialDesignRaisedButton}" 
                     Click="btnDelet_Click" />

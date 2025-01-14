@@ -41,7 +41,7 @@ namespace ErettsegizzunkApi.Controllers
                 {
                     try
                     {
-                        return Ok(await cx.Users.Include(x => x.Permission).FirstOrDefaultAsync(x => x.LoginNev == loginname));
+                        return Ok(await cx.Users.Include(x => x.Permission).FirstOrDefaultAsync(x => x.LoginName == loginname));
                     }
                     catch (Exception ex)
                     {

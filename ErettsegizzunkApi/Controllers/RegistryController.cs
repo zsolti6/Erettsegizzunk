@@ -16,7 +16,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 try
                 {
-                    if (cx.Users.FirstOrDefault(f => f.LoginNev == user.LoginNev) != null)
+                    if (cx.Users.FirstOrDefault(f => f.LoginName == user.LoginName) != null)
                     {
                         return Ok("Már létezik ilyen felhasználónév!");
                     }
@@ -30,7 +30,7 @@ namespace ErettsegizzunkApi.Controllers
                     await cx.Users.AddAsync(user);
                     await cx.SaveChangesAsync();
 
-                    Program.SendEmail(user.Email, "Regisztráció", $"https://localhost:7066/erettsegizzunk/Registry?felhasznaloNev={user.LoginNev}&email={user.Email}");
+                    Program.SendEmail(user.Email, "Regisztráció", $"https://localhost:7066/erettsegizzunk/Registry?felhasznaloNev={user.LoginName}&email={user.Email}");
 
                     return Ok("Sikeres regisztráció. Fejezze be a regisztrációját az e-mail címére küldött link segítségével!");
                 }
@@ -49,7 +49,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 try
                 {
-                    User user = await cx.Users.FirstOrDefaultAsync(f => f.LoginNev == felhasznaloNev && f.Email == email);
+                    User user = await cx.Users.FirstOrDefaultAsync(f => f.LoginName == felhasznaloNev && f.Email == email);
                     if (user == null)
                     {
                         return Ok("Sikertelen a regisztráció befejezése!");

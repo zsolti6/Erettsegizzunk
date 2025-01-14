@@ -17,7 +17,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 try
                 {
-                    User response = await cx.Users.FirstOrDefaultAsync(x => x.LoginNev == loginName);
+                    User response = await cx.Users.FirstOrDefaultAsync(x => x.LoginName == loginName);
                     if (response is null)
                     {
                         return BadRequest("Hibavanbazzeg");
@@ -40,7 +40,7 @@ namespace ErettsegizzunkApi.Controllers
                 try
                 {
                     string Hash = Program.CreateSHA256(loginDTO.TmpHash);
-                    User loggeduser =  await cx.Users.Include(x => x.Permission).FirstOrDefaultAsync(x => x.LoginNev == loginDTO.LoginName && x.Hash == Hash);
+                    User loggeduser =  await cx.Users.Include(x => x.Permission).FirstOrDefaultAsync(x => x.LoginName == loginDTO.LoginName && x.Hash == Hash);
 
                     if (loggeduser != null && loggeduser.Active)
                     {
@@ -49,7 +49,7 @@ namespace ErettsegizzunkApi.Controllers
                         {
                             Program.LoggedInUsers.Add(token, loggeduser);
                         }                        
-                        return Ok(new LoggedUser { Name = loggeduser.Name, Email = loggeduser.Email, Permission = loggeduser.PermissionId, ProfilePicturePath = loggeduser.ProfilePicturePath, Token = token});
+                        return Ok(new LoggedUser {Id = loggeduser.Id, Name = loggeduser.Name, Email = loggeduser.Email, Permission = loggeduser.PermissionId, ProfilePicturePath = loggeduser.ProfilePicturePath, Token = token});
                     }
                     else
                     {

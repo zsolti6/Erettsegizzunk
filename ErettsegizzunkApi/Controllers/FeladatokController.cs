@@ -192,9 +192,9 @@ namespace ErettsegizzunkApi.Controllers
         //Egy feladat törlése id alapján
         // DELETE: api/Feladatoks/delete-egy-feladat
         [HttpDelete("delete-feladatok")]
-        public async Task<IActionResult> DeleteFeladatok([FromBody] List<int> ids)
+        public async Task<IActionResult> DeleteFeladatok([FromBody] FeladatokDeleteDTO feladatokDeleteDTO)
         {
-            List<Feladatok> feladatok = await _context.Feladatoks.Where(x => ids.Contains(x.Id)).ToListAsync();
+            List<Feladatok> feladatok = await _context.Feladatoks.Where(x => feladatokDeleteDTO.Ids.Contains(x.Id)).ToListAsync();
             if (feladatok == null)
             {
                 return NotFound("Nincs feladat ilyen id-vel.");

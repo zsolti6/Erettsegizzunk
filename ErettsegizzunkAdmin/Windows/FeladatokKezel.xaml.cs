@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using ErettsegizzunkAdmin.CustomMessageBoxes;
+using ErettsegizzunkAdmin.DTOs;
+using ErettsegizzunkApi.DTOs;
 
 namespace ErettsegizzunkAdmin.Windows
 {
@@ -19,10 +21,12 @@ namespace ErettsegizzunkAdmin.Windows
         #warning ha egy feladat törlésre kerül bugos mert ugyanúgy a következő egész 100-tól kezd akkor is ha pl 101 már ott volt az előző oldalon
         private double pageNumber = 0.00;
         private List<Feladatok> feladatok = new List<Feladatok>();
-        public FeladatokKezel()
+        public LoggedUser user;
+        public FeladatokKezel(LoggedUser user)
         {
             InitializeComponent();
             _apiService = new ApiService();
+            this.user = user;
             RefreshUi();
         }
 
@@ -159,7 +163,14 @@ namespace ErettsegizzunkAdmin.Windows
                     ids.Add(feladat.Id);
                 }
             }
-            MessageBox.Show(await _apiService.DeletFeladatok(ids));
+
+            if (ids.Count < 1)
+            {
+                MessageBoxes.CustomMessage("Nincs törlendő elem kijelölve!");
+                return;
+            }
+
+            MessageBoxes.CustomMessage(await _apiService.DeletFeladatok(new FeladatokDeleteDTO() { Ids = ids, Token = user.Token}));
             RefreshUi();
         }
 

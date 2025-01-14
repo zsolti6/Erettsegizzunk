@@ -19,6 +19,8 @@ public partial class Feladatok
 
     public int? SzintId { get; set; }
 
+    public string? KepNev { get; set; }
+
     public virtual Szint? Szint { get; set; }
 
     public virtual Tantargyak? Tantargy { get; set; }

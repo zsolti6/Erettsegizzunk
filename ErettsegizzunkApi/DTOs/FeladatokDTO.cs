@@ -17,6 +17,7 @@ namespace ErettsegizzunkApi.DTO
 
     public class FeladatokPutPostDTO
     {
+        public string Token { get; set; }
         public string? Leiras { get; set; }
 
         public string? Megoldasok { get; set; }
@@ -28,6 +29,12 @@ namespace ErettsegizzunkApi.DTO
         public int TipusId { get; set; }
 
         public int SzintId { get; set; }
+    }
+
+    public class FeladatokDeleteDTO
+    {
+        public string Token { get; set; }
+        public List<int> Ids { get; set; }
     }
 
 }

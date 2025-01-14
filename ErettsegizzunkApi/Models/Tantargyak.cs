@@ -8,7 +8,7 @@ public partial class Tantargyak
 {
     public int Id { get; set; }
 
-    public string Nev { get; set; } = null!;
+    public string? Nev { get; set; }
 
     [JsonIgnore]
     public virtual ICollection<Feladatok> Feladatoks { get; set; } = new List<Feladatok>();
