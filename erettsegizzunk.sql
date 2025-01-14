@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Dec 13. 08:43
+-- Létrehozás ideje: 2025. Jan 14. 07:53
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `erettsegizzunk`
 --
-CREATE DATABASE IF NOT EXISTS `erettsegizzunk` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci;
-USE `erettsegizzunk`;
 
 -- --------------------------------------------------------
 
@@ -36,13 +34,9 @@ CREATE TABLE `feladatok` (
   `helyese` varchar(20) DEFAULT NULL,
   `tantargyId` int(11) DEFAULT NULL,
   `tipusId` int(11) DEFAULT NULL,
-  `szintId` int(11) DEFAULT NULL
+  `szintId` int(11) DEFAULT NULL,
+  `kepNev` varchar(18) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `feladatok`
---
-
 
 -- --------------------------------------------------------
 
@@ -63,9 +57,9 @@ CREATE TABLE `feladatok_tema` (
 
 CREATE TABLE `permission` (
   `Id` int(11) NOT NULL,
-  `Level` int(1) NOT NULL,
-  `Name` varchar(32) NOT NULL,
-  `Description` varchar(100) NOT NULL
+  `Level` int(1) DEFAULT NULL,
+  `Name` varchar(32) DEFAULT NULL,
+  `Description` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
@@ -84,7 +78,7 @@ INSERT INTO `permission` (`Id`, `Level`, `Name`, `Description`) VALUES
 
 CREATE TABLE `szint` (
   `id` int(11) NOT NULL,
-  `nev` varchar(15) NOT NULL
+  `nev` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
@@ -103,7 +97,7 @@ INSERT INTO `szint` (`id`, `nev`) VALUES
 
 CREATE TABLE `tantargyak` (
   `id` int(11) NOT NULL,
-  `nev` varchar(255) NOT NULL
+  `nev` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
@@ -123,7 +117,7 @@ INSERT INTO `tantargyak` (`id`, `nev`) VALUES
 
 CREATE TABLE `tema` (
   `id` int(11) NOT NULL,
-  `nev` varchar(255) NOT NULL
+  `nev` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 -- --------------------------------------------------------
@@ -134,7 +128,7 @@ CREATE TABLE `tema` (
 
 CREATE TABLE `tipus` (
   `id` int(11) NOT NULL,
-  `nev` varchar(255) NOT NULL
+  `nev` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
@@ -149,6 +143,21 @@ INSERT INTO `tipus` (`id`, `nev`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tábla szerkezet ehhez a táblához `token`
+--
+
+CREATE TABLE `token` (
+  `id` int(11) NOT NULL,
+  `userId` int(11) DEFAULT NULL,
+  `token` varchar(40) DEFAULT NULL,
+  `aktiv` tinyint(1) DEFAULT NULL,
+  `login` datetime DEFAULT NULL,
+  `logout` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Tábla szerkezet ehhez a táblához `user`
 --
 
@@ -157,11 +166,11 @@ CREATE TABLE `user` (
   `LoginName` varchar(16) NOT NULL,
   `HASH` varchar(64) NOT NULL,
   `SALT` varchar(64) NOT NULL,
-  `Name` varchar(64) NOT NULL,
+  `Name` varchar(64) DEFAULT NULL,
   `PermissionId` int(11) NOT NULL,
   `Active` tinyint(1) NOT NULL,
   `Email` varchar(64) NOT NULL,
-  `ProfilePicturePath` varchar(64) NOT NULL
+  `ProfilePicturePath` varchar(64) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
@@ -222,6 +231,13 @@ ALTER TABLE `tema`
 --
 ALTER TABLE `tipus`
   ADD PRIMARY KEY (`id`);
+
+--
+-- A tábla indexei `token`
+--
+ALTER TABLE `token`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userId` (`userId`);
 
 --
 -- A tábla indexei `user`
@@ -296,6 +312,12 @@ ALTER TABLE `feladatok`
 ALTER TABLE `feladatok_tema`
   ADD CONSTRAINT `feladatok_tema_ibfk_1` FOREIGN KEY (`feladatokId`) REFERENCES `feladatok` (`id`),
   ADD CONSTRAINT `feladatok_tema_ibfk_2` FOREIGN KEY (`temaId`) REFERENCES `tema` (`id`);
+
+--
+-- Megkötések a táblához `token`
+--
+ALTER TABLE `token`
+  ADD CONSTRAINT `token_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`Id`);
 
 --
 -- Megkötések a táblához `user`
