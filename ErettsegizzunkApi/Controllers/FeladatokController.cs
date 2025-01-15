@@ -26,7 +26,7 @@ namespace ErettsegizzunkApi.Controllers
                 .Include(x => x.Temas)
                 .Include(x => x.Tipus)
                 .Where(x => x.Id > mettol)
-                .Take(100)
+                .Take(50)//100 lassú teszt kevesebbel
                 .ToListAsync();
         }
 
@@ -110,6 +110,23 @@ namespace ErettsegizzunkApi.Controllers
 
             try
             {
+                ActionResult<Token> eredmeny = await VanToken(put);
+                switch (eredmeny.Result)
+                {
+                    case NotFoundResult:
+                        {
+                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
+                        }
+                    case BadRequestResult:
+                        {
+                            throw new Exception(eredmeny.Result.ToString());
+                        }
+                    case NotFoundObjectResult:
+                        {
+                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
+                        }
+                }
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException ex)
@@ -142,6 +159,23 @@ namespace ErettsegizzunkApi.Controllers
 
             try
             {
+                ActionResult<Token> eredmeny = await VanToken(post);
+                switch (eredmeny.Result)
+                {
+                    case NotFoundResult:
+                        {
+                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
+                        }
+                    case BadRequestResult:
+                        {
+                            throw new Exception(eredmeny.Result.ToString());
+                        }
+                    case NotFoundObjectResult:
+                        {
+                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
+                        }
+                }
+
                 _context.Feladatoks.Add(feladatok);
                 await _context.SaveChangesAsync();
             }
@@ -160,12 +194,30 @@ namespace ErettsegizzunkApi.Controllers
         //Több feladat felvitele
         // POST: api/Feladatoks/post-egy-feladat
         [HttpPost("post-tobb-feladat")]
-        public async Task<ActionResult<Feladatok>> PostFeladatok([FromBody] List<FeladatokPutPostDTO> put)
+        public async Task<ActionResult<Feladatok>> PostFeladatok([FromBody] List<FeladatokPutPostDTO> post)
         {
-
             try
             {
-                foreach (FeladatokPutPostDTO feladatok in put)
+                ActionResult<Token> eredmeny = await VanToken(post[0]);
+
+                switch (eredmeny.Result)
+                {
+                    case NotFoundResult:
+                        {
+                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
+                        }
+                    case BadRequestResult:
+                        {
+                            throw new Exception(eredmeny.Result.ToString());
+                        }
+                    case NotFoundObjectResult:
+                        {
+                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
+                        }
+                }
+
+
+                foreach (FeladatokPutPostDTO feladatok in post)
                 {
                     Feladatok feladat = new Feladatok
                     {
@@ -202,9 +254,20 @@ namespace ErettsegizzunkApi.Controllers
             try
             {
                 ActionResult<Token> eredmeny = await VanToken(feladatokDeleteDTO);
-                if(eredmeny.Result is NotFoundResult || eredmeny.Result is BadRequestResult || eredmeny.Result is NotFoundObjectResult)
+                switch (eredmeny.Result)
                 {
-                    throw new Exception(eredmeny.Result.ToString());
+                    case NotFoundResult:
+                        {
+                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
+                        }
+                    case BadRequestResult:
+                        {
+                            throw new Exception(eredmeny.Result.ToString());
+                        }
+                    case NotFoundObjectResult:
+                        {
+                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
+                        }
                 }
 
                 List<Feladatok> feladatok = await _context.Feladatoks.Where(x => feladatokDeleteDTO.Ids.Contains(x.Id)).ToListAsync();
@@ -242,6 +305,36 @@ namespace ErettsegizzunkApi.Controllers
                 vaneToken = await _context.Tokens.FirstOrDefaultAsync(x => x.Token1 == deleteDTO.Token && x.Aktiv);
             }
             catch(ArgumentNullException nex)
+            {
+                return NotFound(nex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            if (vaneToken is null)
+            {
+                return NotFound();
+            }
+
+            return vaneToken;
+        }
+
+        private async Task<ActionResult<Token>> VanToken(FeladatokPutPostDTO putPostDTO)
+        {
+            if (putPostDTO is null)
+            {
+                return BadRequest();
+            }
+
+            Token vaneToken;
+
+            try
+            {
+                vaneToken = await _context.Tokens.FirstOrDefaultAsync(x => x.Token1 == putPostDTO.Token && x.Aktiv);
+            }
+            catch (ArgumentNullException nex)
             {
                 return NotFound(nex.Message);
             }

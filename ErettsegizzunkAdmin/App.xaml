@@ -5,15 +5,24 @@
   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
   StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary>
+
+            <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+                <!-- Material Design Bundled Theme -->
+                    <materialDesign:BundledTheme BaseTheme="Light" 
+                                     PrimaryColor="DeepPurple" 
+                                     SecondaryColor="LightBlue"/>
 
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                    <!-- Material Design Defaults -->
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                
+                
             </ResourceDictionary.MergedDictionaries>
+            <Color x:Key="TertiaryColor">#FF5252</Color>
+            <!-- A light red -->
+            <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource TertiaryColor}" />
         </ResourceDictionary>
-
     </Application.Resources>
 </Application>

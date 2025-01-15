@@ -77,7 +77,7 @@
     "Parameters": [
       {
         "Name": "mettol",
-        "Type": "System.Double",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
@@ -128,7 +128,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "put",
+        "Name": "post",
         "Type": "System.Collections.Generic.List\u00601[[ErettsegizzunkApi.DTO.FeladatokPutPostDTO, ErettsegizzunkApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
       }

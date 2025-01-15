@@ -6,8 +6,11 @@
         xmlns:local="clr-namespace:ErettsegizzunkAdmin.Windows"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Menü" Height="450" Width="800"
-        WindowState="Maximized"
+        Title="Érettségizzünk" 
+        Width="1200" Height="800"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Normal"
+        MinHeight="400" MinWidth="600"
         WindowStyle="ToolWindow"
         ResizeMode="NoResize">
     <Grid>
@@ -17,23 +20,64 @@
         </Grid.RowDefinitions>
 
         <!-- Top Menu Bar -->
-        <Menu materialDesign:ColorZoneAssist.Mode="PrimaryDark">
-            <MenuItem x:Name="feladatKezel" Header="Feladatok" Click="feladatKezelese_Click"/>
-            <MenuItem x:Name="feladatokTemaKezel" Header="Feladatok Téma" Click="feladatokTemaKezelese_Click"/>
-            <MenuItem x:Name="szintKezel" Header="Szint" Click="segedKezelese_Click"/>
-            <MenuItem x:Name="tantargyKezel" Header="Tantárgy" Click="segedKezelese_Click"/>
-            <MenuItem x:Name="temaKezel" Header="Téma" Click="segedKezelese_Click"/>
-            <MenuItem x:Name="tipusKezel" Header="Típus" Click="segedKezelese_Click"/>
-        </Menu>
+        <materialDesign:ColorZone Mode="PrimaryDark" Grid.Row="0" Height="50">
+            <Menu materialDesign:ColorZoneAssist.Mode="PrimaryDark" VerticalAlignment="Center">
+                <MenuItem x:Name="feladatKezel" Header="Feladatok" Click="feladatKezelese_Click" Foreground="{DynamicResource SecondaryHueMidBrush}">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="ClipboardTextOutline" Foreground="{DynamicResource SecondaryHueMidBrush}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="feladatokTemaKezel" Header="Feladatok Téma" Click="feladatokTemaKezelese_Click" Foreground="{DynamicResource SecondaryHueMidBrush}">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="FormatListText" Foreground="{DynamicResource SecondaryHueMidBrush}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="szintKezel" Header="Szint" Click="segedKezelese_Click" Foreground="{DynamicResource SecondaryHueMidBrush}">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="ChartLine" Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="tantargyKezel" Header="Tantárgy" Click="segedKezelese_Click" Foreground="{DynamicResource SecondaryHueMidBrush}">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="BookOpenOutline" Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="temaKezel" Header="Téma" Click="segedKezelese_Click" Foreground="{DynamicResource SecondaryHueMidBrush}">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Palette" Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="tipusKezel" Header="Típus" Click="segedKezelese_Click" Foreground="{DynamicResource SecondaryHueMidBrush}">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="FileDocumentOutline" Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </Menu>
+        </materialDesign:ColorZone>
 
-        <!-- Welcome Label -->
-        <Label x:Name="lbUdvozles"
-               Grid.Row="1" 
-               HorizontalAlignment="Center" 
-               VerticalAlignment="Center" 
-               FontSize="50" 
-               Foreground="{DynamicResource PrimaryHueMidBrush}" 
-               Content="Welcome 007!"/>
+        <!-- Main Content -->
+        <Grid Grid.Row="1" Background="{DynamicResource MaterialDesignPaper}">
+            <!-- Background Visual (Optional Decorative Elements) -->
+            <materialDesign:PackIcon Kind="Account" 
+                                 HorizontalAlignment="Right" 
+                                 VerticalAlignment="Top" 
+                                 Opacity="0.1" 
+                                 Margin="0 20 20 0"
+                                 Width="200" 
+                                 Height="200" 
+                                 Foreground="{DynamicResource PrimaryHueLightBrush}" />
+
+            <!-- Welcome Section -->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                
+                <!-- Welcome Label -->
+                <Label x:Name="lbUdvozles"
+                   FontSize="50" 
+                   FontWeight="Bold" 
+                   Foreground="{DynamicResource PrimaryHueMidBrush}" 
+                   Content="Welcome 007!"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
 

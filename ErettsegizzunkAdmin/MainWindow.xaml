@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:ErettsegizzunkAdmin"
         mc:Ignorable="d"
-        Title="Login" Height="450" Width="800"
+        Title="Érettségizzünk" Height="450" Width="800"
         WindowStartupLocation="CenterScreen"
         WindowStyle="ToolWindow"
         ResizeMode="NoResize">
@@ -14,48 +14,64 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Top Header -->
         <materialDesign:ColorZone Mode="PrimaryDark" Grid.Row="0" Height="60">
-            <TextBlock Text="Login" 
-                       VerticalAlignment="Center" 
-                       HorizontalAlignment="Center" 
-                       FontSize="24" 
-                       Foreground="White"/>
+            <TextBlock Text="Bejelentkezés" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" 
+                   FontSize="24" 
+                   Foreground="{DynamicResource SecondaryHueMidBrush}"/>
+            <!-- Using Primary color -->
         </materialDesign:ColorZone>
 
         <!-- Login Form -->
-        <Grid Grid.Row="1" Margin="20">
+        <Grid Grid.Row="1" Margin="20,40,20,20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <!-- Username Field -->
             <StackPanel Grid.Row="0" Margin="0 10">
-                <TextBlock Text="Username" FontSize="16" Margin="0 0 0 5"/>
-                <TextBox x:Name="nev"  materialDesign:HintAssist.Hint="Enter your username"
-                         FontSize="14" Padding="10"/>
+                <TextBlock Text="Felhasználónév" FontSize="16" Margin="0 0 0 5" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                <!-- Primary color -->
+                <TextBox x:Name="nev" materialDesign:HintAssist.Hint="Gépeld ide a felhsználóneved"
+                     FontSize="14" Padding="10" Background="{DynamicResource MaterialDesignPaper}" Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
             </StackPanel>
 
             <!-- Password Field -->
             <StackPanel Grid.Row="1" Margin="0 10">
-                <TextBlock Text="Password" FontSize="16" Margin="0 0 0 5"/>
-                <PasswordBox x:Name="jelszo" materialDesign:HintAssist.Hint="Enter your password"
-                             FontSize="14" Padding="10"/>
+                <TextBlock Text="Jelszó" FontSize="16" Margin="0 0 0 5" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                <!-- Primary color -->
+                <PasswordBox x:Name="jelszo" materialDesign:HintAssist.Hint="Gépeld ide a jelszvad"
+                         FontSize="14" Padding="10" Background="{DynamicResource MaterialDesignPaper}" Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
             </StackPanel>
 
             <!-- Login Button -->
             <Button Grid.Row="3" 
-                    Content="Login" 
-                    HorizontalAlignment="Center" 
-                    Width="100" 
-                    Style="{DynamicResource MaterialDesignRaisedButton}" 
-                    Margin="0 10"
-                    Click="btnLogin_Click"/>
+                Content="Bejelentkezés" 
+                HorizontalAlignment="Center" 
+                Width="150" 
+                Style="{DynamicResource MaterialDesignRaisedButton}" 
+                Margin="0 10"
+                Background="{DynamicResource PrimaryHueMidBrush}" 
+                Foreground="{DynamicResource MaterialDesignPaper}" 
+                Click="btnLogin_Click"/>
+
+            <!-- Forgotten Password -->
+            <Button Grid.Row="4" 
+                Content="Elfelejtett jelszó" 
+                HorizontalAlignment="Right" 
+                Style="{DynamicResource MaterialDesignFlatButton}" 
+                Margin="0 10"
+                Foreground="{DynamicResource SecondaryHueMidBrush}"
+                Click="btnForgotPassword_Click"/>
         </Grid>
     </Grid>
 </Window>

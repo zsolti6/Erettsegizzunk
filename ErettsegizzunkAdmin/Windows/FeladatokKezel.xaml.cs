@@ -19,7 +19,7 @@ namespace ErettsegizzunkAdmin.Windows
     public partial class FeladatokKezel : Window
     {
         private readonly ApiService _apiService;
-        private double pageNumber = 0.00;
+        private int pageNumber = 0;
         private List<Feladatok> feladatok = new List<Feladatok>();
         public LoggedUser user;
         public FeladatokKezel(LoggedUser user)
@@ -39,7 +39,7 @@ namespace ErettsegizzunkAdmin.Windows
                 MessageBoxes.CustomError("Hiba az adatok lekérdezése közben","Error");
                 return new List<Feladatok>();
             }
-            btnOldalKov.IsEnabled = feladatoks.Count == 100;
+            btnOldalKov.IsEnabled = feladatoks.Count == 50;//teszt
             return feladatoks;
         }
 
@@ -72,6 +72,10 @@ namespace ErettsegizzunkAdmin.Windows
                     {
                         string[] sor = reader.ReadLine().Split("\t");
                         feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Megoldasok = sor[1], Helyese = sor[2], TantargyId = int.Parse(sor[3]), TipusId = int.Parse(sor[4]), SzintId = int.Parse(sor[5])/*, KepNev = sor[6] */});
+                        if (feladatoks.Count == 1)
+                        {
+                            feladatoks[0].Token = user.Token;
+                        }
                     }
                     reader.Close();
                     ret = await _apiService.PostFeladatokFromTxt(feladatoks);
@@ -97,7 +101,7 @@ namespace ErettsegizzunkAdmin.Windows
 
         private async void RefreshUi()
         {
-            feladatok = await LoadDatasAsync(feladatok.Count == 100 ? feladatok[feladatok.Count - 1].Id : 0);//teszt
+            feladatok = await LoadDatasAsync(feladatok.Count == 50 ? feladatok[feladatok.Count - 1].Id : 0);//teszt
             dgFeladatAdatok.ItemsSource = feladatok;
             cbSelectAll.IsChecked = false;
         }
@@ -112,7 +116,7 @@ namespace ErettsegizzunkAdmin.Windows
                 btnOldalElozo.IsEnabled = true;
             }
 
-            if (feladatok.Count < 100)
+            if (feladatok.Count < 50)
             {
                 (sender as Button).IsEnabled = false;
             }

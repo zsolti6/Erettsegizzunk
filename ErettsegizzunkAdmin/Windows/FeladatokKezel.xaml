@@ -11,78 +11,111 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ErettsegizzunkAdmin.Windows"
         mc:Ignorable="d"
-        Title="Feladatok Kezelése" Height="450" Width="800"
-        WindowState="Maximized"
+        Title="Érettségizzünk"
+        Width="1200" Height="800"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Normal"
+        MinHeight="400" MinWidth="600"
         WindowStyle="ToolWindow"
         ResizeMode="NoResize">
-  
-        <Grid Background="{DynamicResource MaterialDesignPaper}">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-            <!-- DataGrid -->
-            <DataGrid x:Name="dgFeladatAdatok" 
-                  AutoGenerateColumns="False" 
-                  GridLinesVisibility="None" 
-                  RowBackground="{DynamicResource MaterialDesignPaper}" 
-                  AlternatingRowBackground="{DynamicResource MaterialDesignPaperLight}"
-                  VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
-                  HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}">
-                <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Header="Kijelölés" Binding="{Binding Kijelolve}" />
-                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Leiras" Binding="{Binding Leiras}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Megoldasok" Binding="{Binding Megoldasok}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Tantargy" Binding="{Binding Tantargy}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Tipus" Binding="{Binding Szint}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Szint" Binding="{Binding Tipus}" IsReadOnly="True" />
-                </DataGrid.Columns>
-            </DataGrid>
+        <!-- DataGrid -->
+        <DataGrid x:Name="dgFeladatAdatok" 
+              AutoGenerateColumns="False" 
+              GridLinesVisibility="None" 
+              RowBackground="{DynamicResource MaterialDesignPaper}" 
+              AlternatingRowBackground="{DynamicResource MaterialDesignPaperLight}"
+              VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
+              HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}" 
+              Grid.Column="0"
+              Grid.Row="0"
+              Grid.RowSpan="2">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Kijelölés" Binding="{Binding Kijelolve}" />
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Leiras" Binding="{Binding Leiras}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Megoldasok" Binding="{Binding Megoldasok}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Tantargy" Binding="{Binding Tantargy}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Tipus" Binding="{Binding Szint}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Szint" Binding="{Binding Tipus}" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
 
-            <!-- StackPanel for Controls -->
-            <StackPanel x:Name="spMuveletek" Grid.Column="1" Margin="16">
-                <Button x:Name="btnUjAdatokExcelbol" 
-                    Content="Új feladatok feltöltése txt-ből" 
-                    Margin="8" 
-                    Style="{DynamicResource MaterialDesignRaisedButton}" 
-                    Click="btnUjAdatokTxtbol_Click" />
-                <Button x:Name="btnOldalKov" 
-                    Content="Következő oldal" 
-                    IsEnabled="False" 
-                    Margin="8" 
-                    Style="{DynamicResource MaterialDesignRaisedButton}" 
-                    Click="btnOldalKov_Click" />
-                <Button x:Name="btnOldalElozo" 
-                    Content="Előző oldal" 
-                    IsEnabled="False" 
-                    Margin="8" 
-                    Style="{DynamicResource MaterialDesignRaisedButton}" 
-                    Click="btnOldalElozo_Click" />
-                <CheckBox x:Name="cbSelectAll" 
-                      Content="Összes kijelölése" 
-                      Margin="8" 
-                      Style="{DynamicResource MaterialDesignCheckBox}" 
-                      Checked="cbSelectAll_Checked" 
-                      Unchecked="cbSelectAll_Unchecked" />
-                <Button x:Name="btnDelet" 
-                    Content="Törlés"
-                    Margin="8" 
-                    Style="{DynamicResource MaterialDesignRaisedButton}" 
-                    Click="btnDelet_Click" />
-                <Button x:Name="btnBack" 
-                    Content="Vissza" 
-                    Margin="8" 
-                    Style="{DynamicResource MaterialDesignRaisedButton}" 
-                    Click="btnBack_Click" />
-            <Button x:Name="btnAgain" 
-                    Content="Újra lekérdezés" 
-                    Margin="8" 
-                    Style="{DynamicResource MaterialDesignRaisedButton}"/>
+        <StackPanel x:Name="spUser"
+                    Grid.Column="1"
+                    Grid.Row="0">
+            
+                        
         </StackPanel>
-        </Grid>
-    
+        
+        <!-- StackPanel for Controls -->
+        <StackPanel x:Name="spMuveletek"
+                    Margin="16"
+                    VerticalAlignment="Top"
+                    Grid.Column="1"
+                    Grid.Row="1">
+            <Button x:Name="btnUjAdatokExcelbol" 
+                Content="Új feladatok feltöltése txt-ből" 
+                Margin="8" 
+                Style="{DynamicResource MaterialDesignRaisedButton}" 
+                Background="{DynamicResource PrimaryHueMidBrush}" 
+                Foreground="{DynamicResource MaterialDesignPaper}" 
+                Click="btnUjAdatokTxtbol_Click" />
+            <Button x:Name="btnOldalKov" 
+                Content="Következő oldal" 
+                IsEnabled="False" 
+                Margin="8" 
+                Style="{DynamicResource MaterialDesignRaisedButton}" 
+                Background="{DynamicResource PrimaryHueMidBrush}" 
+                Foreground="{DynamicResource MaterialDesignPaper}" 
+                Click="btnOldalKov_Click" />
+            <Button x:Name="btnOldalElozo" 
+                Content="Előző oldal" 
+                IsEnabled="False" 
+                Margin="8" 
+                Style="{DynamicResource MaterialDesignRaisedButton}" 
+                Background="{DynamicResource PrimaryHueMidBrush}" 
+                Foreground="{DynamicResource MaterialDesignPaper}" 
+                Click="btnOldalElozo_Click" />
+            <CheckBox x:Name="cbSelectAll" 
+                  Content="Összes kijelölése" 
+                  Margin="8" 
+                  Style="{DynamicResource MaterialDesignCheckBox}" 
+                  Checked="cbSelectAll_Checked" 
+                  Unchecked="cbSelectAll_Unchecked" />
+            <Button x:Name="btnDelet" 
+                Content="Törlés"
+                Margin="8" 
+                Style="{DynamicResource MaterialDesignRaisedButton}" 
+                Background="{DynamicResource SecondaryHueMidBrush}" 
+                Foreground="{DynamicResource MaterialDesignPaper}" 
+                Click="btnDelet_Click" />
+            <Button x:Name="btnBack" 
+                Content="Vissza" 
+                Margin="8" 
+                Style="{DynamicResource MaterialDesignRaisedButton}" 
+                Background="{DynamicResource PrimaryHueMidBrush}" 
+                Foreground="{DynamicResource MaterialDesignPaper}" 
+                Click="btnBack_Click" />
+            <Button x:Name="btnAgain" 
+                Content="Újra lekérdezés" 
+                Margin="8" 
+                Style="{DynamicResource MaterialDesignRaisedButton}" 
+                Background="{DynamicResource PrimaryHueMidBrush}" 
+                Foreground="{DynamicResource MaterialDesignPaper}" />
+        </StackPanel>
+    </Grid>
+
 
 </Window>
