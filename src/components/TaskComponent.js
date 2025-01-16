@@ -61,6 +61,7 @@ function TaskComponent({ elem }) {
   if (elem.tipus.nev === "textbox") {
     return (
       <div>
+        <h2>{elem.taskId}. feladat</h2>
         <h3>{elem.leiras}</h3>
         {elem.helyese.split(";").map((helyes, index) => {
           if (helyes === "1") {
@@ -87,6 +88,7 @@ function TaskComponent({ elem }) {
   if (elem.tipus.nev === "radio") {
     return (
       <div>
+        <h2>{elem.taskId}. feladat</h2>
         <h3>{elem.leiras}</h3>
         {elem.helyese.split(";").map((helyes, index) => {
           const isChecked = checkedState[elem.id]?.radio === `${index}`;
@@ -114,6 +116,7 @@ function TaskComponent({ elem }) {
   if (elem.tipus.nev === "checkbox") {
     return (
       <div>
+        <h2>{elem.taskId}. feladat</h2>
         <h3>{elem.leiras}</h3>
         {elem.helyese.split(";").map((helyes, index) => {
           const isChecked = checkedState[elem.id]?.checkbox.includes(`${index}`);

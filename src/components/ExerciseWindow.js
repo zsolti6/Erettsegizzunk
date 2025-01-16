@@ -7,7 +7,7 @@ function ExerciseWindow({ task }) {
       {/* Render the selected task */}
       {task ? (
         <div>
-          <TaskComponent elem={task}/>
+          <TaskComponent elem={task} />
         </div>
       ) : (
         <p>Válassz feladatokat.</p>

@@ -11,12 +11,12 @@ function ExerciseComponent() {
   const [activeComponent, setActiveComponent] = useState(null);
 
   const location = useLocation();
-  const { tantargy, szint } = location.state || { tantargy: "történelem", szint: "közép" };
+  const { subject, difficulty } = location.state || { subject: "történelem", difficulty: "közép" };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postData = { tantargy, szint };
+        const postData = { tantargy: subject, szint: difficulty };
         console.log(postData);
         
         const response = await axios.post("https://localhost:7066/erettsegizzunk/Feladatok/get-random-feladatok", postData);
@@ -29,7 +29,7 @@ function ExerciseComponent() {
     };
 
     fetchData();
-  }, [tantargy, szint]);
+  }, [subject, difficulty]);
 
   return (
     <div style={{ height: "92vh" }}>

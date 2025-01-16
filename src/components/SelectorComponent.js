@@ -1,28 +1,46 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../css/Selector.css";
 import Navbar from "./Navbar";
 
 function SelectorComponent() {
-  const [selectedSubject, setSelectedSubject] = useState("matematika");
-  const [selectedDifficulty, setSelectedDifficulty] = useState("közép");
+  const [formData, setFormData] = useState({
+    subject: "",
+    difficulty: "közép",
+  });
+  const [subjects, setSubjects] = useState([]);
 
   const navigate = useNavigate();
 
-  const handleSubjectChange = (e) => {
-    setSelectedSubject(e.target.value);
-  };
+  useEffect(() => {
+    axios
+      .get("https://localhost:7066/erettsegizzunk/Tantargyak")
+      .then((response) => {
+        const formattedSubjects = response.data.map((subject) => ({
+          value: String(subject.nev), // Convert id to string
+          label: subject.nev,
+        }));
+        setSubjects(formattedSubjects);
+        setFormData((prev) => ({
+          ...prev,
+          subject: formattedSubjects[0]?.value || "",
+        }));
+      })
+      .catch((error) => {
+        console.error("Error fetching subjects:", error);
+      });
+  }, []);
 
-  const handleDifficultyChange = (e) => {
-    setSelectedDifficulty(e.target.value);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleStartExercise = () => {
-    navigate("/exercise", {
-      state: { tantargy: selectedSubject, szint: selectedDifficulty },
-    });
+    navigate("/exercise", { state: formData });
   };
-  
+
   return (
     <div className="exercise" style={{ height: "72vh" }}>
       <Navbar />
@@ -30,63 +48,48 @@ function SelectorComponent() {
         <h3>Válassz tantárgyat</h3>
         <form className="exercise-form">
           <div className="radio-inputs">
+            {subjects.map(({ value, label }) => (
+              <label className="radio" key={value}>
+                <input
+                  type="radio"
+                  name="subject"
+                  value={value}
+                  checked={formData.subject === value}
+                  onChange={handleChange}
+                />
+                <span className="name">{label}</span>
+              </label>
+            ))}
+          </div>
+
+          <p>
+            Középszintű vagy emelt szintű érettségi feladatokat szeretnél
+            gyakorolni?
+          </p>
+
+          <div className="radio-inputs1">
             <label className="radio">
               <input
                 type="radio"
-                name="subject"
-                value="matematika"
-                checked={selectedSubject === "matematika"}
-                onChange={handleSubjectChange}
+                name="difficulty"
+                value="közép"
+                checked={formData.difficulty === "közép"}
+                onChange={handleChange}
               />
-              <span className="name">Matematika</span>
+              <span className="name">Közép szint</span>
             </label>
             <label className="radio">
               <input
                 type="radio"
-                name="subject"
-                value="történelem"
-                checked={selectedSubject === "történelem"}
-                onChange={handleSubjectChange}
+                name="difficulty"
+                value="emelt"
+                checked={formData.difficulty === "emelt"}
+                onChange={handleChange}
               />
-              <span className="name">Történelem</span>
-            </label>
-            <label className="radio">
-              <input
-                type="radio"
-                name="subject"
-                value="magyar"
-                checked={selectedSubject === "magyar"}
-                onChange={handleSubjectChange}
-              />
-              <span className="name">Magyar nyelv</span>
+              <span className="name">Emelt szint</span>
             </label>
           </div>
 
-          <p>Középszintű vagy emelt szintű érettségi feladatokat szeretnél gyakorolni?</p>
-          <div className="radio-input">
-            <label>
-              <input
-                value="közép"
-                name="difficulty"
-                type="radio"
-                checked={selectedDifficulty === "közép"}
-                onChange={handleDifficultyChange}
-              />
-              <span>Közép szint</span>
-            </label>
-            <label>
-              <input
-                value="emelt"
-                name="difficulty"
-                type="radio"
-                checked={selectedDifficulty === "emelt"}
-                onChange={handleDifficultyChange}
-              />
-              <span>Emelt szint</span>
-            </label>
-            <span className="selection"></span>
-          </div>
-          <br />
           <button type="button" onClick={handleStartExercise}>
             Feladatlap megkezdése
           </button>
