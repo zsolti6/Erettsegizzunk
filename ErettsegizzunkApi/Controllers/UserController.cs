@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ErettsegizzunkApi.DTOs;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -55,6 +56,29 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
+        [HttpGet("/Korlevel/{token}")]//átírni postra
+        public async Task<IActionResult> GetKorlevel(string token)
+        {
+            if (Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level == 9)
+            {
+                using (ErettsegizzunkContext cx = new ErettsegizzunkContext())
+                {
+                    try
+                    {
+                        return Ok(await cx.Users.Include(x => x.Permission).Select(x => new KorlevelDTO { Email = x.Email, Name = x.Name, PermissionName = x.Permission.Name}).ToListAsync());
+                    }
+                    catch (Exception ex)
+                    {
+                        return BadRequest(ex.Message); //kevésbé részletes
+                    }
+                }
+            }
+            else
+            {
+                return BadRequest("Nincs jogosultságod haver!");
+            }
+        }
+
         [HttpPost("{token}")]//átírni body-ra
         public async Task<IActionResult> Post(string token, User user)
         {
@@ -70,7 +94,7 @@ namespace ErettsegizzunkApi.Controllers
                     }
                     catch (Exception ex)
                     {
-                        return StatusCode(200, ex.InnerException?.Message); //ez is egy megoldás -- részletesebb hibaüzenet
+                        return StatusCode(200, ex.InnerException?.Message);
                     }
                 }
             }
@@ -95,7 +119,7 @@ namespace ErettsegizzunkApi.Controllers
                     }
                     catch (Exception ex)
                     {
-                        return StatusCode(200, ex.InnerException?.Message); //ez is egy megoldás -- részletesebb hibaüzenet
+                        return StatusCode(200, ex.InnerException?.Message);
                     }
                 }
             }
@@ -120,7 +144,7 @@ namespace ErettsegizzunkApi.Controllers
                     }
                     catch (Exception ex)
                     {
-                        return StatusCode(200, ex.InnerException?.Message); //ez is egy megoldás -- részletesebb hibaüzenet
+                        return StatusCode(200, ex.InnerException?.Message);
                     }
                 }
             }

@@ -20,7 +20,7 @@ namespace ErettsegizzunkApi.Controllers
                     User response = await cx.Users.FirstOrDefaultAsync(x => x.LoginName == loginName);
                     if (response is null)
                     {
-                        return BadRequest("Hibavanbazzeg");
+                        return BadRequest("Error");
                     }
                     return Ok(response.Salt);
                 }

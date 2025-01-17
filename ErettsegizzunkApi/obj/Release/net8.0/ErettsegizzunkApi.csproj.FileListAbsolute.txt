@@ -243,3 +243,4 @@ C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkApi
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkApi\obj\Release\net8.0\ErettsegizzunkApi.pdb
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkApi\obj\Release\net8.0\ErettsegizzunkApi.genruntimeconfig.cache
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkApi\obj\Release\net8.0\ref\ErettsegizzunkApi.dll
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkApi\bin\Release\net8.0\MySqlBackup.dll

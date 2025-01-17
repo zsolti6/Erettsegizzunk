@@ -1770,6 +1770,18 @@
           }
         }
       },
+      "MySqlBackup.NET/2.3.8": {
+        "type": "package",
+        "dependencies": {
+          "MySql.Data": "8.0.32"
+        },
+        "compile": {
+          "lib/net6.0/MySqlBackup.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/MySqlBackup.dll": {}
+        }
+      },
       "Newtonsoft.Json/13.0.3": {
         "type": "package",
         "compile": {
@@ -5949,6 +5961,23 @@
         "mysql.entityframeworkcore.nuspec"
       ]
     },
+    "MySqlBackup.NET/2.3.8": {
+      "sha512": "hFnfx3GcMSl/bqYlsW7VLhWlS4KpSX6zi8ZAMAq456h+jUb8aBBO/gVPuGE9y3Lapi1ibiW5rwvTRQT18x4ecA==",
+      "type": "package",
+      "path": "mysqlbackup.net/2.3.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net48/MySqlBackup.dll",
+        "lib/net481/MySqlBackup.dll",
+        "lib/net6.0/MySqlBackup.dll",
+        "lib/netstandard2.0/MySqlBackup.dll",
+        "lib/netstandard2.1/MySqlBackup.dll",
+        "mysqlbackup.net.2.3.8.nupkg.sha512",
+        "mysqlbackup.net.nuspec"
+      ]
+    },
     "Newtonsoft.Json/13.0.3": {
       "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "type": "package",
@@ -7626,6 +7655,7 @@
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.11",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 8.0.7",
       "MySql.EntityFrameworkCore >= 8.0.8",
+      "MySqlBackup.NET >= 2.3.8",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
   },
@@ -7692,6 +7722,10 @@
           "MySql.EntityFrameworkCore": {
             "target": "Package",
             "version": "[8.0.8, )"
+          },
+          "MySqlBackup.NET": {
+            "target": "Package",
+            "version": "[2.3.8, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

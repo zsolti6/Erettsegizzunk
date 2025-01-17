@@ -1,5 +1,42 @@
 [
   {
+    "ContainingType": "ErettsegizzunkApi.Controllers.BackupRestoreController",
+    "Method": "SQLBackupAsync",
+    "RelativePath": "erettsegizzunk/BackupRestore/Backup/{token},{fileName}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "fileName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.BackupRestoreController",
+    "Method": "SQLRestoreAsync",
+    "RelativePath": "erettsegizzunk/BackupRestore/Restore/{token}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ErettsegizzunkApi.Controllers.FeladatokController",
     "Method": "DeleteFeladatok",
     "RelativePath": "erettsegizzunk/Feladatok/delete-feladatok",
@@ -443,6 +480,22 @@
       },
       {
         "Name": "loginname",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
+    "Method": "GetKorlevel",
+    "RelativePath": "Korlevel/{token}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
         "Type": "System.String",
         "IsRequired": true
       }
