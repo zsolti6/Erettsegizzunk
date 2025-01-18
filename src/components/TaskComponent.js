@@ -1,7 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-function TaskComponent({ elem, onNavigatePrevious, onNavigateNext, activeIndex, totalTasks }) {
+function TaskComponent({
+  elem,
+  onNavigatePrevious,
+  onNavigateNext,
+  activeIndex,
+  totalTasks,
+  onCompletion,
+}) {
   const [checkedState, setCheckedState] = useState({});
+  console.log(elem);
 
   useEffect(() => {
     setCheckedState((prevState) => ({
@@ -58,7 +66,9 @@ function TaskComponent({ elem, onNavigatePrevious, onNavigateNext, activeIndex, 
       {activeIndex < totalTasks - 1 ? (
         <button onClick={onNavigateNext}>Következő</button>
       ) : (
-        <button onClick={() => { /* Placeholder for future action */ }}>Feladatlap befejezése</button>
+        <button onClick={() => onCompletion(checkedState)}>
+          Feladatlap befejezése
+        </button>
       )}
     </div>
   );
@@ -68,19 +78,22 @@ function TaskComponent({ elem, onNavigatePrevious, onNavigateNext, activeIndex, 
       <div>
         <h2>{elem.taskId}. feladat</h2>
         <h3>{elem.leiras}</h3>
-        {elem.helyese.split(";").map((helyes, index) => (
-          helyes === "1" && (
-            <div key={index}>
-              <input
-                className="tbStyle"
-                id={`textbox-${elem.id}-${index}`}
-                type="text"
-                value={checkedState[elem.id]?.textboxes[index] || ""}
-                onChange={(e) => handleTextboxChange(elem.id, index, e.target.value)}
-              />
-            </div>
-          )
-        ))}
+        {elem.helyese.split(";").map(
+          (helyes, index) =>
+            helyes === "1" && (
+              <div key={index}>
+                <input
+                  className="tbStyle"
+                  id={`textbox-${elem.id}-${index}`}
+                  type="text"
+                  value={checkedState[elem.id]?.textboxes[index] || ""}
+                  onChange={(e) =>
+                    handleTextboxChange(elem.id, index, e.target.value)
+                  }
+                />
+              </div>
+            )
+        )}
         {renderNavigationButtons()}
       </div>
     );

@@ -1,16 +1,16 @@
-import React from 'react';
-import '../css/Sidenav.css';
+import React from "react";
+import "../css/Sidenav.css";
 
-function Sidenav({ tasks, setActiveComponent }) {
+function Sidenav({ tasks, setActiveComponent, feedback, activeIndex }) {
   return (
     <div className="sidenav">
-      {tasks.map((task) => (
+      {tasks.map((task, index) => (
         <button
           key={task.id}
-          onClick={() => {
-            console.log("Sidenav button clicked:", task.id);
-            setActiveComponent(task.id);
-          }}
+          className={`task-button ${feedback[task.id]} ${
+            activeIndex === index ? "active" : ""
+          }`}
+          onClick={() => setActiveComponent(task.id)}
         >
           Feladat {task.taskId}
         </button>
