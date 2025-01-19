@@ -41,7 +41,7 @@
             <StackPanel Grid.Row="0" Margin="0 10">
                 <TextBlock Text="Felhasználónév" FontSize="16" Margin="0 0 0 5" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
                 <!-- Primary color -->
-                <TextBox x:Name="nev" materialDesign:HintAssist.Hint="Gépeld ide a felhsználóneved"
+                <TextBox x:Name="nev" materialDesign:HintAssist.Hint="Gépeld ide a felhasználóneved"
                      FontSize="14" Padding="10" Background="{DynamicResource MaterialDesignPaper}" Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
             </StackPanel>
 
@@ -63,15 +63,6 @@
                 Background="{DynamicResource PrimaryHueMidBrush}" 
                 Foreground="{DynamicResource MaterialDesignPaper}" 
                 Click="btnLogin_Click"/>
-
-            <!-- Forgotten Password -->
-            <Button Grid.Row="4" 
-                Content="Elfelejtett jelszó" 
-                HorizontalAlignment="Right" 
-                Style="{DynamicResource MaterialDesignFlatButton}" 
-                Margin="0 10"
-                Foreground="{DynamicResource SecondaryHueMidBrush}"
-                Click="btnForgotPassword_Click"/>
         </Grid>
     </Grid>
 </Window>

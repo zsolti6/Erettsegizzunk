@@ -71,7 +71,15 @@ namespace ErettsegizzunkAdmin.Windows
                     while (!reader.EndOfStream)
                     {
                         string[] sor = reader.ReadLine().Split("\t");
-                        feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Megoldasok = sor[1], Helyese = sor[2], TantargyId = int.Parse(sor[3]), TipusId = int.Parse(sor[4]), SzintId = int.Parse(sor[5])/*, KepNev = sor[6] */});
+                        if (sor.Length == 7)
+                        {
+                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Megoldasok = sor[1], Helyese = sor[2], TantargyId = int.Parse(sor[3]), TipusId = int.Parse(sor[4]), SzintId = int.Parse(sor[5]), KepNev = sor[6] });
+                        }
+                        else
+                        {
+                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Megoldasok = sor[1], Helyese = sor[2], TantargyId = int.Parse(sor[3]), TipusId = int.Parse(sor[4]), SzintId = int.Parse(sor[5])});
+                        }
+                        
                         if (feladatoks.Count == 1)
                         {
                             feladatoks[0].Token = user.Token;

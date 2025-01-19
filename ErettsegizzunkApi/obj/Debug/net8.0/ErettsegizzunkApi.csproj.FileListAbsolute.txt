@@ -491,3 +491,4 @@ D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkApi\bin
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkApi\bin\Debug\net8.0\Files\default.jpg
 D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkApi\bin\Debug\net8.0\Files\default.jpg
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkApi\bin\Debug\net8.0\MySqlBackup.dll
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkApi\bin\Debug\net8.0\MySqlBackup.dll

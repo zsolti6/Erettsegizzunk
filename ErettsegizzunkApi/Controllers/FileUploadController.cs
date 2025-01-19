@@ -67,5 +67,34 @@ namespace ErettsegizzunkApi.Controllers
                 return Ok("default.jpg");
             }
         }
+
+        //GetImageFromFtp
+        [Route("Image")]
+        [HttpPost]
+        public async Task<ActionResult<string>> GetImageAsByteArray([FromBody]string fileName)
+        {
+            MemoryStream ms = new MemoryStream();
+            try
+            {
+                string subFolder = "";
+                var url = "ftp://ftp.nethely.hu" + subFolder + "/" + fileName;
+
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(url);
+                request.UseBinary = true;
+                request.Credentials = new NetworkCredential(Program.ftpUserName, Program.ftpPassword);
+                request.Method = WebRequestMethods.Ftp.DownloadFile;
+
+                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+                Stream responseStream = response.GetResponseStream();
+                responseStream.CopyTo(ms);
+                return Ok(ms.ToArray());
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
+
+        }
+
     }
 }

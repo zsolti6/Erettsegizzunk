@@ -20,13 +20,13 @@ namespace ErettsegizzunkApi.Controllers
                     User response = await cx.Users.FirstOrDefaultAsync(x => x.LoginName == loginName);
                     if (response is null)
                     {
-                        return BadRequest("Error");
+                        return Ok(new LoggedUser { Permission = -1, Name = "Hibás név, jelszó páros!" });
                     }
                     return Ok(response.Salt);
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.InnerException?.Message);
+                    return Ok(new LoggedUser { Permission = -1, Name = ex.InnerException?.Message });
                 }
             }
             
@@ -49,17 +49,17 @@ namespace ErettsegizzunkApi.Controllers
                         {
                             Program.LoggedInUsers.Add(token, loggeduser);
                         }                        
-                        return Ok(new LoggedUser {Id = loggeduser.Id, Name = loggeduser.Name, Email = loggeduser.Email, Permission = loggeduser.PermissionId, ProfilePicturePath = loggeduser.ProfilePicturePath, Token = token});
+                        return Ok(new LoggedUser {Id = loggeduser.Id, Name = loggeduser.Name, Email = loggeduser.Email, Permission = loggeduser.PermissionId, ProfilePicturePath = loggeduser.ProfilePicturePath, ProfilePicture =null, Token = token});
                     }
                     else
                     {
-                        return BadRequest(new LoggedUser { Permission = -1, Name = "Hibás név, jelszó páros!"});
+                        return Ok(new LoggedUser { Permission = -1, Name = "Hibás név, jelszó páros!"});
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(new LoggedUser { Permission = -1, Name = ex.Message});
+                    return Ok(new LoggedUser { Permission = -1, Name = ex.InnerException?.Message });
                 }
             }
         }

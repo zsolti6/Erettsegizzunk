@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\",
+  "WorkspaceRootPath": "D:\\Prog gyak\\Gyakorl\u00E1s\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkAdmin\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|d:\\prog gyak\\gyakorl\u00E1s\\14_d - hazi\\backend\\erettsegizzunk\\erettsegizzunkadmin\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
@@ -20,9 +20,9 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\MainWindow.xaml",
+              "DocumentMoniker": "D:\\Prog gyak\\Gyakorl\u00E1s\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkAdmin\\MainWindow.xaml",
               "RelativeDocumentMoniker": "MainWindow.xaml",
-              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\MainWindow.xaml",
+              "ToolTip": "D:\\Prog gyak\\Gyakorl\u00E1s\\14_D - Hazi\\Backend\\Erettsegizzunk\\ErettsegizzunkAdmin\\MainWindow.xaml",
               "RelativeToolTip": "MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-01-13T06:51:52.84Z",

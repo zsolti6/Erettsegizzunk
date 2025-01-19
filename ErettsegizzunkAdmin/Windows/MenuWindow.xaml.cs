@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ErettsegizzunkApi.Models;
 using ErettsegizzunkApi.DTOs;
+using System.Drawing;
+using System.IO;
 
 namespace ErettsegizzunkAdmin.Windows
 {
@@ -28,6 +30,7 @@ namespace ErettsegizzunkAdmin.Windows
             InitializeComponent();
             this.user = user;
             lbUdvozles.Content = "Üdv: " + user.Name;
+            imgUser.Source = user.ProfilePicture;
         }
 
         //Feladatok kezelése

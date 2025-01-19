@@ -10,6 +10,9 @@ using System.Net.Http.Json;
 using ErettsegizzunkApi.DTOs;
 using System.Windows;
 using ErettsegizzunkApi.DTO;
+using System.IO;
+using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 
 namespace ErettsegizzunkAdmin.Services
 {
@@ -102,6 +105,7 @@ namespace ErettsegizzunkAdmin.Services
         //Login - logout
         public async Task<LoggedUser> Login(string name, string password)
         {
+            LoggedUser user = new LoggedUser();
             try
             {
                 //getsalt
@@ -116,7 +120,7 @@ namespace ErettsegizzunkAdmin.Services
                 StringContent contentLogin = new StringContent(JsonConvert.SerializeObject(new LoginRequest { LoginName = name, TmpHash = tmpHash}), Encoding.UTF8, "application/json");
                 HttpResponseMessage responseLogin = await _httpClient.PostAsync("erettsegizzunk/Login", contentLogin);
                 responseGetSalt.EnsureSuccessStatusCode();
-                LoggedUser user = await responseLogin.Content.ReadFromJsonAsync<LoggedUser>();
+                user = await responseLogin.Content.ReadFromJsonAsync<LoggedUser>();
 
                 //saveToken
                 StringContent contentToken = new StringContent(JsonConvert.SerializeObject(new AddTokenDTO() { Token = user.Token, UserId = user.Id }), Encoding.UTF8, "application/json");
@@ -128,11 +132,11 @@ namespace ErettsegizzunkAdmin.Services
             }
             catch (HttpRequestException ex)
             {
-                return new LoggedUser() {Permission = -2, Name = ex.Message };
+                return user;
             }
             catch(Exception ex)
             {
-                return new LoggedUser() { Permission = -2, Name = ex.Message };
+                return user;
             }
         }
 
@@ -155,7 +159,50 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
-        //Kép feltölrés
-        
+        //Kép letöltés
+        public async Task<string> GetImage(string imageName)
+        {
+            try
+            {
+                string formatted = $"\"{imageName}\"";
+                StringContent content = new StringContent(formatted, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/FileUpload/Image", content);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException ex)
+            {
+                return ex.Message;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public async Task<BitmapImage> ByteArrayToBitmapImage(string imageName)
+        {
+            try
+            {
+                string base64String = await GetImage(imageName);
+                byte[] byteArray = Convert.FromBase64String(base64String.Replace("\"",""));
+                MemoryStream ms = new MemoryStream(byteArray);
+                ms.Position = 0;
+
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.StreamSource = ms;
+                bitmap.EndInit();
+                ms.Close();
+
+                return bitmap;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
     }
 }

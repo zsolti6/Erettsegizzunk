@@ -51,14 +51,10 @@ namespace ErettsegizzunkAdmin
                 MessageBoxes.CustomError(user.Name,"Hiba");
                 return;
             }
+            user.ProfilePicture = await _apiService.ByteArrayToBitmapImage(user.ProfilePicturePath);
             MenuWindow menuWindow = new MenuWindow(user);
             Close();
             menuWindow.ShowDialog();
-        }
-
-        private void btnForgotPassword_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBoxes.CustomMessage("Szar lehet :)","Így jártál");
         }
 
         public static string CreateSHA256(string input)

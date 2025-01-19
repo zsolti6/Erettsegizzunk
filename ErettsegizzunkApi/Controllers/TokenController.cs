@@ -35,7 +35,7 @@ namespace ErettsegizzunkApi.Controllers
 
             if (vaneToken is null)
             {
-                return NotFound("Nincs ilyen token bazzeg!");
+                return BadRequest("Nincs ilyen token!");
             }
 
             return vaneToken;
@@ -67,11 +67,11 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return NotFound(ex.Message);
+                return Ok(ex.Message);
             }
             catch (Exception ex)
             {
-                return BadRequest($"Hiba: {ex.Message}");
+                return Ok($"Hiba: {ex.Message}");
             }
 
             return Ok(tokenDTO.Id);
