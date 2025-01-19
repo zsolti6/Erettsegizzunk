@@ -1,19 +1,16 @@
-import React from 'react';
-import '../css/Sidenav.css';
+import React from "react";
+import "../css/Sidenav.css";
 
-function Sidenav({ tasks, setActiveComponent }) {
-  // Ensure each task has a taskId property
-  const tasksWithIds = tasks.map((task, index) => ({
-    ...task,
-    taskId: index + 1,
-  }));
-
+function Sidenav({ tasks, setActiveComponent, activeIndex }) {
   return (
     <div className="sidenav">
-      {tasksWithIds.map((task) => (
-        <button
-          key={task.id || task.taskId}
-          onClick={() => setActiveComponent(task)} // Update the active component
+      {tasks.map((task, index) => (
+        <button id={("task"+task.taskId)}
+          key={task.id}
+          className={`task-button ${
+            activeIndex === index ? "active" : ""
+          }`}
+          onClick={() => setActiveComponent(task.taskId - 1)}
         >
           Feladat {task.taskId}
         </button>
@@ -23,3 +20,4 @@ function Sidenav({ tasks, setActiveComponent }) {
 }
 
 export default Sidenav;
+

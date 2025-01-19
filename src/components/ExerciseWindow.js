@@ -1,16 +1,17 @@
 import React from "react";
 import TaskComponent from "./TaskComponent";
 
-function ExerciseWindow({ task }) {
+function ExerciseWindow({ tasks, activeTask, taskValues, updateTaskValues }) {
   return (
     <div className="exercise">
-      {/* Render the selected task */}
-      {task ? (
-        <div>
-          <TaskComponent elem={task} />
-        </div>
+      {activeTask ? (
+        <TaskComponent
+          elem={activeTask}
+          values={taskValues[activeTask.id]?.values || []}
+          updateValues={(newValues) => updateTaskValues(activeTask.id, newValues)}
+        />
       ) : (
-        <p>Válassz feladatokat.</p>
+        <p>Válassz feladatot.</p>
       )}
     </div>
   );
