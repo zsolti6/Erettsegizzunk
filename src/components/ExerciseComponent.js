@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import "../css/SubPage.css";
-import Sidenav from "./SideNav";
-import Navbar from "./Navbar";
-import ExerciseWindow from "./ExerciseWindow";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
+import Sidenav from "./SideNav";
+import ExerciseWindow from "./ExerciseWindow";
 
 function ExerciseComponent() {
   const [exercises, setExercises] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [feedback, setFeedback] = useState({});
+  const [taskValues, setTaskValues] = useState({});
+  const navigate = useNavigate();
 
   const location = useLocation();
   const { subject, difficulty } = location.state || {
@@ -32,7 +32,17 @@ function ExerciseComponent() {
         }));
 
         setExercises(tasksWithIds);
-        console.log("Fetched exercises with taskId:", tasksWithIds);
+
+        const initialValues = {};
+        tasksWithIds.forEach((task) => {
+          initialValues[task.id] = {
+            taskId: task.taskId,
+            helyese: task.helyese,
+            megoldasok: task.megoldasok,
+            values: task.tipus.nev === "textbox" ? [""] : Array(task.helyese.split(";").length).fill("0"),
+          };
+        });
+        setTaskValues(initialValues);
       } catch (error) {
         console.error("Error during POST request:", error);
       }
@@ -41,67 +51,38 @@ function ExerciseComponent() {
     fetchData();
   }, [subject, difficulty]);
 
-  const handlePrevious = () => {
-    setActiveIndex((prevIndex) => Math.max(prevIndex - 1, 0));
-  };
-
-  const handleNext = () => {
-    setActiveIndex((prevIndex) =>
-      Math.min(prevIndex + 1, exercises.length - 1)
-    );
-  };
-
-  const handleTaskSelection = (taskId) => {
-    const index = exercises.findIndex((task) => task.id === taskId);
-    if (index !== -1) {
-      setActiveIndex(index);
-    }
-  };
-
-  const handleCompletion = (checkedState) => {
-    const newFeedback = exercises.reduce((acc, task) => {
-      const correctAnswers = task.helyese.split(";");
-      const userAnswers = checkedState[task.id] || {};
-
-      const isCorrect = correctAnswers.every((answer, idx) => {
-        if (task.tipus.nev === "radio" || task.tipus.nev === "checkbox") {
-          const userChecked = userAnswers[task.tipus.nev] || [];
-          return userChecked.includes(String(idx)) === (answer === "1");
-        }
-        if (task.tipus.nev === "textbox") {
-          const userTextboxes = userAnswers.textboxes || [];
-          return userTextboxes[idx] === task.megoldasok.split(";")[idx];
-        }
-        return false;
-      });
-
-      acc[task.id] = isCorrect ? "correct" : "incorrect";
-      return acc;
-    }, {});
-
-    setFeedback(newFeedback);
+  const updateTaskValues = (taskId, newValues) => {
+    setTaskValues((prev) => ({
+      ...prev,
+      [taskId]: {
+        ...prev[taskId],
+        values: Array.isArray(newValues) ? newValues : [newValues],
+      },
+    }));
   };
 
   return (
     <div style={{ height: "92vh" }}>
       <Navbar />
       <div style={{ display: "flex" }}>
-        <Sidenav
-          tasks={exercises}
-          setActiveComponent={handleTaskSelection}
-          feedback={feedback}
-          activeIndex={activeIndex}
-        />
+        <Sidenav tasks={exercises} setActiveComponent={setActiveIndex} activeIndex={activeIndex} />
         <div style={{ padding: "20px", flex: 1 }}>
-          <ExerciseWindow
-            tasks={exercises}
-            activeTask={exercises[activeIndex]}
-            onPrevious={handlePrevious}
-            onNext={handleNext}
-            activeIndex={activeIndex}
-            totalTasks={exercises.length}
-            onCompletion={handleCompletion}
-          />
+          {exercises.length > 0 && (
+            <ExerciseWindow
+              tasks={exercises}
+              activeTask={exercises[activeIndex]}
+              taskValues={taskValues}
+              updateTaskValues={updateTaskValues}
+            />
+          )}
+          <div>
+            {activeIndex > 0 && <button onClick={() => setActiveIndex(activeIndex - 1)}>Előző feladat</button>}
+            {activeIndex < exercises.length - 1 ? (
+              <button onClick={() => setActiveIndex(activeIndex + 1)}>Következő feladat</button>
+            ) : (
+              <button onClick={() => navigate("/exercise/stats", { state: { taskValues } })}>Feladatlap befejezése</button>
+            )}
+          </div>
         </div>
       </div>
     </div>

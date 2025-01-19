@@ -1,29 +1,17 @@
 import React from "react";
 import TaskComponent from "./TaskComponent";
 
-function ExerciseWindow({
-  activeTask,
-  onPrevious,
-  onNext,
-  activeIndex,
-  totalTasks,
-  onCompletion,
-}) {
+function ExerciseWindow({ tasks, activeTask, taskValues, updateTaskValues }) {
   return (
     <div className="exercise">
       {activeTask ? (
-        <div>
-          <TaskComponent
-            elem={activeTask}
-            onNavigatePrevious={onPrevious}
-            onNavigateNext={onNext}
-            activeIndex={activeIndex}
-            totalTasks={totalTasks}
-            onCompletion={onCompletion}
-          />
-        </div>
+        <TaskComponent
+          elem={activeTask}
+          values={taskValues[activeTask.id]?.values || []}
+          updateValues={(newValues) => updateTaskValues(activeTask.id, newValues)}
+        />
       ) : (
-        <p>Válassz feladatokat.</p>
+        <p>Válassz feladatot.</p>
       )}
     </div>
   );

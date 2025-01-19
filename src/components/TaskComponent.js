@@ -1,77 +1,35 @@
 import React, { useState, useEffect } from "react";
 
-function TaskComponent({
-  elem,
-  onNavigatePrevious,
-  onNavigateNext,
-  activeIndex,
-  totalTasks,
-  onCompletion,
-}) {
-  const [checkedState, setCheckedState] = useState({});
-  console.log(elem);
+function TaskComponent({ elem, values, updateValues }) {
+  const [taskValues, setTaskValues] = useState(
+    Array.isArray(values) ? values : [values] // Ensure it's always an array
+  );
 
   useEffect(() => {
-    setCheckedState((prevState) => ({
-      ...prevState,
-      [elem.id]: prevState[elem.id] || {
-        radio: "",
-        checkbox: [],
-        textboxes: Array(elem.helyese.split(";").length).fill(""),
-      },
-    }));
-  }, [elem]);
+    setTaskValues(Array.isArray(values) ? values : [values]); // Ensure consistency
+  }, [elem.id, values]);
 
-  const handleTextboxChange = (taskId, index, value) => {
-    setCheckedState((prevState) => ({
-      ...prevState,
-      [taskId]: {
-        ...prevState[taskId],
-        textboxes: prevState[taskId].textboxes.map((textbox, i) =>
-          i === index ? value : textbox
-        ),
-      },
-    }));
+  const handleTextboxChange = (index, value) => {
+    const newValues = [...taskValues];
+    newValues[index] = value;
+    setTaskValues(newValues);
+    updateValues(newValues);
   };
 
-  const handleRadioChange = (taskId, value) => {
-    setCheckedState((prevState) => ({
-      ...prevState,
-      [taskId]: {
-        ...prevState[taskId],
-        radio: value,
-      },
-    }));
+  const handleRadioChange = (index) => {
+    if (!Array.isArray(taskValues)) return; // Prevent errors
+
+    const newValues = taskValues.map((_, i) => (i === index ? "1" : "0"));
+    setTaskValues(newValues);
+    updateValues(newValues);
   };
 
-  const handleCheckboxChange = (taskId, value) => {
-    setCheckedState((prevState) => {
-      const updatedCheckboxes = prevState[taskId].checkbox.includes(value)
-        ? prevState[taskId].checkbox.filter((item) => item !== value)
-        : [...prevState[taskId].checkbox, value];
-
-      return {
-        ...prevState,
-        [taskId]: {
-          ...prevState[taskId],
-          checkbox: updatedCheckboxes,
-        },
-      };
-    });
+  const handleCheckboxChange = (index) => {
+    const newValues = [...taskValues];
+    newValues[index] = newValues[index] === "1" ? "0" : "1";
+    setTaskValues(newValues);
+    updateValues(newValues);
   };
-
-  const renderNavigationButtons = () => (
-    <div>
-      {activeIndex > 0 && <button onClick={onNavigatePrevious}>Előző</button>}
-      {activeIndex < totalTasks - 1 ? (
-        <button onClick={onNavigateNext}>Következő</button>
-      ) : (
-        <button onClick={() => onCompletion(checkedState)}>
-          Feladatlap befejezése
-        </button>
-      )}
-    </div>
-  );
 
   if (elem.tipus.nev === "textbox") {
     return (
@@ -83,18 +41,15 @@ function TaskComponent({
             helyes === "1" && (
               <div key={index}>
                 <input
-                  className="tbStyle"
+                  className="tbStyle form-check-input"
                   id={`textbox-${elem.id}-${index}`}
                   type="text"
-                  value={checkedState[elem.id]?.textboxes[index] || ""}
-                  onChange={(e) =>
-                    handleTextboxChange(elem.id, index, e.target.value)
-                  }
+                  value={taskValues[index] || ""}
+                  onChange={(e) => handleTextboxChange(index, e.target.value)}
                 />
               </div>
             )
         )}
-        {renderNavigationButtons()}
       </div>
     );
   }
@@ -107,20 +62,19 @@ function TaskComponent({
         {elem.helyese.split(";").map((helyes, index) => (
           <div key={index}>
             <input
-              className="rStyle"
+              className="rStyle form-check-input"
               name={`radio-${elem.id}`}
               type="radio"
               id={`radio-${elem.id}-${index}`}
               value={index}
-              checked={checkedState[elem.id]?.radio === `${index}`}
-              onChange={() => handleRadioChange(elem.id, `${index}`)}
+              checked={taskValues[index] === "1"}
+              onChange={() => handleRadioChange(index)}
             />
             <label htmlFor={`radio-${elem.id}-${index}`}>
               {elem.megoldasok.split(";")[index]}
             </label>
           </div>
         ))}
-        {renderNavigationButtons()}
       </div>
     );
   }
@@ -133,20 +87,19 @@ function TaskComponent({
         {elem.helyese.split(";").map((helyes, index) => (
           <div key={index}>
             <input
-              className="cbStyle"
+              className="cbStyle form-check-input"
               name={`checkbox-${elem.id}`}
               type="checkbox"
               id={`checkbox-${elem.id}-${index}`}
               value={index}
-              checked={checkedState[elem.id]?.checkbox.includes(`${index}`)}
-              onChange={() => handleCheckboxChange(elem.id, `${index}`)}
+              checked={taskValues[index] === "1"}
+              onChange={() => handleCheckboxChange(index)}
             />
             <label htmlFor={`checkbox-${elem.id}-${index}`}>
               {elem.megoldasok.split(";")[index]}
             </label>
           </div>
         ))}
-        {renderNavigationButtons()}
       </div>
     );
   }
