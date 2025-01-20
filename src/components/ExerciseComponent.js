@@ -80,7 +80,7 @@ function ExerciseComponent() {
             {activeIndex < exercises.length - 1 ? (
               <button onClick={() => setActiveIndex(activeIndex + 1)}>Következő feladat</button>
             ) : (
-              <button onClick={() => navigate("/exercise/stats", { state: { taskValues } })}>Feladatlap befejezése</button>
+              <button id={"taskDone"} onClick={() => navigate("/exercise/stats", { state: { taskValues } })}>Feladatlap befejezése</button>
             )}
           </div>
         </div>
