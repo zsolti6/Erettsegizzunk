@@ -9,68 +9,63 @@ const ExerciseStats = () => {
 
   // Flatten the taskValues and prepare data to display
   const headers = ["Feladat", "Megoldás", "Válaszaid", "Értékelés"];
-/*
-    let sortedTaskValues = [];
-    for(let i = 0; i < 15; i++) {
-      sortedTaskValues.push(taskValues[i]);
-    }
-    console.log(sortedTaskValues);
-    */
 
-    //taskValues.sort((a, b) => a.item.taskId - b.item.taskId);
+  // Sort taskValues based on taskId in ascending order
+  const sortedTaskValues = Object.values(taskValues || {}).sort((a, b) => a.taskId - b.taskId);
 
   // Create table rows
-  const tableData = Object.keys(taskValues).map((taskId) => {
-    const task = taskValues[taskId];
+  const tableData = sortedTaskValues.map((task) => {
     const helyeseArray = task.helyese.split(';');
     const megoldasokArray = task.megoldasok.split(';');
     const result = megoldasokArray.filter((_, index) => helyeseArray[index] === '1').join(", ");
     let guess = "";
-    if(task.helyese == "1;"){
-        guess = task.values;
-    }else{
-        const guessArray = task.values;
-        guess = megoldasokArray.filter((_, index) => guessArray[index] === '1').join(", ");
+    
+    if (task.helyese === "1;") {
+      guess = task.values;
+    } else {
+      const guessArray = task.values;
+      guess = megoldasokArray.filter((_, index) => guessArray[index] === '1').join(", ");
     }
+
     return {
       taskId: task.taskId,
       helyese: result,
       values: guess, // Assuming 'values' is an array
-      marks: result == guess ? "✅" : "❌",
+      marks: result === guess ? "✅" : "❌",
     };
   });
 
   return (
     <div className="container col-md-8" style={{ height: "100vh" }}>
-        <Navbar/>
-    <div style={{ marginTop: "8vh" }}>
-      <h2 className="mb-4">Feladatok összegzése</h2>
+      <Navbar />
+      <div style={{ marginTop: "8vh" }}>
+        <h2 className="mb-4">Feladatok összegzése</h2>
 
-      <div className="table-responsive">
-        <table className="table table-striped table-bordered">
-          {/* Table Header */}
-          <thead className="thead-dark">
-            <tr>
-              {headers.map((header, index) => (
-                <th key={index} scope="col">{header}</th>
-              ))}
-            </tr>
-          </thead>
-
-          {/* Table Body */}
-          <tbody>
-            {tableData.map((row, index) => (
-              <tr key={index}>
-                <td>{row.taskId}</td>
-                <td>{row.helyese}</td>
-                <td>{row.values}</td>
-                <td>{row.marks}</td>
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered">
+            {/* Table Header */}
+            <thead className="thead-dark">
+              <tr>
+                {headers.map((header, index) => (
+                  <th key={index} scope="col">{header}</th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            {/* Table Body */}
+            <tbody>
+              {tableData.map((row, index) => (
+                <tr key={index}>
+                  <td>{row.taskId}</td>
+                  <td>{row.helyese}</td>
+                  <td>{row.values}</td>
+                  <td>{row.marks}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

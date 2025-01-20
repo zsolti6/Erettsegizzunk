@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../css/taskStyle.css";
 
 function TaskComponent({ elem, values, updateValues }) {
   const [taskValues, setTaskValues] = useState(
@@ -41,7 +42,7 @@ function TaskComponent({ elem, values, updateValues }) {
             helyes === "1" && (
               <div key={index}>
                 <input
-                  className="tbStyle form-check-input"
+                  className="tbStyle"
                   id={`textbox-${elem.id}-${index}`}
                   type="text"
                   value={taskValues[index] || ""}
