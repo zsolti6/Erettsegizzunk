@@ -31,7 +31,7 @@ const ExerciseStats = () => {
       taskId: task.taskId,
       helyese: result,
       values: guess, // Assuming 'values' is an array
-      marks: result === guess ? "✅" : "❌",
+      marks: result == guess ? "✅" : "❌",
     };
   });
 
