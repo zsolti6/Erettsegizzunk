@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Jan 21. 12:56
+-- Létrehozás ideje: 2025. Jan 22. 12:27
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -26,31 +26,21 @@ USE `erettsegizzunk`;
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `feladatok`
+-- Tábla szerkezet ehhez a táblához `level`
 --
 
-CREATE TABLE `feladatok` (
+CREATE TABLE `level` (
   `id` int(11) NOT NULL,
-  `leiras` varchar(1024) DEFAULT NULL,
-  `szoveg` varchar(1024) DEFAULT NULL,
-  `megoldasok` varchar(1024) DEFAULT NULL,
-  `helyese` varchar(20) DEFAULT NULL,
-  `tantargyId` int(11) DEFAULT NULL,
-  `tipusId` int(11) DEFAULT NULL,
-  `szintId` int(11) DEFAULT NULL,
-  `kepNev` varchar(18) DEFAULT NULL
+  `name` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
--- --------------------------------------------------------
-
 --
--- Tábla szerkezet ehhez a táblához `feladatok_tema`
+-- A tábla adatainak kiíratása `level`
 --
 
-CREATE TABLE `feladatok_tema` (
-  `feladatokId` int(11) NOT NULL,
-  `temaId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+INSERT INTO `level` (`id`, `name`) VALUES
+(1, 'közép'),
+(2, 'emelt');
 
 -- --------------------------------------------------------
 
@@ -59,55 +49,36 @@ CREATE TABLE `feladatok_tema` (
 --
 
 CREATE TABLE `permission` (
-  `Id` int(11) NOT NULL,
-  `Level` int(1) DEFAULT NULL,
-  `Name` varchar(32) DEFAULT NULL,
-  `Description` varchar(100) DEFAULT NULL
+  `id` int(11) NOT NULL,
+  `level` int(1) DEFAULT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `permission`
 --
 
-INSERT INTO `permission` (`Id`, `Level`, `Name`, `Description`) VALUES
+INSERT INTO `permission` (`id`, `level`, `name`, `description`) VALUES
 (1, 0, 'Luzer', 'Webes regisztráció felhasználó'),
 (2, 9, 'Administrator', 'Rendszergazda');
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `szint`
+-- Tábla szerkezet ehhez a táblához `subject`
 --
 
-CREATE TABLE `szint` (
+CREATE TABLE `subject` (
   `id` int(11) NOT NULL,
-  `nev` varchar(15) DEFAULT NULL
+  `name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
--- A tábla adatainak kiíratása `szint`
+-- A tábla adatainak kiíratása `subject`
 --
 
-INSERT INTO `szint` (`id`, `nev`) VALUES
-(1, 'közép'),
-(2, 'emelt');
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `tantargyak`
---
-
-CREATE TABLE `tantargyak` (
-  `id` int(11) NOT NULL,
-  `nev` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `tantargyak`
---
-
-INSERT INTO `tantargyak` (`id`, `nev`) VALUES
+INSERT INTO `subject` (`id`, `name`) VALUES
 (1, 'matematika'),
 (2, 'történelem'),
 (3, 'magyar');
@@ -115,33 +86,42 @@ INSERT INTO `tantargyak` (`id`, `nev`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tema`
+-- Tábla szerkezet ehhez a táblához `task`
 --
 
-CREATE TABLE `tema` (
+CREATE TABLE `task` (
   `id` int(11) NOT NULL,
-  `nev` varchar(255) DEFAULT NULL
+  `description` varchar(1024) DEFAULT NULL,
+  `text` varchar(1024) DEFAULT NULL,
+  `answers` varchar(1024) DEFAULT NULL,
+  `isCorrect` varchar(20) DEFAULT NULL,
+  `subjectId` int(11) DEFAULT NULL,
+  `typeId` int(11) DEFAULT NULL,
+  `levelId` int(11) DEFAULT NULL,
+  `picName` varchar(18) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tipus`
+-- Tábla szerkezet ehhez a táblához `task_theme`
 --
 
-CREATE TABLE `tipus` (
-  `id` int(11) NOT NULL,
-  `nev` varchar(255) DEFAULT NULL
+CREATE TABLE `task_theme` (
+  `taskId` int(11) NOT NULL,
+  `themeId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
+-- --------------------------------------------------------
+
 --
--- A tábla adatainak kiíratása `tipus`
+-- Tábla szerkezet ehhez a táblához `theme`
 --
 
-INSERT INTO `tipus` (`id`, `nev`) VALUES
-(1, 'radio'),
-(2, 'checkbox'),
-(3, 'textbox');
+CREATE TABLE `theme` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 -- --------------------------------------------------------
 
@@ -153,10 +133,30 @@ CREATE TABLE `token` (
   `id` int(11) NOT NULL,
   `userId` int(11) DEFAULT NULL,
   `token` varchar(40) DEFAULT NULL,
-  `aktiv` tinyint(1) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT NULL,
   `login` datetime DEFAULT NULL,
   `logout` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `type`
+--
+
+CREATE TABLE `type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `type`
+--
+
+INSERT INTO `type` (`id`, `name`) VALUES
+(1, 'radio'),
+(2, 'checkbox'),
+(3, 'textbox');
 
 -- --------------------------------------------------------
 
@@ -165,74 +165,86 @@ CREATE TABLE `token` (
 --
 
 CREATE TABLE `user` (
-  `Id` int(11) NOT NULL,
-  `LoginName` varchar(16) NOT NULL,
+  `id` int(11) NOT NULL,
+  `loginName` varchar(16) NOT NULL,
   `HASH` varchar(64) NOT NULL,
   `SALT` varchar(64) NOT NULL,
-  `Name` varchar(64) DEFAULT NULL,
-  `PermissionId` int(11) NOT NULL,
-  `Active` tinyint(1) NOT NULL,
-  `Email` varchar(64) NOT NULL,
-  `ProfilePicturePath` varchar(64) DEFAULT NULL
+  `name` varchar(64) DEFAULT NULL,
+  `permissionId` int(11) NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `email` varchar(64) NOT NULL,
+  `profilePicturePath` varchar(64) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `user`
 --
 
-INSERT INTO `user` (`Id`, `LoginName`, `HASH`, `SALT`, `Name`, `PermissionId`, `Active`, `Email`, `ProfilePicturePath`) VALUES
+INSERT INTO `user` (`id`, `loginName`, `HASH`, `SALT`, `name`, `permissionId`, `active`, `email`, `profilePicturePath`) VALUES
 (1, 'kerenyir', 'd5fe0e517520122f1ab363b6b7ee9ae616e7ad393693ef00d81a7f287a79931a', 'Gm63C4jiWnYvfZfiKUu2cu8AHPNDj8NoHhtQn88yiJhyOunBNSd7tRoWo5wwqg9X', 'Kerényi Róbert', 2, 1, 'kerenyir@kkszki.hu', 'img\\kerenyir.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `user_statistics`
+--
+
+CREATE TABLE `user_statistics` (
+  `id` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `statisticsDate` date DEFAULT NULL,
+  `mathSuccessfulTasks` text DEFAULT NULL,
+  `mathUnsuccessfulTasks` text DEFAULT NULL,
+  `historySuccessfulTasks` text DEFAULT NULL,
+  `historyUnsuccessfulTasks` text DEFAULT NULL,
+  `hungarianSuccessfulTasks` text DEFAULT NULL,
+  `hungarianUnsuccessfulTasks` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- Indexek a kiírt táblákhoz
 --
 
 --
--- A tábla indexei `feladatok`
+-- A tábla indexei `level`
 --
-ALTER TABLE `feladatok`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `tantargyId` (`tantargyId`),
-  ADD KEY `tipusId` (`tipusId`),
-  ADD KEY `szintId` (`szintId`);
-
---
--- A tábla indexei `feladatok_tema`
---
-ALTER TABLE `feladatok_tema`
-  ADD PRIMARY KEY (`feladatokId`,`temaId`),
-  ADD KEY `temaId` (`temaId`);
+ALTER TABLE `level`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- A tábla indexei `permission`
 --
 ALTER TABLE `permission`
-  ADD PRIMARY KEY (`Id`),
-  ADD UNIQUE KEY `Szint` (`Level`),
-  ADD UNIQUE KEY `Nev` (`Name`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `level` (`level`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
--- A tábla indexei `szint`
+-- A tábla indexei `subject`
 --
-ALTER TABLE `szint`
+ALTER TABLE `subject`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `tantargyak`
+-- A tábla indexei `task`
 --
-ALTER TABLE `tantargyak`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `task`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `subjectId` (`subjectId`),
+  ADD KEY `typeId` (`typeId`),
+  ADD KEY `levelId` (`levelId`);
 
 --
--- A tábla indexei `tema`
+-- A tábla indexei `task_theme`
 --
-ALTER TABLE `tema`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `task_theme`
+  ADD PRIMARY KEY (`taskId`,`themeId`),
+  ADD KEY `themeId` (`themeId`);
 
 --
--- A tábla indexei `tipus`
+-- A tábla indexei `theme`
 --
-ALTER TABLE `tipus`
+ALTER TABLE `theme`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -243,53 +255,60 @@ ALTER TABLE `token`
   ADD KEY `userId` (`userId`);
 
 --
+-- A tábla indexei `type`
+--
+ALTER TABLE `type`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- A tábla indexei `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`Id`),
-  ADD UNIQUE KEY `LoginNev` (`LoginName`),
-  ADD UNIQUE KEY `Email` (`Email`),
-  ADD KEY `Jog` (`PermissionId`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `loginName` (`loginName`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `permission` (`permissionId`);
+
+--
+-- A tábla indexei `user_statistics`
+--
+ALTER TABLE `user_statistics`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userId` (`userId`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
 
 --
--- AUTO_INCREMENT a táblához `feladatok`
+-- AUTO_INCREMENT a táblához `level`
 --
-ALTER TABLE `feladatok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+ALTER TABLE `level`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT a táblához `szint`
+-- AUTO_INCREMENT a táblához `subject`
 --
-ALTER TABLE `szint`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT a táblához `tantargyak`
---
-ALTER TABLE `tantargyak`
+ALTER TABLE `subject`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT a táblához `tema`
+-- AUTO_INCREMENT a táblához `task`
 --
-ALTER TABLE `tema`
+ALTER TABLE `task`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+
+--
+-- AUTO_INCREMENT a táblához `theme`
+--
+ALTER TABLE `theme`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT a táblához `tipus`
---
-ALTER TABLE `tipus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `token`
@@ -298,41 +317,59 @@ ALTER TABLE `token`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT a táblához `type`
+--
+ALTER TABLE `type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT a táblához `user_statistics`
+--
+ALTER TABLE `user_statistics`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Megkötések a kiírt táblákhoz
 --
 
 --
--- Megkötések a táblához `feladatok`
+-- Megkötések a táblához `task`
 --
-ALTER TABLE `feladatok`
-  ADD CONSTRAINT `feladatok_ibfk_1` FOREIGN KEY (`tantargyId`) REFERENCES `tantargyak` (`id`),
-  ADD CONSTRAINT `feladatok_ibfk_2` FOREIGN KEY (`tipusId`) REFERENCES `tipus` (`id`),
-  ADD CONSTRAINT `feladatok_ibfk_3` FOREIGN KEY (`szintId`) REFERENCES `szint` (`id`);
+ALTER TABLE `task`
+  ADD CONSTRAINT `task_ibfk_1` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`id`),
+  ADD CONSTRAINT `task_ibfk_2` FOREIGN KEY (`typeId`) REFERENCES `type` (`id`),
+  ADD CONSTRAINT `task_ibfk_3` FOREIGN KEY (`levelId`) REFERENCES `level` (`id`);
 
 --
--- Megkötések a táblához `feladatok_tema`
+-- Megkötések a táblához `task_theme`
 --
-ALTER TABLE `feladatok_tema`
-  ADD CONSTRAINT `feladatok_tema_ibfk_1` FOREIGN KEY (`feladatokId`) REFERENCES `feladatok` (`id`),
-  ADD CONSTRAINT `feladatok_tema_ibfk_2` FOREIGN KEY (`temaId`) REFERENCES `tema` (`id`);
+ALTER TABLE `task_theme`
+  ADD CONSTRAINT `task_theme_ibfk_1` FOREIGN KEY (`taskId`) REFERENCES `task` (`id`),
+  ADD CONSTRAINT `task_theme_ibfk_2` FOREIGN KEY (`themeId`) REFERENCES `theme` (`id`);
 
 --
 -- Megkötések a táblához `token`
 --
 ALTER TABLE `token`
-  ADD CONSTRAINT `token_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`Id`);
+  ADD CONSTRAINT `token_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`);
 
 --
 -- Megkötések a táblához `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`PermissionId`) REFERENCES `permission` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`permissionId`) REFERENCES `permission` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Megkötések a táblához `user_statistics`
+--
+ALTER TABLE `user_statistics`
+  ADD CONSTRAINT `user_statistics_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
