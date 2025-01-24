@@ -1,6 +1,7 @@
 ﻿using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ErettsegizzunkApi.DTOs;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -25,7 +26,7 @@ namespace ErettsegizzunkApi.Controllers
                         return Ok("Ezzel az e-mail címmel már regisztráltak!");
                     }
                     user.PermissionId = 1;
-                    user.Active = false;
+                    user.Active = true;//falsra kell rakni ha meg lesz az emailes cucc
                     user.Hash = Program.CreateSHA256(user.Hash);
                     await cx.Users.AddAsync(user);
                     await cx.SaveChangesAsync();
@@ -36,14 +37,14 @@ namespace ErettsegizzunkApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(200, ex.InnerException?.Message); //ez is egy megoldás -- részletesebb hibaüzenet
                 }
             }
         }
 
-        [HttpGet]
+        [HttpGet]//postra átírni
 
-        public async Task<IActionResult> EndOfTheRegistry(string felhasznaloNev, string email)
+        public async Task<IActionResult> EndOfTheRegistry(string felhasznaloNev, string email)//frombody + kell dto
         {
             using (var cx = new ErettsegizzunkContext())
             {
@@ -64,7 +65,7 @@ namespace ErettsegizzunkApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(200, ex.InnerException?.Message); //ez is egy megoldás -- részletesebb hibaüzenet
                 }
             }   
         }

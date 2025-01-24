@@ -24,7 +24,7 @@ public partial class User
 
     public string? ProfilePicturePath { get; set; }
 
-    public virtual Permission Permission { get; set; } = null!;
+    public virtual Permission? Permission { get; set; }
 
     public virtual ICollection<Token> Tokens { get; set; } = new List<Token>();
 }

@@ -33,7 +33,7 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        [HttpGet("{token},{loginname}")]//átírni postra
+        [HttpGet("nev/{token},{loginname}")]//átírni postra
         public async Task<IActionResult> GetLoginName(string token, string loginname)
         {
             if (Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level == 9)
@@ -43,6 +43,29 @@ namespace ErettsegizzunkApi.Controllers
                     try
                     {
                         return Ok(await cx.Users.Include(x => x.Permission).FirstOrDefaultAsync(x => x.LoginName == loginname));
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(200, ex.InnerException?.Message); //ez is egy megoldás -- részletesebb hibaüzenet
+                    }
+                }
+            }
+            else
+            {
+                return BadRequest("Nincs jogosultságod haver!");
+            }
+        }
+
+        [HttpGet("{token},{id}")]//átírni postra
+        public async Task<IActionResult> GetId(string token, int id)
+        {
+            if (Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level == 9)
+            {
+                using (ErettsegizzunkContext cx = new ErettsegizzunkContext())
+                {
+                    try
+                    {
+                        return Ok(await cx.Users.Include(x => x.Permission).FirstOrDefaultAsync(x => x.Id == id));
                     }
                     catch (Exception ex)
                     {

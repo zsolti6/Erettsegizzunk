@@ -20,13 +20,13 @@ namespace ErettsegizzunkApi.Controllers
                     User response = await cx.Users.FirstOrDefaultAsync(x => x.LoginName == loginName);
                     if (response is null)
                     {
-                        return Ok(new LoggedUser { Permission = -1, Name = "Hibás név, jelszó páros!" });
+                        return BadRequest(new LoggedUser { Permission = -1, Name = "Hibás név, jelszó páros!" });
                     }
                     return Ok(response.Salt);
                 }
                 catch (Exception ex)
                 {
-                    return Ok(new LoggedUser { Permission = -1, Name = ex.InnerException?.Message });
+                    return BadRequest(new LoggedUser { Permission = -1, Name = ex.InnerException?.Message });
                 }
             }
             
@@ -53,13 +53,13 @@ namespace ErettsegizzunkApi.Controllers
                     }
                     else
                     {
-                        return Ok(new LoggedUser { Permission = -1, Name = "Hibás név, jelszó páros!"});
+                        return BadRequest(new LoggedUser { Permission = -1, Name = "Hibás név, jelszó páros!"});
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    return Ok(new LoggedUser { Permission = -1, Name = ex.InnerException?.Message });
+                    return BadRequest(new LoggedUser { Permission = -1, Name = ex.InnerException?.Message });
                 }
             }
         }

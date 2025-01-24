@@ -224,6 +224,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ErettsegizzunkApi.Controllers.FileUploadController",
+    "Method": "GetImageAsByteArray",
+    "RelativePath": "erettsegizzunk/FileUpload/Image",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fileName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "ErettsegizzunkApi.Controllers.LoginController",
     "Method": "Login",
     "RelativePath": "erettsegizzunk/Login",
@@ -467,8 +493,29 @@
   },
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
+    "Method": "GetId",
+    "RelativePath": "erettsegizzunk/User/{token},{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
     "Method": "GetLoginName",
-    "RelativePath": "erettsegizzunk/User/{token},{loginname}",
+    "RelativePath": "erettsegizzunk/User/nev/{token},{loginname}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
