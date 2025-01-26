@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Jan 22. 12:27
+-- Létrehozás ideje: 2025. Jan 26. 15:09
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -62,6 +62,21 @@ CREATE TABLE `permission` (
 INSERT INTO `permission` (`id`, `level`, `name`, `description`) VALUES
 (1, 0, 'Luzer', 'Webes regisztráció felhasználó'),
 (2, 9, 'Administrator', 'Rendszergazda');
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `spaced_repetition`
+--
+
+CREATE TABLE `spaced_repetition` (
+  `id` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `taskId` int(11) NOT NULL,
+  `lastCorrectTime` timestamp NOT NULL DEFAULT current_timestamp(),
+  `intervalDays` int(11) NOT NULL DEFAULT 1,
+  `nextDueTime` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 -- --------------------------------------------------------
 
@@ -131,11 +146,11 @@ CREATE TABLE `theme` (
 
 CREATE TABLE `token` (
   `id` int(11) NOT NULL,
-  `userId` int(11) DEFAULT NULL,
-  `token` varchar(40) DEFAULT NULL,
+  `userId` int(11) NOT NULL,
+  `tokenString` varchar(40) DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
-  `login` datetime DEFAULT NULL,
-  `logout` datetime DEFAULT NULL
+  `login` timestamp NOT NULL DEFAULT current_timestamp(),
+  `logout` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 -- --------------------------------------------------------
@@ -169,19 +184,20 @@ CREATE TABLE `user` (
   `loginName` varchar(16) NOT NULL,
   `HASH` varchar(64) NOT NULL,
   `SALT` varchar(64) NOT NULL,
-  `name` varchar(64) DEFAULT NULL,
-  `permissionId` int(11) NOT NULL,
-  `active` tinyint(1) NOT NULL,
   `email` varchar(64) NOT NULL,
-  `profilePicturePath` varchar(64) DEFAULT NULL
+  `permissionId` int(11) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 0,
+  `newsletter` tinyint(1) NOT NULL DEFAULT 0,
+  `profilePicturePath` varchar(64) DEFAULT NULL,
+  `signupDate` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `user`
 --
 
-INSERT INTO `user` (`id`, `loginName`, `HASH`, `SALT`, `name`, `permissionId`, `active`, `email`, `profilePicturePath`) VALUES
-(1, 'kerenyir', 'd5fe0e517520122f1ab363b6b7ee9ae616e7ad393693ef00d81a7f287a79931a', 'Gm63C4jiWnYvfZfiKUu2cu8AHPNDj8NoHhtQn88yiJhyOunBNSd7tRoWo5wwqg9X', 'Kerényi Róbert', 2, 1, 'kerenyir@kkszki.hu', 'img\\kerenyir.jpg');
+INSERT INTO `user` (`id`, `loginName`, `HASH`, `SALT`, `permissionId`, `active`, `email`, `profilePicturePath`, `newsletter`, `signupDate`) VALUES
+(1, 'kerenyir', 'd5fe0e517520122f1ab363b6b7ee9ae616e7ad393693ef00d81a7f287a79931a', 'Gm63C4jiWnYvfZfiKUu2cu8AHPNDj8NoHhtQn88yiJhyOunBNSd7tRoWo5wwqg9X', 2, 1, 'kerenyir@kkszki.hu', 'img\\kerenyir.jpg', 0, '2025-01-26 13:50:51');
 
 -- --------------------------------------------------------
 
@@ -218,6 +234,14 @@ ALTER TABLE `permission`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `level` (`level`),
   ADD UNIQUE KEY `name` (`name`);
+
+--
+-- A tábla indexei `spaced_repetition`
+--
+ALTER TABLE `spaced_repetition`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userId` (`userId`),
+  ADD KEY `taskId` (`taskId`);
 
 --
 -- A tábla indexei `subject`
@@ -290,7 +314,13 @@ ALTER TABLE `level`
 -- AUTO_INCREMENT a táblához `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT a táblához `spaced_repetition`
+--
+ALTER TABLE `spaced_repetition`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `subject`
@@ -302,7 +332,7 @@ ALTER TABLE `subject`
 -- AUTO_INCREMENT a táblához `task`
 --
 ALTER TABLE `task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `theme`
@@ -314,7 +344,7 @@ ALTER TABLE `theme`
 -- AUTO_INCREMENT a táblához `token`
 --
 ALTER TABLE `token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `type`
@@ -326,7 +356,7 @@ ALTER TABLE `type`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `user_statistics`
@@ -337,6 +367,13 @@ ALTER TABLE `user_statistics`
 --
 -- Megkötések a kiírt táblákhoz
 --
+
+--
+-- Megkötések a táblához `spaced_repetition`
+--
+ALTER TABLE `spaced_repetition`
+  ADD CONSTRAINT `spaced_repetition_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `spaced_repetition_ibfk_2` FOREIGN KEY (`taskId`) REFERENCES `task` (`id`);
 
 --
 -- Megkötések a táblához `task`

@@ -7,9 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using ErettsegizzunkAdmin.CustomMessageBoxes;
-using ErettsegizzunkAdmin.DTOs;
 using ErettsegizzunkApi.DTOs;
-using ErettsegizzunkApi.DTO;
 
 namespace ErettsegizzunkAdmin.Windows
 {
@@ -20,7 +18,7 @@ namespace ErettsegizzunkAdmin.Windows
     {
         private readonly ApiService _apiService;
         private int pageNumber = 0;
-        private List<Feladatok> feladatok = new List<Feladatok>();
+        private List<ErettsegizzunkApi.Models.Task> feladatok = new List<ErettsegizzunkApi.Models.Task>();
         public LoggedUser user;
         public FeladatokKezel(LoggedUser user)
         {
@@ -30,14 +28,14 @@ namespace ErettsegizzunkAdmin.Windows
             RefreshUi();
         }
 
-        private async Task<List<Feladatok>> LoadDatasAsync(int mettol)
+        private async Task<List<ErettsegizzunkApi.Models.Task>> LoadDatasAsync(int mettol)
         {
             feladatok.Clear();
-            List<Feladatok> feladatoks = await _apiService.GetFeladatoksAsync(mettol);
+            List<ErettsegizzunkApi.Models.Task> feladatoks = await _apiService.GetFeladatoksAsync(mettol);
             if(feladatoks is null)
             {
                 MessageBoxes.CustomError("Hiba az adatok lekérdezése közben","Error");
-                return new List<Feladatok>();
+                return new List<ErettsegizzunkApi.Models.Task>();
             }
             btnOldalKov.IsEnabled = feladatoks.Count == 50;//teszt
             return feladatoks;
@@ -70,14 +68,15 @@ namespace ErettsegizzunkAdmin.Windows
 
                     while (!reader.EndOfStream)
                     {
-                        string[] sor = reader.ReadLine().Split("\t");
-                        if (sor.Length == 7)
+                        string teszt = reader.ReadLine();
+                        string[] sor = teszt.Split("\t");
+                        if (sor.Length == 8)
                         {
-                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Megoldasok = sor[1], Helyese = sor[2], TantargyId = int.Parse(sor[3]), TipusId = int.Parse(sor[4]), SzintId = int.Parse(sor[5]), KepNev = sor[6] });
+                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2], Helyese = sor[3], TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]), KepNev = sor[7] });
                         }
                         else
                         {
-                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Megoldasok = sor[1], Helyese = sor[2], TantargyId = int.Parse(sor[3]), TipusId = int.Parse(sor[4]), SzintId = int.Parse(sor[5])});
+                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2], Helyese = sor[3], TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]) });
                         }
                         
                         if (feladatoks.Count == 1)
@@ -148,18 +147,18 @@ namespace ErettsegizzunkAdmin.Windows
 
         private void cbSelectAll_Checked(object sender, RoutedEventArgs e)
         {
-            foreach (Feladatok feladat in feladatok)
+            foreach (ErettsegizzunkApi.Models.Task feladat in feladatok)
             {
-                feladat.Kijelolve = true;
+                feladat.IsSelected = true;
             }
             dgFeladatAdatok.Items.Refresh();
         }
 
         private void cbSelectAll_Unchecked(object sender, RoutedEventArgs e)
         {
-            foreach (Feladatok feladat in feladatok)
+            foreach (ErettsegizzunkApi.Models.Task feladat in feladatok)
             {
-                feladat.Kijelolve = false;
+                feladat.IsSelected = false;
             }
             dgFeladatAdatok.Items.Refresh();
         }
@@ -168,9 +167,9 @@ namespace ErettsegizzunkAdmin.Windows
         {
             List<int> ids = new List<int>();
 
-            foreach (Feladatok feladat in feladatok)
+            foreach (ErettsegizzunkApi.Models.Task feladat in feladatok)
             {
-                if (feladat.Kijelolve)
+                if (feladat.IsSelected)
                 {
                     ids.Add(feladat.Id);
                 }

@@ -88,7 +88,7 @@ namespace ErettsegizzunkApi.Controllers
                 {
                     try
                     {
-                        return Ok(await cx.Users.Include(x => x.Permission).Select(x => new KorlevelDTO { Email = x.Email, Name = x.Name, PermissionName = x.Permission.Name}).ToListAsync());
+                        return Ok(await cx.Users.Include(x => x.Permission).Select(x => new KorlevelDTO { Email = x.Email, Name = x.LoginName, PermissionName = x.Permission.Name}).ToListAsync());
                     }
                     catch (Exception ex)
                     {

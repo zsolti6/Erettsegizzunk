@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace ErettsegizzunkApi.Models;
 
@@ -14,17 +13,23 @@ public partial class User
 
     public string Salt { get; set; } = null!;
 
-    public string? Name { get; set; }
+    public string Email { get; set; } = null!;
 
     public int PermissionId { get; set; }
 
     public bool Active { get; set; }
 
-    public string Email { get; set; } = null!;
+    public bool Newsletter { get; set; }
 
     public string? ProfilePicturePath { get; set; }
 
-    public virtual Permission? Permission { get; set; }
+    public DateTime SignupDate { get; set; }
+
+    public virtual Permission Permission { get; set; } = null!;
+
+    public virtual ICollection<SpacedRepetition> SpacedRepetitions { get; set; } = new List<SpacedRepetition>();
 
     public virtual ICollection<Token> Tokens { get; set; } = new List<Token>();
+
+    public virtual ICollection<UserStatistic> UserStatistics { get; set; } = new List<UserStatistic>();
 }

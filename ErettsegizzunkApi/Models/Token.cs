@@ -8,16 +8,16 @@ public partial class Token
 {
     public int Id { get; set; }
 
-    public int? UserId { get; set; }
+    public int UserId { get; set; }
 
-    public string? Token1 { get; set; }
+    public string? TokenString { get; set; }
 
-    public bool Aktiv { get; set; }
+    public bool Active { get; set; }
 
-    public DateTime? Login { get; set; }
+    public DateTime Login { get; set; }
 
-    public DateTime? Logout { get; set; }
+    public DateTime Logout { get; set; }
 
     [JsonIgnore]
-    public virtual User? User { get; set; }//??ignor??
+    public virtual User User { get; set; } = null!;
 }

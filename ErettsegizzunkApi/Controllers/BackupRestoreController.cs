@@ -36,7 +36,7 @@ namespace ErettsegizzunkApi.Controllers
                             command.Connection = myConnection;
                             await myConnection.OpenAsync();
                             var filePath = "SQLBackupRestore/" + fileName;
-                            await Task.Run(() => backup.ExportToFile(filePath));
+                            await System.Threading.Tasks.Task.Run(() => backup.ExportToFile(filePath));
                             await myConnection.CloseAsync();
                             if (System.IO.File.Exists(filePath))
                             {
@@ -91,7 +91,7 @@ namespace ErettsegizzunkApi.Controllers
                         {
                             command.Connection = mySqlConnection;
                             await mySqlConnection.OpenAsync();
-                            await Task.Run(() => restore.ImportFromFile(filePath));
+                            await System.Threading.Tasks.Task.Run(() => restore.ImportFromFile(filePath));
                             System.IO.File.Delete(filePath);
                             return Ok("A visszaállítás sikeresen lefutott.");
                         }

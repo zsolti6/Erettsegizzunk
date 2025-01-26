@@ -6,6 +6,7 @@ using System.Text;
 
 namespace ErettsegizzunkApi
 {
+    //Scaffold-DbContext "SERVER=localhost;PORT=3306;DATABASE=erettsegizzunk;USER=root;PASSWORD=;SSL MODE=none;" mysql.entityframeworkcore -outputdir Models -f
     public static class Program
     {
         public static int SaltLength = 64;
@@ -41,7 +42,7 @@ namespace ErettsegizzunkApi
             }
         }
 
-        public static async Task SendEmail(string mailAddressTo, string subject, string body)
+        public static async System.Threading.Tasks.Task SendEmail(string mailAddressTo, string subject, string body)
         {
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");

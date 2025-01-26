@@ -9,7 +9,6 @@ using ErettsegizzunkAdmin.DTOs;
 using System.Net.Http.Json;
 using ErettsegizzunkApi.DTOs;
 using System.Windows;
-using ErettsegizzunkApi.DTO;
 using System.IO;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
@@ -28,7 +27,7 @@ namespace ErettsegizzunkAdmin.Services
         }
 
         //Feladatok
-        public async Task<List<Feladatok>> GetFeladatoksAsync(int mettol)
+        public async Task<List<ErettsegizzunkApi.Models.Task>> GetFeladatoksAsync(int mettol)
         {
             try
             {
@@ -36,7 +35,7 @@ namespace ErettsegizzunkAdmin.Services
                 HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Feladatok/get-sok-feladat",content);
                 response.EnsureSuccessStatusCode();
                 string responseContent = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<Feladatok>>(responseContent);
+                return JsonConvert.DeserializeObject<List<ErettsegizzunkApi.Models.Task>>(responseContent);
             }
             catch (HttpRequestException e)
             {
@@ -86,18 +85,18 @@ namespace ErettsegizzunkAdmin.Services
         }
 
         //Tantargyak
-        public async Task<List<Tantargyak>> GetTantargyaksAsync()
+        public async Task<List<Subject>> GetTantargyaksAsync()
         {
             try
             {
                 HttpResponseMessage response = await _httpClient.GetAsync("/erettsegizzunk/Tantargyak");
                 response.EnsureSuccessStatusCode();
                 string responseContent = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<Tantargyak>>(responseContent);
+                return JsonConvert.DeserializeObject<List<Subject>>(responseContent);
             }
             catch (HttpRequestException ex)
             {
-                return new List<Tantargyak> { new Tantargyak { Id = -1, Nev = ex.Message } };
+                return new List<Subject> { new Subject { Id = -1, Name = ex.Message } };
             }
         }
 

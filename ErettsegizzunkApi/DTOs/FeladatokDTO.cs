@@ -26,6 +26,8 @@ namespace ErettsegizzunkApi.DTO
 
         public string? Leiras { get; set; }
 
+        public string? Szoveg { get; set; }
+
         public string? Megoldasok { get; set; }
 
         public string? Helyese { get; set; }

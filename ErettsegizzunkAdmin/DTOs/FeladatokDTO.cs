@@ -1,6 +1,6 @@
 ﻿using ErettsegizzunkApi.Models;
 
-namespace ErettsegizzunkApi.DTO
+namespace ErettsegizzunkApi.DTOs
 {
     public class FeladatokGetRandomDTO
     {
@@ -25,6 +25,8 @@ namespace ErettsegizzunkApi.DTO
         public string? KepNev { get; set; }
 
         public string? Leiras { get; set; }
+        
+        public string? Szoveg { get; set; }
 
         public string? Megoldasok { get; set; }
 

@@ -42,13 +42,14 @@
               Grid.Row="0"
               Grid.RowSpan="2">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Kijelölés" Binding="{Binding Kijelolve}" />
+                <DataGridCheckBoxColumn Header="Kijelölés" Binding="{Binding IsSelected}" />
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Leiras" Binding="{Binding Leiras}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Megoldasok" Binding="{Binding Megoldasok}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Tantargy" Binding="{Binding Tantargy}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Tipus" Binding="{Binding Szint}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Szint" Binding="{Binding Tipus}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Leiras" Binding="{Binding Description}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Leiras" Binding="{Binding Text}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Megoldasok" Binding="{Binding Answers}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Tantargy" Binding="{Binding SubjectName}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Szint" Binding="{Binding LevelName}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Típus" Binding="{Binding TypeName}" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
 

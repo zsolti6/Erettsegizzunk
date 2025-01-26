@@ -49,7 +49,7 @@ namespace ErettsegizzunkApi.Controllers
                         {
                             Program.LoggedInUsers.Add(token, loggeduser);
                         }                        
-                        return Ok(new LoggedUser {Id = loggeduser.Id, Name = loggeduser.Name, Email = loggeduser.Email, Permission = loggeduser.PermissionId, ProfilePicturePath = loggeduser.ProfilePicturePath, ProfilePicture =null, Token = token});
+                        return Ok(new LoggedUser {Id = loggeduser.Id, Name = loggeduser.LoginName, Email = loggeduser.Email, Permission = loggeduser.PermissionId, ProfilePicturePath = loggeduser.ProfilePicturePath, ProfilePicture =null, Token = token});
                     }
                     else
                     {

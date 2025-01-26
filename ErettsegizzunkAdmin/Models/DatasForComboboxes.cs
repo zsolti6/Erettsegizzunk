@@ -10,17 +10,17 @@ namespace ErettsegizzunkAdmin.Models
 {
     internal class DatasForComboboxes
     {
-        public List<Szint> szintek { get; set; }
-        public List<Tantargyak> tantargyak { get; set; }
-        public List<Tema> temak { get; set; }
-        public List<Tipu> tipusok { get; set; }
+        public List<Level> szintek { get; set; }
+        public List<Subject> tantargyak { get; set; }
+        public List<Theme> temak { get; set; }
+        public List<ErettsegizzunkApi.Models.Type> tipusok { get; set; }
 
         public DatasForComboboxes(ApiService apiService)
         {
             AdatokFeltoltese(apiService);
         }
 
-        public async Task AdatokFeltoltese(ApiService apiService)
+        public async System.Threading.Tasks.Task AdatokFeltoltese(ApiService apiService)
         {
             tantargyak = await apiService.GetTantargyaksAsync();
         }

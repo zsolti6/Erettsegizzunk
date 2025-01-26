@@ -29,8 +29,8 @@ namespace ErettsegizzunkApi.Controllers
             }
 
             Token? vaneToken = await _context.Tokens
-                .Include(x => x.Token1 == deleteDTO.Token)
-                .Include(x => x.Aktiv)
+                .Include(x => x.TokenString == deleteDTO.Token)
+                .Include(x => x.Active)
                 .FirstOrDefaultAsync();
 
             if (vaneToken is null)
@@ -49,8 +49,8 @@ namespace ErettsegizzunkApi.Controllers
             Token token = new Token()
             {
                 UserId = addTokenDTO.UserId,
-                Token1 = addTokenDTO.Token,
-                Aktiv = true,
+                TokenString = addTokenDTO.Token,
+                Active = true,
                 Login = DateTime.Now,
                 Logout = DateTime.MinValue
             };
@@ -94,7 +94,7 @@ namespace ErettsegizzunkApi.Controllers
             }
 
             token.Logout = modifyToken.LogOut;
-            token.Aktiv = modifyToken.Aktiv;
+            token.Active = modifyToken.Aktiv;
 
             _context.Entry(token).State = EntityState.Modified;
 

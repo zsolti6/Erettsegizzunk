@@ -22,9 +22,9 @@ namespace ErettsegizzunkApi.Controllers
 
         // GET: api/Tantargyak
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Tantargyak>>> GetTantargyak()
+        public async Task<ActionResult<IEnumerable<Subject>>> GetTantargyak()
         {
-            return await _context.Tantargyaks.ToListAsync();
+            return await _context.Subjects.ToListAsync();
         }
 
         /*
@@ -102,7 +102,7 @@ namespace ErettsegizzunkApi.Controllers
 
         private bool TantargyakExists(int id)
         {
-            return _context.Tantargyaks.Any(e => e.Id == id);
+            return _context.Subjects.Any(e => e.Id == id);
         }
     }
 }

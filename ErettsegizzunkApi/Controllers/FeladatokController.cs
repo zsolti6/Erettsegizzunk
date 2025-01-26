@@ -18,13 +18,13 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpPost("get-sok-feladat")]
-        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoks([FromBody] int mettol)
+        public async Task<ActionResult<IEnumerable<Models.Task>>> GetFeladatoks([FromBody] int mettol)
         {
-            return await _context.Feladatoks
-                .Include(x => x.Szint)
-                .Include(x => x.Tantargy)
-                .Include(x => x.Temas)
-                .Include(x => x.Tipus)
+            return await _context.Tasks
+                .Include(x => x.Level)
+                .Include(x => x.Subject)
+                .Include(x => x.Themes)
+                .Include(x => x.Type)
                 .Where(x => x.Id > mettol)
                 .Take(50)//100 lassú teszt kevesebbel
                 .ToListAsync();
@@ -32,19 +32,19 @@ namespace ErettsegizzunkApi.Controllers
 
         //Random 15 feladat tantárgy és szint (közép felső) paraméter alapján
         [HttpPost("get-random-feladatok")]
-        public async Task<ActionResult<IEnumerable<Feladatok>>> GetFeladatoksTipusSzint([FromBody] FeladatokGetRandomDTO get)
+        public async Task<ActionResult<IEnumerable<Models.Task>>> GetFeladatoksTipusSzint([FromBody] FeladatokGetRandomDTO get)
         {
             if (get.Tantargy is null || get.Szint is null)
             {
                 return BadRequest("Keresési adat nem lehet null.");
             }
 
-            List<Feladatok> randomFeladatok = await _context.Feladatoks
-                .Include(x => x.Szint)
-                .Include(x => x.Tantargy)
-                .Include(x => x.Temas)
-                .Include(x => x.Tipus)
-                .Where(x => x.Tantargy.Nev == get.Tantargy && x.Szint.Nev == get.Szint)
+            List<Models.Task> randomFeladatok = await _context.Tasks
+                .Include<Models.Task, Level>(x => x.Level)
+                .Include<Models.Task, Subject>(x => x.Subject)
+                .Include(x => x.Themes)
+                .Include<Models.Task, Models.Type>(x => x.Type)
+                .Where(x => x.Subject.Name == get.Tantargy && x.Level.Name == get.Szint)
                 .OrderBy(x => EF.Functions.Random())
                 .Take(15)
                 .ToListAsync();
@@ -55,18 +55,18 @@ namespace ErettsegizzunkApi.Controllers
         //Egy feladat lekérése id alapján
         // GET: erettsegizzunk/Feladatok/get-egy-feladat
         [HttpPost("get-egy-feladat")]
-        public async Task<ActionResult<Feladatok>> GetFeladatok([FromBody] FeladatokGetSpecificDTO get)
+        public async Task<ActionResult<Models.Task>> GetFeladatok([FromBody] FeladatokGetSpecificDTO get)
         {
             if (get.Id is null)
             {
                 return BadRequest("Keresési adat nem lehet null.");
             }
 
-            Feladatok? feladat = await _context.Feladatoks
-                .Include(x => x.Szint)
-                .Include(x => x.Tantargy)
-                .Include(x => x.Temas)
-                .Include(x => x.Tipus)
+            Models.Task? feladat = await _context.Tasks
+                .Include<Models.Task, Level>(x => x.Level)
+                .Include<Models.Task, Subject>(x => x.Subject)
+                .Include(x => x.Themes)
+                .Include<Models.Task, Models.Type>(x => x.Type)
                 .Where(x => x.Id == get.Id)
                 .FirstOrDefaultAsync();
 
@@ -79,7 +79,7 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         //-----------------Kell egy get get random feladat témára való szűrésre is------------------------------------
-        //adminban 100 egyszerre ne legyen dublikát: a lekért lista utolsó eleme alapjén kérjük le a következő adatokat
+        //adminban 100 egyszerre ne legyen dublikát: a lekért lista utolsó eleme alapjén kérjük le a következő adatokat --> elv működik 50 van 100 helyett
 
         //Egy feladat módosítása id alapján
         // PUT: api/Feladatoks/put-egy-feladat
@@ -91,20 +91,20 @@ namespace ErettsegizzunkApi.Controllers
                 return BadRequest("Nincs ilyen id");
             }
 
-            Feladatok? feladat = await _context.Feladatoks.FindAsync(id);
+            Models.Task? feladat = await _context.Tasks.FindAsync(id);
 
             if (feladat is null)
             {
                 return BadRequest("Nincs ilyen id-vel rendelkező feladat");
             }
 
-            feladat.Leiras = put.Leiras;
-            feladat.Megoldasok = put.Megoldasok;
-            feladat.Helyese = put.Helyese;
-            feladat.TantargyId = put.TantargyId;
-            feladat.TipusId = put.TipusId;
-            feladat.SzintId = put.SzintId;
-            feladat.KepNev = put.KepNev;
+            feladat.Description = put.Leiras;
+            feladat.Answers = put.Megoldasok;
+            feladat.IsCorrect = put.Helyese;
+            feladat.SubjectId = put.TantargyId;
+            feladat.TypeId = put.TipusId;
+            feladat.LevelId = put.SzintId;
+            feladat.PicName = put.KepNev;
             
             _context.Entry(feladat).State = EntityState.Modified;
 
@@ -144,17 +144,17 @@ namespace ErettsegizzunkApi.Controllers
         //Egy feladat felvitele
         // POST: api/Feladatoks/post-egy-feladat
         [HttpPost("post-egy-feladat")]
-        public async Task<ActionResult<Feladatok>> PostFeladat([FromBody]FeladatokPutPostDTO post)
+        public async Task<ActionResult<Models.Task>> PostFeladat([FromBody]FeladatokPutPostDTO post)
         {
-            Feladatok feladatok = new Feladatok
+            Models.Task feladatok = new Models.Task
             {
-                Leiras = post.Leiras,
-                Megoldasok = post.Megoldasok,
-                Helyese = post.Helyese,
-                TantargyId = post.TantargyId,
-                TipusId = post.TipusId,
-                SzintId = post.SzintId,
-                KepNev = post.KepNev                
+                Description = post.Leiras,
+                Answers = post.Megoldasok,
+                IsCorrect = post.Helyese,
+                SubjectId = post.TantargyId,
+                TypeId = post.TipusId,
+                LevelId = post.SzintId,
+                PicName = post.KepNev                
             };
 
             try
@@ -176,7 +176,7 @@ namespace ErettsegizzunkApi.Controllers
                         }
                 }
 
-                _context.Feladatoks.Add(feladatok);
+                _context.Tasks.Add(feladatok);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException ex)
@@ -194,7 +194,7 @@ namespace ErettsegizzunkApi.Controllers
         //Több feladat felvitele
         // POST: api/Feladatoks/post-egy-feladat
         [HttpPost("post-tobb-feladat")]
-        public async Task<ActionResult<Feladatok>> PostFeladatok([FromBody] List<FeladatokPutPostDTO> post)
+        public async Task<ActionResult<Models.Task>> PostFeladatok([FromBody] List<FeladatokPutPostDTO> post)
         {
             try
             {
@@ -219,18 +219,19 @@ namespace ErettsegizzunkApi.Controllers
 
                 foreach (FeladatokPutPostDTO feladatok in post)
                 {
-                    Feladatok feladat = new Feladatok
+                    Models.Task feladat = new Models.Task
                     {
-                        Leiras = feladatok.Leiras,
-                        Megoldasok = feladatok.Megoldasok,
-                        Helyese = feladatok.Helyese,
-                        TantargyId = feladatok.TantargyId,
-                        TipusId = feladatok.TipusId,
-                        SzintId = feladatok.SzintId,
-                        KepNev = feladatok.KepNev
+                        Description = feladatok.Leiras,
+                        Text = feladatok.Szoveg,
+                        Answers = feladatok.Megoldasok,
+                        IsCorrect = feladatok.Helyese,
+                        SubjectId = feladatok.TantargyId,
+                        TypeId = feladatok.TipusId,
+                        LevelId = feladatok.SzintId,
+                        PicName = feladatok.KepNev
                     };
 
-                    _context.Feladatoks.Add(feladat);
+                    _context.Tasks.Add(feladat);
                 }
                 await _context.SaveChangesAsync();
             }
@@ -270,12 +271,12 @@ namespace ErettsegizzunkApi.Controllers
                         }
                 }
 
-                List<Feladatok> feladatok = await _context.Feladatoks.Where(x => feladatokDeleteDTO.Ids.Contains(x.Id)).ToListAsync();
+                List<Models.Task> feladatok = await _context.Tasks.Where(x => feladatokDeleteDTO.Ids.Contains(x.Id)).ToListAsync();
                 if (feladatok == null)
                 {
                     return NotFound("Nincs feladat ilyen id-vel.");
                 }
-                _context.Feladatoks.RemoveRange(feladatok);
+                _context.Tasks.RemoveRange(feladatok);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException ex)
@@ -302,7 +303,7 @@ namespace ErettsegizzunkApi.Controllers
 
             try
             {
-                vaneToken = await _context.Tokens.FirstOrDefaultAsync(x => x.Token1 == deleteDTO.Token && x.Aktiv);
+                vaneToken = await _context.Tokens.FirstOrDefaultAsync(x => x.TokenString == deleteDTO.Token && x.Active);
             }
             catch(ArgumentNullException nex)
             {
@@ -332,7 +333,7 @@ namespace ErettsegizzunkApi.Controllers
 
             try
             {
-                vaneToken = await _context.Tokens.FirstOrDefaultAsync(x => x.Token1 == putPostDTO.Token && x.Aktiv);
+                vaneToken = await _context.Tokens.FirstOrDefaultAsync(x => x.TokenString == putPostDTO.Token && x.Active);
             }
             catch (ArgumentNullException nex)
             {
@@ -353,7 +354,7 @@ namespace ErettsegizzunkApi.Controllers
 
         private bool FeladatokExists(int id)
         {
-            return _context.Feladatoks.Any(e => e.Id == id);
+            return _context.Tasks.Any(e => e.Id == id);
         }
     }
 }
