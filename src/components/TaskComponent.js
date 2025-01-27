@@ -38,6 +38,7 @@ function TaskComponent({ elem, values, updateValues }) {
         <h3>{elem.taskId}. feladat</h3>
         <h5><b>{elem.description}</b></h5>
         <p>{elem.text}</p>
+        {elem.picName != null && <img className="taskPic" src={"http://images.erettsegizzunk.nhely.hu/" + elem.picName} alt={elem.picName} title={elem.picName} />}        
         {elem.isCorrect.split(";").map(
           (helyes, index) =>
             helyes === "1" && (
@@ -60,8 +61,10 @@ function TaskComponent({ elem, values, updateValues }) {
     return (
       <div className="task">
         <h3>{elem.taskId}. feladat</h3>
-        <h5><b>{elem.description}</b></h5>
+        <h3><b>{elem.description}</b></h3>
         <p>{elem.text}</p>
+        {elem.picName != null && <img className="taskPic" src={"http://images.erettsegizzunk.nhely.hu/" + elem.picName} alt={elem.picName} title={elem.picName} />}
+        <div className={elem.picName != null ? "inputGroup2" : "inputGroup1" }>
         {elem.isCorrect.split(";").map((helyes, index) => (
           <div key={index}>
             <input
@@ -78,6 +81,7 @@ function TaskComponent({ elem, values, updateValues }) {
             </label>
           </div>
         ))}
+        </div>
       </div>
     );
   }
@@ -88,6 +92,7 @@ function TaskComponent({ elem, values, updateValues }) {
         <h3>{elem.taskId}. feladat</h3>
         <h5><b>{elem.description}</b></h5>
         <p>{elem.text}</p>
+        {elem.picName != null && <img className="taskPic" src={"http://images.erettsegizzunk.nhely.hu/" + elem.picName} alt={elem.picName} title={elem.picName} />}
         {elem.isCorrect.split(";").map((helyes, index) => (
           <div key={index}>
             <input

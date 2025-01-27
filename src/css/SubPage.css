@@ -3,7 +3,7 @@
   height: auto; /* Adjust based on content */
   margin: 10vh auto; /* Center horizontally and add top margin */
   background-color: white;
-  border: 2px solid black;
+  /*border: 2px solid black;*/
   padding: 20px;
   box-sizing: border-box; /* Include padding in width/height calculation */
   display: flex;
@@ -31,9 +31,9 @@
 }
 
 .exercise{
-  background-color: yellow !important;
-  margin-top: 6vh !important;
-  margin-left: 40vh !important;
-  width: 75% !important;
+  /*background-color: yellow !important;*/
+  margin-top: 14vh !important;
+  width: 90% !important;
   height: 100% !important;
+  margin-left: 8.5vh !important;
 }

@@ -70,7 +70,7 @@ function ExerciseComponent() {
       <Navbar />
       <div style={{ display: "flex", height: "100%" }}>
         <Sidenav tasks={exercises} setActiveComponent={setActiveIndex} activeIndex={activeIndex} />
-        <div style={{ padding: "20px", flex: 1, display: "flex", alignItems: "center", backgroundColor: "blue", height: "100%", zIndex: 10, marginLeft: "26vh"}}>
+        <div style={{ padding: "20px", flex: 1, display: "flex", alignItems: "center", /*backgroundColor: "blue",*/ height: "100%", zIndex: 10, marginLeft: "26vh"}}>
           <div style={{ marginRight: "10px" }} id="previous">
             {activeIndex > 0 && (
               <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex - 1)}>
