@@ -52,6 +52,11 @@
                         <materialDesign:PackIcon Kind="FileDocumentOutline" Foreground="{DynamicResource SecondaryHueMidBrush}" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem x:Name="felhasznalokKezel" Header="Felhasználók" Click="felhasznalokKezel_Click" Foreground="{DynamicResource SecondaryHueMidBrush}">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Account" Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </Menu>
         </materialDesign:ColorZone>
 

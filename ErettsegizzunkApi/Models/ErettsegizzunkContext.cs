@@ -269,7 +269,7 @@ public partial class ErettsegizzunkContext : DbContext
             entity.Property(e => e.TokenString)
                 .HasMaxLength(40)
                 .HasDefaultValueSql("'NULL'")
-                .HasColumnName("token");
+                .HasColumnName("tokenString");
             entity.Property(e => e.UserId)
                 .HasColumnType("int(11)")
                 .HasColumnName("userId");

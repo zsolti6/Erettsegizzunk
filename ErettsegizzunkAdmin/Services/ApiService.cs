@@ -102,9 +102,9 @@ namespace ErettsegizzunkAdmin.Services
 
 
         //Login - logout
-        public async Task<LoggedUser> Login(string name, string password)
+        public async Task<LoggedUserDTO> Login(string name, string password)
         {
-            LoggedUser user = new LoggedUser();
+            LoggedUserDTO user = new LoggedUserDTO();
             try
             {
                 //getsalt
@@ -119,7 +119,7 @@ namespace ErettsegizzunkAdmin.Services
                 StringContent contentLogin = new StringContent(JsonConvert.SerializeObject(new LoginRequest { LoginName = name, TmpHash = tmpHash}), Encoding.UTF8, "application/json");
                 HttpResponseMessage responseLogin = await _httpClient.PostAsync("erettsegizzunk/Login", contentLogin);
                 responseGetSalt.EnsureSuccessStatusCode();
-                user = await responseLogin.Content.ReadFromJsonAsync<LoggedUser>();
+                user = await responseLogin.Content.ReadFromJsonAsync<LoggedUserDTO>();
 
                 //saveToken
                 StringContent contentToken = new StringContent(JsonConvert.SerializeObject(new AddTokenDTO() { Token = user.Token, UserId = user.Id }), Encoding.UTF8, "application/json");
@@ -202,6 +202,64 @@ namespace ErettsegizzunkAdmin.Services
                 return null;
             }
 
+        }
+
+        //Felhasználók
+        public async Task<List<User>> GetFelhasznalokAsync(LoggedUserForCheckDTO logged /*int mettol*/)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(logged), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/User/get-sok-felhasznalo", content);
+                response.EnsureSuccessStatusCode();
+                string responseContent = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<User>>(responseContent);
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine($"Request error: {e.Message}");//rendesen kiirni majd
+                return null;
+            }
+        }
+
+        public async Task<string> PostFelhasznalo(User user)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Registry/regisztracio", content);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public async Task<string> DeletFelhasznalok(FelhasznaloTorolDTO felhasznalokDelete)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(felhasznalokDelete), Encoding.UTF8, "application/json");
+
+                HttpRequestMessage request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Delete,
+                    RequestUri = new Uri(_httpClient.BaseAddress, "erettsegizzunk/User/delete-felhasznalok"),
+                    Content = content
+                };
+                HttpResponseMessage response = await _httpClient.SendAsync(request);
+
+                // Ensure success and return the response content
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+
+            }
+            catch (HttpRequestException ex)
+            {
+                return ex.Message;
+            }
         }
     }
 }

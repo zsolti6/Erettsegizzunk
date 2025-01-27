@@ -75,15 +75,13 @@ namespace ErettsegizzunkApi
 
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddCors(c => { c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); });
-
-
-            builder.Services.AddCors(options =>
+            builder.WebHost.ConfigureKestrel(options =>
             {
-                options.AddPolicy("AllowReactApp", builder =>
-                    builder.WithOrigins("http://localhost:3000") // React app URL
-                           .AllowAnyHeader()
-                           .AllowAnyMethod());
+                options.ListenAnyIP(5000); // HTTP
+                options.ListenAnyIP(7066, listenOptions =>
+                {
+                    listenOptions.UseHttps(); // HTTPS
+                });
             });
 
             // Add services to the container.

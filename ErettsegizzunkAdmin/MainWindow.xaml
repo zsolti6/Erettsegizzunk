@@ -23,7 +23,7 @@
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Center" 
                    FontSize="24" 
-                   Foreground="{DynamicResource SecondaryHueMidBrush}"/>
+                   Foreground="White"/>
             <!-- Using Primary color -->
         </materialDesign:ColorZone>
 

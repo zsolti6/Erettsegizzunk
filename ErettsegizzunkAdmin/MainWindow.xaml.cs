@@ -24,6 +24,7 @@ namespace ErettsegizzunkAdmin
     public partial class MainWindow : Window
     {
         private readonly ApiService _apiService;
+        private const int SALT_LENGTH = 64;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,18 +33,20 @@ namespace ErettsegizzunkAdmin
 
         private async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            LoggedUser user = new LoggedUser();
+            LoggedUserDTO user = new LoggedUserDTO();
             try
             {
                 user = await _apiService.Login(nev.Text, jelszo.Password);
                 if (user.Permission == -1)
                 {
                     MessageBoxes.CustomError("Hibás név - jelszó páros!");
+                    return;
                 }
 
-                if (user.Permission == -2)
+                if (user.Permission != 2)
                 {
-                    throw new Exception();
+                    MessageBoxes.CustomError("Nincs megfelelő jogosultságod!");
+                    return;
                 }
             }
             catch (Exception)
@@ -53,8 +56,8 @@ namespace ErettsegizzunkAdmin
             }
             user.ProfilePicture = await _apiService.ByteArrayToBitmapImage(user.ProfilePicturePath);
             MenuWindow menuWindow = new MenuWindow(user);
+            menuWindow.Show();
             Close();
-            menuWindow.ShowDialog();
         }
 
         public static string CreateSHA256(string input)
@@ -70,5 +73,18 @@ namespace ErettsegizzunkAdmin
                 return sBuilder.ToString();
             }
         }
+
+        public static string GenerateSalt()
+        {
+            Random random = new Random();
+            string karakterek = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            string salt = "";
+            for (int i = 0; i < SALT_LENGTH; i++)
+            {
+                salt += karakterek[random.Next(karakterek.Length)];
+            }
+            return salt;
+        }
+
     }
 }

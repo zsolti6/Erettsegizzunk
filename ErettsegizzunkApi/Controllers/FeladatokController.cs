@@ -86,7 +86,12 @@ namespace ErettsegizzunkApi.Controllers
         [HttpPut("put-egy-feladat/{id}")]
         public async Task<IActionResult> PutFeladatok(int id, [FromBody]FeladatokPutPostDTO put)
         {
-            if (id < 1)
+            if (!Program.LoggedInUsers.ContainsKey(put.Token) && Program.LoggedInUsers[put.Token].Permission.Level != 9)
+            {
+                return BadRequest("Nincs jogosultságod!");
+            }
+
+                if (id < 1)
             {
                 return BadRequest("Nincs ilyen id");
             }
@@ -110,23 +115,6 @@ namespace ErettsegizzunkApi.Controllers
 
             try
             {
-                ActionResult<Token> eredmeny = await VanToken(put);
-                switch (eredmeny.Result)
-                {
-                    case NotFoundResult:
-                        {
-                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
-                        }
-                    case BadRequestResult:
-                        {
-                            throw new Exception(eredmeny.Result.ToString());
-                        }
-                    case NotFoundObjectResult:
-                        {
-                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
-                        }
-                }
-
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException ex)
@@ -159,7 +147,7 @@ namespace ErettsegizzunkApi.Controllers
 
             try
             {
-                ActionResult<Token> eredmeny = await VanToken(post);
+                ActionResult<Token> eredmeny = await VanToken(post);//atirni??
                 switch (eredmeny.Result)
                 {
                     case NotFoundResult:
@@ -196,27 +184,13 @@ namespace ErettsegizzunkApi.Controllers
         [HttpPost("post-tobb-feladat")]
         public async Task<ActionResult<Models.Task>> PostFeladatok([FromBody] List<FeladatokPutPostDTO> post)
         {
+            if (!Program.LoggedInUsers.ContainsKey(post[0].Token) && Program.LoggedInUsers[post[0].Token].Permission.Level != 9)
+            {
+                return BadRequest("Nincs jogosultságod!");
+            }
+
             try
             {
-                ActionResult<Token> eredmeny = await VanToken(post[0]);
-
-                switch (eredmeny.Result)
-                {
-                    case NotFoundResult:
-                        {
-                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
-                        }
-                    case BadRequestResult:
-                        {
-                            throw new Exception(eredmeny.Result.ToString());
-                        }
-                    case NotFoundObjectResult:
-                        {
-                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
-                        }
-                }
-
-
                 foreach (FeladatokPutPostDTO feladatok in post)
                 {
                     Models.Task feladat = new Models.Task
@@ -252,25 +226,12 @@ namespace ErettsegizzunkApi.Controllers
         [HttpDelete("delete-feladatok")]
         public async Task<IActionResult> DeleteFeladatok([FromBody] FeladatokDeleteDTO feladatokDeleteDTO)
         {
+            if (!Program.LoggedInUsers.ContainsKey(feladatokDeleteDTO.Token) && Program.LoggedInUsers[feladatokDeleteDTO.Token].Permission.Level != 9)
+            {
+                return BadRequest("Nincs jogosultságod!");
+            }
             try
             {
-                ActionResult<Token> eredmeny = await VanToken(feladatokDeleteDTO);
-                switch (eredmeny.Result)
-                {
-                    case NotFoundResult:
-                        {
-                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
-                        }
-                    case BadRequestResult:
-                        {
-                            throw new Exception(eredmeny.Result.ToString());
-                        }
-                    case NotFoundObjectResult:
-                        {
-                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
-                        }
-                }
-
                 List<Models.Task> feladatok = await _context.Tasks.Where(x => feladatokDeleteDTO.Ids.Contains(x.Id)).ToListAsync();
                 if (feladatok == null)
                 {

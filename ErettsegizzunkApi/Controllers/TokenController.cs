@@ -90,7 +90,7 @@ namespace ErettsegizzunkApi.Controllers
 
             if (token is null)
             {
-                BadRequest("Nincs ilyen id-vel rendelkező feladat");
+                BadRequest("Nincs ilyen id-vel rendelkező token");
             }
 
             token.Logout = modifyToken.LogOut;

@@ -64,3 +64,7 @@ D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\b
 D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\BespokeFusion.dll
 D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\Microsoft.Xaml.Behaviors.dll
 D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\App.baml
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FelhasznalokKezel.g.cs
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FelhasznalokKezel.baml
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\UjFelhasznalo.baml
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\UjFelhasznalo.g.cs

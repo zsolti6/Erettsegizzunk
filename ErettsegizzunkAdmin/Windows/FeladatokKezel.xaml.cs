@@ -19,8 +19,8 @@ namespace ErettsegizzunkAdmin.Windows
         private readonly ApiService _apiService;
         private int pageNumber = 0;
         private List<ErettsegizzunkApi.Models.Task> feladatok = new List<ErettsegizzunkApi.Models.Task>();
-        public LoggedUser user;
-        public FeladatokKezel(LoggedUser user)
+        public LoggedUserDTO user;
+        public FeladatokKezel(LoggedUserDTO user)
         {
             InitializeComponent();
             _apiService = new ApiService();

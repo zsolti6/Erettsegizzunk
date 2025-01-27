@@ -21,15 +21,15 @@ public partial class User
 
     public bool Newsletter { get; set; }
 
-    public string? ProfilePicturePath { get; set; }
+    public string? ProfilePicturePath { get; set; } = "default.jpg";
 
-    public DateTime SignupDate { get; set; }
+    public DateTime? SignupDate { get; set; }
 
-    public virtual Permission Permission { get; set; } = null!;
+    public virtual Permission? Permission { get; set; } = null!;
 
-    public virtual ICollection<SpacedRepetition> SpacedRepetitions { get; set; } = new List<SpacedRepetition>();
+    public virtual ICollection<SpacedRepetition>? SpacedRepetitions { get; set; } = new List<SpacedRepetition>();
 
-    public virtual ICollection<Token> Tokens { get; set; } = new List<Token>();
+    public virtual ICollection<Token>? Tokens { get; set; } = new List<Token>();
 
-    public virtual ICollection<UserStatistic> UserStatistics { get; set; } = new List<UserStatistic>();
+    public virtual ICollection<UserStatistic>? UserStatistics { get; set; } = new List<UserStatistic>();
 }

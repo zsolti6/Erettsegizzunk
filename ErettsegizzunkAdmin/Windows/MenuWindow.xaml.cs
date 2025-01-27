@@ -24,8 +24,8 @@ namespace ErettsegizzunkAdmin.Windows
     /// </summary>
     public partial class MenuWindow : Window
     {
-        LoggedUser user;
-        public MenuWindow(LoggedUser user)
+        LoggedUserDTO user;
+        public MenuWindow(LoggedUserDTO user)
         {
             InitializeComponent();
             this.user = user;
@@ -36,8 +36,8 @@ namespace ErettsegizzunkAdmin.Windows
         //Feladatok kezelése
         private void feladatKezelese_Click(object sender, RoutedEventArgs e)
         {
-            FeladatokKezel kezel = new FeladatokKezel(user);
-            kezel.Show();
+            FeladatokKezel feladatok = new FeladatokKezel(user);
+            feladatok.Show();
             Close();
         }
 
@@ -53,5 +53,12 @@ namespace ErettsegizzunkAdmin.Windows
 
         }
 
+        //Felhasználók kezelésére
+        private void felhasznalokKezel_Click(object sender, RoutedEventArgs e)
+        {
+            FelhasznalokKezel felhasznalok = new FelhasznalokKezel(user);
+            felhasznalok.Show();
+            Close();
+        }
     }
 }

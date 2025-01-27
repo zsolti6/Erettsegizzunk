@@ -21,7 +21,7 @@
 
     <Grid Background="{DynamicResource MaterialDesignPaper}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="4*" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         
@@ -32,20 +32,21 @@
 
         <!-- DataGrid -->
         <DataGrid x:Name="dgFeladatAdatok" 
-              AutoGenerateColumns="False" 
-              GridLinesVisibility="None" 
+              Grid.Row="0" Grid.RowSpan="2"
+              AutoGenerateColumns="False" Margin="16" 
               RowBackground="{DynamicResource MaterialDesignPaper}" 
-              AlternatingRowBackground="{DynamicResource MaterialDesignPaperLight}"
-              VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
+              AlternatingRowBackground="{DynamicResource MaterialDesignPaperLight}" 
+              VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}" 
               HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}" 
-              Grid.Column="0"
-              Grid.Row="0"
-              Grid.RowSpan="2">
+              BorderBrush="{DynamicResource PrimaryHueMidBrush}" 
+              BorderThickness="1" 
+              SelectionMode="Extended" 
+              Style="{DynamicResource MaterialDesignDataGrid}">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="Kijelölés" Binding="{Binding IsSelected}" />
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Leiras" Binding="{Binding Description}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Leiras" Binding="{Binding Text}" IsReadOnly="True" />
+                <DataGridTextColumn Width="300" Header="Leiras" Binding="{Binding Description}" IsReadOnly="True" />
+                <DataGridTextColumn Width="300" Header="Leiras" Binding="{Binding Text}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Megoldasok" Binding="{Binding Answers}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Tantargy" Binding="{Binding SubjectName}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Szint" Binding="{Binding LevelName}" IsReadOnly="True" />

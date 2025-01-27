@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ErettsegizzunkApi.DTOs;
+using ErettsegizzunkApi.DTO;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -10,16 +11,29 @@ namespace ErettsegizzunkApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpGet("{token}")]//átírni postra
-        public async Task<IActionResult> GetFull(string token)
+        private readonly ErettsegizzunkContext _context;
+        public UserController(ErettsegizzunkContext context)
         {
-            if (Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level == 9)
+            _context = context;
+        }
+
+
+        [HttpPost("get-sok-felhasznalo")]
+        public async Task<IActionResult> GetFull([FromBody] LoggedUserForCheckDTO logged)
+        {
+            if (Program.LoggedInUsers.ContainsKey(logged.Token) && Program.LoggedInUsers[logged.Token].Permission.Level == 9)
             {
+
                 using (ErettsegizzunkContext cx = new ErettsegizzunkContext())
                 {
                     try
                     {
-                        return Ok(await cx.Users.Include(x => x.Permission).ToListAsync());
+                        return Ok(await cx.Users
+                            .Include(x => x.Permission)
+                            .Include(x => x.SpacedRepetitions)
+                            .Include(x => x.UserStatistics)
+                            .Take(50)
+                            .ToListAsync());
                     }
                     catch (Exception ex)
                     {
@@ -79,7 +93,7 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        [HttpGet("/Korlevel/{token}")]//átírni postra
+        [HttpGet("Korlevel/{token}")]//átírni postra
         public async Task<IActionResult> GetKorlevel(string token)
         {
             if (Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level == 9)
@@ -102,18 +116,22 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        [HttpPost("{token}")]//átírni body-ra
-        public async Task<IActionResult> Post(string token, User user)
+        [HttpDelete("delete-felhasznalok")]
+        public async Task<IActionResult> Delete([FromBody] FelhasznaloTorolDTO deleteDTO)
         {
-            if (Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level == 9)
+            if (Program.LoggedInUsers.ContainsKey(deleteDTO.Token) && Program.LoggedInUsers[deleteDTO.Token].Permission.Level == 9)
             {
                 using (ErettsegizzunkContext cx = new ErettsegizzunkContext())
                 {
                     try
                     {
-                        cx.Add(user);
-                        await cx.SaveChangesAsync();
-                        return Ok("Új felhasználó adatai eltárolva");
+                        List<User> felhasznalok = await _context.Users.Where(x => deleteDTO.Ids.Contains(x.Id)).ToListAsync();
+                        if (felhasznalok == null)
+                        {
+                            return NotFound("Nincs feladat ilyen id-vel.");
+                        }
+                        _context.Users.RemoveRange(felhasznalok);
+                        await _context.SaveChangesAsync();
                     }
                     catch (Exception ex)
                     {
@@ -125,56 +143,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return BadRequest("Nincs jogosultságod haver!");
             }
-        }
-
-        [HttpPut("{token}")]//átírni body-ra
-        public async Task<IActionResult> Put(string token, User user)
-        {
-            if (Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level == 9)
-            {
-                using (ErettsegizzunkContext cx = new ErettsegizzunkContext())
-                {
-                    try
-                    {
-                        cx.Update(user);
-                        await cx.SaveChangesAsync();
-                        return Ok("Felhasználó adatai módosítva");
-                    }
-                    catch (Exception ex)
-                    {
-                        return StatusCode(200, ex.InnerException?.Message);
-                    }
-                }
-            }
-            else
-            {
-                return BadRequest("Nincs jogosultságod haver!");
-            }
-        }
-
-        [HttpDelete("{token}, {id}")]//átírni body-ra
-        public async Task<IActionResult> Delete(string token, int id)
-        {
-            if (Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level == 9)
-            {
-                using (ErettsegizzunkContext cx = new ErettsegizzunkContext())
-                {
-                    try
-                    {
-                        cx.Remove(new User { Id = id });
-                        await cx.SaveChangesAsync();
-                        return Ok("Felhasználó adatai törölve");//a törölve van nem kell futtatni
-                    }
-                    catch (Exception ex)
-                    {
-                        return StatusCode(200, ex.InnerException?.Message);
-                    }
-                }
-            }
-            else
-            {
-                return BadRequest("Nincs jogosultságod haver!");
-            }
+            return Ok("Felhasználó(k) törölve!");
         }
     }
 }

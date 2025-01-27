@@ -61,5 +61,21 @@ namespace ErettsegizzunkAdmin.CustomMessageBoxes
             };
             custom.Show();
         }
+
+        public static void CustomMessageOk(string szoveg, string cim = "")
+        {
+            CustomMaterialMessageBox custom = new CustomMaterialMessageBox
+            {
+                TxtMessage = { Text = szoveg, Foreground = Brushes.Black },
+                TxtTitle = { Text = cim, Foreground = Brushes.Black },
+                BtnOk = { Content = "Igen" },
+                BtnCancel = { Visibility = Visibility.Collapsed },
+                BtnCopyMessage = { Visibility = Visibility.Collapsed },
+                MainContentControl = { Background = Brushes.WhiteSmoke },
+                TitleBackgroundPanel = { Background = Brushes.Purple },
+                BorderBrush = Brushes.Purple
+            };
+            custom.Show();
+        }
     }
 }

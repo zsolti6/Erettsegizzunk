@@ -68,7 +68,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ErettsegizzunkApi.Models.Feladatok",
+        "Type": "ErettsegizzunkApi.Models.Task",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -94,7 +94,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ErettsegizzunkApi.Models.Feladatok, ErettsegizzunkApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ErettsegizzunkApi.Models.Task, ErettsegizzunkApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -120,7 +120,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ErettsegizzunkApi.Models.Feladatok, ErettsegizzunkApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ErettsegizzunkApi.Models.Task, ErettsegizzunkApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -146,7 +146,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ErettsegizzunkApi.Models.Feladatok",
+        "Type": "ErettsegizzunkApi.Models.Task",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -172,7 +172,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ErettsegizzunkApi.Models.Feladatok",
+        "Type": "ErettsegizzunkApi.Models.Task",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -298,9 +298,51 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ErettsegizzunkApi.Controllers.PasswordController",
+    "Method": "ElfelejtettJelszo",
+    "RelativePath": "erettsegizzunk/Password/{Email}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.PasswordController",
+    "Method": "JelszoMosositas",
+    "RelativePath": "erettsegizzunk/Password/{loginName},{oldPassword},{newPassword}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginName",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "oldPassword",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "newPassword",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ErettsegizzunkApi.Controllers.RegistryController",
     "Method": "Registry",
-    "RelativePath": "erettsegizzunk/Registry",
+    "RelativePath": "erettsegizzunk/Registry/regisztracio",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -316,20 +358,15 @@
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.RegistryController",
     "Method": "EndOfTheRegistry",
-    "RelativePath": "erettsegizzunk/Registry",
-    "HttpMethod": "GET",
+    "RelativePath": "erettsegizzunk/Registry/regisztracio-megerostes",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "felhasznaloNev",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "email",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "endOfRegistry",
+        "Type": "ErettsegizzunkApi.DTOs.EndOfRegistryDTO",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -344,7 +381,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ErettsegizzunkApi.Models.Tantargyak, ErettsegizzunkApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ErettsegizzunkApi.Models.Subject, ErettsegizzunkApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -414,85 +451,6 @@
   },
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
-    "Method": "GetFull",
-    "RelativePath": "erettsegizzunk/User/{token}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "token",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
-    "Method": "Post",
-    "RelativePath": "erettsegizzunk/User/{token}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "token",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "user",
-        "Type": "ErettsegizzunkApi.Models.User",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
-    "Method": "Put",
-    "RelativePath": "erettsegizzunk/User/{token}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "token",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "user",
-        "Type": "ErettsegizzunkApi.Models.User",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
-    "Method": "Delete",
-    "RelativePath": "erettsegizzunk/User/{token}, {id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "token",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
     "Method": "GetId",
     "RelativePath": "erettsegizzunk/User/{token},{id}",
     "HttpMethod": "GET",
@@ -514,6 +472,54 @@
   },
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
+    "Method": "Delete",
+    "RelativePath": "erettsegizzunk/User/delete-felhasznalok",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "deleteDTO",
+        "Type": "ErettsegizzunkApi.DTOs.FelhasznaloTorolDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
+    "Method": "GetFull",
+    "RelativePath": "erettsegizzunk/User/get-sok-felhasznalo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "logged",
+        "Type": "ErettsegizzunkApi.DTOs.LoggedUserForCheckDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
+    "Method": "GetKorlevel",
+    "RelativePath": "erettsegizzunk/User/Korlevel/{token}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
     "Method": "GetLoginName",
     "RelativePath": "erettsegizzunk/User/nev/{token},{loginname}",
     "HttpMethod": "GET",
@@ -527,22 +533,6 @@
       },
       {
         "Name": "loginname",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
-    "Method": "GetKorlevel",
-    "RelativePath": "Korlevel/{token}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "token",
         "Type": "System.String",
         "IsRequired": true
       }

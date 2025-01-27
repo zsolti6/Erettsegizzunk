@@ -20,4 +20,11 @@
 
         public string? ProfilePicturePath { get; set; }
     }
+
+    public class EndOfRegistryDTO
+    {
+        public string UserName { get; set; }
+
+        public string Email { get; set; }
+    }
 }

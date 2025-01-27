@@ -9,9 +9,9 @@ namespace ErettsegizzunkApi.Controllers
     [ApiController]
     public class RegistryController : ControllerBase
     {
-        [HttpPost]//tesztelni erősen
+        [HttpPost("regisztracio")]
 
-        public async Task<IActionResult> Registry(User user)
+        public async Task<IActionResult> Registry([FromBody]User user)
         {
             using (var cx = new ErettsegizzunkContext())
             {
@@ -25,8 +25,8 @@ namespace ErettsegizzunkApi.Controllers
                     {
                         return Ok("Ezzel az e-mail címmel már regisztráltak!");
                     }
-                    user.PermissionId = 1;
-                    user.Active = true;//falsra kell rakni ha meg lesz az emailes cucc
+                    //user.PermissionId = 1;
+                    user.Active = false;//falsra kell rakni ha meg lesz az emailes cucc
                     user.Hash = Program.CreateSHA256(user.Hash);
                     await cx.Users.AddAsync(user);
                     await cx.SaveChangesAsync();
@@ -42,15 +42,15 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        [HttpGet]//postra átírni
+        [HttpPost("regisztracio-megerostes")]//postra átírni
 
-        public async Task<IActionResult> EndOfTheRegistry(string felhasznaloNev, string email)//frombody + kell dto
+        public async Task<IActionResult> EndOfTheRegistry([FromBody] EndOfRegistryDTO endOfRegistry)//frombody + kell dto
         {
             using (var cx = new ErettsegizzunkContext())
             {
                 try
                 {
-                    User user = await cx.Users.FirstOrDefaultAsync(f => f.LoginName == felhasznaloNev && f.Email == email);
+                    User user = await cx.Users.FirstOrDefaultAsync(f => f.LoginName == endOfRegistry.UserName && f.Email == endOfRegistry.Email);
                     if (user == null)
                     {
                         return Ok("Sikertelen a regisztráció befejezése!");
