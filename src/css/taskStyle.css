@@ -90,3 +90,20 @@ h3 {
 .group-container div {
   margin-bottom: 0.5rem;
 }
+
+.tooltip-inner {
+  max-width: 500px !important; /* Adjust width as needed */
+  white-space: pre-line; /* Ensures new lines are respected */
+  text-align: center; /* Optional: Align text to the left */
+}
+
+#previous{
+  z-index: 10;
+  margin-left: 32vh;
+  position: absolute;
+}
+
+.task{
+  background-color: red;
+  margin-top: -125px;
+}

@@ -29,3 +29,11 @@
   transform: scale(1.1);
   transition-duration: 0.23s;
 }
+
+.exercise{
+  background-color: yellow !important;
+  margin-top: 6vh !important;
+  margin-left: 40vh !important;
+  width: 75% !important;
+  height: 100% !important;
+}

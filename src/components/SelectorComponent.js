@@ -18,8 +18,8 @@ function SelectorComponent() {
       .get("https://localhost:7066/erettsegizzunk/Tantargyak")
       .then((response) => {
         const formattedSubjects = response.data.map((subject) => ({
-          value: String(subject.nev), // Convert id to string
-          label: subject.nev,
+          value: String(subject.name), // Convert id to string
+          label: subject.name
         }));
         setSubjects(formattedSubjects);
         setFormData((prev) => ({
