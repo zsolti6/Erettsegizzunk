@@ -13,6 +13,7 @@ namespace ErettsegizzunkAdmin.CustomMessageBoxes
 {
     public static class MessageBoxes
     {
+
         public static void CustomError(string szoveg, string cim = "")
         {
             CustomMaterialMessageBox custom = new CustomMaterialMessageBox

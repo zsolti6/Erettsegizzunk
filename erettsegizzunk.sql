@@ -197,7 +197,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `loginName`, `HASH`, `SALT`, `permissionId`, `active`, `email`, `profilePicturePath`, `newsletter`, `signupDate`) VALUES
-(1, 'kerenyir', 'd5fe0e517520122f1ab363b6b7ee9ae616e7ad393693ef00d81a7f287a79931a', 'Gm63C4jiWnYvfZfiKUu2cu8AHPNDj8NoHhtQn88yiJhyOunBNSd7tRoWo5wwqg9X', 2, 1, 'kerenyir@kkszki.hu', 'img\\kerenyir.jpg', 0, '2025-01-26 13:50:51');
+(1, 'kerenyir', 'd5fe0e517520122f1ab363b6b7ee9ae616e7ad393693ef00d81a7f287a79931a', 'Gm63C4jiWnYvfZfiKUu2cu8AHPNDj8NoHhtQn88yiJhyOunBNSd7tRoWo5wwqg9X', 2, 1, 'kerenyir@kkszki.hu', 'igen.jpg', 0, '2025-01-26 13:50:51');
 
 -- --------------------------------------------------------
 

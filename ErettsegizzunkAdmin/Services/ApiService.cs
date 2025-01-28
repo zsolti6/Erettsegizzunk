@@ -111,8 +111,11 @@ namespace ErettsegizzunkAdmin.Services
                 string formatted = $"\"{name}\"";
                 StringContent contentGetSalt = new StringContent(formatted, Encoding.UTF8, "application/json");
                 HttpResponseMessage responseGetSalt = await _httpClient.PostAsync("erettsegizzunk/Login/SaltRequest", contentGetSalt);
-                responseGetSalt.EnsureSuccessStatusCode();
                 string salt = await responseGetSalt.Content.ReadAsStringAsync();
+                if (salt is null)
+                {
+                    user = await responseGetSalt.Content.ReadFromJsonAsync<LoggedUserDTO>();
+                }
 
                 //login
                 string tmpHash = MainWindow.CreateSHA256(password + salt.Replace("\"",""));
@@ -131,6 +134,10 @@ namespace ErettsegizzunkAdmin.Services
             }
             catch (HttpRequestException ex)
             {
+                if (ex.Message.Contains("400"))
+                {
+                    return user;
+                }
                 return user;
             }
             catch(Exception ex)
@@ -205,7 +212,7 @@ namespace ErettsegizzunkAdmin.Services
         }
 
         //Felhasználók
-        public async Task<List<User>> GetFelhasznalokAsync(LoggedUserForCheckDTO logged /*int mettol*/)
+        public async Task<List<User>> GetFelhasznalokAsync(LoggedUserForCheckDTO logged /*int mettol*/)//50 lekérdezése max
         {
             try
             {
@@ -261,5 +268,22 @@ namespace ErettsegizzunkAdmin.Services
                 return ex.Message;
             }
         }
+
+        public async Task<string> PutFelhasznalok(FelhasznaloModotsitDTO users)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(users), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PutAsync("erettsegizzunk/User/felhasznalok-modosit", content);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException ex)
+            {
+                return ex.Message;
+            }
+        }
+
+
     }
 }

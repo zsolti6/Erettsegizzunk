@@ -70,8 +70,8 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        [HttpGet("{token},{id}")]//átírni postra
-        public async Task<IActionResult> GetId(string token, int id)
+        [HttpPost("get-egy-felhasznalo")]
+        public async Task<IActionResult> GetId([FromBody]string token, int id) //----------> átírni
         {
             if (Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level == 9)
             {
@@ -114,6 +114,52 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return BadRequest("Nincs jogosultságod haver!");
             }
+        }
+
+
+        [HttpPut("felhasznalok-modosit")]
+        public async Task<IActionResult> PutFelhasznalok([FromBody] FelhasznaloModotsitDTO modosit)
+        {
+            if (Program.LoggedInUsers.ContainsKey(modosit.Token) && Program.LoggedInUsers[modosit.Token].Permission.Level == 9)
+            {
+                using (ErettsegizzunkContext cx = new ErettsegizzunkContext())
+                {
+                    try
+                    {
+                        //List<User> modositando = await _context.Users.Where(x => modosit.users.Contains(x)).ToListAsync();
+                      /*  if (modositando == null)
+                        {
+                            return NotFound("Nincs user ilyen id-vel.");
+                        }*/
+
+                        foreach (User user in modosit.users)
+                        {
+                            User? userSearch = await _context.Users.FindAsync(user.Id);
+                            if (userSearch is null)
+                            {
+                                return BadRequest("nincs id");
+                            }//BUGOS################
+                                                                                                                #warning HIBA
+                            userSearch.LoginName = user.LoginName;
+                            userSearch.Email = user.Email;
+                            userSearch.PermissionId = user.PermissionId;
+                            userSearch.Active = user.Active;
+                            userSearch.ProfilePicturePath = user.ProfilePicturePath;
+                            userSearch.Newsletter = user.Newsletter;
+                            userSearch.SignupDate = user.SignupDate;
+                            _context.Entry(userSearch).State = EntityState.Modified;
+                        }
+
+                        await _context.SaveChangesAsync();
+                        return Ok();
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(200, ex.InnerException?.Message);
+                    }
+                }
+            }
+            return Ok();
         }
 
         [HttpDelete("delete-felhasznalok")]

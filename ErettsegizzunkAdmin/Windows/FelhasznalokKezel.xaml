@@ -41,14 +41,14 @@
               Style="{DynamicResource MaterialDesignDataGrid}">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="Kijelölés" Binding="{Binding IsSelected}" />
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Nev" Binding="{Binding LoginName}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Email" Binding="{Binding Email}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Jogosultság" Binding="{Binding PermissionName}" IsReadOnly="True" />
-                <DataGridCheckBoxColumn Header="Aktív" Binding="{Binding Active}" IsReadOnly="True" />
-                <DataGridCheckBoxColumn Header="Feliratkozva" Binding="{Binding Newsletter}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Profilkép" Binding="{Binding ProfilePicturePath}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Feliratkozás dátum" Binding="{Binding SignupDate}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="False" />
+                <DataGridTextColumn Header="Nev" Binding="{Binding LoginName}" IsReadOnly="False" />
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" IsReadOnly="False" />
+                <DataGridTextColumn Header="Jogosultság" Binding="{Binding PermissionName}" IsReadOnly="False" />
+                <DataGridCheckBoxColumn Header="Aktív" Binding="{Binding Active}" IsReadOnly="False" />
+                <DataGridCheckBoxColumn Header="Feliratkozva" Binding="{Binding Newsletter}" IsReadOnly="False" />
+                <DataGridTextColumn Header="Profilkép" Binding="{Binding ProfilePicturePath}" IsReadOnly="False" />
+                <DataGridTextColumn Header="Feliratkozás dátum" Binding="{Binding SignupDate}" IsReadOnly="False" />
             </DataGrid.Columns>
         </DataGrid>
 
@@ -77,6 +77,13 @@
             Width="200" 
             Margin="0,0,0,20" 
             Click="btnVissza_Click"/>
+
+            <Button x:Name="btnModosit" 
+            Content="Módosítások elmentése" 
+            Style="{DynamicResource MaterialDesignRaisedButton}" 
+            Width="200" 
+            Margin="0,0,0,20" 
+            Click="btnModosit_Click"/>
         </StackPanel>
 
     </Grid>

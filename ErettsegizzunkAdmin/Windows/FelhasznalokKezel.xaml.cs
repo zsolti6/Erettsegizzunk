@@ -23,10 +23,12 @@ namespace ErettsegizzunkAdmin.Windows
     /// </summary>
     public partial class FelhasznalokKezel : Window
     {
-        LoggedUserDTO user;
-        List<User> felhasznalok = new List<User>();
+        private LoggedUserDTO user;
+        private List<User> felhasznalok = new List<User>();
+        private List<FelhasznaloModotsitDTO> modositando = new List<FelhasznaloModotsitDTO>();
         private readonly ApiService _apiService;
         private int pageNumber = 0;
+
         public FelhasznalokKezel(LoggedUserDTO user)
         {
             InitializeComponent();
@@ -84,11 +86,29 @@ namespace ErettsegizzunkAdmin.Windows
             RefreshUi();
         }
 
-        private void btnVissza_Click(object sender, RoutedEventArgs e)
+        private async void btnVissza_Click(object sender, RoutedEventArgs e)
         {
             MenuWindow menu = new MenuWindow(user);
             menu.Show();
+            if (modositando.Count != 0)
+            {
+                MessageBoxResult result = MessageBoxes.CustomQuestion("Menti a változtatásokat?");
+
+                if (result == MessageBoxResult.OK)
+                {
+                    btnModosit_Click(sender, e);
+                }
+                else
+                {
+                    MessageBoxes.CustomMessageOk("Módosítások eldobva");
+                }
+            }
             Close();
+        }
+
+        private async void btnModosit_Click(object sender, RoutedEventArgs e)
+        {
+            await _apiService.PutFelhasznalok(new FelhasznaloModotsitDTO() { users = felhasznalok, Token = user.Token});
         }
     }
 }

@@ -25,4 +25,10 @@ namespace ErettsegizzunkApi.DTOs
         public string Token { get; set; }
         public List<int> Ids { get; set; }
     }
+
+    public class FelhasznaloModotsitDTO
+    {
+        public List<User> users { get; set; } = null!;
+        public string? Token { get; set; }
+    }
 }

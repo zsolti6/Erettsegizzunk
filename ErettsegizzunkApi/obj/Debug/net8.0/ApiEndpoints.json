@@ -451,9 +451,41 @@
   },
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
+    "Method": "Delete",
+    "RelativePath": "erettsegizzunk/User/delete-felhasznalok",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "deleteDTO",
+        "Type": "ErettsegizzunkApi.DTOs.FelhasznaloTorolDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
+    "Method": "PutFelhasznalok",
+    "RelativePath": "erettsegizzunk/User/felhasznalok-modosit",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "modosit",
+        "Type": "ErettsegizzunkApi.DTOs.FelhasznaloModotsitDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
     "Method": "GetId",
-    "RelativePath": "erettsegizzunk/User/{token},{id}",
-    "HttpMethod": "GET",
+    "RelativePath": "erettsegizzunk/User/get-egy-felhasznalo",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -465,23 +497,7 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
-    "Method": "Delete",
-    "RelativePath": "erettsegizzunk/User/delete-felhasznalok",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "deleteDTO",
-        "Type": "ErettsegizzunkApi.DTOs.FelhasznaloTorolDTO",
-        "IsRequired": true
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

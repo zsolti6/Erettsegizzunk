@@ -3,6 +3,7 @@ using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -23,6 +24,10 @@ namespace ErettsegizzunkApi.Controllers
                         return Ok(new LoggedUser { Permission = -1, Name = "Hibás név, jelszó páros!" });
                     }
                     return Ok(response.Salt);
+                }
+                catch(MySqlException ex)
+                {
+                    return BadRequest(new LoggedUser() { Permission = -2, Name = "Nem sikerült csatlakozni az adatbázishoz, türelmét kérjük!"});
                 }
                 catch (Exception ex)
                 {

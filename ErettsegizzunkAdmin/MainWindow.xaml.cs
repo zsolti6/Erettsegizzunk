@@ -43,6 +43,12 @@ namespace ErettsegizzunkAdmin
                     return;
                 }
 
+                if (user.Permission == -2)
+                {
+                    MessageBoxes.CustomError(user.Name);
+                    return;
+                }
+
                 if (user.Permission != 2)
                 {
                     MessageBoxes.CustomError("Nincs megfelelő jogosultságod!");

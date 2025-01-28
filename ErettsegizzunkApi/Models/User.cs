@@ -23,9 +23,9 @@ public partial class User
 
     public string? ProfilePicturePath { get; set; } = "default.jpg";
 
-    public DateTime? SignupDate { get; set; }
+    public DateTime SignupDate { get; set; }
 
-    public virtual Permission? Permission { get; set; } = null!;
+    public virtual Permission? Permission { get; set; } = null;
 
     public virtual ICollection<SpacedRepetition>? SpacedRepetitions { get; set; } = new List<SpacedRepetition>();
 
