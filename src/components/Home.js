@@ -1,9 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/SubPage.css";
+import Navbar from "./Navbar";
 
 function Home() {
   return (
+    <div>
+      <Navbar />
     <div
       className="App border w-10"
       style={{
@@ -38,6 +41,7 @@ function Home() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

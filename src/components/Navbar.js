@@ -1,10 +1,15 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import "../css/Navbar.css";
 
 function Navbar() {
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  const navigateToProfile = () => {
+    navigate("/profile");
+  };
+
   return (
     <nav>
       <div onClick={() => navigate("/")} className="logo">
@@ -23,14 +28,21 @@ function Navbar() {
         <Link to="/selector" className="home-link">
           Új feladatlap
         </Link>
-        <div className="auth-links-wrapper">
-          <Link to="/login" className="auth-link">
-            Bejelentkezés
-          </Link>
-          <Link to="/register" className="auth-link">
-            Regisztráció
-          </Link>
-        </div>
+        {user ? (
+          <div className="auth-links-wrapper noHover">
+            <span>{user.name}</span>
+            <img onClick={navigateToProfile} src={"http://images.erettsegizzunk.nhely.hu/" +user.profilePicturePath} alt="Profile" className="profile-picture" id='pp' />
+          </div>
+        ) : (
+          <div className="auth-links-wrapper">
+            <Link to="/login" className="home-link">
+              Bejelentkezés
+            </Link>
+            <Link to="/register" className="home-link">
+              Regisztráció
+            </Link>
+          </div>
+        )}
       </div>
     </nav>
   );

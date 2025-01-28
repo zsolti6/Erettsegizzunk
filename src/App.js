@@ -11,6 +11,7 @@ import TutorialComponent from "./components/TutorialComponent";
 import SearchComponent from "./components/SearchComponent";
 import SelectorComponent from "./components/SelectorComponent";
 import ExericeStats from "./components/ExerciseStats";
+import Profile from "./components/Profile";
 
 function App() {
   usePreventZoom();
@@ -27,6 +28,7 @@ function App() {
           <Route path="/exercise/stats" element={<ExericeStats />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
         <FooterComponent />
       </Router>
