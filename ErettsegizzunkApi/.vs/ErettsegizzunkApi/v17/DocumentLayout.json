@@ -39,8 +39,7 @@
               "ViewState": "AgIAABkAAAAAAAAAAAAWwDIAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-20T08:27:49.612Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -66,8 +65,7 @@
               "RelativeToolTip": "DTOs\\UserDTO.cs",
               "ViewState": "AgIAAAsAAAAAAAAAAAA9wB4AAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-28T07:58:54.797Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-28T07:58:54.797Z"
             },
             {
               "$type": "Document",
@@ -79,8 +77,7 @@
               "RelativeToolTip": "Controllers\\FeladatokController.cs",
               "ViewState": "AgIAAEwAAAAAAAAAAAAkwGoAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-28T07:55:50.599Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-28T07:55:50.599Z"
             }
           ]
         }

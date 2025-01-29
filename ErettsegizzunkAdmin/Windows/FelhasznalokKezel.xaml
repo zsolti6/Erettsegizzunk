@@ -30,7 +30,7 @@
         </Grid.RowDefinitions>
 
         <!-- DataGrid -->
-        <DataGrid x:Name="dgAdatok" AutoGenerateColumns="False" Margin="16" Grid.Row="0" Grid.RowSpan="2"
+        <DataGrid x:Name="dgAdatok" AutoGenerateColumns="False" Margin="16" Grid.Row="0" Grid.RowSpan="2" CanUserAddRows="False" 
               RowBackground="{DynamicResource MaterialDesignPaper}" 
               AlternatingRowBackground="{DynamicResource MaterialDesignPaperLight}" 
               VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}" 
