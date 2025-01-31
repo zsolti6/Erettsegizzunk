@@ -108,7 +108,9 @@ namespace ErettsegizzunkAdmin.Windows
 
         private async void btnModosit_Click(object sender, RoutedEventArgs e)
         {
-            await _apiService.PutFelhasznalok(new FelhasznaloModotsitDTO() { users = felhasznalok, Token = user.Token});
+            FelhasznaloModosit felhasznaloModosit = new FelhasznaloModosit();
+            felhasznaloModosit.ShowDialog();
+            //await _apiService.PutFelhasznalok(new FelhasznaloModotsitDTO() { users = felhasznalok, Token = user.Token});
         }
     }
 }

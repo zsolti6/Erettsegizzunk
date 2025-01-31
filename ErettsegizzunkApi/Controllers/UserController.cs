@@ -43,7 +43,7 @@ namespace ErettsegizzunkApi.Controllers
             }
             else
             {
-                return BadRequest("Nincs jogosultságod haver!");
+                return BadRequest("Nincs jogosultságod!");
             }
         }
 
@@ -66,30 +66,30 @@ namespace ErettsegizzunkApi.Controllers
             }
             else
             {
-                return BadRequest("Nincs jogosultságod haver!");
+                return BadRequest("Nincs jogosultságod!");
             }
         }
 
         [HttpPost("get-egy-felhasznalo")]
-        public async Task<IActionResult> GetId([FromBody]string token, int id) //----------> átírni
+        public async Task<IActionResult> GetId([FromBody] GetEgyFelhasznaloDTO felhasznalo)
         {
-            if (Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level == 9)
+            if (Program.LoggedInUsers.ContainsKey(felhasznalo.token) && Program.LoggedInUsers[felhasznalo.token].Permission.Level == 9)
             {
                 using (ErettsegizzunkContext cx = new ErettsegizzunkContext())
                 {
                     try
                     {
-                        return Ok(await cx.Users.Include(x => x.Permission).FirstOrDefaultAsync(x => x.Id == id));
+                        return Ok(await cx.Users.Include(x => x.Permission).FirstOrDefaultAsync(x => x.Id == felhasznalo.id));
                     }
                     catch (Exception ex)
                     {
-                        return StatusCode(200, ex.InnerException?.Message); //ez is egy megoldás -- részletesebb hibaüzenet
+                        return StatusCode(200, ex.InnerException?.Message); //ez is egy megoldás -- részletesebb hibaüzenet biztonsági rés lehet
                     }
                 }
             }
             else
             {
-                return BadRequest("Nincs jogosultságod haver!");
+                return BadRequest("Nincs jogosultságod!");
             }
         }
 
@@ -112,7 +112,7 @@ namespace ErettsegizzunkApi.Controllers
             }
             else
             {
-                return BadRequest("Nincs jogosultságod haver!");
+                return BadRequest("Nincs jogosultságod!");
             }
         }
 
@@ -126,20 +126,14 @@ namespace ErettsegizzunkApi.Controllers
                 {
                     try
                     {
-                        //List<User> modositando = await _context.Users.Where(x => modosit.users.Contains(x)).ToListAsync();
-                      /*  if (modositando == null)
-                        {
-                            return NotFound("Nincs user ilyen id-vel.");
-                        }*/
-
                         foreach (User user in modosit.users)
                         {
                             User? userSearch = await _context.Users.FindAsync(user.Id);
                             if (userSearch is null)
                             {
                                 return BadRequest("nincs id");
-                            }//BUGOS################
-                                                                                                                #warning HIBA
+                            }
+
                             userSearch.LoginName = user.LoginName;
                             userSearch.Email = user.Email;
                             userSearch.PermissionId = user.PermissionId;
@@ -187,7 +181,7 @@ namespace ErettsegizzunkApi.Controllers
             }
             else
             {
-                return BadRequest("Nincs jogosultságod haver!");
+                return BadRequest("Nincs jogosultságod!");
             }
             return Ok("Felhasználó(k) törölve!");
         }

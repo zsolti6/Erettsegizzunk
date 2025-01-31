@@ -35,5 +35,5 @@ public partial class User
 
     public virtual ICollection<UserStatistic> UserStatistics { get; set; } = new List<UserStatistic>();
 
-    public string? PermissionName { get { return Permission is null ? "" : Permission.Name; } }
+    public string? PermissionName { get { return Permission is null ? "" : Permission.Name; } }    
 }

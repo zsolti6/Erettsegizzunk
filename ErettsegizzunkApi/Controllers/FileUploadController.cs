@@ -42,7 +42,7 @@ namespace ErettsegizzunkApi.Controllers
         [Route("FtpServer")]
         [HttpPost]
 
-        public async Task<IActionResult> FileUploadFtp()
+        public async Task<IActionResult> FileUploadFtp()//from body?
         {
             try
             {
@@ -62,7 +62,7 @@ namespace ErettsegizzunkApi.Controllers
                 return Ok(fileName);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Ok("default.jpg");
             }

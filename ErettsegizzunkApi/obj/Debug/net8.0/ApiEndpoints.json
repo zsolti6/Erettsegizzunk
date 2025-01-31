@@ -490,14 +490,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "token",
-        "Type": "System.String",
+        "Name": "felhszn",
+        "Type": "ErettsegizzunkApi.DTOs.GetEgyFelhszn",
         "IsRequired": true
-      },
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []

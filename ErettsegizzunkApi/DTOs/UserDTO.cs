@@ -31,4 +31,10 @@ namespace ErettsegizzunkApi.DTOs
         public List<User> users { get; set; } = null!;
         public string? Token { get; set; }
     }
+
+    public class GetEgyFelhasznaloDTO
+    {
+        public int id { get; set; }
+        public string token { get; set; }
+    }
 }
