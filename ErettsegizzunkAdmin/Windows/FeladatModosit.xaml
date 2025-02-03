@@ -1,0 +1,102 @@
+﻿<Window x:Class="ErettsegizzunkAdmin.Windows.FeladatModosit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ErettsegizzunkAdmin.Windows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Feladat Szerkesztése" Height="600" Width="750"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanMinimize">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="20">
+            <!-- Material Design Card -->
+            <materialDesign:Card Padding="20">
+                <StackPanel>
+                    <!-- Id (Read-only) -->
+                    <TextBox IsReadOnly="True"
+                             Text="{Binding Id}"
+                             Margin="0,0,0,16"
+                             materialDesign:HintAssist.Hint="Id" />
+
+                    <!-- Leírás (Description) -->
+                    <TextBox Text="{Binding Description}"
+                             Margin="0,0,0,16"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             MinHeight="60"
+                             materialDesign:HintAssist.Hint="Leírás" />
+
+                    <!-- Szöveg (Text) -->
+                    <TextBox Text="{Binding Text}"
+                             Margin="0,0,0,16"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             MinHeight="60"
+                             materialDesign:HintAssist.Hint="Szöveg" />
+
+                    <!-- Megoldások (Answers) -->
+                    <TextBox Text="{Binding Answers}"
+                             Margin="0,0,0,16"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             MinHeight="60"
+                             materialDesign:HintAssist.Hint="Megoldások" />
+
+                    <!-- Tantárgy (Subject) -->
+                    <ComboBox ItemsSource="{Binding SubjectList}" 
+                              SelectedItem="{Binding SubjectName, Mode=TwoWay}"
+                              Margin="0,0,0,16"
+                              materialDesign:HintAssist.Hint="Tantárgy" />
+                    
+                    <!-- Szint (Level) -->
+                    <ComboBox ItemsSource="{Binding LevelList}" 
+                              SelectedItem="{Binding LevelName, Mode=TwoWay}"
+                              Margin="0,0,0,16"
+                              materialDesign:HintAssist.Hint="Tantárgy" />
+                    
+                    <!-- Típus (Type) -->
+                    <ComboBox ItemsSource="{Binding TypeList}" 
+                              SelectedItem="{Binding TypeName, Mode=TwoWay}"
+                              Margin="0,0,0,16"
+                              materialDesign:HintAssist.Hint="Tantárgy" />
+                    <StackPanel>
+                            <!-- Image Select Button -->
+                        <Button x:Name="btnSelectImage" 
+                        Content="Select Image"
+                        Margin="0,0,0,16"
+                        Click="btnSelectImage_Click"
+                        Style="{StaticResource MaterialDesignRaisedButton}" />
+
+                            <!-- Image Preview -->
+                            <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="4" Padding="5">
+                                <Image x:Name="ImagePreview"
+                           Stretch="Uniform"
+                           Height="300"
+                           HorizontalAlignment="Center" />
+                            </Border>
+                       </StackPanel>
+
+                        <!-- Action Buttons -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="btnSave"
+                                Content="Mentés"
+                                Width="100"
+                                Margin="5"
+                                Click="btnSave_Click"
+                                Style="{StaticResource MaterialDesignRaisedButton}" />
+                        <Button x:Name="btnCancel"
+                                Content="Mégsem"
+                                Width="100"
+                                Margin="5"
+                                Click="btnCancel_Click"
+                                Style="{StaticResource MaterialDesignRaisedButton}" />
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+        </Grid>
+    </ScrollViewer>
+</Window>

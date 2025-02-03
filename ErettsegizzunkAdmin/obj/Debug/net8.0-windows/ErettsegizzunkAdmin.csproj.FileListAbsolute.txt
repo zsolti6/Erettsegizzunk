@@ -64,9 +64,9 @@ D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\b
 D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\App.baml
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\UjFelhasznalo.baml
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\UjFelhasznalo.g.cs
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatokKezelWindow.g.cs
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FelhasznalokKezelWindow.g.cs
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FelhasznaloModositWindow.g.cs
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatokKezelWindow.baml
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FelhasznalokKezelWindow.baml
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FelhasznaloModositWindow.baml
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatokKezel.g.cs
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FelhasznalokKezel.g.cs
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatokKezel.baml
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FelhasznalokKezel.baml
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatModosit.g.cs
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatModosit.baml

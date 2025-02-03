@@ -20,6 +20,7 @@ namespace ErettsegizzunkApi.DTO
 
     public class FeladatokPutPostDTO
     {
+        public int? Id { get; set; }
         public string Token { get; set; }
 
         public string? KepNev { get; set; }

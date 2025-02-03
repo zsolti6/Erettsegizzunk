@@ -7,13 +7,13 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Windows\FeladatModosit.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\FeladatokKezel.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\FelhasznalokKezel.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Windows\FelhasznaloModosit.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\MenuWindow.xaml.cs">
@@ -27,10 +27,10 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\FeladatokKezel.xaml">
+    <Page Update="Windows\FeladatModosit.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\FelhasznaloModosit.xaml">
+    <Page Update="Windows\FeladatokKezel.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\MenuWindow.xaml">

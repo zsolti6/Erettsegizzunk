@@ -84,6 +84,22 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
+        public async Task<string> PutFeladatok(FeladatokPutPostDTO feladatok)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(feladatok), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PutAsync("erettsegizzunk/Feladatok/put-egy-feladat", content);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException ex)
+            {
+                return ex.Message;
+            }
+        }
+
+
         //Tantargyak
         public async Task<List<Subject>> GetTantargyaksAsync()
         {
@@ -130,6 +146,7 @@ namespace ErettsegizzunkAdmin.Services
                 responseToken.EnsureSuccessStatusCode();
                 string response = await responseToken.Content.ReadAsStringAsync();
                 App.id = int.Parse(response.Replace("\"", ""));
+                App.token = user.Token;
                 return user;
             }
             catch (HttpRequestException ex)
@@ -146,14 +163,18 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
-        public async Task<string> LogOut(ModifyToken modifyToken)
+        public async Task<string> LogOut(ModifyToken modifyToken, string token)
         {
             try
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(modifyToken), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PutAsync("erettsegizzunk/Token/kijelentkez", content);
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadAsStringAsync();
+                string formatted = $"\"{token}\"";
+                StringContent content_ = new StringContent(formatted, Encoding.UTF8, "application/json");
+                HttpResponseMessage response_ = await _httpClient.PostAsync("erettsegizzunk/Logout", content_);
+                response_.EnsureSuccessStatusCode();
+                return await response_.Content.ReadAsStringAsync();
             }
             catch (HttpRequestException ex)
             {
@@ -210,6 +231,39 @@ namespace ErettsegizzunkAdmin.Services
             }
 
         }
+
+        //Kép feltöltés
+
+        public async System.Threading.Tasks.Task UploadImageToBackendAsync(string base64Image)
+        {
+            // Replace with your backend endpoint.
+            string endpointUrl = "https://yourbackend/api/uploadImage";
+
+            // Create a JSON payload containing the image.
+            // Using Newtonsoft.Json:
+            // var payload = new { image = base64Image };
+            // string json = JsonConvert.SerializeObject(payload);
+
+            // Or using System.Text.Json:
+            var payload = new { image = base64Image };
+            string json = System.Text.Json.JsonSerializer.Serialize(payload);
+
+            using (var client = new HttpClient())
+            {
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/FileUpload/FtpServer", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Image uploaded successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Failed to upload image. Status code: " + response.StatusCode, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
 
         //Felhasználók
         public async Task<List<User>> GetFelhasznalokAsync(LoggedUserForCheckDTO logged /*int mettol*/)//50 lekérdezése max

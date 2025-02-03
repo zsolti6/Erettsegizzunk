@@ -69,7 +69,7 @@ namespace ErettsegizzunkAdmin.CustomMessageBoxes
             {
                 TxtMessage = { Text = szoveg, Foreground = Brushes.Black },
                 TxtTitle = { Text = cim, Foreground = Brushes.Black },
-                BtnOk = { Content = "Igen" },
+                BtnOk = { Content = "Ok" },
                 BtnCancel = { Visibility = Visibility.Collapsed },
                 BtnCopyMessage = { Visibility = Visibility.Collapsed },
                 MainContentControl = { Background = Brushes.WhiteSmoke },

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ErettsegizzunkApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+71d5d6c34b53196e4d8d54660069d08422e2033d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+81d3ede711d9411572920d0754a2d5cb25030775")]
 [assembly: System.Reflection.AssemblyProductAttribute("ErettsegizzunkApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ErettsegizzunkApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

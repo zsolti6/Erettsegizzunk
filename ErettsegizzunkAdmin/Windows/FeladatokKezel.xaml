@@ -17,7 +17,8 @@
         WindowState="Normal"
         MinHeight="400" MinWidth="600"
         WindowStyle="ToolWindow"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Loaded="Window_Loaded">
 
     <Grid Background="{DynamicResource MaterialDesignPaper}">
         <Grid.ColumnDefinitions>
@@ -68,6 +69,7 @@
                     VerticalAlignment="Top"
                     Grid.Column="1"
                     Grid.Row="1">
+            
             <Button x:Name="btnUjAdatokExcelbol" 
                 Content="Új feladatok feltöltése txt-ből" 
                 Margin="8" 
@@ -75,6 +77,7 @@
                 Background="{DynamicResource PrimaryHueMidBrush}" 
                 Foreground="{DynamicResource MaterialDesignPaper}" 
                 Click="btnUjAdatokTxtbol_Click" />
+            
             <Button x:Name="btnOldalKov" 
                 Content="Következő oldal" 
                 IsEnabled="False" 
@@ -83,6 +86,7 @@
                 Background="{DynamicResource PrimaryHueMidBrush}" 
                 Foreground="{DynamicResource MaterialDesignPaper}" 
                 Click="btnOldalKov_Click" />
+            
             <Button x:Name="btnOldalElozo" 
                 Content="Előző oldal" 
                 IsEnabled="False" 
@@ -91,12 +95,14 @@
                 Background="{DynamicResource PrimaryHueMidBrush}" 
                 Foreground="{DynamicResource MaterialDesignPaper}" 
                 Click="btnOldalElozo_Click" />
+            
             <CheckBox x:Name="cbSelectAll" 
                   Content="Összes kijelölése" 
                   Margin="8" 
                   Style="{DynamicResource MaterialDesignCheckBox}" 
                   Checked="cbSelectAll_Checked" 
                   Unchecked="cbSelectAll_Unchecked" />
+            
             <Button x:Name="btnDelet" 
                 Content="Törlés"
                 Margin="8" 
@@ -104,6 +110,7 @@
                 Background="{DynamicResource SecondaryHueMidBrush}" 
                 Foreground="{DynamicResource MaterialDesignPaper}" 
                 Click="btnDelet_Click" />
+            
             <Button x:Name="btnBack" 
                 Content="Vissza" 
                 Margin="8" 
@@ -111,6 +118,15 @@
                 Background="{DynamicResource PrimaryHueMidBrush}" 
                 Foreground="{DynamicResource MaterialDesignPaper}" 
                 Click="btnBack_Click" />
+
+            <Button x:Name="btnModosit" 
+                Content="Feladatat módosítása" 
+                Margin="8" 
+                Style="{DynamicResource MaterialDesignRaisedButton}" 
+                Background="{DynamicResource PrimaryHueMidBrush}" 
+                Foreground="{DynamicResource MaterialDesignPaper}" 
+                Click="btnModosit_Click" />
+
             <Button x:Name="btnAgain" 
                 Content="Újra lekérdezés" 
                 Margin="8" 

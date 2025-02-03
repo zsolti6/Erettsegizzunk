@@ -185,16 +185,11 @@
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.FeladatokController",
     "Method": "PutFeladatok",
-    "RelativePath": "erettsegizzunk/Feladatok/put-egy-feladat/{id}",
+    "RelativePath": "erettsegizzunk/Feladatok/put-egy-feladat",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
       {
         "Name": "put",
         "Type": "ErettsegizzunkApi.DTO.FeladatokPutPostDTO",
@@ -284,13 +279,13 @@
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.LogoutController",
     "Method": "Logout",
-    "RelativePath": "erettsegizzunk/Logout/{uId}",
+    "RelativePath": "erettsegizzunk/Logout",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "uId",
+        "Name": "token",
         "Type": "System.String",
         "IsRequired": true
       }
@@ -490,8 +485,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "felhszn",
-        "Type": "ErettsegizzunkApi.DTOs.GetEgyFelhszn",
+        "Name": "felhasznalo",
+        "Type": "ErettsegizzunkApi.DTOs.GetEgyFelhasznaloDTO",
         "IsRequired": true
       }
     ],

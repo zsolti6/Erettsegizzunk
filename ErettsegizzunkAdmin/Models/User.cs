@@ -35,5 +35,8 @@ public partial class User
 
     public virtual ICollection<UserStatistic> UserStatistics { get; set; } = new List<UserStatistic>();
 
-    public string? PermissionName { get { return Permission is null ? "" : Permission.Name; } }    
+    public string? PermissionName { get { return Permission is null ? "" : JogosultsagList[PermissionId - 1]; } set { PermissionId = JogosultsagList.IndexOf(value) + 1; } }
+
+    public List<string> JogosultsagList { get; } = new List<string>() { "Látogató", "Admin" };//databasből lekérni majd
+
 }

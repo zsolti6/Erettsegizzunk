@@ -17,7 +17,9 @@
     WindowState="Normal"
     MinHeight="400" MinWidth="600"
     WindowStyle="ToolWindow"
-    ResizeMode="NoResize">
+    ResizeMode="CanMinimize"
+    Loaded="Window_Loaded">
+    
     <Grid Background="{DynamicResource MaterialDesignPaper}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*" />
@@ -42,12 +44,32 @@
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="Kijelölés" Binding="{Binding IsSelected}" />
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Nev" Binding="{Binding LoginName}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Email" Binding="{Binding Email}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Jogosultság" Binding="{Binding PermissionName}" IsReadOnly="True" />
-                <DataGridCheckBoxColumn Header="Aktív" Binding="{Binding Active}" IsReadOnly="True" />
-                <DataGridCheckBoxColumn Header="Feliratkozva" Binding="{Binding Newsletter}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Profilkép" Binding="{Binding ProfilePicturePath}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Nev" Binding="{Binding LoginName}" IsReadOnly="False" />
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" IsReadOnly="False" />
+                <DataGridTemplateColumn Header="Jogosultság">
+                    <!-- Mindig látható combobox -->
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding JogosultsagList}" 
+                              SelectedItem="{Binding PermissionName, Mode=TwoWay}"
+                              IsHitTestVisible="False"
+                              Focusable="False"
+                              Background="Transparent" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                    <!-- Kattintásra válzotatható combobox -->
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding JogosultsagList}" 
+                              SelectedItem="{Binding PermissionName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              IsDropDownOpen="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridCheckBoxColumn Header="Aktív" Binding="{Binding Active}" IsReadOnly="False" />
+                <DataGridCheckBoxColumn Header="Feliratkozva" Binding="{Binding Newsletter}" IsReadOnly="False" />
+                <DataGridTextColumn Header="Profilkép" Binding="{Binding ProfilePicturePath}" IsReadOnly="False" />
                 <DataGridTextColumn Header="Feliratkozás dátum" Binding="{Binding SignupDate}" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
@@ -61,7 +83,15 @@
             Width="200" 
             Margin="0,0,0,20" 
             Click="btnUj_Click"/>
-            
+
+            <CheckBox x:Name="cbSelectAll" 
+                  Content="Összes kijelölése" 
+                  Width="200" 
+                  Margin="0,0,0,20" 
+                  Style="{DynamicResource MaterialDesignCheckBox}" 
+                  Checked="cbSelectAll_Checked" 
+                  Unchecked="cbSelectAll_Unchecked" />
+
             <Button x:Name="btnTorol" 
             Content="Felhasználó törlése" 
             Style="{DynamicResource MaterialDesignRaisedButton}" 
@@ -70,6 +100,7 @@
             Width="200" 
             Margin="0,0,0,20" 
             Click="btnTorol_Click"/>
+            
 
             <Button x:Name="btnVissza" 
             Content="Vissza" 

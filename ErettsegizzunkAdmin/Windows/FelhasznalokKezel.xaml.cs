@@ -5,6 +5,7 @@ using ErettsegizzunkApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -23,6 +25,16 @@ namespace ErettsegizzunkAdmin.Windows
     /// </summary>
     public partial class FelhasznalokKezel : Window
     {
+        [DllImport("user32.dll")]
+        static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+        [DllImport("user32.dll")]
+        static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
+
+        const uint MF_GRAYED = 0x00000001;
+        const uint MF_ENABLED = 0x00000000;
+        const uint SC_CLOSE = 0xF060;
+
+
         private LoggedUserDTO user;
         private List<User> felhasznalok = new List<User>();
         private List<FelhasznaloModotsitDTO> modositando = new List<FelhasznaloModotsitDTO>();
@@ -54,6 +66,7 @@ namespace ErettsegizzunkAdmin.Windows
         {
             felhasznalok = await LoadDatasAsync(pageNumber);
             dgAdatok.ItemsSource = felhasznalok;
+            dgAdatok.DataContext = this;
         }
 
         private void btnUj_Click(object sender, RoutedEventArgs e)
@@ -61,7 +74,6 @@ namespace ErettsegizzunkAdmin.Windows
             UjFelhasznalo ujFelhasznalo = new UjFelhasznalo();
             ujFelhasznalo.ShowDialog();
             RefreshUi();
-
         }
 
         private async void btnTorol_Click(object sender, RoutedEventArgs e)
@@ -86,6 +98,11 @@ namespace ErettsegizzunkAdmin.Windows
             RefreshUi();
         }
 
+        private async void btnModosit_Click(object sender, RoutedEventArgs e)
+        {
+            await _apiService.PutFelhasznalok(new FelhasznaloModotsitDTO() { users = felhasznalok, Token = user.Token });
+        }
+
         private async void btnVissza_Click(object sender, RoutedEventArgs e)
         {
             MenuWindow menu = new MenuWindow(user);
@@ -106,11 +123,29 @@ namespace ErettsegizzunkAdmin.Windows
             Close();
         }
 
-        private async void btnModosit_Click(object sender, RoutedEventArgs e)
+        private void cbSelectAll_Checked(object sender, RoutedEventArgs e)
         {
-            FelhasznaloModosit felhasznaloModosit = new FelhasznaloModosit();
-            felhasznaloModosit.ShowDialog();
-            //await _apiService.PutFelhasznalok(new FelhasznaloModotsitDTO() { users = felhasznalok, Token = user.Token});
+            foreach (User felhasznalo in felhasznalok)
+            {
+                felhasznalo.IsSelected = true;
+            }
+            dgAdatok.Items.Refresh();
+        }
+
+        private void cbSelectAll_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (User felhasznalo in felhasznalok)
+            {
+                felhasznalo.IsSelected = false;
+            }
+            dgAdatok.Items.Refresh();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var hwnd = new WindowInteropHelper(this).Handle;
+            IntPtr hMenu = GetSystemMenu(hwnd, false);
+            EnableMenuItem(hMenu, SC_CLOSE, MF_GRAYED);
         }
     }
 }

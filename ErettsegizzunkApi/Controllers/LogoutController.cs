@@ -7,18 +7,17 @@ namespace ErettsegizzunkApi.Controllers
     [ApiController]
     public class LogoutController : ControllerBase
     {
-        [HttpPost("{uId}")]
-
-        public IActionResult Logout(string uId)
+        [HttpPost]
+        public IActionResult Logout([FromBody]string token)
         {
-            if (Program.LoggedInUsers.ContainsKey(uId))
+            if (Program.LoggedInUsers.ContainsKey(token))
             {
-                Program.LoggedInUsers.Remove(uId);
+                Program.LoggedInUsers.Remove(token);
                 return Ok("Sikeres kijelentkezés.");
             }
             else
             {
-                return BadRequest("Sikertelen kijelentkezés.");
+                return Ok("Sikertelen kijelentkezés.");
             }
         }
 

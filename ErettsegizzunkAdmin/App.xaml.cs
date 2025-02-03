@@ -1,8 +1,6 @@
 ﻿using ErettsegizzunkAdmin.Services;
 using ErettsegizzunkApi.DTOs;
-using MaterialDesignThemes.Wpf;
 using System.Windows;
-using System.Windows.Media;
 
 namespace ErettsegizzunkAdmin
 {
@@ -12,78 +10,79 @@ namespace ErettsegizzunkAdmin
     public partial class App : Application
     {
         public static int id = -1;
- protected override void OnStartup(StartupEventArgs e)
-    {
-        base.OnStartup(e);
-
-        // Hook ProcessExit for abrupt process termination
-        AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
-
-        // Hook UnhandledException for unhandled exceptions
-        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
-        // You could also include Application.DispatcherUnhandledException for UI-thread exceptions:
-        this.DispatcherUnhandledException += App_DispatcherUnhandledException;
-    }
-
-    protected override void OnExit(ExitEventArgs e)
-    {
-        base.OnExit(e);
-
-        // Ensure that your `OnApplicationExit` logic runs here.
-        OnApplicationExit(this, e);
-    }
-
-    private void CurrentDomain_ProcessExit(object sender, EventArgs e)
-    {
-        OnApplicationExit(sender, null);
-    }
-
-    private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-    {
-        // Optional: Log or handle the exception here if needed
-        Exception exception = e.ExceptionObject as Exception;
-        Console.WriteLine($"Unhandled Exception: {exception?.Message}");
-
-        // Perform cleanup tasks
-        OnApplicationExit(sender, null);
-    }
-
-    private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
-    {
-        // Handle UI thread exceptions here
-        Console.WriteLine($"UI Thread Exception: {e.Exception.Message}");
-        e.Handled = true;
-
-        // Perform cleanup tasks
-        OnApplicationExit(sender, null);
-    }
-
-    private void OnApplicationExit(object sender, EventArgs e)
-    {
-        if (id == -1)
+        public static string token = string.Empty;
+        protected override void OnStartup(StartupEventArgs e)
         {
-            return;
+            base.OnStartup(e);
+
+            // Hook ProcessExit for abrupt process termination
+            AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
+
+            // Hook UnhandledException for unhandled exceptions
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+            // You could also include Application.DispatcherUnhandledException for UI-thread exceptions:
+            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
         }
 
-        ApiService _apiService = new ApiService();
-
-        // Since this is an async call, you should handle it appropriately
-        try
+        protected override void OnExit(ExitEventArgs e)
         {
-            // Prefer async void sparingly; use fire-and-forget here
-            _ = _apiService.LogOut(new ModifyToken()
+            base.OnExit(e);
+
+            // Ensure that your `OnApplicationExit` logic runs here.
+            OnApplicationExit(this, e);
+        }
+
+        private void CurrentDomain_ProcessExit(object sender, EventArgs e)
+        {
+            OnApplicationExit(sender, null);
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            // Optional: Log or handle the exception here if needed
+            Exception exception = e.ExceptionObject as Exception;
+            Console.WriteLine($"Unhandled Exception: {exception?.Message}");
+
+            // Perform cleanup tasks
+            OnApplicationExit(sender, null);
+        }
+
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            // Handle UI thread exceptions here
+            Console.WriteLine($"UI Thread Exception: {e.Exception.Message}");
+            e.Handled = true;
+
+            // Perform cleanup tasks
+            OnApplicationExit(sender, null);
+        }
+
+        private void OnApplicationExit(object sender, EventArgs e)
+        {
+            if (id == -1)
             {
-                Id = id,
-                Aktiv = false,
-                LogOut = DateTime.Now
-            });
+                return;
+            }
+
+            ApiService _apiService = new ApiService();
+
+            // Since this is an async call, you should handle it appropriately
+            try
+            {
+                // Prefer async void sparingly; use fire-and-forget here
+                _ = _apiService.LogOut(new ModifyToken()
+                {
+                    Id = id,
+                    Aktiv = false,
+                    LogOut = DateTime.Now
+                }, token);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to log out: {ex.Message}");
+            }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Failed to log out: {ex.Message}");
-        }
-    }
     }
 
 

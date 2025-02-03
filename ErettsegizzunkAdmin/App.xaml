@@ -5,8 +5,8 @@
   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
   StartupUri="MainWindow.xaml">
     <Application.Resources>
-
-            <ResourceDictionary>
+        <ResourceDictionary>
+            
             <ResourceDictionary.MergedDictionaries>
                 <!-- Material Design Bundled Theme -->
                     <materialDesign:BundledTheme BaseTheme="Light" 
@@ -23,6 +23,25 @@
             <Color x:Key="TertiaryColor">#FF5252</Color>
             <!-- A light red -->
             <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource TertiaryColor}" />
+
+            <!-- Global Style for Clickable Controls -->
+            <Style TargetType="Button">
+                <Setter Property="Cursor" Value="Hand" />
+            </Style>
+
+            <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                <Setter Property="Cursor" Value="Hand" />
+            </Style>
+
+
+            <!-- If needed, you can also include other clickable controls like Hyperlink -->
+            <Style TargetType="Hyperlink">
+                <Setter Property="Cursor" Value="Hand" />
+            </Style>
+
+            <Style TargetType="CheckBox">
+                <Setter Property="Cursor" Value="Hand" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

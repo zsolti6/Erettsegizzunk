@@ -11,8 +11,9 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Normal"
         MinHeight="400" MinWidth="600"
-        WindowStyle="ToolWindow"
-        ResizeMode="NoResize">
+        WindowStyle="ThreeDBorderWindow"
+        ResizeMode="CanMinimize"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -21,44 +22,109 @@
 
         <!-- Top Menu Bar -->
         <materialDesign:ColorZone Mode="PrimaryDark" Grid.Row="0" Height="50">
-            <Menu materialDesign:ColorZoneAssist.Mode="PrimaryDark" VerticalAlignment="Center">
-                <MenuItem x:Name="feladatKezel" Header="Feladatok" Click="feladatKezelese_Click" Foreground="{DynamicResource SecondaryHueMidBrush}">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="ClipboardTextOutline" Foreground="{DynamicResource SecondaryHueMidBrush}"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem x:Name="feladatokTemaKezel" Header="Feladatok Téma" Click="feladatokTemaKezelese_Click" Foreground="{DynamicResource SecondaryHueMidBrush}">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="FormatListText" Foreground="{DynamicResource SecondaryHueMidBrush}"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem x:Name="szintKezel" Header="Szint" Click="segedKezelese_Click" Foreground="{DynamicResource SecondaryHueMidBrush}">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="ChartLine" Foreground="{DynamicResource SecondaryHueMidBrush}" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem x:Name="tantargyKezel" Header="Tantárgy" Click="segedKezelese_Click" Foreground="{DynamicResource SecondaryHueMidBrush}">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="BookOpenOutline" Foreground="{DynamicResource SecondaryHueMidBrush}" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem x:Name="temaKezel" Header="Téma" Click="segedKezelese_Click" Foreground="{DynamicResource SecondaryHueMidBrush}">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Palette" Foreground="{DynamicResource SecondaryHueMidBrush}" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem x:Name="tipusKezel" Header="Típus" Click="segedKezelese_Click" Foreground="{DynamicResource SecondaryHueMidBrush}">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="FileDocumentOutline" Foreground="{DynamicResource SecondaryHueMidBrush}" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem x:Name="felhasznalokKezel" Header="Felhasználók" Click="felhasznalokKezel_Click" Foreground="{DynamicResource SecondaryHueMidBrush}">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Account" Foreground="{DynamicResource SecondaryHueMidBrush}" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </Menu>
+            <DockPanel LastChildFill="True">
+
+                <!-- Menu with a custom ItemsPanel (DockPanel) -->
+                <Menu materialDesign:ColorZoneAssist.Mode="PrimaryDark"
+              VerticalAlignment="Center"
+              DockPanel.Dock="Left">
+
+                    <!-- Replace the default ItemsPanel with a DockPanel -->
+                    <Menu.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <DockPanel LastChildFill="False"/>
+                        </ItemsPanelTemplate>
+                    </Menu.ItemsPanel>
+
+                    <!-- Left-aligned menu items -->
+                    <MenuItem x:Name="feladatKezel"
+                      Header="Feladatok"
+                      Click="feladatKezelese_Click"
+                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      DockPanel.Dock="Left">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="ClipboardTextOutline"
+                                             Foreground="{DynamicResource SecondaryHueMidBrush}"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="feladatokTemaKezel"
+                      Header="Feladatok Téma"
+                      Click="feladatokTemaKezelese_Click"
+                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      DockPanel.Dock="Left">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="FormatListText"
+                                             Foreground="{DynamicResource SecondaryHueMidBrush}"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="szintKezel"
+                      Header="Szint"
+                      Click="segedKezelese_Click"
+                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      DockPanel.Dock="Left">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="ChartLine"
+                                             Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="tantargyKezel"
+                      Header="Tantárgy"
+                      Click="segedKezelese_Click"
+                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      DockPanel.Dock="Left">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="BookOpenOutline"
+                                             Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="temaKezel"
+                      Header="Téma"
+                      Click="segedKezelese_Click"
+                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      DockPanel.Dock="Left">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Palette"
+                                             Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="tipusKezel"
+                      Header="Típus"
+                      Click="segedKezelese_Click"
+                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      DockPanel.Dock="Left">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="FileDocumentOutline"
+                                             Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="felhasznalokKezel"
+                      Header="Felhasználók"
+                      Click="felhasznalokKezel_Click"
+                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      DockPanel.Dock="Left">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Account"
+                                             Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <!-- Right-aligned Logout MenuItem -->
+                    <MenuItem Header="Logout"
+                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      Click="Logout_Click"
+                      Padding="8"
+                      DockPanel.Dock="Right"
+                      VerticalContentAlignment="Center">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Logout"
+                                             Foreground="{DynamicResource SecondaryHueMidBrush}"
+                                             Width="20" Height="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </Menu>
+            </DockPanel>
         </materialDesign:ColorZone>
+
 
         <!-- Main Content -->
         <Grid Grid.Row="1" Background="{DynamicResource MaterialDesignPaper}">

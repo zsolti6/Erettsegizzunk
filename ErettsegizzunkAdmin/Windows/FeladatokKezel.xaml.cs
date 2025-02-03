@@ -1,13 +1,13 @@
 ﻿using BespokeFusion;
+using ErettsegizzunkAdmin.CustomMessageBoxes;
 using ErettsegizzunkAdmin.Services;
-using ErettsegizzunkApi.Models;
+using ErettsegizzunkApi.DTOs;
 using Microsoft.Win32;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using ErettsegizzunkAdmin.CustomMessageBoxes;
-using ErettsegizzunkApi.DTOs;
+using System.Windows.Interop;
 
 namespace ErettsegizzunkAdmin.Windows
 {
@@ -16,6 +16,17 @@ namespace ErettsegizzunkAdmin.Windows
     /// </summary>
     public partial class FeladatokKezel : Window
     {
+        #region Bezaras gomb eltüntetése
+        [DllImport("user32.dll")]
+        static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+        [DllImport("user32.dll")]
+        static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
+
+        const uint MF_GRAYED = 0x00000001;
+        const uint MF_ENABLED = 0x00000000;
+        const uint SC_CLOSE = 0xF060;
+        #endregion
+
         private readonly ApiService _apiService;
         private int pageNumber = 0;
         private List<ErettsegizzunkApi.Models.Task> feladatok = new List<ErettsegizzunkApi.Models.Task>();
@@ -32,15 +43,20 @@ namespace ErettsegizzunkAdmin.Windows
         {
             feladatok.Clear();
             List<ErettsegizzunkApi.Models.Task> feladatoks = await _apiService.GetFeladatoksAsync(mettol);
-            if(feladatoks is null)
+            if (feladatoks is null)
             {
-                MessageBoxes.CustomError("Hiba az adatok lekérdezése közben","Error");
+                MessageBoxes.CustomError("Hiba az adatok lekérdezése közben", "Error");
                 return new List<ErettsegizzunkApi.Models.Task>();
             }
             btnOldalKov.IsEnabled = feladatoks.Count == 50;//teszt
             return feladatoks;
         }
 
+        /// <summary>
+        /// Új feladat feltöltése tabulátorral tagolt txt-ből, kép oszlop megléte nem kötelező
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void btnUjAdatokTxtbol_Click(object sender, RoutedEventArgs e)
         {
             string ret = string.Empty;
@@ -51,8 +67,8 @@ namespace ErettsegizzunkAdmin.Windows
             };
 
             if (openFileDialog.ShowDialog() == true)
-            {                
-                MessageBoxResult result = MessageBoxes.CustomQuestion($"Biztosan fel akarod tölteni a {openFileDialog.FileName.Split("\\").ToList().Last()} adatait?","Figyelem");
+            {
+                MessageBoxResult result = MessageBoxes.CustomQuestion($"Biztosan fel akarod tölteni a {openFileDialog.FileName.Split("\\").ToList().Last()} adatait?", "Figyelem");
                 if (result == MessageBoxResult.Cancel)
                 {
                     MaterialMessageBox.Show("Feltöltés megszakítva!");
@@ -78,7 +94,7 @@ namespace ErettsegizzunkAdmin.Windows
                         {
                             feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2], Helyese = sor[3], TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]) });
                         }
-                        
+
                         if (feladatoks.Count == 1)
                         {
                             feladatoks[0].Token = user.Token;
@@ -181,7 +197,7 @@ namespace ErettsegizzunkAdmin.Windows
                 return;
             }
 
-            MessageBoxes.CustomMessage(await _apiService.DeletFeladatok(new FeladatokDeleteDTO() { Ids = ids, Token = user.Token}));
+            MessageBoxes.CustomMessage(await _apiService.DeletFeladatok(new FeladatokDeleteDTO() { Ids = ids, Token = user.Token }));
             RefreshUi();
         }
 
@@ -190,6 +206,42 @@ namespace ErettsegizzunkAdmin.Windows
             MenuWindow menu = new MenuWindow(user);
             menu.Show();
             Close();
+        }
+
+        private void btnModosit_Click(object sender, RoutedEventArgs e)
+        {
+            List<int> ids = new List<int>();
+
+            foreach (ErettsegizzunkApi.Models.Task feladat in feladatok)
+            {
+                if (feladat.IsSelected)
+                {
+                    ids.Add(feladat.Id);
+                }
+            }
+
+            if (ids.Count == 0)
+            {
+                MessageBoxes.CustomError("Válassza ki a módosítani kívánt feladatot!");
+                return;
+            }
+
+            if (ids.Count > 1)
+            {
+                MessageBoxes.CustomError("Egyszerre egy feladat módosítása lehetséges!");
+                return;
+            }
+
+            FeladatModosit feladatModosit = new FeladatModosit(feladatok.Find(x => x.Id == ids[0]), user);
+            feladatModosit.ShowDialog();
+
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var hwnd = new WindowInteropHelper(this).Handle;
+            IntPtr hMenu = GetSystemMenu(hwnd, false);
+            EnableMenuItem(hMenu, SC_CLOSE, MF_GRAYED);
         }
     }
 }

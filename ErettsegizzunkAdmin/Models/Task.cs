@@ -19,11 +19,11 @@ public partial class Task
 
     public string? IsCorrect { get; set; }
 
-    public int? SubjectId { get; set; }
+    public int SubjectId { get; set; }
 
-    public int? TypeId { get; set; }
+    public int TypeId { get; set; }
 
-    public int? LevelId { get; set; }
+    public int LevelId { get; set; }
 
     public string? PicName { get; set; }
 
@@ -37,7 +37,12 @@ public partial class Task
 
     public virtual ICollection<SpacedRepetition> SpacedRepetitions { get; set; } = new List<SpacedRepetition>();
 
-    public string SubjectName { get { return Subject.Name; } private set { } }
-    public string LevelName { get { return Level.Name; } private set { } }
-    public string TypeName { get { return Type.Name; } private set {  } }
+    public string SubjectName { get { return Subject.Name; } set { SubjectId = SubjectList.IndexOf(value) + 1; } }
+    public string LevelName { get { return Level.Name; } set { LevelId = LevelList.IndexOf(value) + 1; } }
+    public string TypeName { get { return Type.Name; } set { TypeId = TypeList.IndexOf(value) + 1; } }
+
+    //databaseből lekérni majd
+    public List<string> SubjectList { get; } = new List<string>() { "matematika", "történelem", "magyar" };
+    public List<string> LevelList { get; } = new List<string>() { "közép", "emelt"};
+    public List<string> TypeList { get; } = new List<string>() { "radio", "chechkbox", "textbox" };
 }

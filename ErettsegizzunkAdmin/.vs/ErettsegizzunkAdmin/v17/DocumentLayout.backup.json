@@ -3,24 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\windows\\felhasznalokkezel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:windows\\felhasznalokkezel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\windows\\feladatmodosit.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:windows\\feladatmodosit.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\windows\\felhasznalomodosit.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:windows\\felhasznalomodosit.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\windows\\feladatmodosit.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:windows\\feladatmodosit.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\windows\\felhasznalokkezel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:windows\\felhasznalokkezel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\windows\\feladatokkezel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:windows\\feladatokkezel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\models\\userstatistic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:models\\userstatistic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\windows\\feladatokkezel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:windows\\feladatokkezel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,71 +26,60 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "FelhasznalokKezel.xaml",
-              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FelhasznalokKezel.xaml",
-              "RelativeDocumentMoniker": "Windows\\FelhasznalokKezel.xaml",
-              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FelhasznalokKezel.xaml",
-              "RelativeToolTip": "Windows\\FelhasznalokKezel.xaml",
+              "DocumentIndex": 2,
+              "Title": "FeladatokKezel.xaml",
+              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FeladatokKezel.xaml",
+              "RelativeDocumentMoniker": "Windows\\FeladatokKezel.xaml",
+              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FeladatokKezel.xaml",
+              "RelativeToolTip": "Windows\\FeladatokKezel.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-01-28T07:45:50.746Z",
+              "WhenOpened": "2025-02-03T09:41:49.262Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "FelhasznalokKezel.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FelhasznalokKezel.xaml.cs",
-              "RelativeDocumentMoniker": "Windows\\FelhasznalokKezel.xaml.cs",
-              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FelhasznalokKezel.xaml.cs",
-              "RelativeToolTip": "Windows\\FelhasznalokKezel.xaml.cs",
-              "ViewState": "AgIAAEYAAAAAAAAAAAAowHAAAAAsAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "FeladatokKezel.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FeladatokKezel.xaml.cs",
+              "RelativeDocumentMoniker": "Windows\\FeladatokKezel.xaml.cs",
+              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FeladatokKezel.xaml.cs",
+              "RelativeToolTip": "Windows\\FeladatokKezel.xaml.cs",
+              "ViewState": "AgIAANMAAAAAAAAAAAAewOoAAABoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-28T07:47:47.593Z",
+              "WhenOpened": "2025-02-03T09:41:55.421Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "FelhasznaloModosit.xaml",
-              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FelhasznaloModosit.xaml",
-              "RelativeDocumentMoniker": "Windows\\FelhasznaloModosit.xaml",
-              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FelhasznaloModosit.xaml",
-              "RelativeToolTip": "Windows\\FelhasznaloModosit.xaml",
+              "Title": "FeladatModosit.xaml",
+              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FeladatModosit.xaml",
+              "RelativeDocumentMoniker": "Windows\\FeladatModosit.xaml",
+              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FeladatModosit.xaml",
+              "RelativeToolTip": "Windows\\FeladatModosit.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-01-31T06:47:32.965Z",
+              "WhenOpened": "2025-02-03T11:05:21.314Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Models\\User.cs",
-              "RelativeDocumentMoniker": "Models\\User.cs",
-              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Models\\User.cs",
-              "RelativeToolTip": "Models\\User.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAB8AAAApAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "FeladatModosit.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FeladatModosit.xaml.cs",
+              "RelativeDocumentMoniker": "Windows\\FeladatModosit.xaml.cs",
+              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FeladatModosit.xaml.cs",
+              "RelativeToolTip": "Windows\\FeladatModosit.xaml.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAIwG0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-31T06:32:38.748Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "UserStatistic.cs",
-              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Models\\UserStatistic.cs",
-              "RelativeDocumentMoniker": "Models\\UserStatistic.cs",
-              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Models\\UserStatistic.cs",
-              "RelativeToolTip": "Models\\UserStatistic.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-31T06:32:37.822Z",
+              "WhenOpened": "2025-02-03T10:04:52.609Z",
+              "IsPinned": true,
               "EditorCaption": ""
             }
           ]

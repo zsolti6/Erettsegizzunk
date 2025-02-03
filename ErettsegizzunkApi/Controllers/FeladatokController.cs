@@ -83,20 +83,20 @@ namespace ErettsegizzunkApi.Controllers
 
         //Egy feladat módosítása id alapján
         // PUT: api/Feladatoks/put-egy-feladat
-        [HttpPut("put-egy-feladat/{id}")]
-        public async Task<IActionResult> PutFeladatok(int id, [FromBody]FeladatokPutPostDTO put)
+        [HttpPut("put-egy-feladat")]
+        public async Task<IActionResult> PutFeladatok([FromBody]FeladatokPutPostDTO put)
         {
             if (!Program.LoggedInUsers.ContainsKey(put.Token) && Program.LoggedInUsers[put.Token].Permission.Level != 9)
             {
                 return BadRequest("Nincs jogosultságod!");
             }
 
-                if (id < 1)
+                if (put.Id < 1)
             {
                 return BadRequest("Nincs ilyen id");
             }
 
-            Models.Task? feladat = await _context.Tasks.FindAsync(id);
+            Models.Task? feladat = await _context.Tasks.FindAsync(put.Id);
 
             if (feladat is null)
             {
