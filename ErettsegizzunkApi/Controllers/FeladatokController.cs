@@ -1,4 +1,4 @@
-﻿using ErettsegizzunkApi.DTO;
+﻿using ErettsegizzunkApi.DTOs;
 using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

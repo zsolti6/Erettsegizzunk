@@ -1,5 +1,4 @@
-﻿using ErettsegizzunkApi.DTO;
-using ErettsegizzunkApi.DTOs;
+﻿using ErettsegizzunkApi.DTOs;
 using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

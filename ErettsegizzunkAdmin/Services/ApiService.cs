@@ -26,7 +26,7 @@ namespace ErettsegizzunkAdmin.Services
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        //Feladatok
+        #region Feladatok
         public async Task<List<ErettsegizzunkApi.Models.Task>> GetFeladatoksAsync(int mettol)
         {
             try
@@ -98,14 +98,14 @@ namespace ErettsegizzunkAdmin.Services
                 return ex.Message;
             }
         }
+        #endregion
 
-
-        //Tantargyak
+        #region Tantargyak
         public async Task<List<Subject>> GetTantargyaksAsync()
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync("/erettsegizzunk/Tantargyak");
+                HttpResponseMessage response = await _httpClient.GetAsync("erettsegizzunk/Tantargyak/get-tantargyak");
                 response.EnsureSuccessStatusCode();
                 string responseContent = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<Subject>>(responseContent);
@@ -116,8 +116,60 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
+        public async Task<string> PutTantargyak(TantargyDTO tantargy)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(tantargy), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PutAsync("erettsegizzunk/Tantargyak/put-tantargy", content);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException ex)
+            {
+                return ex.Message;
+            }
+        }
 
-        //Login - logout
+        public async Task<string> PostTantargya(TantargyDTO tantargy)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(tantargy), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Tantargyak/post-tantargy", content);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public async Task<string> DeletTantargy(TantargyDTO tantargy)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(tantargy), Encoding.UTF8, "application/json");
+                HttpRequestMessage request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Delete,
+                    RequestUri = new Uri(_httpClient.BaseAddress, "erettsegizzunk/Tantargyak/delete-tantargy"),
+                    Content = content
+                };
+                HttpResponseMessage response = await _httpClient.SendAsync(request);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+
+            }
+            catch (HttpRequestException ex)
+            {
+                return ex.Message;
+            }
+        }
+        #endregion
+
+        #region Login - logout
         public async Task<LoggedUserDTO> Login(string name, string password)
         {
             LoggedUserDTO user = new LoggedUserDTO();
@@ -185,8 +237,9 @@ namespace ErettsegizzunkAdmin.Services
                 return ex.Message;
             }
         }
+        #endregion
 
-        //Kép letöltés
+        #region Kép letöltés
         public async Task<string> GetImage(string imageName)
         {
             try
@@ -231,8 +284,9 @@ namespace ErettsegizzunkAdmin.Services
             }
 
         }
+        #endregion
 
-        //Kép feltöltés
+        #region Kép feltöltés BUGOS
 
         public async System.Threading.Tasks.Task UploadImageToBackendAsync(string base64Image)
         {
@@ -263,9 +317,9 @@ namespace ErettsegizzunkAdmin.Services
                 }
             }
         }
+        #endregion
 
-
-        //Felhasználók
+        #region Felhasználók
         public async Task<List<User>> GetFelhasznalokAsync(LoggedUserForCheckDTO logged /*int mettol*/)//50 lekérdezése max
         {
             try
@@ -337,7 +391,7 @@ namespace ErettsegizzunkAdmin.Services
                 return ex.Message;
             }
         }
-
+        #endregion
 
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ErettsegizzunkApi.Models;
+using ErettsegizzunkApi.DTOs;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -21,38 +22,18 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         // GET: api/Tantargyak
-        [HttpGet]
+        [HttpGet("get-tantargy")]
         public async Task<ActionResult<IEnumerable<Subject>>> GetTantargyak()
         {
             return await _context.Subjects.ToListAsync();
         }
 
-        /*
-        // GET: api/Tantargyaks/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Tantargyak>> GetTantargyak(int id)
-        {
-            var tantargyak = await _context.Tantargyaks.FindAsync(id);
-
-            if (tantargyak == null)
-            {
-                return NotFound();
-            }
-
-            return tantargyak;
-        }
-
         // PUT: api/Tantargyaks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTantargyak(int id, Tantargyak tantargyak)
+        [HttpPost("put-tantargy")]
+        public async Task<IActionResult> PutTantargyak([FromBody]TantargyDTO tantargy)
         {
-            if (id != tantargyak.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(tantargyak).State = EntityState.Modified;
+            _context.Entry(tantargy).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +41,7 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TantargyakExists(id))
+                if (!TantargyakExists(tantargy.Id))
                 {
                     return NotFound();
                 }
@@ -72,7 +53,7 @@ namespace ErettsegizzunkApi.Controllers
 
             return NoContent();
         }
-
+        /*
         // POST: api/Tantargyaks
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -82,8 +63,8 @@ namespace ErettsegizzunkApi.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTantargyak", new { id = tantargyak.Id }, tantargyak);
-        }
-
+        }*/
+        /*
         // DELETE: api/Tantargyaks/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTantargyak(int id)

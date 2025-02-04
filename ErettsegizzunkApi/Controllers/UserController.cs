@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ErettsegizzunkApi.DTOs;
-using ErettsegizzunkApi.DTO;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -165,12 +164,7 @@ namespace ErettsegizzunkApi.Controllers
                 {
                     try
                     {
-                        List<User> felhasznalok = await _context.Users.Where(x => deleteDTO.Ids.Contains(x.Id)).ToListAsync();
-                        if (felhasznalok == null)
-                        {
-                            return NotFound("Nincs feladat ilyen id-vel.");
-                        }
-                        _context.Users.RemoveRange(felhasznalok);
+                        _context.Users.RemoveRange(await _context.Users.Where(x => deleteDTO.Ids.Contains(x.Id)).ToListAsync());
                         await _context.SaveChangesAsync();
                     }
                     catch (Exception ex)

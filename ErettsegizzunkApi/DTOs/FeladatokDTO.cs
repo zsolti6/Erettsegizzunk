@@ -1,6 +1,6 @@
 ﻿using ErettsegizzunkApi.Models;
 
-namespace ErettsegizzunkApi.DTO
+namespace ErettsegizzunkApi.DTOs
 {
     public class FeladatokGetRandomDTO
     {

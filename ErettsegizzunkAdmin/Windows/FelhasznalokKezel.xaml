@@ -9,6 +9,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:local="clr-namespace:ErettsegizzunkAdmin.Windows"
     mc:Ignorable="d"
     Title="Érettségizzünk"
@@ -16,7 +17,7 @@
     WindowStartupLocation="CenterScreen"
     WindowState="Normal"
     MinHeight="400" MinWidth="600"
-    WindowStyle="ToolWindow"
+    WindowStyle="ThreeDBorderWindow"
     ResizeMode="CanMinimize"
     Loaded="Window_Loaded">
     
@@ -73,6 +74,16 @@
                 <DataGridTextColumn Header="Feliratkozás dátum" Binding="{Binding SignupDate}" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
+
+        <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,5,10,0" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <Button x:Name="btnQuestion" Style="{StaticResource MaterialDesignFloatingActionButton}"
+                    ToolTip="Help"
+                    Height="25" Width="25"
+                    Click="btnQuestion_Click">
+                <materialDesign:PackIcon Kind="HelpCircleOutline" Width="24" Height="24"/>
+            </Button>
+
+        </StackPanel>
 
         <!-- Side Panel -->
         <StackPanel Grid.Column="1" Grid.Row="1" Margin="16" VerticalAlignment="Top" HorizontalAlignment="Right">

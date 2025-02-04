@@ -69,7 +69,7 @@
                     </MenuItem>
                     <MenuItem x:Name="tantargyKezel"
                       Header="Tantárgy"
-                      Click="segedKezelese_Click"
+                      Click="tantargyKezel_Click"
                       Foreground="{DynamicResource SecondaryHueMidBrush}"
                       DockPanel.Dock="Left">
                         <MenuItem.Icon>

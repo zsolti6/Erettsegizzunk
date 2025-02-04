@@ -46,7 +46,7 @@
     "Parameters": [
       {
         "Name": "feladatokDeleteDTO",
-        "Type": "ErettsegizzunkApi.DTO.FeladatokDeleteDTO",
+        "Type": "ErettsegizzunkApi.DTOs.FeladatokDeleteDTO",
         "IsRequired": true
       }
     ],
@@ -62,7 +62,7 @@
     "Parameters": [
       {
         "Name": "get",
-        "Type": "ErettsegizzunkApi.DTO.FeladatokGetSpecificDTO",
+        "Type": "ErettsegizzunkApi.DTOs.FeladatokGetSpecificDTO",
         "IsRequired": true
       }
     ],
@@ -88,7 +88,7 @@
     "Parameters": [
       {
         "Name": "get",
-        "Type": "ErettsegizzunkApi.DTO.FeladatokGetRandomDTO",
+        "Type": "ErettsegizzunkApi.DTOs.FeladatokGetRandomDTO",
         "IsRequired": true
       }
     ],
@@ -140,7 +140,7 @@
     "Parameters": [
       {
         "Name": "post",
-        "Type": "ErettsegizzunkApi.DTO.FeladatokPutPostDTO",
+        "Type": "ErettsegizzunkApi.DTOs.FeladatokPutPostDTO",
         "IsRequired": true
       }
     ],
@@ -166,7 +166,7 @@
     "Parameters": [
       {
         "Name": "post",
-        "Type": "System.Collections.Generic.List\u00601[[ErettsegizzunkApi.DTO.FeladatokPutPostDTO, ErettsegizzunkApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ErettsegizzunkApi.DTOs.FeladatokPutPostDTO, ErettsegizzunkApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
       }
     ],
@@ -192,7 +192,7 @@
     "Parameters": [
       {
         "Name": "put",
-        "Type": "ErettsegizzunkApi.DTO.FeladatokPutPostDTO",
+        "Type": "ErettsegizzunkApi.DTOs.FeladatokPutPostDTO",
         "IsRequired": true
       }
     ],
@@ -369,7 +369,7 @@
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.TantargyakController",
     "Method": "GetTantargyak",
-    "RelativePath": "erettsegizzunk/Tantargyak",
+    "RelativePath": "erettsegizzunk/Tantargyak/get-tantargy",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -385,6 +385,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.TantargyakController",
+    "Method": "PutTantargyak",
+    "RelativePath": "erettsegizzunk/Tantargyak/put-tantargy",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tantargy",
+        "Type": "ErettsegizzunkApi.DTOs.TantargyDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.TokenController",
@@ -428,7 +444,7 @@
     "Parameters": [
       {
         "Name": "deleteDTO",
-        "Type": "ErettsegizzunkApi.DTO.FeladatokDeleteDTO",
+        "Type": "ErettsegizzunkApi.DTOs.FeladatokDeleteDTO",
         "IsRequired": true
       }
     ],

@@ -39,6 +39,13 @@ namespace ErettsegizzunkAdmin.Windows
             RefreshUi();
         }
 
+        private async void RefreshUi()
+        {
+            feladatok = await LoadDatasAsync(feladatok.Count == 50 ? feladatok[feladatok.Count - 1].Id : 0);//teszt
+            dgFeladatAdatok.ItemsSource = feladatok;
+            cbSelectAll.IsChecked = false;
+        }
+
         private async Task<List<ErettsegizzunkApi.Models.Task>> LoadDatasAsync(int mettol)
         {
             feladatok.Clear();
@@ -120,13 +127,6 @@ namespace ErettsegizzunkAdmin.Windows
                     RefreshUi();
                 }
             }
-        }
-
-        private async void RefreshUi()
-        {
-            feladatok = await LoadDatasAsync(feladatok.Count == 50 ? feladatok[feladatok.Count - 1].Id : 0);//teszt
-            dgFeladatAdatok.ItemsSource = feladatok;
-            cbSelectAll.IsChecked = false;
         }
 
         private void btnOldalKov_Click(object sender, RoutedEventArgs e)
@@ -242,6 +242,11 @@ namespace ErettsegizzunkAdmin.Windows
             var hwnd = new WindowInteropHelper(this).Handle;
             IntPtr hMenu = GetSystemMenu(hwnd, false);
             EnableMenuItem(hMenu, SC_CLOSE, MF_GRAYED);
+        }
+
+        private void btnQuestion_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

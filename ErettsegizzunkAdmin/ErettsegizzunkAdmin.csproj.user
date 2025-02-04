@@ -19,6 +19,9 @@
     <Compile Update="Windows\MenuWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\TantargyKezel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\UjFelhasznalo.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -34,6 +37,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\MenuWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\TantargyKezel.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\UjFelhasznalo.xaml">

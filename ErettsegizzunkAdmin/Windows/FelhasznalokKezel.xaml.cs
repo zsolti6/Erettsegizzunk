@@ -25,6 +25,7 @@ namespace ErettsegizzunkAdmin.Windows
     /// </summary>
     public partial class FelhasznalokKezel : Window
     {
+        #region Bezaras gomb eltüntetése
         [DllImport("user32.dll")]
         static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
         [DllImport("user32.dll")]
@@ -33,7 +34,7 @@ namespace ErettsegizzunkAdmin.Windows
         const uint MF_GRAYED = 0x00000001;
         const uint MF_ENABLED = 0x00000000;
         const uint SC_CLOSE = 0xF060;
-
+        #endregion
 
         private LoggedUserDTO user;
         private List<User> felhasznalok = new List<User>();
@@ -146,6 +147,11 @@ namespace ErettsegizzunkAdmin.Windows
             var hwnd = new WindowInteropHelper(this).Handle;
             IntPtr hMenu = GetSystemMenu(hwnd, false);
             EnableMenuItem(hMenu, SC_CLOSE, MF_GRAYED);
+        }
+
+        private void btnQuestion_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
