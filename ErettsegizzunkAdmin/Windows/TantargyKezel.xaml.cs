@@ -1,4 +1,5 @@
 ﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
+using ErettsegizzunkAdmin.DTOs;
 using ErettsegizzunkAdmin.Services;
 using ErettsegizzunkApi.DTOs;
 using ErettsegizzunkApi.Models;
@@ -97,13 +98,14 @@ namespace ErettsegizzunkAdmin.Windows
                 return;
             }
 
-            MessageBoxes.CustomMessage(await _apiService.DeletFeladatok(new FeladatokDeleteDTO() { Ids = ids, Token = user.Token }));
+            MessageBoxes.CustomMessageOk(await _apiService.DeletTantargy(new TantargyDeleteDTO() { Ids = ids, Token = user.Token }));
             RefreshUi();
         }
 
         private void btnUjTantagyFelvitele_Click(object sender, RoutedEventArgs e)
         {
-
+            UjTantargy ujTantargy = new UjTantargy(user);
+            ujTantargy.ShowDialog();
         }
 
         private void btnQuestion_Click(object sender, RoutedEventArgs e)

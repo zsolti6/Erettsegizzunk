@@ -368,8 +368,24 @@
   },
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.TantargyakController",
+    "Method": "DeleteTantargyak",
+    "RelativePath": "erettsegizzunk/Tantargyak/delete-tantargyak",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tantargyak",
+        "Type": "ErettsegizzunkApi.DTOs.TantargyDeleteDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.TantargyakController",
     "Method": "GetTantargyak",
-    "RelativePath": "erettsegizzunk/Tantargyak/get-tantargy",
+    "RelativePath": "erettsegizzunk/Tantargyak/get-tantargyak",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -377,6 +393,32 @@
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.IEnumerable\u00601[[ErettsegizzunkApi.Models.Subject, ErettsegizzunkApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.TantargyakController",
+    "Method": "PostTantargyak",
+    "RelativePath": "erettsegizzunk/Tantargyak/post-tantargy",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tantargyak",
+        "Type": "ErettsegizzunkApi.DTOs.TantargyDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ErettsegizzunkApi.Models.Subject",
         "MediaTypes": [
           "text/plain",
           "application/json",

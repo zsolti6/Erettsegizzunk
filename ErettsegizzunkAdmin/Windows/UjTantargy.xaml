@@ -1,0 +1,57 @@
+﻿<Window 
+    TextElement.Foreground="{DynamicResource MaterialDesign.Brush.Foreground}"
+    Background="{DynamicResource MaterialDesignPaper}"
+    TextElement.FontWeight="Medium"
+    TextElement.FontSize="14"
+    FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+    x:Class="ErettsegizzunkAdmin.Windows.UjTantargy"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Normal"
+        Title="Érettségizzünk"
+        Height="300" Width="350">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+        <materialDesign:ColorZone Mode="PrimaryDark" Grid.Row="0" Height="60">
+            <TextBlock Text="Új tantárgy felvitele"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontSize="24"
+                       Foreground="White"/>
+        </materialDesign:ColorZone>
+
+        <!-- Form Section -->
+        <StackPanel Grid.Row="1" Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center" Width="280">
+            <!-- Username Field -->
+            <TextBox materialDesign:HintAssist.Hint="Tantárgy név"
+                     x:Name="tbTantargyNev" FontSize="14" Padding="10"/>
+        </StackPanel>
+
+        <!-- Buttons Section -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,30">
+            <!-- Submit Button -->
+            <Button Content="Létrehoz"
+                    Style="{DynamicResource MaterialDesignRaisedButton}" 
+                    Width="100"
+                    Click="btnTantargy_Letrehoz_Click"/>
+
+            <!-- Cancel Button -->
+            <Button Content="Mégsem" 
+                    Style="{DynamicResource MaterialDesignFlatButton}" 
+                    Width="100"
+                    Click="Megse_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

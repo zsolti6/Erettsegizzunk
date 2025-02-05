@@ -134,6 +134,11 @@ namespace ErettsegizzunkApi.Controllers
         [HttpPost("post-egy-feladat")]
         public async Task<ActionResult<Models.Task>> PostFeladat([FromBody]FeladatokPutPostDTO post)
         {
+            if (!Program.LoggedInUsers.ContainsKey(post.Token) && Program.LoggedInUsers[post.Token].Permission.Level != 9)
+            {
+                return BadRequest("Nincs jogosultságod!");
+            }
+
             Models.Task feladatok = new Models.Task
             {
                 Description = post.Leiras,
@@ -147,23 +152,6 @@ namespace ErettsegizzunkApi.Controllers
 
             try
             {
-                ActionResult<Token> eredmeny = await VanToken(post);//atirni??
-                switch (eredmeny.Result)
-                {
-                    case NotFoundResult:
-                        {
-                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
-                        }
-                    case BadRequestResult:
-                        {
-                            throw new Exception(eredmeny.Result.ToString());
-                        }
-                    case NotFoundObjectResult:
-                        {
-                            throw new Exception("Felhasználónak nincs megfelelő jogosultsága");
-                        }
-                }
-
                 _context.Tasks.Add(feladatok);
                 await _context.SaveChangesAsync();
             }

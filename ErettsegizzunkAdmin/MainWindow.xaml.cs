@@ -15,6 +15,7 @@ using ErettsegizzunkApi.Models;
 using ErettsegizzunkAdmin.CustomMessageBoxes;
 using ErettsegizzunkAdmin.DTOs;
 using ErettsegizzunkApi.DTOs;
+using MaterialDesignThemes.Wpf;
 
 namespace ErettsegizzunkAdmin
 {
@@ -29,6 +30,7 @@ namespace ErettsegizzunkAdmin
         {
             InitializeComponent();
             _apiService = new ApiService();
+            //MessageBoxResult messageBoxResult = MaterialMessageBox.ShowDialog(this,"asd", "asd", MessageBoxButton.OK, PackIconKind.Error);
         }
 
         private async void btnLogin_Click(object sender, RoutedEventArgs e)

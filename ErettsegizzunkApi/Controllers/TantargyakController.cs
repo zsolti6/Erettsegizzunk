@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using ErettsegizzunkApi.DTOs;
+using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ErettsegizzunkApi.Models;
-using ErettsegizzunkApi.DTOs;
+using Mysqlx;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -22,16 +18,53 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         // GET: api/Tantargyak
-        [HttpGet("get-tantargy")]
+        [HttpGet("get-tantargyak")]
         public async Task<ActionResult<IEnumerable<Subject>>> GetTantargyak()
         {
-            return await _context.Subjects.ToListAsync();
+            try
+            {
+                return await _context.Subjects.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Hiba történt az adatok lekérdezése közben!");
+            }
         }
 
-        // PUT: api/Tantargyaks/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost("post-tantargy")]
+        public async Task<ActionResult<Subject>> PostTantargyak([FromBody] TantargyDTO tantargyak)
+        {
+            if (!Program.LoggedInUsers.ContainsKey(tantargyak.Token) && Program.LoggedInUsers[tantargyak.Token].Permission.Level != 9)
+            {
+                return BadRequest("Nincs jogosultságod!");
+            }
+
+            try
+            {
+                Subject subject = new Subject()
+                {
+                    Id = tantargyak.Id,
+                    Name = tantargyak.Name,
+                };
+
+                _context.Subjects.Add(subject);
+                await _context.SaveChangesAsync();
+                
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return NotFound("Nem található az adat az adatbázisban!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Hiba történt az adatok feltöltése közben!");
+            }
+
+            return Ok("Erőforrás sikeresen létrehozva");
+        }
+
         [HttpPost("put-tantargy")]
-        public async Task<IActionResult> PutTantargyak([FromBody]TantargyDTO tantargy)
+        public async Task<IActionResult> PutTantargyak([FromBody] TantargyDTO tantargy)
         {
             _context.Entry(tantargy).State = EntityState.Modified;
 
@@ -53,33 +86,31 @@ namespace ErettsegizzunkApi.Controllers
 
             return NoContent();
         }
-        /*
-        // POST: api/Tantargyaks
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Tantargyak>> PostTantargyak(Tantargyak tantargyak)
-        {
-            _context.Tantargyaks.Add(tantargyak);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTantargyak", new { id = tantargyak.Id }, tantargyak);
-        }*/
-        /*
-        // DELETE: api/Tantargyaks/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTantargyak(int id)
+        [HttpDelete("delete-tantargyak")]
+        public async Task<IActionResult> DeleteTantargyak([FromBody]TantargyDeleteDTO tantargyak)
         {
-            var tantargyak = await _context.Tantargyaks.FindAsync(id);
-            if (tantargyak == null)
+            if (!Program.LoggedInUsers.ContainsKey(tantargyak.Token) && Program.LoggedInUsers[tantargyak.Token].Permission.Level != 9)
             {
-                return NotFound();
+                return BadRequest("Nincs jogosultságod!");
             }
 
-            _context.Tantargyaks.Remove(tantargyak);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Subjects.RemoveRange(await _context.Subjects.Where(x => tantargyak.Ids.Contains(x.Id)).ToListAsync());
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Hiba történt az adat törlése közben kérem próbálja újra");
+            }
 
-            return NoContent();
-        }*/
+            return Ok("Törlés sikeresen végrehajtva");
+        }
 
         private bool TantargyakExists(int id)
         {

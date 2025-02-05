@@ -8,8 +8,17 @@ namespace ErettsegizzunkAdmin.DTOs
 {
     public class TantargyDTO
     {
-        public int Id { get; set; }
+        public int Id { get; set; } = -1;
 
         public string Name { get; set; } = null!;
+
+        public string Token { get; set; } = null!;
+    }
+
+    public class TantargyDeleteDTO
+    {
+        public string Token { get; set; } = null!;
+
+        public List<int> Ids { get; set; }
     }
 }

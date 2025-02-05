@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\App.xaml
-7-945118077
+8-1277707923
 
-29-95494777
-203-982371160
-MainWindow.xaml;Windows\FeladatModosit.xaml;Windows\FeladatokKezel.xaml;Windows\FelhasznalokKezel.xaml;Windows\MenuWindow.xaml;Windows\TantargyKezel.xaml;Windows\UjFelhasznalo.xaml;
+302043728096
+205405823853
+MainWindow.xaml;Windows\FeladatModosit.xaml;Windows\FeladatokKezel.xaml;Windows\FelhasznalokKezel.xaml;Windows\MenuWindow.xaml;Windows\TantargyKezel.xaml;Windows\UjFelhasznalo.xaml;Windows\UjTantargy.xaml;
 
-True
+False
 

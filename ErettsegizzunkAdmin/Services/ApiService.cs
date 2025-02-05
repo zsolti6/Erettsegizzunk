@@ -106,11 +106,21 @@ namespace ErettsegizzunkAdmin.Services
             try
             {
                 HttpResponseMessage response = await _httpClient.GetAsync("erettsegizzunk/Tantargyak/get-tantargyak");
-                response.EnsureSuccessStatusCode();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new Exception(error);
+                }
+
                 string responseContent = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<Subject>>(responseContent);
             }
             catch (HttpRequestException ex)
+            {
+                return new List<Subject> { new Subject { Id = -1, Name = ex.Message } };
+            }
+            catch (Exception ex)
             {
                 return new List<Subject> { new Subject { Id = -1, Name = ex.Message } };
             }
@@ -122,31 +132,51 @@ namespace ErettsegizzunkAdmin.Services
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(tantargy), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PutAsync("erettsegizzunk/Tantargyak/put-tantargy", content);
-                response.EnsureSuccessStatusCode();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new Exception(error);
+                }
+
                 return await response.Content.ReadAsStringAsync();
             }
             catch (HttpRequestException ex)
             {
                 return ex.Message;
             }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
 
-        public async Task<string> PostTantargya(TantargyDTO tantargy)
+        public async Task<string> PostTantargy(TantargyDTO tantargy)
         {
             try
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(tantargy), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Tantargyak/post-tantargy", content);
-                response.EnsureSuccessStatusCode();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new Exception(error);
+                }
+
                 return await response.Content.ReadAsStringAsync();
             }
             catch (HttpRequestException ex)
             {
                 return ex.Message;
             }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
 
-        public async Task<string> DeletTantargy(TantargyDTO tantargy)
+        public async Task<string> DeletTantargy(TantargyDeleteDTO tantargy)
         {
             try
             {
@@ -154,15 +184,25 @@ namespace ErettsegizzunkAdmin.Services
                 HttpRequestMessage request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Delete,
-                    RequestUri = new Uri(_httpClient.BaseAddress, "erettsegizzunk/Tantargyak/delete-tantargy"),
+                    RequestUri = new Uri(_httpClient.BaseAddress, "erettsegizzunk/Tantargyak/delete-tantargyak"),
                     Content = content
                 };
                 HttpResponseMessage response = await _httpClient.SendAsync(request);
-                response.EnsureSuccessStatusCode();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new Exception(error);
+                }
+
                 return await response.Content.ReadAsStringAsync();
 
             }
             catch (HttpRequestException ex)
+            {
+                return ex.Message;
+            }
+            catch(Exception ex)
             {
                 return ex.Message;
             }
@@ -283,39 +323,6 @@ namespace ErettsegizzunkAdmin.Services
                 return null;
             }
 
-        }
-        #endregion
-
-        #region Kép feltöltés BUGOS
-
-        public async System.Threading.Tasks.Task UploadImageToBackendAsync(string base64Image)
-        {
-            // Replace with your backend endpoint.
-            string endpointUrl = "https://yourbackend/api/uploadImage";
-
-            // Create a JSON payload containing the image.
-            // Using Newtonsoft.Json:
-            // var payload = new { image = base64Image };
-            // string json = JsonConvert.SerializeObject(payload);
-
-            // Or using System.Text.Json:
-            var payload = new { image = base64Image };
-            string json = System.Text.Json.JsonSerializer.Serialize(payload);
-
-            using (var client = new HttpClient())
-            {
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/FileUpload/FtpServer", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    MessageBox.Show("Image uploaded successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Failed to upload image. Status code: " + response.StatusCode, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
         }
         #endregion
 

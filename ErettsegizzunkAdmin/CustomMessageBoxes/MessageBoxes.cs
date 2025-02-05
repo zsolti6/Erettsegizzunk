@@ -8,12 +8,15 @@ using System.Windows.Media;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
 using MaterialDesignColors;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
+using System.Drawing.Imaging;
+using MaterialDesignThemes.Wpf;
 
 namespace ErettsegizzunkAdmin.CustomMessageBoxes
 {
     public static class MessageBoxes
     {
-
         public static void CustomError(string szoveg, string cim = "")
         {
             CustomMaterialMessageBox custom = new CustomMaterialMessageBox
@@ -25,8 +28,10 @@ namespace ErettsegizzunkAdmin.CustomMessageBoxes
                 BtnCopyMessage = { Visibility = Visibility.Collapsed },
                 MainContentControl = { Background = Brushes.WhiteSmoke },
                 TitleBackgroundPanel = { Background = Brushes.Red },
-                BorderBrush = Brushes.Red
+                BorderBrush = Brushes.Red,
             };
+
+
             custom.Show();
         }
 
@@ -40,7 +45,7 @@ namespace ErettsegizzunkAdmin.CustomMessageBoxes
                 BtnCancel = { Content = "Nem" },
                 BtnCopyMessage = { Visibility = Visibility.Collapsed },
                 MainContentControl = { Background = Brushes.WhiteSmoke },
-                TitleBackgroundPanel = { Background = (Brush)Application.Current.Resources["MaterialDesignDeepPurple"] },
+                TitleBackgroundPanel = { Background = (System.Windows.Media.Brush)Application.Current.Resources["MaterialDesignDeepPurple"] },
                 BorderBrush = Brushes.Purple
             };
             custom.ShowDialog();

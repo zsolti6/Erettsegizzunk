@@ -26,10 +26,23 @@ D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\o
 D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.pdb
 D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.genruntimeconfig.cache
 D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ref\ErettsegizzunkAdmin.dll
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\MaterialDesignColors.dll
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\MaterialDesignThemes.Wpf.dll
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\BespokeFusion.dll
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\Microsoft.Xaml.Behaviors.dll
+D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\App.baml
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.csproj.AssemblyReference.cache
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\UjFelhasznalo.baml
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\UjTantargy.baml
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\App.baml
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatModosit.g.cs
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatokKezel.g.cs
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FelhasznalokKezel.g.cs
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\MenuWindow.g.cs
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\TantargyKezel.g.cs
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\UjFelhasznalo.g.cs
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\UjTantargy.g.cs
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\App.g.cs
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin_MarkupCompile.cache
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin_MarkupCompile.lref
@@ -40,10 +53,19 @@ C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdm
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\ErettsegizzunkAdmin.pdb
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\MaterialDesignColors.dll
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\MaterialDesignThemes.Wpf.dll
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\BespokeFusion.dll
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\Microsoft.Win32.SystemEvents.dll
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\Microsoft.Xaml.Behaviors.dll
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\System.Drawing.Common.dll
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\System.Private.Windows.Core.dll
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\MainWindow.baml
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatModosit.baml
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatokKezel.baml
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FelhasznalokKezel.baml
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\MenuWindow.baml
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\TantargyKezel.baml
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.g.resources
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.AssemblyInfoInputs.cache
@@ -56,19 +78,3 @@ C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdm
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.pdb
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.genruntimeconfig.cache
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ref\ErettsegizzunkAdmin.dll
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\BespokeFusion.dll
-D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\MaterialDesignColors.dll
-D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\MaterialDesignThemes.Wpf.dll
-D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\BespokeFusion.dll
-D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\Microsoft.Xaml.Behaviors.dll
-D:\Prog gyak\Gyakorlás\14_D - Hazi\Backend\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\App.baml
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\UjFelhasznalo.baml
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\UjFelhasznalo.g.cs
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatokKezel.g.cs
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FelhasznalokKezel.g.cs
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatokKezel.baml
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FelhasznalokKezel.baml
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatModosit.g.cs
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\FeladatModosit.baml
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\TantargyKezel.g.cs
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\TantargyKezel.baml

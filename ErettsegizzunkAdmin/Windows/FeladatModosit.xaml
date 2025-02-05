@@ -63,24 +63,8 @@
                               SelectedItem="{Binding TypeName, Mode=TwoWay}"
                               Margin="0,0,0,16"
                               materialDesign:HintAssist.Hint="Tantárgy" />
-                    <StackPanel>
-                            <!-- Image Select Button -->
-                        <Button x:Name="btnSelectImage" 
-                        Content="Select Image"
-                        Margin="0,0,0,16"
-                        Click="btnSelectImage_Click"
-                        Style="{StaticResource MaterialDesignRaisedButton}" />
 
-                            <!-- Image Preview -->
-                            <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="4" Padding="5">
-                                <Image x:Name="ImagePreview"
-                           Stretch="Uniform"
-                           Height="300"
-                           HorizontalAlignment="Center" />
-                            </Border>
-                       </StackPanel>
-
-                        <!-- Action Buttons -->
+                    <!-- Action Buttons -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button x:Name="btnSave"
                                 Content="Mentés"

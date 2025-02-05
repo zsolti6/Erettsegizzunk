@@ -25,6 +25,9 @@
     <Compile Update="Windows\UjFelhasznalo.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\UjTantargy.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MainWindow.xaml">
@@ -43,6 +46,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\UjFelhasznalo.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\UjTantargy.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

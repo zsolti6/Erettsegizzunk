@@ -72,47 +72,5 @@ namespace ErettsegizzunkAdmin.Windows
             Close();
         }
 
-        private async void btnSelectImage_Click(object sender, RoutedEventArgs e)
-        {
-            // Create and configure OpenFileDialog
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif",
-                Title = "Válasszon ki egy képet"
-            };
-
-            // Show dialog and load image if a file is selected
-            if (openFileDialog.ShowDialog() == true)
-            {
-                try
-                {
-                    // Load the selected image
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.UriSource = new Uri(openFileDialog.FileName);
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.EndInit();
-
-                    // Set the image source for preview
-                    ImagePreview.Source = bitmap;
-
-                    string base64Image = ConvertImageToBase64(openFileDialog.FileName);
-
-                    // Optionally send the Base64 string to your backend.
-                    await _apiService.UploadImageToBackendAsync(base64Image);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error loading image: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-        }
-
-        private string ConvertImageToBase64(string filePath)
-        {
-            byte[] imageBytes = File.ReadAllBytes(filePath);
-            return Convert.ToBase64String(imageBytes);
-        }
-
     }
 }
