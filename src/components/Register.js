@@ -45,7 +45,7 @@ function RegisterPage() {
 
       const url = "http://localhost:5000/erettsegizzunk/Registry";
       const response = await axios.post(url, body);
-      alert(response.data);
+      //alert(response.data);
     } catch (error) {
       console.error('Error:', error.response ? error.response.data : error.message);
     }

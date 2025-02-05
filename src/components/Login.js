@@ -64,7 +64,7 @@ function LoginPage() {
             console.error('Error:', error);
           });
 
-        alert("Sikeres bejelentkezés!");
+        //alert("Sikeres bejelentkezés!");
         navigator("/"); // Corrected navigation
       } else {
         alert("Hiba történt a bejelentkezéskor!");

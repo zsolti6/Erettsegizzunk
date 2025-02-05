@@ -15,7 +15,7 @@ function SelectorComponent() {
 
   useEffect(() => {
     axios
-      .get("https://localhost:7066/erettsegizzunk/Tantargyak")
+      .get("https://localhost:7066/erettsegizzunk/Tantargyak/get-tantargy")
       .then((response) => {
         const formattedSubjects = response.data.map((subject) => ({
           value: String(subject.name), // Convert id to string
