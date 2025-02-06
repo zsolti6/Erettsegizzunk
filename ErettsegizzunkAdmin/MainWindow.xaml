@@ -49,7 +49,7 @@
             <StackPanel Grid.Row="1" Margin="0 10">
                 <TextBlock Text="Jelszó" FontSize="16" Margin="0 0 0 5" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
                 <!-- Primary color -->
-                <PasswordBox x:Name="jelszo" materialDesign:HintAssist.Hint="Gépeld ide a jelszvad"
+                <PasswordBox x:Name="jelszo" materialDesign:HintAssist.Hint="Gépeld ide a jelszavad"
                          FontSize="14" Padding="10" Background="{DynamicResource MaterialDesignPaper}" Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
             </StackPanel>
 

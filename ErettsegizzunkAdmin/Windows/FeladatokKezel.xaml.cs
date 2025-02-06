@@ -78,8 +78,7 @@ namespace ErettsegizzunkAdmin.Windows
                 MessageBoxResult result = MessageBoxes.CustomQuestion($"Biztosan fel akarod tölteni a {openFileDialog.FileName.Split("\\").ToList().Last()} adatait?", "Figyelem");
                 if (result == MessageBoxResult.Cancel)
                 {
-                    MaterialMessageBox.Show("Feltöltés megszakítva!");
-                    //MessageBox.Show("Feltöltés megszakítva!", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBoxes.CustomMessageOk("Feltöltés megszakítva!");
                     return;
                 }
 
@@ -112,17 +111,17 @@ namespace ErettsegizzunkAdmin.Windows
                 }
                 catch (FileNotFoundException ex)
                 {
-                    MessageBox.Show(ex.Message, "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBoxes.CustomError(ex.Message, "Hiba");//hibakezelés
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBoxes.CustomError(ex.Message, "Hiba");//hibakezelés
                 }
                 finally
                 {
                     if (ret != string.Empty)
                     {
-                        MessageBoxes.CustomMessage(ret);
+                        MessageBoxes.CustomMessageOk(ret);//TF IS THIS????
                     }
                     RefreshUi();
                 }
@@ -193,11 +192,11 @@ namespace ErettsegizzunkAdmin.Windows
 
             if (ids.Count < 1)
             {
-                MessageBoxes.CustomMessage("Nincs törlendő elem kijelölve!");
+                MessageBoxes.CustomMessageOk("Nincs törlendő elem kijelölve!");
                 return;
             }
 
-            MessageBoxes.CustomMessage(await _apiService.DeletFeladatok(new FeladatokDeleteDTO() { Ids = ids, Token = user.Token }));
+            MessageBoxes.CustomMessageOk(await _apiService.DeletFeladatok(new FeladatokDeleteDTO() { Ids = ids, Token = user.Token }));
             RefreshUi();
         }
 

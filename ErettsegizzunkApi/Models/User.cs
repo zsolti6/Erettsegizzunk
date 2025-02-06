@@ -29,10 +29,7 @@ public partial class User
     public virtual Permission? Permission { get; set; } = null;
 
     [JsonIgnore]
-    public virtual ICollection<SpacedRepetition>? SpacedRepetitions { get; set; } = new List<SpacedRepetition>();
-
-    [JsonIgnore]
-    public virtual ICollection<Token>? Tokens { get; set; } = new List<Token>();
+    public virtual ICollection<SpacedRepetition>? SpacedRepetitions { get; set; } = new List<SpacedRepetition>();    
 
     [JsonIgnore]
     public virtual ICollection<UserStatistic>? UserStatistics { get; set; } = new List<UserStatistic>();

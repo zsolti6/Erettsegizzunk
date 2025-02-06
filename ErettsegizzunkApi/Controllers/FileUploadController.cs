@@ -41,7 +41,6 @@ namespace ErettsegizzunkApi.Controllers
 
         [Route("FtpServer")]
         [HttpPost]
-
         public async Task<IActionResult> FileUploadFtp()//from body?
         {
             try

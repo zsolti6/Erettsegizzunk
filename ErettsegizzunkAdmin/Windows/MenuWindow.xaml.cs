@@ -1,23 +1,7 @@
 ﻿using ErettsegizzunkAdmin.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using ErettsegizzunkApi.Models;
 using ErettsegizzunkApi.DTOs;
-using System.Drawing;
-using System.IO;
-using ErettsegizzunkAdmin.CustomMessageBoxes;
 using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Interop;
 
 namespace ErettsegizzunkAdmin.Windows
@@ -82,27 +66,23 @@ namespace ErettsegizzunkAdmin.Windows
         //Kijelentkezés
         private async void Logout_Click(object sender, RoutedEventArgs e)
         {
-            string uzenet = string.Empty;
-            try
+
+            string ret = await _apiService.LogOut(user.Token);
+
+            if (ret is null)
             {
-                uzenet = await _apiService.LogOut(new ModifyToken()
-                {
-                    Id = App.id,
-                    Aktiv = false,
-                    LogOut = DateTime.Now
-                }, user.Token);
+                return;
             }
-            catch (Exception)
-            {
-                uzenet = "Hiba történt a kijelentkezés folyamán.";
-            }
-            finally
-            {
-                MessageBoxes.CustomMessageOk(uzenet);
-            }            
 
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
+            Close();
+        }
+
+        private void tantargyKezel_Click(object sender, RoutedEventArgs e)
+        {
+            TantargyKezel tantargy = new TantargyKezel(user);
+            tantargy.Show();
             Close();
         }
 
@@ -111,13 +91,6 @@ namespace ErettsegizzunkAdmin.Windows
             var hwnd = new WindowInteropHelper(this).Handle;
             IntPtr hMenu = GetSystemMenu(hwnd, false);
             EnableMenuItem(hMenu, SC_CLOSE, MF_GRAYED);
-        }
-
-        private void tantargyKezel_Click(object sender, RoutedEventArgs e)
-        {
-            TantargyKezel tantargy = new TantargyKezel(user);
-            tantargy.Show();
-            Close();
         }
     }
 }

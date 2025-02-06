@@ -30,7 +30,6 @@ namespace ErettsegizzunkAdmin
         {
             InitializeComponent();
             _apiService = new ApiService();
-            //MessageBoxResult messageBoxResult = MaterialMessageBox.ShowDialog(this,"asd", "asd", MessageBoxButton.OK, PackIconKind.Error);
         }
 
         private async void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -39,30 +38,26 @@ namespace ErettsegizzunkAdmin
             try
             {
                 user = await _apiService.Login(nev.Text, jelszo.Password);
-                if (user.Permission == -1)
-                {
-                    MessageBoxes.CustomError("Hibás név - jelszó páros!");
-                    return;
-                }
 
-                if (user.Permission == -2)
+                if (user is null)
                 {
-                    MessageBoxes.CustomError(user.Name);
                     return;
                 }
 
                 if (user.Permission != 2)
                 {
-                    MessageBoxes.CustomError("Nincs megfelelő jogosultságod!");
+                    MessageBoxes.CustomError(new ErrorDTO() { Id = 500, Message = "Hozzáférés megtagadva" }.ToString(), "Figyelem");
                     return;
                 }
+
+                user.ProfilePicture = await _apiService.ByteArrayToBitmapImage(user.ProfilePicturePath);
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError(user.Name,"Hiba");
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
                 return;
             }
-            user.ProfilePicture = await _apiService.ByteArrayToBitmapImage(user.ProfilePicturePath);
+            
             MenuWindow menuWindow = new MenuWindow(user);
             menuWindow.Show();
             Close();

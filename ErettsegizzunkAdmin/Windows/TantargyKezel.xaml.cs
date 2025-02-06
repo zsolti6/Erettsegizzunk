@@ -94,7 +94,7 @@ namespace ErettsegizzunkAdmin.Windows
 
             if (ids.Count < 1)
             {
-                MessageBoxes.CustomMessage("Nincs törlendő elem kijelölve!");
+                MessageBoxes.CustomMessageOk("Nincs törlendő elem kijelölve!");
                 return;
             }
 

@@ -8,8 +8,14 @@ namespace ErettsegizzunkApi.Controllers
     [ApiController]
     public class PasswordController : ControllerBase
     {
-        [HttpPost("{loginName},{oldPassword},{newPassword}")]//body
+        private readonly ErettsegizzunkContext _context;
 
+        public PasswordController(ErettsegizzunkContext context)
+        {
+            _context = context;
+        }
+
+        [HttpPost("{loginName},{oldPassword},{newPassword}")]//body
         public async Task<IActionResult> JelszoMosositas(string loginName, string oldPassword, string newPassword)
         {
             try

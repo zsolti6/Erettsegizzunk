@@ -54,7 +54,7 @@
   },
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.FeladatokController",
-    "Method": "GetFeladatok",
+    "Method": "GetFeladat",
     "RelativePath": "erettsegizzunk/Feladatok/get-egy-feladat",
     "HttpMethod": "POST",
     "IsController": true,
@@ -411,7 +411,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "tantargyak",
+        "Name": "post",
         "Type": "ErettsegizzunkApi.DTOs.TantargyDTO",
         "IsRequired": true
       }
@@ -437,7 +437,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "tantargy",
+        "Name": "put",
         "Type": "ErettsegizzunkApi.DTOs.TantargyDTO",
         "IsRequired": true
       }
@@ -445,66 +445,8 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ErettsegizzunkApi.Controllers.TokenController",
-    "Method": "AddNewToken",
-    "RelativePath": "erettsegizzunk/Token/add-token",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "addTokenDTO",
-        "Type": "ErettsegizzunkApi.DTOs.AddTokenDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ErettsegizzunkApi.Controllers.TokenController",
-    "Method": "PutToken",
-    "RelativePath": "erettsegizzunk/Token/kijelentkez",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "modifyToken",
-        "Type": "ErettsegizzunkApi.DTOs.ModifyToken",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ErettsegizzunkApi.Controllers.TokenController",
-    "Method": "VanToken",
-    "RelativePath": "erettsegizzunk/Token/vane-token",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "deleteDTO",
-        "Type": "ErettsegizzunkApi.DTOs.FeladatokDeleteDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "ErettsegizzunkApi.Models.Token",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
     "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
-    "Method": "Delete",
+    "Method": "DeleteFelhasznalok",
     "RelativePath": "erettsegizzunk/User/delete-felhasznalok",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -536,23 +478,7 @@
   },
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
-    "Method": "GetId",
-    "RelativePath": "erettsegizzunk/User/get-egy-felhasznalo",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "felhasznalo",
-        "Type": "ErettsegizzunkApi.DTOs.GetEgyFelhasznaloDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
-    "Method": "GetFull",
+    "Method": "GetFelhasznalok",
     "RelativePath": "erettsegizzunk/User/get-sok-felhasznalo",
     "HttpMethod": "POST",
     "IsController": true,
@@ -569,34 +495,13 @@
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
     "Method": "GetKorlevel",
-    "RelativePath": "erettsegizzunk/User/Korlevel/{token}",
-    "HttpMethod": "GET",
+    "RelativePath": "erettsegizzunk/User/Korlevel",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "token",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ErettsegizzunkApi.Controllers.UserController",
-    "Method": "GetLoginName",
-    "RelativePath": "erettsegizzunk/User/nev/{token},{loginname}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "token",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "loginname",
         "Type": "System.String",
         "IsRequired": true
       }

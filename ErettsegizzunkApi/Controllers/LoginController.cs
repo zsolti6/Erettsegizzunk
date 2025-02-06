@@ -1,6 +1,5 @@
 ﻿using ErettsegizzunkApi.DTOs;
 using ErettsegizzunkApi.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
@@ -11,61 +10,67 @@ namespace ErettsegizzunkApi.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        [HttpPost("SaltRequest")]
-        public async Task<IActionResult> SaltRequest([FromBody]string loginName)
+        private readonly ErettsegizzunkContext _context;
+
+        public LoginController(ErettsegizzunkContext context)
         {
-            using (var cx = new ErettsegizzunkContext())
+            _context = context;
+        }
+
+        [HttpPost("SaltRequest")]
+        public async Task<IActionResult> SaltRequest([FromBody] string loginName)
+        {
+            try
             {
-                try
+                User? response = await _context.Users.FirstOrDefaultAsync(x => x.LoginName == loginName);
+
+                if (response is null)
                 {
-                    User response = await cx.Users.FirstOrDefaultAsync(x => x.LoginName == loginName);
-                    if (response is null)
-                    {
-                        return Ok(new LoggedUser { Permission = -1, Name = "Hibás név, jelszó páros!" });
-                    }
-                    return Ok(response.Salt);
+                    return BadRequest(new ErrorDTO() { Id = 34, Message = "Hibás név, jelszó páros" });
                 }
-                catch(MySqlException ex)
-                {
-                    return BadRequest(new LoggedUser() { Permission = -2, Name = "Nem sikerült csatlakozni az adatbázishoz, türelmét kérjük!"});
-                }
-                catch (Exception ex)
-                {
-                    return Ok(new LoggedUser { Permission = -1, Name = ex.InnerException?.Message });
-                }
+
+                return Ok(response.Salt);
             }
-            
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 35, Message = "Kapcsolati hiba" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new ErrorDTO() { Id = 36, Message = "Hiba történt a bejelentkezés során" });
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
         {
-            using (var cx = new ErettsegizzunkContext())
+            try
             {
-                try
-                {
-                    string Hash = Program.CreateSHA256(loginDTO.TmpHash);
-                    User loggeduser =  await cx.Users.Include(x => x.Permission).FirstOrDefaultAsync(x => x.LoginName == loginDTO.LoginName && x.Hash == Hash);
+                string Hash = Program.CreateSHA256(loginDTO.TmpHash);
+                User? loggeduser = await _context.Users.Include(x => x.Permission).FirstOrDefaultAsync(x => x.LoginName == loginDTO.LoginName && x.Hash == Hash);
 
-                    if (loggeduser != null && loggeduser.Active)
-                    {
-                        string token = Guid.NewGuid().ToString();
-                        lock (Program.LoggedInUsers)
-                        {
-                            Program.LoggedInUsers.Add(token, loggeduser);
-                        }                        
-                        return Ok(new LoggedUser {Id = loggeduser.Id, Name = loggeduser.LoginName, Email = loggeduser.Email, Permission = loggeduser.PermissionId, ProfilePicturePath = loggeduser.ProfilePicturePath, ProfilePicture =null, Token = token});
-                    }
-                    else
-                    {
-                        return Ok(new LoggedUser { Permission = -1, Name = "Hibás név, jelszó páros!"});
-                    }
-
-                }
-                catch (Exception ex)
+                if (loggeduser != null && loggeduser.Active)
                 {
-                    return Ok(new LoggedUser { Permission = -1, Name = ex.InnerException?.Message });
+                    string token = Guid.NewGuid().ToString();
+                    lock (Program.LoggedInUsers)
+                    {
+                        Program.LoggedInUsers.Add(token, loggeduser);
+                    }
+                    return Ok(new LoggedUser { Id = loggeduser.Id, Name = loggeduser.LoginName, Email = loggeduser.Email, Permission = loggeduser.PermissionId, ProfilePicturePath = loggeduser.ProfilePicturePath, ProfilePicture = null, Token = token });
                 }
+                else
+                {
+                    return BadRequest(new ErrorDTO() { Id = 37, Message = "Hibás név, jelszó páros" });
+                }
+
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 38, Message = "Kapcsolati hiba" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new ErrorDTO() { Id = 39, Message = "Hiba történt a bejelentkezés során" });
             }
         }
     }

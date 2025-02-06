@@ -91,11 +91,11 @@ namespace ErettsegizzunkAdmin.Windows
 
             if (ids.Count < 1)
             {
-                MessageBoxes.CustomMessage("Nincs törlendő elem kijelölve!");
+                MessageBoxes.CustomMessageOk("Nincs törlendő elem kijelölve!");
                 return;
             }
 
-            MessageBoxes.CustomMessage(await _apiService.DeletFelhasznalok(new FelhasznaloTorolDTO() { Ids = ids, Token = user.Token }));
+            MessageBoxes.CustomMessageOk(await _apiService.DeletFelhasznalok(new FelhasznaloTorolDTO() { Ids = ids, Token = user.Token }));
             RefreshUi();
         }
 

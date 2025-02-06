@@ -28,13 +28,13 @@ namespace ErettsegizzunkApi.DTOs
 
     public class FelhasznaloModotsitDTO
     {
-        public List<User> users { get; set; } = null!;
+        public List<User> Users { get; set; } = null!;
         public string? Token { get; set; }
     }
 
     public class GetEgyFelhasznaloDTO
     {
-        public int id { get; set; }
-        public string token { get; set; }
+        public int Id { get; set; }
+        public string Token { get; set; }
     }
 }

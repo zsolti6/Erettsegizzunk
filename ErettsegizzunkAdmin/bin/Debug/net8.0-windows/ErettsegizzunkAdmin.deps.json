@@ -10,9 +10,9 @@
         "dependencies": {
           "MaterialDesignColors": "3.1.0",
           "MaterialDesignThemes": "4.9.0",
-          "MaterialMessageBox": "4.0.2",
           "Newtonsoft.Json": "13.0.3",
-          "System.Drawing.Common": "9.0.1"
+          "System.Drawing.Common": "9.0.1",
+          "BespokeFusion": "3.1.3.0"
         },
         "runtime": {
           "ErettsegizzunkAdmin.dll": {}
@@ -35,19 +35,6 @@
           "lib/net7.0/MaterialDesignThemes.Wpf.dll": {
             "assemblyVersion": "4.9.0.0",
             "fileVersion": "4.9.0.0"
-          }
-        }
-      },
-      "MaterialMessageBox/4.0.2": {
-        "dependencies": {
-          "MaterialDesignColors": "3.1.0",
-          "MaterialDesignThemes": "4.9.0",
-          "Microsoft.Xaml.Behaviors.Wpf": "1.1.39"
-        },
-        "runtime": {
-          "lib/netcoreapp3.1/BespokeFusion.dll": {
-            "assemblyVersion": "3.1.3.0",
-            "fileVersion": "3.1.3.0"
           }
         }
       },
@@ -97,6 +84,14 @@
             "fileVersion": "9.0.124.61006"
           }
         }
+      },
+      "BespokeFusion/3.1.3.0": {
+        "runtime": {
+          "BespokeFusion.dll": {
+            "assemblyVersion": "3.1.3.0",
+            "fileVersion": "3.1.3.0"
+          }
+        }
       }
     }
   },
@@ -119,13 +114,6 @@
       "sha512": "sha512-Bp9Auw70j+9V7WsUMT4pc8ulVzfL0Eav/tyGgICDirxxhKJwhqtC/6PRkTUm+R1t9611xiDuk5pSUNdDV6vfOQ==",
       "path": "materialdesignthemes/4.9.0",
       "hashPath": "materialdesignthemes.4.9.0.nupkg.sha512"
-    },
-    "MaterialMessageBox/4.0.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-JIvQWGrCUgtsmqvahO/Giqpdr41VJqTILN3pF2Cef/Sx8tGlT+7Qer+M0GwMvqUd9ZujLdU7zU5b1/iM4HzDzw==",
-      "path": "materialmessagebox/4.0.2",
-      "hashPath": "materialmessagebox.4.0.2.nupkg.sha512"
     },
     "Microsoft.Win32.SystemEvents/9.0.1": {
       "type": "package",
@@ -154,6 +142,11 @@
       "sha512": "sha512-TTPkCqSMyMaG8BXlBKYTTJFtLV0SvjjsvgUN598hYgHaX/5B7tdUc2JhQF9vwrYmlzxId+gwFnKYuxQ2XsSz2g==",
       "path": "system.drawing.common/9.0.1",
       "hashPath": "system.drawing.common.9.0.1.nupkg.sha512"
+    },
+    "BespokeFusion/3.1.3.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

@@ -35,7 +35,9 @@ namespace ErettsegizzunkAdmin.Windows
             {
                 return;
             }
+
             string ret = string.Empty;
+
             try
             {
                 string salt = MainWindow.GenerateSalt();
@@ -47,7 +49,8 @@ namespace ErettsegizzunkAdmin.Windows
                     Active = false,
                     Newsletter = false,
                     Salt = salt,
-                    Hash = MainWindow.CreateSHA256(tbJelszoMegint.Password + salt)
+                    Hash = MainWindow.CreateSHA256(tbJelszoMegint.Password + salt),
+                    SignupDate = DateTime.Now
                 };
                 ret = await _apiService.PostFelhasznalo(newUser);
             }
@@ -64,13 +67,13 @@ namespace ErettsegizzunkAdmin.Windows
         {
             if (tbFelhasznev.Text == string.Empty || tbEmail.Text == string.Empty || tbJelszo.Password == string.Empty || tbJelszoMegint.Password == string.Empty)
             {
-                MessageBoxes.CustomError("Ne hagyj üresen mező");
+                MessageBoxes.CustomError("Minden mező kitöltése kötelező","Figyelem");
                 return false;
             }
 
             if (tbJelszo.Password != tbJelszoMegint.Password)
             {
-                MessageBoxes.CustomError("A két jelszó nem egyezik!");
+                MessageBoxes.CustomError("A két jelszó nem egyezik!","Figyelem");
                 return false;
             }
 

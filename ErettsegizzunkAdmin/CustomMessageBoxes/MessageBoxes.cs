@@ -11,7 +11,6 @@ using MaterialDesignColors;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Drawing.Imaging;
-using MaterialDesignThemes.Wpf;
 
 namespace ErettsegizzunkAdmin.CustomMessageBoxes
 {
@@ -23,63 +22,77 @@ namespace ErettsegizzunkAdmin.CustomMessageBoxes
             {
                 TxtMessage = { Text = szoveg, Foreground = Brushes.Black },
                 TxtTitle = { Text = cim, Foreground = Brushes.Black },
-                BtnOk = { Content = "Ok" },
+                BtnOk = { Content = "Ok", Background = Brushes.Red },
                 BtnCancel = { Visibility = Visibility.Collapsed },
-                BtnCopyMessage = { Visibility = Visibility.Collapsed },
+                //BtnCopyMessage = { Visibility = Visibility.Collapsed },
                 MainContentControl = { Background = Brushes.WhiteSmoke },
                 TitleBackgroundPanel = { Background = Brushes.Red },
                 BorderBrush = Brushes.Red,
+                CustomIcon = PackIconKind.Warning,
+                CustomIconForeground = Brushes.Red
             };
-
 
             custom.Show();
         }
 
         public static MessageBoxResult CustomQuestion(string szoveg, string cim="")
         {
+            Color color = (Color)ColorConverter.ConvertFromString("#320b86"); //-----> PrimaryDark 
+            SolidColorBrush brush = new SolidColorBrush(color);
+
             CustomMaterialMessageBox custom = new CustomMaterialMessageBox
             {
                 TxtMessage = { Text = szoveg, Foreground = Brushes.Black },
-                TxtTitle = { Text = cim, Foreground = Brushes.Black },
-                BtnOk = { Content = "Igen"},
-                BtnCancel = { Content = "Nem" },
+                TxtTitle = { Text = cim, Foreground = Brushes.White },
+                BtnOk = { Content = "Igen", Background = brush },
+                BtnCancel = { Content = "Nem",  Background = Brushes.DodgerBlue},
                 BtnCopyMessage = { Visibility = Visibility.Collapsed },
                 MainContentControl = { Background = Brushes.WhiteSmoke },
-                TitleBackgroundPanel = { Background = (System.Windows.Media.Brush)Application.Current.Resources["MaterialDesignDeepPurple"] },
-                BorderBrush = Brushes.Purple
+                TitleBackgroundPanel = { Background = brush },
+                BorderBrush = brush,
+                CustomIcon = PackIconKind.QuestionMarkCircle,
+                CustomIconForeground = brush
             };
             custom.ShowDialog();
             return custom.Result;
         }
 
-        public static void CustomMessage(string szoveg, string cim = "")
+       /* public static void CustomMessage(string szoveg, string cim = "")
         {
             CustomMaterialMessageBox custom = new CustomMaterialMessageBox
             {
                 TxtMessage = { Text = szoveg, Foreground = Brushes.Black },
                 TxtTitle = { Text = cim, Foreground = Brushes.Black },
-                BtnOk = { Content = "Igen"},
+                BtnOk = { Content = "Igen", Background = Brushes.DarkBlue},
                 BtnCancel = { Visibility = Visibility.Collapsed },
                 BtnCopyMessage = { Visibility = Visibility.Collapsed },
                 MainContentControl = { Background = Brushes.WhiteSmoke },
                 TitleBackgroundPanel = { Background = Brushes.Purple },
-                BorderBrush = Brushes.Purple
+                BorderBrush = Brushes.Purple,
+                CustomIcon = PackIconKind.InformationCircle,
+                CustomIconForeground = Brushes.Purple
+                
             };
             custom.Show();
-        }
+        }*/
 
         public static void CustomMessageOk(string szoveg, string cim = "")
         {
+            Color color = (Color)ColorConverter.ConvertFromString("#320b86"); //-----> PrimaryDark 
+            SolidColorBrush brush = new SolidColorBrush(color);
+
             CustomMaterialMessageBox custom = new CustomMaterialMessageBox
             {
                 TxtMessage = { Text = szoveg, Foreground = Brushes.Black },
                 TxtTitle = { Text = cim, Foreground = Brushes.Black },
-                BtnOk = { Content = "Ok" },
+                BtnOk = { Content = "Ok", Background = brush },
                 BtnCancel = { Visibility = Visibility.Collapsed },
                 BtnCopyMessage = { Visibility = Visibility.Collapsed },
                 MainContentControl = { Background = Brushes.WhiteSmoke },
-                TitleBackgroundPanel = { Background = Brushes.Purple },
-                BorderBrush = Brushes.Purple
+                TitleBackgroundPanel = { Background = brush },
+                BorderBrush = brush,
+                CustomIcon = PackIconKind.InformationCircle,
+                CustomIconForeground = brush
             };
             custom.Show();
         }

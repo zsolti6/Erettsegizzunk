@@ -1,7 +1,8 @@
-﻿using ErettsegizzunkApi.Models;
+﻿using ErettsegizzunkApi.DTOs;
+using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ErettsegizzunkApi.DTOs;
+using MySql.Data.MySqlClient;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -9,65 +10,75 @@ namespace ErettsegizzunkApi.Controllers
     [ApiController]
     public class RegistryController : ControllerBase
     {
-        [HttpPost("regisztracio")]
+        private readonly ErettsegizzunkContext _context;
 
-        public async Task<IActionResult> Registry([FromBody]User user)
+        public RegistryController(ErettsegizzunkContext context)
         {
-            using (var cx = new ErettsegizzunkContext())
+            _context = context;
+        }
+
+        [HttpPost("regisztracio")]
+        public async Task<IActionResult> Registry([FromBody] User user)
+        {
+            try
             {
-                try
+                if (_context.Users.FirstOrDefault(f => f.LoginName == user.LoginName) != null)
                 {
-                    if (cx.Users.FirstOrDefault(f => f.LoginName == user.LoginName) != null)
-                    {
-                        return Ok("Már létezik ilyen felhasználónév!");
-                    }
-                    if (cx.Users.FirstOrDefault(f => f.Email == user.Email) != null)
-                    {
-                        return Ok("Ezzel az e-mail címmel már regisztráltak!");
-                    }
-                    //user.PermissionId = 1;
-                    user.Active = false;//falsra kell rakni ha meg lesz az emailes cucc
-                    user.Hash = Program.CreateSHA256(user.Hash);
-                    await cx.Users.AddAsync(user);
-                    await cx.SaveChangesAsync();
-
-                    Program.SendEmail(user.Email, "Regisztráció", $"https://localhost:7066/erettsegizzunk/Registry?felhasznaloNev={user.LoginName}&email={user.Email}");
-
-                    return Ok("Sikeres regisztráció. Fejezze be a regisztrációját az e-mail címére küldött link segítségével!");
+                    return Ok("Már létezik ilyen felhasználónév!");
                 }
-                catch (Exception ex)
+
+                if (_context.Users.FirstOrDefault(f => f.Email == user.Email) != null)
                 {
-                    return StatusCode(200, ex.InnerException?.Message); //ez is egy megoldás -- részletesebb hibaüzenet
+                    return Ok("Ezzel az e-mail címmel már regisztráltak!");
                 }
+
+                //user.PermissionId = 1;
+                user.Active = true;//falsra kell rakni ha meg lesz az emailes cucc
+                user.Hash = Program.CreateSHA256(user.Hash);
+                await _context.Users.AddAsync(user);
+                await _context.SaveChangesAsync();
+
+                Program.SendEmail(user.Email, "Regisztráció", $"https://localhost:7066/erettsegizzunk/Registry?felhasznaloNev={user.LoginName}&email={user.Email}");
+
+                return Ok("Sikeres regisztráció. Fejezze be a regisztrációját az e-mail címére küldött link segítségével!");
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 40, Message = "Kapcsolati hiba" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new ErrorDTO() { Id = 41, Message = "Hiba történt a regisztráció során" });
             }
         }
 
-        [HttpPost("regisztracio-megerostes")]//postra átírni
-
+        [HttpPost("regisztracio-megerostes")]
         public async Task<IActionResult> EndOfTheRegistry([FromBody] EndOfRegistryDTO endOfRegistry)//frombody + kell dto
         {
-            using (var cx = new ErettsegizzunkContext())
+            try
             {
-                try
+                User? user = await _context.Users.FirstOrDefaultAsync(f => f.LoginName == endOfRegistry.UserName && f.Email == endOfRegistry.Email);
+
+                if (user == null)
                 {
-                    User user = await cx.Users.FirstOrDefaultAsync(f => f.LoginName == endOfRegistry.UserName && f.Email == endOfRegistry.Email);
-                    if (user == null)
-                    {
-                        return Ok("Sikertelen a regisztráció befejezése!");
-                    }
-                    else
-                    {
-                        user.Active = true;
-                        cx.Users.Update(user);
-                        await cx.SaveChangesAsync();
-                        return Ok("A regisztráció befejezése sikeresen megtörtént.");
-                    }
+                    return Ok("Sikertelen a regisztráció befejezése!");
                 }
-                catch (Exception ex)
+                else
                 {
-                    return StatusCode(200, ex.InnerException?.Message); //ez is egy megoldás -- részletesebb hibaüzenet
+                    user.Active = true;
+                    _context.Users.Update(user);
+                    await _context.SaveChangesAsync();
+                    return Ok("A regisztráció befejezése sikeresen megtörtént.");
                 }
-            }   
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 42, Message = "Kapcsolati hiba" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new ErrorDTO() { Id = 43, Message = "Hiba történt a regisztráció során" });
+            }
         }
     }
 }

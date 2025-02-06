@@ -27,8 +27,6 @@ public partial class ErettsegizzunkContext : DbContext
 
     public virtual DbSet<Theme> Themes { get; set; }
 
-    public virtual DbSet<Token> Tokens { get; set; }
-
     public virtual DbSet<Type> Types { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -242,42 +240,6 @@ public partial class ErettsegizzunkContext : DbContext
                 .HasMaxLength(255)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnName("name");
-        });
-
-        modelBuilder.Entity<Token>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
-
-            entity.ToTable("token");
-
-            entity.HasIndex(e => e.UserId, "userId");
-
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
-            entity.Property(e => e.Active)
-                .HasDefaultValueSql("'NULL'")
-                .HasColumnName("active");
-            entity.Property(e => e.Login)
-                .HasDefaultValueSql("'current_timestamp()'")
-                .HasColumnType("timestamp")
-                .HasColumnName("login");
-            entity.Property(e => e.Logout)
-                .HasDefaultValueSql("'current_timestamp()'")
-                .HasColumnType("timestamp")
-                .HasColumnName("logout");
-            entity.Property(e => e.TokenString)
-                .HasMaxLength(40)
-                .HasDefaultValueSql("'NULL'")
-                .HasColumnName("tokenString");
-            entity.Property(e => e.UserId)
-                .HasColumnType("int(11)")
-                .HasColumnName("userId");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Tokens)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("token_ibfk_1");
         });
 
         modelBuilder.Entity<Type>(entity =>

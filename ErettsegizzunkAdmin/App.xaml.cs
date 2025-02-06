@@ -71,12 +71,7 @@ namespace ErettsegizzunkAdmin
             try
             {
                 // Prefer async void sparingly; use fire-and-forget here
-                _ = _apiService.LogOut(new ModifyToken()
-                {
-                    Id = id,
-                    Aktiv = false,
-                    LogOut = DateTime.Now
-                }, token);
+                _ = _apiService.LogOut(token);
             }
             catch (Exception ex)
             {

@@ -12,6 +12,7 @@ using System.Windows;
 using System.IO;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
+using ErettsegizzunkAdmin.CustomMessageBoxes;
 
 namespace ErettsegizzunkAdmin.Services
 {
@@ -33,13 +34,25 @@ namespace ErettsegizzunkAdmin.Services
             {
                 StringContent content = new StringContent(mettol.ToString(), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Feladatok/get-sok-feladat",content);
-                response.EnsureSuccessStatusCode();
+                
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
                 string responseContent = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<ErettsegizzunkApi.Models.Task>>(responseContent);
             }
-            catch (HttpRequestException e)
+            catch (ErrorDTO er)
             {
-                Console.WriteLine($"Request error: {e.Message}");//rendesen kiirni majd
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error.Id} -- {error.Message}","Hiba");
+                return null;
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
                 return null;
             }
         }
@@ -50,12 +63,25 @@ namespace ErettsegizzunkAdmin.Services
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(feladatok), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Feladatok/post-tobb-feladat", content);
-                response.EnsureSuccessStatusCode();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
                 return await response.Content.ReadAsStringAsync();
             }
-            catch (HttpRequestException ex)
+            catch (ErrorDTO er)
             {
-                return ex.Message;
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                return null;
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                return null;
             }
         }
 
@@ -73,14 +99,25 @@ namespace ErettsegizzunkAdmin.Services
                 };
                 HttpResponseMessage response = await _httpClient.SendAsync(request);
 
-                // Ensure success and return the response content
-                response.EnsureSuccessStatusCode();
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
                 return await response.Content.ReadAsStringAsync();
 
             }
-            catch (HttpRequestException ex)
+            catch (ErrorDTO er)
             {
-                return ex.Message;
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                return null;
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                return null;
             }
         }
 
@@ -90,12 +127,25 @@ namespace ErettsegizzunkAdmin.Services
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(feladatok), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PutAsync("erettsegizzunk/Feladatok/put-egy-feladat", content);
-                response.EnsureSuccessStatusCode();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
                 return await response.Content.ReadAsStringAsync();
             }
-            catch (HttpRequestException ex)
+            catch (ErrorDTO er)
             {
-                return ex.Message;
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                return null;
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                return null;
             }
         }
         #endregion
@@ -110,19 +160,22 @@ namespace ErettsegizzunkAdmin.Services
                 if (!response.IsSuccessStatusCode)
                 {
                     string error = await response.Content.ReadAsStringAsync();
-                    throw new Exception(error);
+                    throw new ErrorDTO(error);
                 }
 
                 string responseContent = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<Subject>>(responseContent);
             }
-            catch (HttpRequestException ex)
+            catch (ErrorDTO er)
             {
-                return new List<Subject> { new Subject { Id = -1, Name = ex.Message } };
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return new List<Subject> { new Subject { Id = -1, Name = ex.Message } };
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                return null;
             }
         }
 
@@ -136,18 +189,21 @@ namespace ErettsegizzunkAdmin.Services
                 if (!response.IsSuccessStatusCode)
                 {
                     string error = await response.Content.ReadAsStringAsync();
-                    throw new Exception(error);
+                    throw new ErrorDTO(error);
                 }
 
                 return await response.Content.ReadAsStringAsync();
             }
-            catch (HttpRequestException ex)
+            catch (ErrorDTO er)
             {
-                return ex.Message;
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return ex.Message;
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                return null;
             }
         }
 
@@ -161,18 +217,21 @@ namespace ErettsegizzunkAdmin.Services
                 if (!response.IsSuccessStatusCode)
                 {
                     string error = await response.Content.ReadAsStringAsync();
-                    throw new Exception(error);
+                    throw new ErrorDTO(error);
                 }
 
                 return await response.Content.ReadAsStringAsync();
             }
-            catch (HttpRequestException ex)
+            catch (ErrorDTO er)
             {
-                return ex.Message;
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return ex.Message;
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                return null;
             }
         }
 
@@ -192,19 +251,22 @@ namespace ErettsegizzunkAdmin.Services
                 if (!response.IsSuccessStatusCode)
                 {
                     string error = await response.Content.ReadAsStringAsync();
-                    throw new Exception(error);
+                    throw new ErrorDTO(error);
                 }
 
                 return await response.Content.ReadAsStringAsync();
 
             }
-            catch (HttpRequestException ex)
+            catch (ErrorDTO er)
             {
-                return ex.Message;
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                return null;
             }
-            catch(Exception ex)
+            catch (Exception)
             {
-                return ex.Message;
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                return null;
             }
         }
         #endregion
@@ -219,62 +281,65 @@ namespace ErettsegizzunkAdmin.Services
                 string formatted = $"\"{name}\"";
                 StringContent contentGetSalt = new StringContent(formatted, Encoding.UTF8, "application/json");
                 HttpResponseMessage responseGetSalt = await _httpClient.PostAsync("erettsegizzunk/Login/SaltRequest", contentGetSalt);
-                string salt = await responseGetSalt.Content.ReadAsStringAsync();
-                if (salt is null)
+
+                if (!responseGetSalt.IsSuccessStatusCode)
                 {
-                    user = await responseGetSalt.Content.ReadFromJsonAsync<LoggedUserDTO>();
+                    string error = await responseGetSalt.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
                 }
+                string salt = await responseGetSalt.Content.ReadAsStringAsync();
 
                 //login
                 string tmpHash = MainWindow.CreateSHA256(password + salt.Replace("\"",""));
                 StringContent contentLogin = new StringContent(JsonConvert.SerializeObject(new LoginRequest { LoginName = name, TmpHash = tmpHash}), Encoding.UTF8, "application/json");
                 HttpResponseMessage responseLogin = await _httpClient.PostAsync("erettsegizzunk/Login", contentLogin);
-                responseGetSalt.EnsureSuccessStatusCode();
-                user = await responseLogin.Content.ReadFromJsonAsync<LoggedUserDTO>();
 
-                //saveToken
-                StringContent contentToken = new StringContent(JsonConvert.SerializeObject(new AddTokenDTO() { Token = user.Token, UserId = user.Id }), Encoding.UTF8, "application/json");
-                HttpResponseMessage responseToken = await _httpClient.PostAsync("erettsegizzunk/Token/add-token", contentToken);
-                responseToken.EnsureSuccessStatusCode();
-                string response = await responseToken.Content.ReadAsStringAsync();
-                App.id = int.Parse(response.Replace("\"", ""));
-                App.token = user.Token;
-                return user;
-            }
-            catch (HttpRequestException ex)
-            {
-                if (ex.Message.Contains("400"))
+                if (!responseLogin.IsSuccessStatusCode)
                 {
-                    return user;
+                    string error = await responseLogin.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
                 }
+                user = await responseLogin.Content.ReadFromJsonAsync<LoggedUserDTO>();
                 return user;
             }
-            catch(Exception ex)
+            catch (ErrorDTO er)
             {
-                return user;
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                return null;
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                return null;
             }
         }
 
-        public async Task<string> LogOut(ModifyToken modifyToken, string token)
+        public async Task<string> LogOut(string token)
         {
             try
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(modifyToken), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await _httpClient.PutAsync("erettsegizzunk/Token/kijelentkez", content);
-                response.EnsureSuccessStatusCode();
                 string formatted = $"\"{token}\"";
                 StringContent content_ = new StringContent(formatted, Encoding.UTF8, "application/json");
                 HttpResponseMessage response_ = await _httpClient.PostAsync("erettsegizzunk/Logout", content_);
-                response_.EnsureSuccessStatusCode();
+
+                if (!response_.IsSuccessStatusCode)
+                {
+                    string error = await response_.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
                 return await response_.Content.ReadAsStringAsync();
             }
-            catch (HttpRequestException ex)
+            catch (ErrorDTO er)
             {
-                return ex.Message;
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return ex.Message;
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                return null;
             }
         }
         #endregion
@@ -287,16 +352,25 @@ namespace ErettsegizzunkAdmin.Services
                 string formatted = $"\"{imageName}\"";
                 StringContent content = new StringContent(formatted, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/FileUpload/Image", content);
-                response.EnsureSuccessStatusCode();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
                 return await response.Content.ReadAsStringAsync();
             }
-            catch (HttpRequestException ex)
+            catch (ErrorDTO er)
             {
-                return ex.Message;
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return ex.Message;
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                return null;
             }
         }
 
@@ -333,13 +407,25 @@ namespace ErettsegizzunkAdmin.Services
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(logged), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/User/get-sok-felhasznalo", content);
-                response.EnsureSuccessStatusCode();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
                 string responseContent = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<User>>(responseContent);
             }
-            catch (HttpRequestException e)
+            catch (ErrorDTO er)
             {
-                Console.WriteLine($"Request error: {e.Message}");//rendesen kiirni majd
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                return null;
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
                 return null;
             }
         }
@@ -350,12 +436,25 @@ namespace ErettsegizzunkAdmin.Services
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Registry/regisztracio", content);
-                response.EnsureSuccessStatusCode();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
                 return await response.Content.ReadAsStringAsync();
             }
-            catch (HttpRequestException ex)
+            catch (ErrorDTO er)
             {
-                return ex.Message;
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                return null;
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                return null;
             }
         }
 
@@ -373,14 +472,25 @@ namespace ErettsegizzunkAdmin.Services
                 };
                 HttpResponseMessage response = await _httpClient.SendAsync(request);
 
-                // Ensure success and return the response content
-                response.EnsureSuccessStatusCode();
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
                 return await response.Content.ReadAsStringAsync();
 
             }
-            catch (HttpRequestException ex)
+            catch (ErrorDTO er)
             {
-                return ex.Message;
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                return null;
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                return null;
             }
         }
 
@@ -390,12 +500,25 @@ namespace ErettsegizzunkAdmin.Services
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(users), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PutAsync("erettsegizzunk/User/felhasznalok-modosit", content);
-                response.EnsureSuccessStatusCode();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
                 return await response.Content.ReadAsStringAsync();
             }
-            catch (HttpRequestException ex)
+            catch (ErrorDTO er)
             {
-                return ex.Message;
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                return null;
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                return null;
             }
         }
         #endregion

@@ -61,7 +61,6 @@ namespace ErettsegizzunkApi
             SmtpServer.EnableSsl = true;
 
             await SmtpServer.SendMailAsync(mail);
-
         }
 
 

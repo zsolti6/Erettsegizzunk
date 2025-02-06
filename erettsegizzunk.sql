@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Jan 26. 15:09
--- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.2.12
+-- Létrehozás ideje: 2025. Feb 06. 14:14
+-- Kiszolgáló verziója: 10.4.28-MariaDB
+-- PHP verzió: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -116,6 +116,15 @@ CREATE TABLE `task` (
   `picName` varchar(18) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
+--
+-- A tábla adatainak kiíratása `task`
+--
+
+INSERT INTO `task` (`id`, `description`, `text`, `answers`, `isCorrect`, `subjectId`, `typeId`, `levelId`, `picName`) VALUES
+(13, 'Állapítsa meg, hogy az alábbi információ, állítás melyik adott korstílusra, stílusirányzatra jellemző!', 'Minta- és szabálykövetés: pl. a drámákban a hármas egység szabálya.', 'impresszionizmus;klasszicizmus;naturalizmus;romantika', '0;1;0;0', 3, 1, 1, 'asd.png'),
+(14, 'Állapítsa meg, hogy az alábbi információ, állítás melyik adott korstílusra, stílusirányzatra jellemző!', 'A természettudományokra jellemző megfigyelési mód, dokumentatív hitelesség, biológiailag és társadalmilag determinált szereplők.', 'impresszionizmus;klasszicizmus;naturalizmus;romantika', '0;0;1;0', 3, 1, 1, NULL),
+(15, 'Állapítsa meg, hogy az alábbi információ, állítás melyik adott korstílusra, stílusirányzatra jellemző!', 'A műnemek, műfajok keveredése, erős lirizálódás, eredetiség.', 'impresszionizmus;klasszicizmus;naturalizmus;romantika', '0;0;0;1', 3, 1, 1, 'asd.png');
+
 -- --------------------------------------------------------
 
 --
@@ -136,21 +145,6 @@ CREATE TABLE `task_theme` (
 CREATE TABLE `theme` (
   `id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `token`
---
-
-CREATE TABLE `token` (
-  `id` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `tokenString` varchar(40) DEFAULT NULL,
-  `active` tinyint(1) DEFAULT NULL,
-  `login` timestamp NOT NULL DEFAULT current_timestamp(),
-  `logout` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 -- --------------------------------------------------------
@@ -196,8 +190,10 @@ CREATE TABLE `user` (
 -- A tábla adatainak kiíratása `user`
 --
 
-INSERT INTO `user` (`id`, `loginName`, `HASH`, `SALT`, `permissionId`, `active`, `email`, `profilePicturePath`, `newsletter`, `signupDate`) VALUES
-(1, 'kerenyir', 'd5fe0e517520122f1ab363b6b7ee9ae616e7ad393693ef00d81a7f287a79931a', 'Gm63C4jiWnYvfZfiKUu2cu8AHPNDj8NoHhtQn88yiJhyOunBNSd7tRoWo5wwqg9X', 2, 1, 'kerenyir@kkszki.hu', 'igen.jpg', 0, '2025-01-26 13:50:51');
+INSERT INTO `user` (`id`, `loginName`, `HASH`, `SALT`, `email`, `permissionId`, `active`, `newsletter`, `profilePicturePath`, `signupDate`) VALUES
+(1, 'kerenyir', '12c2d33dd731e56e72092034c052c5f3da97f78781746546c672a59f1400b781', 'Gm63C4jiWnYvfZfiKUu2cu8AHPNDj8NoHhtQn88yiJhyOunBNSd7tRoWo5wwqg9X', 'kerenyir@kkszki.hu', 2, 1, 0, 'igen.jpg', '2025-01-26 13:50:51'),
+(9, 'a', 'fac680db4e70db69fa8752a598c8804967c173f35aaf3b349add87468f04c117', 'qrFsrweUIYT6zdkX4P25t1AnPgpN2dbYTaNpw87ATjoFIrFrLoHp05CUuR0hp8Pl', 'ezazemailem', 2, 1, 0, NULL, '2025-01-27 10:11:23'),
+(13, 'zsóti', '869a6e791b254d25dd4aa21c3b7f798f53c1c2b07d035af886016edc339f848a', 'nEJ3RLHYKtSWtiLkdQOLAPKu5LKsxuJejWs0gQClkRMCIpcHi1rArpuBz3RDgg8W', 'gasparzs@kkszki.hu', 2, 1, 0, NULL, '2025-01-28 07:40:25');
 
 -- --------------------------------------------------------
 
@@ -272,13 +268,6 @@ ALTER TABLE `theme`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `token`
---
-ALTER TABLE `token`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `userId` (`userId`);
-
---
 -- A tábla indexei `type`
 --
 ALTER TABLE `type`
@@ -314,7 +303,7 @@ ALTER TABLE `level`
 -- AUTO_INCREMENT a táblához `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT a táblához `spaced_repetition`
@@ -326,24 +315,18 @@ ALTER TABLE `spaced_repetition`
 -- AUTO_INCREMENT a táblához `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `task`
 --
 ALTER TABLE `task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT a táblához `theme`
 --
 ALTER TABLE `theme`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT a táblához `token`
---
-ALTER TABLE `token`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -356,7 +339,7 @@ ALTER TABLE `type`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT a táblához `user_statistics`
@@ -389,12 +372,6 @@ ALTER TABLE `task`
 ALTER TABLE `task_theme`
   ADD CONSTRAINT `task_theme_ibfk_1` FOREIGN KEY (`taskId`) REFERENCES `task` (`id`),
   ADD CONSTRAINT `task_theme_ibfk_2` FOREIGN KEY (`themeId`) REFERENCES `theme` (`id`);
-
---
--- Megkötések a táblához `token`
---
-ALTER TABLE `token`
-  ADD CONSTRAINT `token_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
 -- Megkötések a táblához `user`

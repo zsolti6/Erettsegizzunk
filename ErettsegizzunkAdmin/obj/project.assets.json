@@ -35,23 +35,6 @@
           "build/MaterialDesignThemes.targets": {}
         }
       },
-      "MaterialMessageBox/4.0.2": {
-        "type": "package",
-        "dependencies": {
-          "MaterialDesignColors": "2.0.0",
-          "MaterialDesignThemes": "4.0.0",
-          "Microsoft.Xaml.Behaviors.Wpf": "1.1.31"
-        },
-        "compile": {
-          "lib/netcoreapp3.1/BespokeFusion.dll": {}
-        },
-        "runtime": {
-          "lib/netcoreapp3.1/BespokeFusion.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App.WPF"
-        ]
-      },
       "Microsoft.Win32.SystemEvents/9.0.1": {
         "type": "package",
         "compile": {
@@ -195,21 +178,6 @@
         "tools/VisualStudioToolsManifest.xml"
       ]
     },
-    "MaterialMessageBox/4.0.2": {
-      "sha512": "JIvQWGrCUgtsmqvahO/Giqpdr41VJqTILN3pF2Cef/Sx8tGlT+7Qer+M0GwMvqUd9ZujLdU7zU5b1/iM4HzDzw==",
-      "type": "package",
-      "path": "materialmessagebox/4.0.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "icon.png",
-        "lib/net472/BespokeFusion.dll",
-        "lib/net48/BespokeFusion.dll",
-        "lib/netcoreapp3.1/BespokeFusion.dll",
-        "materialmessagebox.4.0.2.nupkg.sha512",
-        "materialmessagebox.nuspec"
-      ]
-    },
     "Microsoft.Win32.SystemEvents/9.0.1": {
       "sha512": "OxjcwJqBW/5A1111+vL9d+5KYTvOzeCTJY9zHZ0kpQI4wX075p6L7inHPSYuf0MGakVjUvaShvw9e9pfbInU2Q==",
       "type": "package",
@@ -344,7 +312,6 @@
     "net8.0-windows7.0": [
       "MaterialDesignColors >= 3.1.0",
       "MaterialDesignThemes >= 4.9.0",
-      "MaterialMessageBox >= 4.0.2",
       "Newtonsoft.Json >= 13.0.3",
       "System.Drawing.Common >= 9.0.1"
     ]
@@ -406,10 +373,6 @@
           "MaterialDesignThemes": {
             "target": "Package",
             "version": "[4.9.0, )"
-          },
-          "MaterialMessageBox": {
-            "target": "Package",
-            "version": "[4.0.2, )"
           },
           "Newtonsoft.Json": {
             "target": "Package",

@@ -42,7 +42,9 @@
             <Style TargetType="CheckBox">
                 <Setter Property="Cursor" Value="Hand" />
             </Style>
-            
+
+            <SolidColorBrush x:Key="PrimaryDark" Color="#320b86" />
+
         </ResourceDictionary>
         
     </Application.Resources>
