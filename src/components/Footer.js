@@ -6,6 +6,7 @@ function FooterComponent() {
     <Footer
       container
       style={{
+        marginTop: "-8vh",
         position: "relative",
         bottom: 0,
         width: "100%",

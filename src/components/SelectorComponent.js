@@ -15,7 +15,7 @@ function SelectorComponent() {
 
   useEffect(() => {
     axios
-      .get("https://localhost:7066/erettsegizzunk/Tantargyak/get-tantargy")
+      .get("https://localhost:7066/erettsegizzunk/Tantargyak/get-tantargyak")
       .then((response) => {
         const formattedSubjects = response.data.map((subject) => ({
           value: String(subject.name), // Convert id to string
@@ -42,9 +42,9 @@ function SelectorComponent() {
   };
 
   return (
-    <div className="exercise" style={{ height: "72vh" }}>
+    <div className="page-wrapper">
       <Navbar />
-      <div>
+      <div className="content-container">
         <h3>Válassz tantárgyat</h3>
         <form className="exercise-form">
           <div className="radio-inputs">
@@ -62,10 +62,7 @@ function SelectorComponent() {
             ))}
           </div>
 
-          <p>
-            Középszintű vagy emelt szintű érettségi feladatokat szeretnél
-            gyakorolni?
-          </p>
+          <p>Középszintű vagy emelt szintű érettségi feladatokat szeretnél gyakorolni?</p>
 
           <div className="radio-inputs1">
             <label className="radio">

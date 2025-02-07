@@ -5,43 +5,26 @@ import Navbar from "./Navbar";
 
 function Home() {
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
       <Navbar />
-    <div
-      className="App border w-10"
-      style={{
-        height: "92vh",
-      }}
-    >
-      <h1
-        style={{
-          marginTop: "5vh",
-        }}
-      >
-        Érettségizzünk!
-      </h1>
-      <p
-        style={{
-          marginTop: "2vh",
-        }}
-      >
-        Egy applikáció, ami segítséget nyújt érettségi előtt álló diákoknak a
-        felkészüléshez.
-      </p>
-      <div className="container h-50 w-100">
-        <div className="row h-100 w-100">
-          <div className="col col-md-4 col-12 cursor">
+      <div className="App container d-flex flex-column align-items-center justify-content-center text-center flex-grow-1 py-5">
+        <h1>Érettségizzünk!</h1>
+        <p className="mt-3 px-3" style={{ maxWidth: "600px" }}>
+          Egy applikáció, ami segítséget nyújt érettségi előtt álló diákoknak a
+          felkészüléshez.
+        </p>
+        <div className="row w-100 g-4 justify-content-center">
+          <div className="col-md-4 col-sm-12">
             <SubjectComponent text={"Statisztika"} linkto={"/statistics"} />
           </div>
-          <div className="col col-md-4 col-12 cursor">
+          <div className="col-md-4 col-sm-12">
             <SubjectComponent text={"Új feladatlap"} linkto={"/selector"} />
           </div>
-          <div className="col col-md-4 col-12 cursor">
+          <div className="col-md-4 col-sm-12">
             <SubjectComponent text={"Útmutató"} linkto={"/tutorial"} />
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }
@@ -54,9 +37,10 @@ function SubjectComponent({ text, linkto }) {
     <div
       id={linkto}
       onClick={() => navigate(linkto)}
-      className="action bg-light w-75 p-3 d-inline-block border rounded align-middle"
+      className="action bg-light p-4 d-flex align-items-center justify-content-center border rounded cursor-pointer shadow-sm"
+      style={{ minHeight: "120px", fontSize: "1.2rem", fontWeight: "bold" }}
     >
-      <h3>{text}</h3>
+      {text}
     </div>
   );
 }
