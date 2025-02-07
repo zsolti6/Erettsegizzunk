@@ -154,18 +154,18 @@ namespace ErettsegizzunkApi.Controllers
                 return NotFound(new ErrorDTO() { Id = 14, Message = "A keresett adat nem található" });
             }
 
-            feladat.Description = put.Leiras;
-            feladat.Answers = put.Megoldasok;
-            feladat.IsCorrect = put.Helyese;
-            feladat.SubjectId = put.TantargyId;
-            feladat.TypeId = put.TipusId;
-            feladat.LevelId = put.SzintId;
-            feladat.PicName = put.KepNev;
-            
-            _context.Entry(feladat).State = EntityState.Modified;
-
             try
             {
+                feladat.Description = put.Leiras;
+                feladat.Answers = put.Megoldasok;
+                feladat.IsCorrect = put.Helyese;
+                feladat.SubjectId = put.TantargyId;
+                feladat.TypeId = put.TipusId;
+                feladat.LevelId = put.SzintId;
+                feladat.PicName = put.KepNev;
+                feladat.Text = put.Szoveg;
+
+                _context.Entry(feladat).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             catch (MySqlException)
@@ -181,7 +181,7 @@ namespace ErettsegizzunkApi.Controllers
                 return NotFound(new ErrorDTO() { Id = 17, Message = "Hiba történt az adatok mentése közben" });
             }
 
-            return Ok(); //Üzenet?
+            return Ok("Feladat módosítása sikeresen megtörtént");
         }
 
         //Egy feladat felvitele
@@ -277,7 +277,7 @@ namespace ErettsegizzunkApi.Controllers
                 return StatusCode(500, new ErrorDTO() { Id = 27, Message = "Hiba történt az adatok mentése közben" });
             }
 
-            return Ok(); //Üzenet?
+            return Ok("Adatok feltöltése megtörtént"); //Üzenet?
         }
 
         //Egy feladat törlése id alapján

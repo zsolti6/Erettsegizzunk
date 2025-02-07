@@ -29,7 +29,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontSize="24"
-                       Foreground="White"/>
+                       Foreground="{DynamicResource MaterialDesignPaper}"/>
         </materialDesign:ColorZone>
 
         <!-- Form Section -->
@@ -64,14 +64,17 @@
             <!-- Submit Button -->
             <Button Content="Létrehoz"
                     Style="{DynamicResource MaterialDesignRaisedButton}" 
+                    Foreground="{DynamicResource MaterialDesignPaper}"
                     Width="100"
-                    Click="UjFelhasznalo_Click"/>
+                    Click="UjFelhasznalo_Click"
+                    Margin="0,0,10,0"/>
 
             <!-- Cancel Button -->
             <Button Content="Mégsem" 
                     Style="{DynamicResource MaterialDesignFlatButton}" 
                     Width="100"
-                    Click="Megse_Click"/>
+                    Click="Megse_Click"
+                    Margin="10,0,0,0"/>
         </StackPanel>
     </Grid>
 </Window>

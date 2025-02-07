@@ -41,84 +41,84 @@
                     <MenuItem x:Name="feladatKezel"
                       Header="Feladatok"
                       Click="feladatKezelese_Click"
-                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      Foreground="{DynamicResource MaterialDesignPaper}"
                       DockPanel.Dock="Left">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="ClipboardTextOutline"
-                                             Foreground="{DynamicResource SecondaryHueMidBrush}"/>
+                                             Foreground="{DynamicResource MaterialDesignPaper}"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="feladatokTemaKezel"
                       Header="Feladatok Téma"
                       Click="feladatokTemaKezelese_Click"
-                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      Foreground="{DynamicResource MaterialDesignPaper}"
                       DockPanel.Dock="Left">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="FormatListText"
-                                             Foreground="{DynamicResource SecondaryHueMidBrush}"/>
+                                             Foreground="{DynamicResource MaterialDesignPaper}"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="szintKezel"
                       Header="Szint"
                       Click="segedKezelese_Click"
-                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      Foreground="{DynamicResource MaterialDesignPaper}"
                       DockPanel.Dock="Left">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="ChartLine"
-                                             Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                                             Foreground="{DynamicResource MaterialDesignPaper}" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="tantargyKezel"
                       Header="Tantárgy"
                       Click="tantargyKezel_Click"
-                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      Foreground="{DynamicResource MaterialDesignPaper}"
                       DockPanel.Dock="Left">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="BookOpenOutline"
-                                             Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                                             Foreground="{DynamicResource MaterialDesignPaper}" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="temaKezel"
                       Header="Téma"
                       Click="segedKezelese_Click"
-                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      Foreground="{DynamicResource MaterialDesignPaper}"
                       DockPanel.Dock="Left">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="Palette"
-                                             Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                                             Foreground="{DynamicResource MaterialDesignPaper}" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="tipusKezel"
                       Header="Típus"
                       Click="segedKezelese_Click"
-                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      Foreground="{DynamicResource MaterialDesignPaper}"
                       DockPanel.Dock="Left">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="FileDocumentOutline"
-                                             Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                                             Foreground="{DynamicResource MaterialDesignPaper}" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="felhasznalokKezel"
                       Header="Felhasználók"
                       Click="felhasznalokKezel_Click"
-                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      Foreground="{DynamicResource MaterialDesignPaper}"
                       DockPanel.Dock="Left">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="Account"
-                                             Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                                             Foreground="{DynamicResource MaterialDesignPaper}" />
                         </MenuItem.Icon>
                     </MenuItem>
 
                     <!-- Right-aligned Logout MenuItem -->
                     <MenuItem Header="Logout"
-                      Foreground="{DynamicResource SecondaryHueMidBrush}"
+                      Foreground="{DynamicResource MaterialDesignPaper}"
                       Click="Logout_Click"
                       Padding="8"
                       DockPanel.Dock="Right"
                       VerticalContentAlignment="Center">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="Logout"
-                                             Foreground="{DynamicResource SecondaryHueMidBrush}"
+                                             Foreground="{DynamicResource MaterialDesignPaper}"
                                              Width="20" Height="20" />
                         </MenuItem.Icon>
                     </MenuItem>

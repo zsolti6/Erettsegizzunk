@@ -46,7 +46,7 @@ namespace ErettsegizzunkAdmin
 
                 if (user.Permission != 2)
                 {
-                    MessageBoxes.CustomError(new ErrorDTO() { Id = 500, Message = "Hozzáférés megtagadva" }.ToString(), "Figyelem");
+                    MessageBoxes.CustomError(new ErrorDTO(500, "Hozzáférés megtagadva").ToString(), "Figyelem");
                     return;
                 }
 
@@ -54,7 +54,7 @@ namespace ErettsegizzunkAdmin
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
                 return;
             }
             

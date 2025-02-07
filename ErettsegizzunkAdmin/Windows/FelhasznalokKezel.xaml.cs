@@ -56,7 +56,7 @@ namespace ErettsegizzunkAdmin.Windows
             List<User> users = await _apiService.GetFelhasznalokAsync(new LoggedUserForCheckDTO() { Id = user.Id, Permission = user.Permission, Token = user.Token});
             if (users is null)
             {
-                MessageBoxes.CustomError("Hiba az adatok lekérdezése közben", "Error");
+                //MessageBoxes.CustomError("Hiba az adatok lekérdezése közben", "Error");
                 return new List<User>();
             }
             //btnOldalKov.IsEnabled = feladatoks.Count == 50;//teszt
@@ -91,7 +91,7 @@ namespace ErettsegizzunkAdmin.Windows
 
             if (ids.Count < 1)
             {
-                MessageBoxes.CustomMessageOk("Nincs törlendő elem kijelölve!");
+                MessageBoxes.CustomMessageOk("Kérem jelöljön ki legalább egy törlésre szánt elemet!");
                 return;
             }
 
@@ -110,7 +110,7 @@ namespace ErettsegizzunkAdmin.Windows
             menu.Show();
             if (modositando.Count != 0)
             {
-                MessageBoxResult result = MessageBoxes.CustomQuestion("Menti a változtatásokat?");
+                MessageBoxResult result = MessageBoxes.CustomQuestion("Szeretné menteni a módostásokat?");
 
                 if (result == MessageBoxResult.OK)
                 {
@@ -118,7 +118,7 @@ namespace ErettsegizzunkAdmin.Windows
                 }
                 else
                 {
-                    MessageBoxes.CustomMessageOk("Módosítások eldobva");
+                    MessageBoxes.CustomMessageOk("Módosítások elvetve");
                 }
             }
             Close();

@@ -8,10 +8,7 @@
         <ResourceDictionary>
             
             <ResourceDictionary.MergedDictionaries>
-                <!-- Material Design Bundled Theme -->
-                    <materialDesign:BundledTheme BaseTheme="Light" 
-                                     PrimaryColor="DeepPurple" 
-                                     SecondaryColor="LightBlue"/>
+
 
                     <!-- Material Design Defaults -->
                     <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
@@ -20,19 +17,25 @@
                 
                 
             </ResourceDictionary.MergedDictionaries>
-            <Color x:Key="TertiaryColor">#FF5252</Color>
-            <!-- A light red -->
-            <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource TertiaryColor}" />
+            <!-- 🎨 Primary Color (Swapped to #440FB5) -->
+            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#440FB5"/>
+            <!-- Main Primary -->
+            <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#2E087F"/>
+            <!-- Darker Shade -->
+            <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#6B3FD1"/>
+            <!-- Lighter Shade -->
 
-            <!-- Global Style for Clickable Controls -->
-            <Style TargetType="Button">
-                <Setter Property="Cursor" Value="Hand" />
-            </Style>
+            <!-- 🎨 Secondary Color (Swapped to #320B86) -->
+            <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#320B86"/>
+            <!-- Main Secondary -->
+            <SolidColorBrush x:Key="SecondaryHueDarkBrush" Color="#21075A"/>
+            <!-- Darker Shade -->
+            <SolidColorBrush x:Key="SecondaryHueLightBrush" Color="#5333B1"/>
+            <!-- Lighter Shade -->
 
-            <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
-                <Setter Property="Cursor" Value="Hand" />
-            </Style>
-
+            <!-- ✅ Dynamically Apply to Material Design -->
+            <Color x:Key="PrimaryColor">#440FB5</Color>
+            <Color x:Key="SecondaryColor">#320B86</Color>
 
             <!-- If needed, you can also include other clickable controls like Hyperlink -->
             <Style TargetType="Hyperlink">
@@ -42,8 +45,6 @@
             <Style TargetType="CheckBox">
                 <Setter Property="Cursor" Value="Hand" />
             </Style>
-
-            <SolidColorBrush x:Key="PrimaryDark" Color="#320b86" />
 
         </ResourceDictionary>
         

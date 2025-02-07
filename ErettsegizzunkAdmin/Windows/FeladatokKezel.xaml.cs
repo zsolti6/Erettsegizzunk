@@ -39,9 +39,13 @@ namespace ErettsegizzunkAdmin.Windows
             RefreshUi();
         }
 
-        private async void RefreshUi()
+        private async void RefreshUi(bool oldalKov = false, bool lekerdez = true)
         {
-            feladatok = await LoadDatasAsync(feladatok.Count == 50 ? feladatok[feladatok.Count - 1].Id : 0);//teszt
+            if (lekerdez)
+            {
+                feladatok = await LoadDatasAsync(feladatok.Count == 50 && oldalKov ? feladatok[feladatok.Count - 1].Id : feladatok.Count == 0 ? 0 : feladatok[0].Id - 51);//teszt de elv megy
+            }
+            dgFeladatAdatok.ItemsSource = null;
             dgFeladatAdatok.ItemsSource = feladatok;
             cbSelectAll.IsChecked = false;
         }
@@ -52,7 +56,7 @@ namespace ErettsegizzunkAdmin.Windows
             List<ErettsegizzunkApi.Models.Task> feladatoks = await _apiService.GetFeladatoksAsync(mettol);
             if (feladatoks is null)
             {
-                MessageBoxes.CustomError("Hiba az adatok lekérdezése közben", "Error");
+                //MessageBoxes.CustomError(new ErrorDTO(513,"Hiba történt az adatok lekérdezése közben").ToString());
                 return new List<ErettsegizzunkApi.Models.Task>();
             }
             btnOldalKov.IsEnabled = feladatoks.Count == 50;//teszt
@@ -66,7 +70,6 @@ namespace ErettsegizzunkAdmin.Windows
         /// <param name="e"></param>
         private async void btnUjAdatokTxtbol_Click(object sender, RoutedEventArgs e)
         {
-            string ret = string.Empty;
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 DefaultExt = "*txt",
@@ -75,7 +78,7 @@ namespace ErettsegizzunkAdmin.Windows
 
             if (openFileDialog.ShowDialog() == true)
             {
-                MessageBoxResult result = MessageBoxes.CustomQuestion($"Biztosan fel akarod tölteni a {openFileDialog.FileName.Split("\\").ToList().Last()} adatait?", "Figyelem");
+                MessageBoxResult result = MessageBoxes.CustomQuestion($"Biztosan fel akarod tölteni a  \"{openFileDialog.FileName.Split("\\").ToList().Last()}\"  adatait?", "Figyelem");
                 if (result == MessageBoxResult.Cancel)
                 {
                     MessageBoxes.CustomMessageOk("Feltöltés megszakítva!");
@@ -107,31 +110,37 @@ namespace ErettsegizzunkAdmin.Windows
                         }
                     }
                     reader.Close();
-                    ret = await _apiService.PostFeladatokFromTxt(feladatoks);
-                }
-                catch (FileNotFoundException ex)
-                {
-                    MessageBoxes.CustomError(ex.Message, "Hiba");//hibakezelés
-                }
-                catch (Exception ex)
-                {
-                    MessageBoxes.CustomError(ex.Message, "Hiba");//hibakezelés
-                }
-                finally
-                {
-                    if (ret != string.Empty)
+                    string ret = await _apiService.PostFeladatokFromTxt(feladatoks);
+                    if (ret is null)
                     {
-                        MessageBoxes.CustomMessageOk(ret);//TF IS THIS????
+                        return;
                     }
+
+                    MessageBoxes.CustomMessageOk(ret);
                     RefreshUi();
                 }
+                catch(ErrorDTO ex)
+                {
+                    MessageBoxes.CustomError(ex.ToString());
+                    return;
+                }
+                catch (FileNotFoundException)
+                {
+                    MessageBoxes.CustomError(new ErrorDTO(514,"A megadott file nem található").ToString());
+                    return;
+                }
+                catch (Exception)
+                {
+                    MessageBoxes.CustomError(new ErrorDTO(515, "Hiba történt az adatok mentése közben").ToString());
+                    return;
+                }                
             }
         }
 
         private void btnOldalKov_Click(object sender, RoutedEventArgs e)
         {
             pageNumber++;
-            RefreshUi();
+            RefreshUi(true);
 
             if (pageNumber > 0)
             {
@@ -147,7 +156,7 @@ namespace ErettsegizzunkAdmin.Windows
         private void btnOldalElozo_Click(object sender, RoutedEventArgs e)
         {
             pageNumber--;
-            RefreshUi();
+            RefreshUi(false);
 
             if (pageNumber < 1)
             {
@@ -192,7 +201,7 @@ namespace ErettsegizzunkAdmin.Windows
 
             if (ids.Count < 1)
             {
-                MessageBoxes.CustomMessageOk("Nincs törlendő elem kijelölve!");
+                MessageBoxes.CustomMessageOk("Kérem jelöljön ki legalább egy törlésre szánt elemet!");
                 return;
             }
 
@@ -221,19 +230,20 @@ namespace ErettsegizzunkAdmin.Windows
 
             if (ids.Count == 0)
             {
-                MessageBoxes.CustomError("Válassza ki a módosítani kívánt feladatot!");
+                MessageBoxes.CustomError("Kérem válassza ki a módosítani kívánt feladatot!");
                 return;
             }
 
             if (ids.Count > 1)
             {
-                MessageBoxes.CustomError("Egyszerre egy feladat módosítása lehetséges!");
+                MessageBoxes.CustomError("Egyszerre csak egy feladat módosítása lehetséges!");
                 return;
             }
 
             FeladatModosit feladatModosit = new FeladatModosit(feladatok.Find(x => x.Id == ids[0]), user);
             feladatModosit.ShowDialog();
-
+            feladatok.First(x => x.IsSelected).IsSelected = false;
+            RefreshUi(false,false);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

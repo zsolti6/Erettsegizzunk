@@ -23,7 +23,7 @@
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Center" 
                    FontSize="24" 
-                   Foreground="White"/>
+                   Foreground="{DynamicResource MaterialDesignPaper}"/>
             <!-- Using Primary color -->
         </materialDesign:ColorZone>
 

@@ -90,6 +90,7 @@
 
             <Button x:Name="btnUj" 
             Content="Új felhasználó felvitele" 
+            Foreground="{DynamicResource MaterialDesignPaper}"
             Style="{DynamicResource MaterialDesignRaisedButton}" 
             Width="200" 
             Margin="0,0,0,20" 
@@ -106,22 +107,25 @@
             <Button x:Name="btnTorol" 
             Content="Felhasználó törlése" 
             Style="{DynamicResource MaterialDesignRaisedButton}" 
-            Background="{DynamicResource SecondaryHueMidBrush}" 
-            Foreground="{DynamicResource MaterialDesignPaper}" 
+            Foreground="{DynamicResource MaterialDesignPaper}"
+            Background="{DynamicResource SecondaryHueDarkBrush}"
             Width="200" 
             Margin="0,0,0,20" 
             Click="btnTorol_Click"/>
             
 
             <Button x:Name="btnVissza" 
-            Content="Vissza" 
+            Content="Vissza"
+            Foreground="{DynamicResource MaterialDesignPaper}"
+            Background="{DynamicResource PrimaryHueLightBrush}"
             Style="{DynamicResource MaterialDesignRaisedButton}" 
             Width="200" 
             Margin="0,0,0,20" 
             Click="btnVissza_Click"/>
 
             <Button x:Name="btnModosit" 
-            Content="Módosítások elmentése" 
+            Content="Módosítások elmentése"
+            Foreground="{DynamicResource MaterialDesignPaper}"
             Style="{DynamicResource MaterialDesignRaisedButton}" 
             Width="200" 
             Margin="0,0,0,20" 

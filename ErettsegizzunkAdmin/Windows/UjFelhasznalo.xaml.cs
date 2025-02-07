@@ -56,7 +56,7 @@ namespace ErettsegizzunkAdmin.Windows
             }
             catch (Exception ex)
             {
-                MessageBoxes.CustomMessageOk(ex.Message, "Hiba");
+                MessageBoxes.CustomMessageOk(ex.Message);
                 return;
             }
             MessageBoxes.CustomMessageOk(ret);

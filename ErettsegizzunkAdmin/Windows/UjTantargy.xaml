@@ -29,7 +29,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontSize="24"
-                       Foreground="White"/>
+                       Foreground="{DynamicResource MaterialDesignPaper}"/>
         </materialDesign:ColorZone>
 
         <!-- Form Section -->

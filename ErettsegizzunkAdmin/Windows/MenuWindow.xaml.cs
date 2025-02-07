@@ -1,4 +1,5 @@
-﻿using ErettsegizzunkAdmin.Services;
+﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
+using ErettsegizzunkAdmin.Services;
 using ErettsegizzunkApi.DTOs;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -77,6 +78,7 @@ namespace ErettsegizzunkAdmin.Windows
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             Close();
+            MessageBoxes.CustomMessageOk(ret, "Kijelentkezve");
         }
 
         private void tantargyKezel_Click(object sender, RoutedEventArgs e)

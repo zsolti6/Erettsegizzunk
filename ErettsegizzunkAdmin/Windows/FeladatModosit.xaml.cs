@@ -58,6 +58,10 @@ namespace ErettsegizzunkAdmin.Windows
                     
                 };
                 response = await _apiService.PutFeladatok(put);
+                if (response is null)
+                {
+                    return;
+                }
             }
             catch (Exception)
             {
@@ -65,6 +69,7 @@ namespace ErettsegizzunkAdmin.Windows
                 return;
             }
             MessageBoxes.CustomMessageOk(response);
+            Close();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

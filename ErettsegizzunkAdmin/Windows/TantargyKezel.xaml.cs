@@ -94,7 +94,7 @@ namespace ErettsegizzunkAdmin.Windows
 
             if (ids.Count < 1)
             {
-                MessageBoxes.CustomMessageOk("Nincs törlendő elem kijelölve!");
+                MessageBoxes.CustomMessageOk("Kérem jelöljön ki legalább egy törlésre szánt elemet!");
                 return;
             }
 

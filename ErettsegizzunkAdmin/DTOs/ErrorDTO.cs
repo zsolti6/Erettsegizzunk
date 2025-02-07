@@ -20,7 +20,7 @@
 
         public override string ToString()
         {
-            return $"\nKód: {Id} \nÜzenet: {Message}";
+            return $"Hiba történt\n\nKód:\t{Id} \nÜzenet:\t{Message}";
         }
     }
 }

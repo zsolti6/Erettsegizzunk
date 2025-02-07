@@ -60,7 +60,7 @@ namespace ErettsegizzunkApi.Controllers
                 }
                 else
                 {
-                    return BadRequest(new ErrorDTO() { Id = 37, Message = "Hibás név, jelszó páros" });
+                    return BadRequest(loggeduser.Active ? new ErrorDTO() { Id = 81, Message = "Hibás név, jelszó páros" } : new ErrorDTO() { Id = 37, Message = "Inaktív fiók" });
                 }
 
             }

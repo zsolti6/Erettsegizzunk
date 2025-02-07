@@ -16,12 +16,12 @@ namespace ErettsegizzunkAdmin.CustomMessageBoxes
 {
     public static class MessageBoxes
     {
-        public static void CustomError(string szoveg, string cim = "")
+        public static void CustomError(string szoveg, string cim = "Hiba")
         {
             CustomMaterialMessageBox custom = new CustomMaterialMessageBox
             {
-                TxtMessage = { Text = szoveg, Foreground = Brushes.Black },
-                TxtTitle = { Text = cim, Foreground = Brushes.Black },
+                TxtMessage = { Text = szoveg, Foreground = Brushes.Black, FontSize = 15 },
+                TxtTitle = { Text = cim, Foreground = Brushes.White },
                 BtnOk = { Content = "Ok", Background = Brushes.Red },
                 BtnCancel = { Visibility = Visibility.Collapsed },
                 //BtnCopyMessage = { Visibility = Visibility.Collapsed },
@@ -35,14 +35,14 @@ namespace ErettsegizzunkAdmin.CustomMessageBoxes
             custom.Show();
         }
 
-        public static MessageBoxResult CustomQuestion(string szoveg, string cim="")
+        public static MessageBoxResult CustomQuestion(string szoveg, string cim="Figyelem")
         {
-            Color color = (Color)ColorConverter.ConvertFromString("#320b86"); //-----> PrimaryDark 
+            Color color = (Color)ColorConverter.ConvertFromString("#440FB5"); //-----> PrimaryDark-hoz illik
             SolidColorBrush brush = new SolidColorBrush(color);
 
             CustomMaterialMessageBox custom = new CustomMaterialMessageBox
             {
-                TxtMessage = { Text = szoveg, Foreground = Brushes.Black },
+                TxtMessage = { Text = szoveg, Foreground = Brushes.Black, FontSize = 15 },
                 TxtTitle = { Text = cim, Foreground = Brushes.White },
                 BtnOk = { Content = "Igen", Background = brush },
                 BtnCancel = { Content = "Nem",  Background = Brushes.DodgerBlue},
@@ -57,34 +57,15 @@ namespace ErettsegizzunkAdmin.CustomMessageBoxes
             return custom.Result;
         }
 
-       /* public static void CustomMessage(string szoveg, string cim = "")
-        {
-            CustomMaterialMessageBox custom = new CustomMaterialMessageBox
-            {
-                TxtMessage = { Text = szoveg, Foreground = Brushes.Black },
-                TxtTitle = { Text = cim, Foreground = Brushes.Black },
-                BtnOk = { Content = "Igen", Background = Brushes.DarkBlue},
-                BtnCancel = { Visibility = Visibility.Collapsed },
-                BtnCopyMessage = { Visibility = Visibility.Collapsed },
-                MainContentControl = { Background = Brushes.WhiteSmoke },
-                TitleBackgroundPanel = { Background = Brushes.Purple },
-                BorderBrush = Brushes.Purple,
-                CustomIcon = PackIconKind.InformationCircle,
-                CustomIconForeground = Brushes.Purple
-                
-            };
-            custom.Show();
-        }*/
-
-        public static void CustomMessageOk(string szoveg, string cim = "")
+        public static void CustomMessageOk(string szoveg, string cim = "Üzenet")
         {
             Color color = (Color)ColorConverter.ConvertFromString("#320b86"); //-----> PrimaryDark 
             SolidColorBrush brush = new SolidColorBrush(color);
 
             CustomMaterialMessageBox custom = new CustomMaterialMessageBox
             {
-                TxtMessage = { Text = szoveg, Foreground = Brushes.Black },
-                TxtTitle = { Text = cim, Foreground = Brushes.Black },
+                TxtMessage = { Text = szoveg, Foreground = Brushes.Black, FontSize = 15 },
+                TxtTitle = { Text = cim, Foreground = Brushes.White },
                 BtnOk = { Content = "Ok", Background = brush },
                 BtnCancel = { Visibility = Visibility.Collapsed },
                 BtnCopyMessage = { Visibility = Visibility.Collapsed },

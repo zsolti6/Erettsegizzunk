@@ -47,12 +47,12 @@ namespace ErettsegizzunkAdmin.Services
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error.Id} -- {error.Message}","Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(502, "Kapcsolati hiba").ToString());
                 return null;
             }
         }
@@ -75,12 +75,12 @@ namespace ErettsegizzunkAdmin.Services
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(503, "Kapcsolati hiba").ToString());
                 return null;
             }
         }
@@ -111,12 +111,12 @@ namespace ErettsegizzunkAdmin.Services
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(504, "Kapcsolati hiba").ToString());
                 return null;
             }
         }
@@ -139,12 +139,12 @@ namespace ErettsegizzunkAdmin.Services
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(505, "Kapcsolati hiba").ToString());
                 return null;
             }
         }
@@ -169,12 +169,12 @@ namespace ErettsegizzunkAdmin.Services
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
                 return null;
             }
         }
@@ -197,12 +197,12 @@ namespace ErettsegizzunkAdmin.Services
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
                 return null;
             }
         }
@@ -225,12 +225,12 @@ namespace ErettsegizzunkAdmin.Services
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
                 return null;
             }
         }
@@ -260,12 +260,12 @@ namespace ErettsegizzunkAdmin.Services
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
                 return null;
             }
         }
@@ -305,12 +305,12 @@ namespace ErettsegizzunkAdmin.Services
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(506, "Kapcsolati hiba").ToString());
                 return null;
             }
         }
@@ -328,17 +328,18 @@ namespace ErettsegizzunkAdmin.Services
                     string error = await response_.Content.ReadAsStringAsync();
                     throw new ErrorDTO(error);
                 }
-                return await response_.Content.ReadAsStringAsync();
+                string res = await response_.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<string>(res);
             }
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(507, "Kapcsolati hiba").ToString());
                 return null;
             }
         }
@@ -364,12 +365,12 @@ namespace ErettsegizzunkAdmin.Services
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(508, "Kapcsolati hiba").ToString());
                 return null;
             }
         }
@@ -394,7 +395,7 @@ namespace ErettsegizzunkAdmin.Services
             }
             catch (Exception ex)
             {
-                return null;
+                return null;//HIBAÜZENET?
             }
 
         }
@@ -420,12 +421,12 @@ namespace ErettsegizzunkAdmin.Services
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(509, "Kapcsolati hiba").ToString());
                 return null;
             }
         }
@@ -448,12 +449,12 @@ namespace ErettsegizzunkAdmin.Services
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(510, "Kapcsolati hiba").ToString());
                 return null;
             }
         }
@@ -484,12 +485,12 @@ namespace ErettsegizzunkAdmin.Services
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(511, "Kapcsolati hiba").ToString());
                 return null;
             }
         }
@@ -512,12 +513,12 @@ namespace ErettsegizzunkAdmin.Services
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
-                MessageBoxes.CustomError($"Hiba történt: {error}", "Hiba");
+                MessageBoxes.CustomError(error.ToString());
                 return null;
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError("Hiba történt", "Hiba");
+                MessageBoxes.CustomError(new ErrorDTO(512, "Kapcsolati hiba").ToString());
                 return null;
             }
         }

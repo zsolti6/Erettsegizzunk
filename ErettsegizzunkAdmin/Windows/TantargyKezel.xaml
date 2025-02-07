@@ -90,7 +90,7 @@
              Content="Törlés"
              Margin="8" 
              Style="{DynamicResource MaterialDesignRaisedButton}" 
-             Background="{DynamicResource SecondaryHueMidBrush}" 
+             Background="{DynamicResource SecondaryHueDarkBrush}" 
              Foreground="{DynamicResource MaterialDesignPaper}" 
              Click="btnDelet_Click" />
 
@@ -98,7 +98,7 @@
              Content="Vissza" 
              Margin="8" 
              Style="{DynamicResource MaterialDesignRaisedButton}" 
-             Background="{DynamicResource PrimaryHueMidBrush}" 
+             Background="{DynamicResource PrimaryHueLightBrush}" 
              Foreground="{DynamicResource MaterialDesignPaper}" 
              Click="btnBack_Click" />
 

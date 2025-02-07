@@ -6,81 +6,112 @@
         xmlns:local="clr-namespace:ErettsegizzunkAdmin.Windows"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Feladat Szerkesztése" Height="600" Width="750"
+        Title="Feladat Szerkesztése" Height="500" Width="700"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
         ResizeMode="CanMinimize">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <Grid Margin="20">
+        <Grid Margin="24">
             <!-- Material Design Card -->
-            <materialDesign:Card Padding="20">
-                <StackPanel>
+            <materialDesign:Card Padding="24">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
                     <!-- Id (Read-only) -->
+                    <TextBlock Text="Id:" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="0" Margin="0,0,12,0"/>
                     <TextBox IsReadOnly="True"
-                             Text="{Binding Id}"
-                             Margin="0,0,0,16"
-                             materialDesign:HintAssist.Hint="Id" />
+                         Text="{Binding Id}"
+                         Grid.Row="0" Grid.Column="1"
+                         materialDesign:HintAssist.Hint="Id" />
 
                     <!-- Leírás (Description) -->
+                    <TextBlock Text="Leírás:" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="1" Margin="0,8,12,0"/>
                     <TextBox Text="{Binding Description}"
-                             Margin="0,0,0,16"
-                             AcceptsReturn="True"
-                             VerticalScrollBarVisibility="Auto"
-                             MinHeight="60"
-                             materialDesign:HintAssist.Hint="Leírás" />
+                         Grid.Row="1" Grid.Column="1"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto"
+                         MinHeight="60"
+                         materialDesign:HintAssist.Hint="Leírás" />
 
                     <!-- Szöveg (Text) -->
+                    <TextBlock Text="Szöveg:" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="2" Margin="0,8,12,0"/>
                     <TextBox Text="{Binding Text}"
-                             Margin="0,0,0,16"
-                             AcceptsReturn="True"
-                             VerticalScrollBarVisibility="Auto"
-                             MinHeight="60"
-                             materialDesign:HintAssist.Hint="Szöveg" />
+                         Grid.Row="2" Grid.Column="1"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto"
+                         MinHeight="60"
+                         materialDesign:HintAssist.Hint="Szöveg" />
 
                     <!-- Megoldások (Answers) -->
+                    <TextBlock Text="Megoldások:" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="3" Margin="0,8,12,0"/>
                     <TextBox Text="{Binding Answers}"
-                             Margin="0,0,0,16"
-                             AcceptsReturn="True"
-                             VerticalScrollBarVisibility="Auto"
-                             MinHeight="60"
-                             materialDesign:HintAssist.Hint="Megoldások" />
+                         Grid.Row="3" Grid.Column="1"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto"
+                         MinHeight="60"
+                         materialDesign:HintAssist.Hint="Megoldások" />
 
                     <!-- Tantárgy (Subject) -->
+                    <TextBlock Text="Tantárgy:" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="4" Margin="0,8,12,0"/>
                     <ComboBox ItemsSource="{Binding SubjectList}" 
-                              SelectedItem="{Binding SubjectName, Mode=TwoWay}"
-                              Margin="0,0,0,16"
-                              materialDesign:HintAssist.Hint="Tantárgy" />
-                    
+                          SelectedItem="{Binding SubjectName, Mode=TwoWay}"
+                          Grid.Row="4" Grid.Column="1"
+                          materialDesign:HintAssist.Hint="Tantárgy" />
+
                     <!-- Szint (Level) -->
+                    <TextBlock Text="Szint:" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="5" Margin="0,8,12,0"/>
                     <ComboBox ItemsSource="{Binding LevelList}" 
-                              SelectedItem="{Binding LevelName, Mode=TwoWay}"
-                              Margin="0,0,0,16"
-                              materialDesign:HintAssist.Hint="Tantárgy" />
-                    
+                          SelectedItem="{Binding LevelName, Mode=TwoWay}"
+                          Grid.Row="5" Grid.Column="1"
+                          materialDesign:HintAssist.Hint="Szint" />
+
                     <!-- Típus (Type) -->
+                    <TextBlock Text="Típus:" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="6" Margin="0,8,12,0"/>
                     <ComboBox ItemsSource="{Binding TypeList}" 
-                              SelectedItem="{Binding TypeName, Mode=TwoWay}"
-                              Margin="0,0,0,16"
-                              materialDesign:HintAssist.Hint="Tantárgy" />
+                          SelectedItem="{Binding TypeName, Mode=TwoWay}"
+                          Grid.Row="6" Grid.Column="1"
+                          materialDesign:HintAssist.Hint="Típus" />
 
                     <!-- Action Buttons -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <StackPanel Grid.Row="7" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
                         <Button x:Name="btnSave"
-                                Content="Mentés"
-                                Width="100"
-                                Margin="5"
-                                Click="btnSave_Click"
-                                Style="{StaticResource MaterialDesignRaisedButton}" />
+                            Content="Mentés"
+                            Foreground="{DynamicResource MaterialDesignPaper}"
+                            Width="120"
+                            Margin="5"
+                            Click="btnSave_Click"
+                            Style="{StaticResource MaterialDesignRaisedButton}" />
+
                         <Button x:Name="btnCancel"
-                                Content="Mégsem"
-                                Width="100"
-                                Margin="5"
-                                Click="btnCancel_Click"
-                                Style="{StaticResource MaterialDesignRaisedButton}" />
+                            Content="Mégsem"
+                            Foreground="{DynamicResource MaterialDesignPaper}"
+                            Width="120"
+                            Margin="5"
+                            Click="btnCancel_Click"
+                            Background="{DynamicResource MaterialDesignDivider}"
+                            Style="{StaticResource MaterialDesignRaisedButton}" />
                     </StackPanel>
-                </StackPanel>
+                </Grid>
             </materialDesign:Card>
         </Grid>
     </ScrollViewer>
+
 </Window>
