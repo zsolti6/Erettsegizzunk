@@ -99,7 +99,7 @@ function RegisterPage() {
       <Navbar />
       <div className="container d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
         <div className="card p-4" style={{ width: "500px" }}>
-          <h2 className="text-center mb-4">Regisztráció</h2>
+          <h2 className="text-center mb-4">Fiók létrehozása</h2>
           {error && <div className="alert alert-danger">{error}</div>}
           <form onSubmit={handleRegister}>
             <div className="form-group mb-3">
