@@ -270,6 +270,36 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
         #endregion
+        public async Task<List<Theme>> GetTemakAsync()
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync("erettsegizzunk/Tantargyak/get-tantargyak");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
+                string responseContent = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Subject>>(responseContent);
+            }
+            catch (ErrorDTO er)
+            {
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError(error.ToString());
+                return null;
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
+                return null;
+            }
+        }
+        #region Téma
+
+        #endregion
 
         #region Login - logout
         public async Task<LoggedUserDTO> Login(string name, string password)

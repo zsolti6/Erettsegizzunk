@@ -1,5 +1,5 @@
-﻿using ErettsegizzunkApi.Models;
-using Microsoft.AspNetCore.Http;
+﻿using ErettsegizzunkApi.DTOs;
+using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ErettsegizzunkApi.Controllers
@@ -15,33 +15,36 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
-        [HttpPost("{loginName},{oldPassword},{newPassword}")]//body
-        public async Task<IActionResult> JelszoMosositas(string loginName, string oldPassword, string newPassword)
+        [HttpPost("jelszo-modositas")]//body
+        public async Task<IActionResult> JelszoMosositas([FromBody] JelszoModositDTO jelszoModosit)
         {
             try
             {
-                using (var context = new ErettsegizzunkContext())
+                if (!Program.LoggedInUsers.ContainsKey(jelszoModosit.Token) && Program.LoggedInUsers[jelszoModosit.Token].LoginName == jelszoModosit.LoginName)
                 {
-                    User? user = context.Users.FirstOrDefault(x => x.LoginName == loginName);
-                    if (user != null)
+                    return BadRequest(new ErrorDTO() { Id = 84, Message = "Hozzáférés megtagadva" });
+                }
+
+                User? user = _context.Users.FirstOrDefault(x => x.LoginName == jelszoModosit.LoginName);
+                if (user != null)
+                {
+                    if (Program.CreateSHA256(Program.CreateSHA256(jelszoModosit.OldPassword + user.Salt)) == user.Hash)
                     {
-                        if (Program.CreateSHA256(Program.CreateSHA256(oldPassword + user.Salt)) == user.Hash)
-                        {
-                            user.Hash = Program.CreateSHA256(Program.CreateSHA256(newPassword + user.Salt));
-                            context.Users.Update(user);
-                            await context.SaveChangesAsync();
-                            return Ok("A jelszó módosítása sikeresen megtörtént.");
-                        }
-                        else
-                        {
-                            return StatusCode(201, "Hibás a régi jelszó!");//ne bad request legyen
-                        }
+                        user.Hash = Program.CreateSHA256(Program.CreateSHA256(jelszoModosit.NewPassword + user.Salt));
+                        _context.Users.Update(user);
+                        await _context.SaveChangesAsync();
+                        return Ok("A jelszó módosítása sikeresen megtörtént.");
                     }
                     else
                     {
-                        return BadRequest("Nincs ilyen nevű felhasználó!");
+                        return StatusCode(201, "Hibás a régi jelszó!");//ne bad request legyen
                     }
                 }
+                else
+                {
+                    return BadRequest("Nincs ilyen nevű felhasználó!");
+                }
+
             }
             catch (Exception ex)
             {

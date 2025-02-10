@@ -10,9 +10,9 @@ using System.Windows.Interop;
 namespace ErettsegizzunkAdmin.Windows
 {
     /// <summary>
-    /// Interaction logic for TantargyKezel.xaml
+    /// Interaction logic for TemaKezel.xaml
     /// </summary>
-    public partial class TantargyKezel : Window
+    public partial class TemaKezel : Window
     {
         #region Bezaras gomb eltüntetése
         [DllImport("user32.dll")]
@@ -26,9 +26,9 @@ namespace ErettsegizzunkAdmin.Windows
         #endregion
 
         private LoggedUserDTO user = new LoggedUserDTO();
-        private List<Subject> subjects = new List<Subject>();
+        private List<Theme> themes = new List<Theme>();
         private readonly ApiService _apiService;
-        public TantargyKezel(LoggedUserDTO user)
+        public TemaKezel(LoggedUserDTO user)
         {
             InitializeComponent();
             this.user = user;
@@ -38,27 +38,27 @@ namespace ErettsegizzunkAdmin.Windows
 
         private async void RefreshUi()
         {
-            subjects = await _apiService.GetTantargyaksAsync();
-            dgTantargyAdatok.ItemsSource = subjects;
+            //themes = await _apiService.GetTantargyaksAsync();//modosit
+            dgTemaAdatok.ItemsSource = themes;
             cbSelectAll.IsChecked = false;
         }
 
         private void cbSelectAll_Checked(object sender, RoutedEventArgs e)
         {
-            foreach (Subject subject in subjects)
+            foreach (Theme theme in themes)
             {
-                subject.IsSelected = true;
+                theme.IsSelected = true;
             }
-            dgTantargyAdatok.Items.Refresh();
+            dgTemaAdatok.Items.Refresh();
         }
 
         private void cbSelectAll_Unchecked(object sender, RoutedEventArgs e)
         {
-            foreach (Subject subject in subjects)
+            foreach (Theme theme in themes)
             {
-                subject.IsSelected = false;
+                theme.IsSelected = false;
             }
-            dgTantargyAdatok.Items.Refresh();
+            dgTemaAdatok.Items.Refresh();
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -72,11 +72,11 @@ namespace ErettsegizzunkAdmin.Windows
         {
             List<int> ids = new List<int>();
 
-            foreach (Subject subject in subjects)
+            foreach (Theme theme in themes)
             {
-                if (subject.IsSelected)
+                if (theme.IsSelected)
                 {
-                    ids.Add(subject.Id);
+                    ids.Add(theme.Id);
                 }
             }
 
@@ -104,8 +104,8 @@ namespace ErettsegizzunkAdmin.Windows
 
         private async void btnModosit_Click(object sender, RoutedEventArgs e)
         {
-            string message = await _apiService.PutTantargyak(new TantargyPutDTO() { subjects = subjects, Token = user.Token });
-            MessageBoxes.CustomMessageOk(message);
+            //string message = await _apiService.PutTantargyak(new TantargyPutDTO() { subjects = subjects, Token = user.Token });
+            //MessageBoxes.CustomMessageOk(message);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
