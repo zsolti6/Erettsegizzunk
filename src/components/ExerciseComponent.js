@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Sidenav from "./SideNav";
 import ExerciseWindow from "./ExerciseWindow";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "../css/taskStyle.css";
 
 function ExerciseComponent() {
   const [exercises, setExercises] = useState([]);
@@ -21,25 +23,27 @@ function ExerciseComponent() {
     const fetchData = async () => {
       try {
         const postData = { tantargy: subject, szint: difficulty };
+        
         const response = await axios.post(
           "https://localhost:7066/erettsegizzunk/Feladatok/get-random-feladatok",
           postData
         );
-
+        console.log(response.data);
+        
         const tasksWithIds = response.data.map((task, index) => ({
           ...task,
           taskId: index + 1,
         }));
-
+        
         setExercises(tasksWithIds);
 
         const initialValues = {};
         tasksWithIds.forEach((task) => {
           initialValues[task.id] = {
             taskId: task.taskId,
-            helyese: task.helyese,
-            megoldasok: task.megoldasok,
-            values: task.tipus.nev === "textbox" ? [""] : Array(task.helyese.split(";").length).fill("0"),
+            isCorrect: task.isCorrect,
+            answers: task.answers,
+            values: task.type.name === "textbox" ? [""] : Array(task.isCorrect.split(";").length).fill("0"),
           };
         });
         setTaskValues(initialValues);
@@ -64,9 +68,16 @@ function ExerciseComponent() {
   return (
     <div style={{ height: "92vh" }}>
       <Navbar />
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", height: "100%" }}>
         <Sidenav tasks={exercises} setActiveComponent={setActiveIndex} activeIndex={activeIndex} />
-        <div style={{ padding: "20px", flex: 1 }}>
+        <div style={{ padding: "20px", flex: 1, display: "flex", alignItems: "center", /*backgroundColor: "blue",*/ height: "100%", zIndex: 10, marginLeft: "26vh"}}>
+          <div style={{ marginRight: "10px" }} id="previous">
+            {activeIndex > 0 && (
+              <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex - 1)}>
+                <i className="bi bi-arrow-left"></i>
+              </button>
+            )}
+          </div>
           {exercises.length > 0 && (
             <ExerciseWindow
               tasks={exercises}
@@ -75,12 +86,19 @@ function ExerciseComponent() {
               updateTaskValues={updateTaskValues}
             />
           )}
-          <div>
-            {activeIndex > 0 && <button onClick={() => setActiveIndex(activeIndex - 1)}>Előző feladat</button>}
+          <div style={{ marginLeft: "10px" }} id="next">
             {activeIndex < exercises.length - 1 ? (
-              <button onClick={() => setActiveIndex(activeIndex + 1)}>Következő feladat</button>
+              <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex + 1)}>
+                <i className="bi bi-arrow-right"></i>
+              </button>
             ) : (
-              <button id={"taskDone"} onClick={() => navigate("/exercise/stats", { state: { taskValues } })}>Feladatlap befejezése</button>
+              <button
+                id="taskDone"
+                className="btn btn-success"
+                onClick={() => navigate("/exercise/stats", { state: { taskValues, exercises } })}
+              >
+                <i className="bi bi-check-circle"></i>
+              </button>
             )}
           </div>
         </div>

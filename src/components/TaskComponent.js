@@ -32,12 +32,14 @@ function TaskComponent({ elem, values, updateValues }) {
     updateValues(newValues);
   };
 
-  if (elem.tipus.nev === "textbox") {
+  if (elem.type.name === "textbox") {
     return (
-      <div>
-        <h2>{elem.taskId}. feladat</h2>
-        <h3>{elem.leiras}</h3>
-        {elem.helyese.split(";").map(
+      <div className="task">
+        <h3>{elem.taskId}. feladat</h3>
+        <h5><b>{elem.description}</b></h5>
+        <p>{elem.text}</p>
+        {elem.picName != null && <img className="taskPic" src={"http://images.erettsegizzunk.nhely.hu/" + elem.picName} alt={elem.picName} title={elem.picName} />}        
+        {elem.isCorrect.split(";").map(
           (helyes, index) =>
             helyes === "1" && (
               <div key={index}>
@@ -55,12 +57,15 @@ function TaskComponent({ elem, values, updateValues }) {
     );
   }
 
-  if (elem.tipus.nev === "radio") {
+  if (elem.type.name === "radio") {
     return (
-      <div>
-        <h2>{elem.taskId}. feladat</h2>
-        <h3>{elem.leiras}</h3>
-        {elem.helyese.split(";").map((helyes, index) => (
+      <div className="task">
+        <h3>{elem.taskId}. feladat</h3>
+        <h3><b>{elem.description}</b></h3>
+        <p>{elem.text}</p>
+        {elem.picName != null && <img className="taskPic" src={"http://images.erettsegizzunk.nhely.hu/" + elem.picName} alt={elem.picName} title={elem.picName} />}
+        <div className={elem.picName != null ? "inputGroup2" : "inputGroup1" }>
+        {elem.isCorrect.split(";").map((helyes, index) => (
           <div key={index}>
             <input
               className="rStyle form-check-input"
@@ -72,20 +77,23 @@ function TaskComponent({ elem, values, updateValues }) {
               onChange={() => handleRadioChange(index)}
             />
             <label htmlFor={`radio-${elem.id}-${index}`}>
-              {elem.megoldasok.split(";")[index]}
+              {elem.answers.split(";")[index]}
             </label>
           </div>
         ))}
+        </div>
       </div>
     );
   }
 
-  if (elem.tipus.nev === "checkbox") {
+  if (elem.type.name === "checkbox") {
     return (
-      <div>
-        <h2>{elem.taskId}. feladat</h2>
-        <h3>{elem.leiras}</h3>
-        {elem.helyese.split(";").map((helyes, index) => (
+      <div className="task">
+        <h3>{elem.taskId}. feladat</h3>
+        <h5><b>{elem.description}</b></h5>
+        <p>{elem.text}</p>
+        {elem.picName != null && <img className="taskPic" src={"http://images.erettsegizzunk.nhely.hu/" + elem.picName} alt={elem.picName} title={elem.picName} />}
+        {elem.isCorrect.split(";").map((helyes, index) => (
           <div key={index}>
             <input
               className="cbStyle form-check-input"
@@ -97,7 +105,7 @@ function TaskComponent({ elem, values, updateValues }) {
               onChange={() => handleCheckboxChange(index)}
             />
             <label htmlFor={`checkbox-${elem.id}-${index}`}>
-              {elem.megoldasok.split(";")[index]}
+              {elem.answers.split(";")[index]}
             </label>
           </div>
         ))}

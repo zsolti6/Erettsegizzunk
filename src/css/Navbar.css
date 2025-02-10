@@ -60,3 +60,12 @@ nav div:hover{
 nav .home-link:hover, nav .auth-link:hover{
     color: #ccc;
 }
+
+#pp{
+    max-height: 35px;
+    border-radius: 50%;
+}
+
+.noHover:hover{
+    color: #fff;
+}
