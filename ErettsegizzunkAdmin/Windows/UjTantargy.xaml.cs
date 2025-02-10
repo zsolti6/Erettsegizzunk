@@ -1,4 +1,5 @@
-﻿using ErettsegizzunkAdmin.DTOs;
+﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
+using ErettsegizzunkAdmin.DTOs;
 using ErettsegizzunkAdmin.Services;
 using ErettsegizzunkApi.DTOs;
 using System;
@@ -31,9 +32,11 @@ namespace ErettsegizzunkAdmin.Windows
             _apiService = new ApiService();
         }
 
-        private void btnTantargy_Letrehoz_Click(object sender, RoutedEventArgs e)
+        private async void btnTantargy_Letrehoz_Click(object sender, RoutedEventArgs e)
         {
-            _apiService.PostTantargy(new TantargyDTO() { Name = tbTantargyNev.Text, Token = user.Token });
+            string message = await _apiService.PostTantargy(new TantargyDTO() { Name = tbTantargyNev.Text, Token = user.Token });
+            MessageBoxes.CustomMessageOk(message);
+            Close();
         }
 
         private void Megse_Click(object sender, RoutedEventArgs e)

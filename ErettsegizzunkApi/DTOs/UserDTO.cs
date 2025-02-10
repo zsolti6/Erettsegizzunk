@@ -33,9 +33,4 @@ namespace ErettsegizzunkApi.DTOs
         public string? Token { get; set; }
     }
 
-    public class PutSajatFelhasznaloDTO
-    {
-        public int Id { get; set; }
-        public LoggedUser Felhasznalo { get; set; }
-    }
 }

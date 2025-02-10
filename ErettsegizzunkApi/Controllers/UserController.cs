@@ -118,26 +118,26 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpPut("sajat-felhasznalo-modosit")]
-        public async Task<IActionResult> PutFelhasznalok([FromBody] PutSajatFelhasznaloDTO modosit)
+        public async Task<IActionResult> PutFelhasznalok([FromBody] LoggedUser modosit)
         {
-            if (!Program.LoggedInUsers.ContainsKey(modosit.Felhasznalo.Token) && Program.LoggedInUsers[modosit.Felhasznalo.Token].Id == modosit.Felhasznalo.Id)
+            if (!Program.LoggedInUsers.ContainsKey(modosit.Token) && Program.LoggedInUsers[modosit.Token].Id == modosit.Id)
             {
                 return BadRequest(new ErrorDTO() { Id = 84, Message = "Hozzáférés megtagadva" });
             }
 
             try
             {
-                User? userSearch = await _context.Users.FindAsync(modosit.Felhasznalo.Id);
+                User? userSearch = await _context.Users.FindAsync(modosit.Id);
 
                 if (userSearch is null)
                 {
                     return NotFound(new ErrorDTO() { Id = 85, Message = "Az elem nem található" });
                 }
 
-                userSearch.LoginName = modosit.Felhasznalo.Name;
-                userSearch.Email = modosit.Felhasznalo.Email;
-                userSearch.ProfilePicturePath = modosit.Felhasznalo.ProfilePicturePath;
-                userSearch.Newsletter = modosit.Felhasznalo.Newsletter;
+                userSearch.LoginName = modosit.Name;
+                userSearch.Email = modosit.Email;
+                userSearch.ProfilePicturePath = modosit.ProfilePicturePath;
+                userSearch.Newsletter = modosit.Newsletter;
 
                 _context.Entry(userSearch).State = EntityState.Modified;
 

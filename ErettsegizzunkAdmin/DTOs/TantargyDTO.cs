@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ErettsegizzunkApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +21,11 @@ namespace ErettsegizzunkAdmin.DTOs
         public string Token { get; set; } = null!;
 
         public List<int> Ids { get; set; }
+    }
+
+    public class TantargyPutDTO
+    {
+        public string Token { get; set; } = null!;
+        public List<Subject> subjects { get; set; }
     }
 }

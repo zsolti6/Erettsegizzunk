@@ -70,7 +70,7 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
             }
             catch (ErrorDTO er)
             {
@@ -105,7 +105,7 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
 
             }
             catch (ErrorDTO er)
@@ -134,7 +134,7 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
             }
             catch (ErrorDTO er)
             {
@@ -179,7 +179,7 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
-        public async Task<string> PutTantargyak(TantargyDTO tantargy)
+        public async Task<string> PutTantargyak(TantargyPutDTO tantargy)
         {
             try
             {
@@ -192,7 +192,7 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
             }
             catch (ErrorDTO er)
             {
@@ -220,7 +220,7 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
             }
             catch (ErrorDTO er)
             {
@@ -254,7 +254,7 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
 
             }
             catch (ErrorDTO er)
@@ -287,10 +287,10 @@ namespace ErettsegizzunkAdmin.Services
                     string error = await responseGetSalt.Content.ReadAsStringAsync();
                     throw new ErrorDTO(error);
                 }
-                string salt = await responseGetSalt.Content.ReadAsStringAsync();
+                string salt = JsonConvert.DeserializeObject<string>(await responseGetSalt.Content.ReadAsStringAsync());
 
                 //login
-                string tmpHash = MainWindow.CreateSHA256(password + salt.Replace("\"",""));
+                string tmpHash = MainWindow.CreateSHA256(password + salt);//.Replace("\"","")
                 StringContent contentLogin = new StringContent(JsonConvert.SerializeObject(new LoginRequest { LoginName = name, TmpHash = tmpHash}), Encoding.UTF8, "application/json");
                 HttpResponseMessage responseLogin = await _httpClient.PostAsync("erettsegizzunk/Login", contentLogin);
 
@@ -320,16 +320,16 @@ namespace ErettsegizzunkAdmin.Services
             try
             {
                 string formatted = $"\"{token}\"";
-                StringContent content_ = new StringContent(formatted, Encoding.UTF8, "application/json");
-                HttpResponseMessage response_ = await _httpClient.PostAsync("erettsegizzunk/Logout", content_);
+                StringContent content = new StringContent(formatted, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Logout", content);
 
-                if (!response_.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
-                    string error = await response_.Content.ReadAsStringAsync();
+                    string error = await response.Content.ReadAsStringAsync();
                     throw new ErrorDTO(error);
                 }
-                string res = await response_.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<string>(res);
+
+                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
             }
             catch (ErrorDTO er)
             {
@@ -360,7 +360,7 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
             }
             catch (ErrorDTO er)
             {
@@ -444,7 +444,7 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
             }
             catch (ErrorDTO er)
             {
@@ -479,7 +479,7 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
 
             }
             catch (ErrorDTO er)
@@ -508,7 +508,7 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
             }
             catch (ErrorDTO er)
             {

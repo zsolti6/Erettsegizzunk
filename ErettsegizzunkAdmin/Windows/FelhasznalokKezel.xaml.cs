@@ -95,13 +95,17 @@ namespace ErettsegizzunkAdmin.Windows
                 return;
             }
 
-            MessageBoxes.CustomMessageOk(await _apiService.DeletFelhasznalok(new FelhasznaloTorolDTO() { Ids = ids, Token = user.Token }));
+            string message = await _apiService.DeletFelhasznalok(new FelhasznaloTorolDTO() { Ids = ids, Token = user.Token });
+            MessageBoxes.CustomMessageOk(message);
             RefreshUi();
         }
 
         private async void btnModosit_Click(object sender, RoutedEventArgs e)
         {
-            await _apiService.PutFelhasznalok(new FelhasznaloModotsitDTO() { users = felhasznalok, Token = user.Token });
+            //###############################
+            string message = await _apiService.PutFelhasznalok(new FelhasznaloModotsitDTO() { users = felhasznalok.Where(x => x.IsSelected).ToList(), Token = user.Token });//BUGOS
+            MessageBoxes.CustomMessageOk(message);
+            //###############################
         }
 
         private async void btnVissza_Click(object sender, RoutedEventArgs e)

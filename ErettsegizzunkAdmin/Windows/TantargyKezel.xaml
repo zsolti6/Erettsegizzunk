@@ -49,7 +49,7 @@
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="Kijelölés" Binding="{Binding IsSelected}" />
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
-                <DataGridTextColumn Width="300" Header="Név" Binding="{Binding Name}" IsReadOnly="True" />
+                <DataGridTextColumn Width="300" Header="Név" Binding="{Binding Name}"/>
             </DataGrid.Columns>
         </DataGrid>
 

@@ -81,33 +81,39 @@ namespace ErettsegizzunkApi.Controllers
                 return NotFound(new ErrorDTO() { Id = 51, Message = "Hiba történt az adatok mentése közben" });
             }
 
-            return Ok(); //Üzenet?
+            return Ok("Tantárgy felvitele sikeresen megtörént");
         }
 
-        [HttpPost("put-tantargy")]
-        public async Task<IActionResult> PutTantargyak([FromBody] TantargyDTO put)
+        [HttpPut("put-tantargy")]
+        public async Task<IActionResult> PutTantargyak([FromBody] TantargyPutDTO put)
         {
             if (!Program.LoggedInUsers.ContainsKey(put.Token) && Program.LoggedInUsers[put.Token].Permission.Level != 9)
             {
                 return BadRequest(new ErrorDTO() { Id = 52, Message = "Hozzáférés megtagadva" });
             }
 
-            if (put.Id < 1)
-            {
-                return BadRequest(new ErrorDTO() { Id = 53, Message = "Helytelen azonosító" });
-            }
 
             try
             {
-                Subject? tantargy = await _context.Subjects.FindAsync(put.Id);
-
-                if (tantargy is null)
+                foreach (Subject subject in put.subjects)
                 {
-                    return NotFound(new ErrorDTO() { Id = 54, Message = "A keresett adat nem található" });
+                    if (subject.Id < 1)
+                    {
+                        return BadRequest(new ErrorDTO() { Id = 53, Message = "Helytelen azonosító" });
+                    }
+
+                    Subject? tantargy = await _context.Subjects.FindAsync(subject.Id);
+
+                    if (tantargy is null)
+                    {
+                        return NotFound(new ErrorDTO() { Id = 54, Message = "A keresett adat nem található" });
+                    }
+
+                    tantargy.Name = subject.Name;
+                    _context.Entry(tantargy).State = EntityState.Modified;
                 }
 
-                tantargy.Name = put.Name;
-                _context.Entry(tantargy).State = EntityState.Modified;
+                
                 await _context.SaveChangesAsync();
             }
             catch (MySqlException)
@@ -123,7 +129,7 @@ namespace ErettsegizzunkApi.Controllers
                 return NotFound(new ErrorDTO() { Id = 57, Message = "Hiba történt az adatok mentése közben" });
             }
 
-            return Ok(); //Üzenet?
+            return Ok("Tantárgy(ak) módosítása sikeresen megtörtént");
         }
 
         [HttpDelete("delete-tantargyak")]
@@ -156,7 +162,7 @@ namespace ErettsegizzunkApi.Controllers
                 return BadRequest(new ErrorDTO() { Id = 62, Message = "Hiba történt az adatok törlése közben" });
             }
 
-            return Ok(); //Üzenet?
+            return Ok("A tantárgyak(k) törlése sikeresen megtörtént");
         }
     }
 }

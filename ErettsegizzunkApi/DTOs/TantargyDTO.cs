@@ -1,4 +1,6 @@
-﻿namespace ErettsegizzunkApi.DTOs
+﻿using ErettsegizzunkApi.Models;
+
+namespace ErettsegizzunkApi.DTOs
 {
     public class TantargyDTO
     {
@@ -14,5 +16,11 @@
         public string Token { get; set; } = null!;
 
         public List<int> Ids { get; set; }
+    }
+
+    public class TantargyPutDTO
+    {
+        public string Token { get; set; } = null!;
+        public List<Subject> subjects { get; set; }
     }
 }

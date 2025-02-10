@@ -106,6 +106,7 @@ namespace ErettsegizzunkAdmin.Windows
         {
             UjTantargy ujTantargy = new UjTantargy(user);
             ujTantargy.ShowDialog();
+            RefreshUi();
         }
 
         private void btnQuestion_Click(object sender, RoutedEventArgs e)
@@ -113,9 +114,10 @@ namespace ErettsegizzunkAdmin.Windows
 
         }
 
-        private void btnModosit_Click(object sender, RoutedEventArgs e)
+        private async void btnModosit_Click(object sender, RoutedEventArgs e)
         {
-
+            string message = await _apiService.PutTantargyak(new TantargyPutDTO() { subjects = subjects, Token = user.Token });
+            MessageBoxes.CustomMessageOk(message);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
