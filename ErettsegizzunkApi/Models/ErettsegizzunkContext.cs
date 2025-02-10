@@ -297,6 +297,9 @@ public partial class ErettsegizzunkContext : DbContext
                 .HasDefaultValueSql("'current_timestamp()'")
                 .HasColumnType("timestamp")
                 .HasColumnName("signupDate");
+            entity.Property(e => e.GoogleUser)
+                .HasDefaultValueSql("'0'")
+                .HasColumnName("googleUser");
 
             entity.HasOne(d => d.Permission).WithMany(p => p.Users)
                 .HasForeignKey(d => d.PermissionId)

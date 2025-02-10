@@ -336,6 +336,22 @@
   },
   {
     "ContainingType": "ErettsegizzunkApi.Controllers.RegistryController",
+    "Method": "LoginRegistryWithGoogle",
+    "RelativePath": "erettsegizzunk/Registry/googleLogin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ErettsegizzunkApi.Controllers.RegistryController",
     "Method": "Registry",
     "RelativePath": "erettsegizzunk/Registry/regisztracio",
     "HttpMethod": "POST",

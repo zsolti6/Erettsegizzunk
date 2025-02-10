@@ -22,12 +22,12 @@ namespace ErettsegizzunkApi.Controllers
         {
             try
             {
-                if (_context.Users.FirstOrDefault(f => f.LoginName == user.LoginName) != null)
+                if (_context.Users.FirstOrDefault(x => x.LoginName == user.LoginName) != null)
                 {
                     return Ok("Már létezik ilyen felhasználónév!");
                 }
 
-                if (_context.Users.FirstOrDefault(f => f.Email == user.Email) != null)
+                if (_context.Users.FirstOrDefault(x => x.Email == user.Email) != null)
                 {
                     return Ok("Ezzel az e-mail címmel már regisztráltak!");
                 }
@@ -82,31 +82,51 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpPost("googleLogin")]
-        public async Task<IActionResult> LoginRegistryWithGoogle([FromBody] EndOfRegistryDTO fromGoogle)
+        public async Task<IActionResult> LoginRegistryWithGoogle([FromBody] string email)
         {
-            User? user = await _context.Users.FirstOrDefaultAsync(x => x.Email == fromGoogle.Email);
-            string token = Guid.NewGuid().ToString();
-
-            if (user is null)
+            try
             {
-                User newUser = new User()
+                User? user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+                string token = Guid.NewGuid().ToString();
+
+                if (user is null)
                 {
-                    LoginName = fromGoogle.UserName,
-                    Email = fromGoogle.Email,
-                    Active = true,
-                    Hash = string.Empty,
-                    Salt = string.Empty,
-                    PermissionId = 1,
-                    Newsletter = false
-                };
+                    if (_context.Users.FirstOrDefault(x => x.Email == email) != null)
+                    {
+                        return Ok("Ezzel az e-mail címmel már regisztráltak!");
+                    }
 
-                await _context.Users.AddAsync(newUser);
-                await _context.SaveChangesAsync();
+                    User newUser = new User()
+                    {
+                        LoginName = string.Empty,
+                        Email = email,
+                        Active = true,
+                        Hash = string.Empty,
+                        Salt = string.Empty,
+                        PermissionId = 1,
+                        Newsletter = false,
+                        GoogleUser = true
+                    };
 
-                return Ok(new LoggedUser() { Id = _context.Users.FirstAsync(x => x.Email == newUser.Email).Id, Email = newUser.Email, Name = newUser.LoginName, Permission = newUser.PermissionId, ProfilePicturePath = newUser.ProfilePicturePath, Token = token });
+                    await _context.Users.AddAsync(newUser);
+                    await _context.SaveChangesAsync();
+
+                    return Ok(new LoggedUser() { Id = _context.Users.First(x => x.Email == newUser.Email).Id, Email = newUser.Email, Name = newUser.LoginName, Permission = newUser.PermissionId, ProfilePicturePath = newUser.ProfilePicturePath, Token = token });
+                }
+
+                bool asd = user.GoogleUser;
+
+                return Ok(new LoggedUser() { Id = user.Id, Email = user.Email, Name = user.LoginName, Permission = user.PermissionId, ProfilePicturePath = user.ProfilePicturePath, Token = token });
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 82, Message = "Kapcsolati hiba" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorDTO() { Id = 83, Message = "Hiba történt a regisztráció során" });
             }
 
-            return Ok(new LoggedUser() { Id = _context.Users.FirstAsync(x => x.Email == user.Email).Id, Email = user.Email, Name = user.LoginName, Permission = user.PermissionId, ProfilePicturePath = user.ProfilePicturePath, Token = token });
         }
     }
 }
