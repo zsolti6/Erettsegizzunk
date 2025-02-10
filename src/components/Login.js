@@ -1,32 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./Navbar";
 import sha256 from "crypto-js/sha256";
 import { useNavigate } from "react-router-dom";
-import { auth, provider, signInWithPopup } from "../firebaseConfig";
+import { auth, provider, signInWithPopup, signInWithRedirect } from "../firebaseConfig";
 
-const handleGoogleLogin = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
 
-    const body = {
-      loginName: user.displayName,
-      email: user.email,
-      profilePicturePath: user.photoURL,
-      permissionId: 1,
-      active: true
-    };
-
-    const url = "http://localhost:5000/erettsegizzunk/Registry/googleLogin";
-    await axios.post(url, body);
-
-    console.log("Login successful!", user);
-  } catch (error) {
-    console.error("Google login failed", error);
-  }
-};
 
 function LoginPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -36,6 +15,29 @@ function LoginPage() {
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      localStorage.setItem("googleUser", JSON.stringify(user));
+      console.log(result);
+      const url = "http://localhost:5000/erettsegizzunk/Registry/googleLogin";
+      await axios.post(url, JSON.stringify(user.email), {
+        headers: { 'Content-Type': 'application/json' },
+      }).then(response => {
+        if (response.status === 200) {
+          localStorage.setItem("user", JSON.stringify(response.data));
+          localStorage.setItem("googleLogged", true);
+          console.log("asd");
+        }
+      });
+      navigator("/");
+      console.log("Login successful!", user);
+    } catch (error) {
+      console.error("Google login failed", error);
+    }
   };
 
   const handleLogin = async (e) => {
@@ -60,7 +62,7 @@ function LoginPage() {
       if (loginResponse.status === 200) {
         const user = loginResponse.data;
         localStorage.setItem("user", JSON.stringify(user));
-        
+        localStorage.setItem("googleLogged", false);
         fetch('https://localhost:7066/erettsegizzunk/Token/add-token', {
           method: 'POST',
           headers: {
@@ -130,16 +132,15 @@ function LoginPage() {
                 >
                   {passwordVisible ? "Mutat" : "Elrejt"}
                 </button>
-                
               </div>
             </div>
             <button type="submit" className="btn btn-primary w-100">Belépés</button>
             {/* Links for Forgot Password and Registration */}
             <div className="d-flex justify-content-between mt-3">
-              <a href="/forgot-password" className="text-muted">Elfelejtett jelszó?</a>
+              <a href="/forgot-password" className="text-muted">Elfelejtett jelszó</a>
               <a href="/register" className="text-muted">Még nincs fiókod?</a>
             </div>
-            <button class="googleLogin mt-3" onClick={handleGoogleLogin}>
+            <button className="googleLogin mt-3 btn border" onClick={handleGoogleLogin}>
               <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 256 262">
               <path fill="#4285F4" d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"></path>
               <path fill="#34A853" d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"></path>
