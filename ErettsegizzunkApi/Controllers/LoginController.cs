@@ -73,5 +73,7 @@ namespace ErettsegizzunkApi.Controllers
                 return BadRequest(new ErrorDTO() { Id = 39, Message = "Hiba történt a bejelentkezés során" });
             }
         }
+
+
     }
 }

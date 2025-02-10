@@ -8,7 +8,7 @@ namespace ErettsegizzunkApi.DTOs
         public string Name { get; set; }
         public string Email { get; set; }
         public int Permission { get; set; }
-        public byte[]? ProfilePicture { get; set; } = null!;
+        public byte[]? ProfilePicture { get; set; } = null;
         public string? ProfilePicturePath { get; set; } = null!;
         public string Token { get; set; }
     }

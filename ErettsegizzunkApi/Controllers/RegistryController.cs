@@ -80,5 +80,33 @@ namespace ErettsegizzunkApi.Controllers
                 return BadRequest(new ErrorDTO() { Id = 43, Message = "Hiba történt a regisztráció során" });
             }
         }
+
+        [HttpPost("googleLogin")]
+        public async Task<IActionResult> LoginRegistryWithGoogle([FromBody] EndOfRegistryDTO fromGoogle)
+        {
+            User? user = await _context.Users.FirstOrDefaultAsync(x => x.Email == fromGoogle.Email);
+            string token = Guid.NewGuid().ToString();
+
+            if (user is null)
+            {
+                User newUser = new User()
+                {
+                    LoginName = fromGoogle.UserName,
+                    Email = fromGoogle.Email,
+                    Active = true,
+                    Hash = string.Empty,
+                    Salt = string.Empty,
+                    PermissionId = 1,
+                    Newsletter = false
+                };
+
+                await _context.Users.AddAsync(newUser);
+                await _context.SaveChangesAsync();
+
+                return Ok(new LoggedUser() { Id = _context.Users.FirstAsync(x => x.Email == newUser.Email).Id, Email = newUser.Email, Name = newUser.LoginName, Permission = newUser.PermissionId, ProfilePicturePath = newUser.ProfilePicturePath, Token = token });
+            }
+
+            return Ok(new LoggedUser() { Id = _context.Users.FirstAsync(x => x.Email == user.Email).Id, Email = user.Email, Name = user.LoginName, Permission = user.PermissionId, ProfilePicturePath = user.ProfilePicturePath, Token = token });
+        }
     }
 }
