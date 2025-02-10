@@ -27,6 +27,8 @@ public partial class User
 
     public string? ProfilePicturePath { get; set; }
 
+    public bool GoogleUser { get; set; }
+
     public DateTime? SignupDate { get; set; }
 
     public virtual Permission? Permission { get; set; }

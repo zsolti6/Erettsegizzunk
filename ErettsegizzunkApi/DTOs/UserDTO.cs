@@ -8,6 +8,7 @@ namespace ErettsegizzunkApi.DTOs
         public string Name { get; set; }
         public string Email { get; set; }
         public int Permission { get; set; }
+        public bool Newsletter { get; set; }
         public byte[]? ProfilePicture { get; set; } = null;
         public string? ProfilePicturePath { get; set; } = null!;
         public string Token { get; set; }
@@ -32,9 +33,9 @@ namespace ErettsegizzunkApi.DTOs
         public string? Token { get; set; }
     }
 
-    public class GetEgyFelhasznaloDTO
+    public class PutSajatFelhasznaloDTO
     {
         public int Id { get; set; }
-        public string Token { get; set; }
+        public LoggedUser Felhasznalo { get; set; }
     }
 }

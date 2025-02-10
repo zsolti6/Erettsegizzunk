@@ -45,6 +45,7 @@
             <Button Content="Létrehoz"
                     Style="{DynamicResource MaterialDesignRaisedButton}" 
                     Width="100"
+                    Foreground="White"
                     Click="btnTantargy_Letrehoz_Click"/>
 
             <!-- Cancel Button -->

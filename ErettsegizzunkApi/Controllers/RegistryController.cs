@@ -104,13 +104,14 @@ namespace ErettsegizzunkApi.Controllers
                         Hash = string.Empty,
                         Salt = string.Empty,
                         PermissionId = 1,
-                        Newsletter = false,
+                        Newsletter = true,
                         GoogleUser = true
                     };
 
                     await _context.Users.AddAsync(newUser);
                     await _context.SaveChangesAsync();
 
+                    Program.SendEmail(email, "Sikeres regisztráció", "Köszönjük a regisztrálást");
                     return Ok(new LoggedUser() { Id = _context.Users.First(x => x.Email == newUser.Email).Id, Email = newUser.Email, Name = newUser.LoginName, Permission = newUser.PermissionId, ProfilePicturePath = newUser.ProfilePicturePath, Token = token });
                 }
 
@@ -122,7 +123,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return StatusCode(500, new ErrorDTO() { Id = 82, Message = "Kapcsolati hiba" });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest(new ErrorDTO() { Id = 83, Message = "Hiba történt a regisztráció során" });
             }

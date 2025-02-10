@@ -22,7 +22,7 @@ namespace ErettsegizzunkApi.Controllers
         {
             try
             {
-                User? response = await _context.Users.FirstOrDefaultAsync(x => x.LoginName == loginName);
+                User? response = await _context.Users.FirstOrDefaultAsync(x => x.LoginName == loginName && !x.GoogleUser);
 
                 if (response is null)
                 {
@@ -56,11 +56,11 @@ namespace ErettsegizzunkApi.Controllers
                     {
                         Program.LoggedInUsers.Add(token, loggeduser);
                     }
-                    return Ok(new LoggedUser { Id = loggeduser.Id, Name = loggeduser.LoginName, Email = loggeduser.Email, Permission = loggeduser.PermissionId, ProfilePicturePath = loggeduser.ProfilePicturePath, ProfilePicture = null, Token = token });
+                    return Ok(new LoggedUser { Id = loggeduser.Id, Name = loggeduser.LoginName, Email = loggeduser.Email, Permission = loggeduser.PermissionId, Newsletter =loggeduser.Newsletter,  ProfilePicturePath = loggeduser.ProfilePicturePath, ProfilePicture = null, Token = token });
                 }
                 else
                 {
-                    return BadRequest(loggeduser.Active ? new ErrorDTO() { Id = 81, Message = "Hibás név, jelszó páros" } : new ErrorDTO() { Id = 37, Message = "Inaktív fiók" });
+                    return BadRequest(loggeduser is null || loggeduser.Active ? new ErrorDTO() { Id = 81, Message = "Hibás név, jelszó páros" } : new ErrorDTO() { Id = 37, Message = "Inaktív fiók" });
                 }
 
             }

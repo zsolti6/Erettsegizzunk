@@ -62,8 +62,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 Subject subject = new Subject()
                 {
-                    Id = post.Id,
-                    Name = post.Name,
+                    Name = post.Name
                 };
 
                 _context.Subjects.Add(subject);

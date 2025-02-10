@@ -117,6 +117,46 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
+        [HttpPut("sajat-felhasznalo-modosit")]
+        public async Task<IActionResult> PutFelhasznalok([FromBody] PutSajatFelhasznaloDTO modosit)
+        {
+            if (!Program.LoggedInUsers.ContainsKey(modosit.Felhasznalo.Token) && Program.LoggedInUsers[modosit.Felhasznalo.Token].Id == modosit.Felhasznalo.Id)
+            {
+                return BadRequest(new ErrorDTO() { Id = 84, Message = "Hozzáférés megtagadva" });
+            }
+
+            try
+            {
+                User? userSearch = await _context.Users.FindAsync(modosit.Felhasznalo.Id);
+
+                if (userSearch is null)
+                {
+                    return NotFound(new ErrorDTO() { Id = 85, Message = "Az elem nem található" });
+                }
+
+                userSearch.LoginName = modosit.Felhasznalo.Name;
+                userSearch.Email = modosit.Felhasznalo.Email;
+                userSearch.ProfilePicturePath = modosit.Felhasznalo.ProfilePicturePath;
+                userSearch.Newsletter = modosit.Felhasznalo.Newsletter;
+
+                _context.Entry(userSearch).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+                return Ok("Módosítás végrehajtva");
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 86, Message = "Kapcsolati hiba" });
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return NotFound(new ErrorDTO() { Id = 87, Message = "Hiba történt az adatok mentése közben" });
+            }
+            catch (Exception)
+            {
+                return NotFound(new ErrorDTO() { Id = 88, Message = "Hiba történt az adatok mentése közben" });
+            }
+        }
 
         [HttpPut("felhasznalok-modosit")]
         public async Task<IActionResult> PutFelhasznalok([FromBody] FelhasznaloModotsitDTO modosit)
@@ -148,7 +188,7 @@ namespace ErettsegizzunkApi.Controllers
                 }
 
                 await _context.SaveChangesAsync();
-                return Ok("Törlés végrehajtva");
+                return Ok("Módosítás végrehajtva");
             }
             catch (MySqlException)
             {

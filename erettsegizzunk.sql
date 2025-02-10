@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Feb 06. 14:14
--- Kiszolgáló verziója: 10.4.28-MariaDB
--- PHP verzió: 8.2.4
+-- Létrehozás ideje: 2025. Feb 10. 09:18
+-- Kiszolgáló verziója: 10.4.32-MariaDB
+-- PHP verzió: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -183,17 +183,20 @@ CREATE TABLE `user` (
   `active` tinyint(1) NOT NULL DEFAULT 0,
   `newsletter` tinyint(1) NOT NULL DEFAULT 0,
   `profilePicturePath` varchar(64) DEFAULT NULL,
-  `signupDate` timestamp NOT NULL DEFAULT current_timestamp()
+  `signupDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `googleUser` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `user`
 --
 
-INSERT INTO `user` (`id`, `loginName`, `HASH`, `SALT`, `email`, `permissionId`, `active`, `newsletter`, `profilePicturePath`, `signupDate`) VALUES
-(1, 'kerenyir', '12c2d33dd731e56e72092034c052c5f3da97f78781746546c672a59f1400b781', 'Gm63C4jiWnYvfZfiKUu2cu8AHPNDj8NoHhtQn88yiJhyOunBNSd7tRoWo5wwqg9X', 'kerenyir@kkszki.hu', 2, 1, 0, 'igen.jpg', '2025-01-26 13:50:51'),
-(9, 'a', 'fac680db4e70db69fa8752a598c8804967c173f35aaf3b349add87468f04c117', 'qrFsrweUIYT6zdkX4P25t1AnPgpN2dbYTaNpw87ATjoFIrFrLoHp05CUuR0hp8Pl', 'ezazemailem', 2, 1, 0, NULL, '2025-01-27 10:11:23'),
-(13, 'zsóti', '869a6e791b254d25dd4aa21c3b7f798f53c1c2b07d035af886016edc339f848a', 'nEJ3RLHYKtSWtiLkdQOLAPKu5LKsxuJejWs0gQClkRMCIpcHi1rArpuBz3RDgg8W', 'gasparzs@kkszki.hu', 2, 1, 0, NULL, '2025-01-28 07:40:25');
+INSERT INTO `user` (`id`, `loginName`, `HASH`, `SALT`, `email`, `permissionId`, `active`, `newsletter`, `profilePicturePath`, `signupDate`, `googleUser`) VALUES
+(1, 'kerenyir', '12c2d33dd731e56e72092034c052c5f3da97f78781746546c672a59f1400b781', 'Gm63C4jiWnYvfZfiKUu2cu8AHPNDj8NoHhtQn88yiJhyOunBNSd7tRoWo5wwqg9X', 'kerenyir@kkszki.hu', 2, 1, 0, 'igen.jpg', '2025-01-26 13:50:51', 0),
+(9, 'a', 'fac680db4e70db69fa8752a598c8804967c173f35aaf3b349add87468f04c117', 'qrFsrweUIYT6zdkX4P25t1AnPgpN2dbYTaNpw87ATjoFIrFrLoHp05CUuR0hp8Pl', 'ezazemailem', 2, 1, 0, NULL, '2025-01-27 10:11:23', 0),
+(13, 'zsóti', '869a6e791b254d25dd4aa21c3b7f798f53c1c2b07d035af886016edc339f848a', 'nEJ3RLHYKtSWtiLkdQOLAPKu5LKsxuJejWs0gQClkRMCIpcHi1rArpuBz3RDgg8W', 'gasparzs@kkszki.hu', 2, 1, 0, NULL, '2025-01-28 07:40:25', 0),
+(17, 'string', '', '', 'string', 1, 1, 0, 'default.jpg', '2025-02-10 07:31:09', 0),
+(18, '', '', '', 'asdsad', 1, 1, 0, 'default.jpg', '2025-02-10 08:14:31', 0);
 
 -- --------------------------------------------------------
 
@@ -339,7 +342,7 @@ ALTER TABLE `type`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT a táblához `user_statistics`
