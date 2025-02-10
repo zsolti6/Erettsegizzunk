@@ -1,6 +1,8 @@
 ﻿using ErettsegizzunkApi.DTOs;
 using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -15,24 +17,25 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
-        [HttpPost("jelszo-modositas")]//body
-        public async Task<IActionResult> JelszoMosositas([FromBody] JelszoModositDTO jelszoModosit)
+        [HttpPost("jelszo-modositas")]
+        public async Task<IActionResult> JelszoModositas([FromBody] JelszoModositDTO jelszoModosit)
         {
             try
             {
-                if (!Program.LoggedInUsers.ContainsKey(jelszoModosit.Token) && Program.LoggedInUsers[jelszoModosit.Token].LoginName == jelszoModosit.LoginName)
-                {
-                    return BadRequest(new ErrorDTO() { Id = 84, Message = "Hozzáférés megtagadva" });
-                }
-
                 User? user = _context.Users.FirstOrDefault(x => x.LoginName == jelszoModosit.LoginName);
                 if (user != null)
                 {
+                    if (!Program.LoggedInUsers.ContainsKey(jelszoModosit.Token) && Program.LoggedInUsers[jelszoModosit.Token].LoginName == jelszoModosit.LoginName)
+                    {
+                        return BadRequest(new ErrorDTO() { Id = 89, Message = "Hozzáférés megtagadva" });
+                    }
+
                     if (Program.CreateSHA256(Program.CreateSHA256(jelszoModosit.OldPassword + user.Salt)) == user.Hash)
                     {
                         user.Hash = Program.CreateSHA256(Program.CreateSHA256(jelszoModosit.NewPassword + user.Salt));
                         _context.Users.Update(user);
                         await _context.SaveChangesAsync();
+
                         return Ok("A jelszó módosítása sikeresen megtörtént.");
                     }
                     else
@@ -42,13 +45,21 @@ namespace ErettsegizzunkApi.Controllers
                 }
                 else
                 {
-                    return BadRequest("Nincs ilyen nevű felhasználó!");
+                    return BadRequest(new ErrorDTO() { Id = 93, Message = "Ilyen nevű felhasználó nem létezik" });
                 }
 
             }
-            catch (Exception ex)
+            catch (MySqlException)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, new ErrorDTO() { Id = 90, Message = "Kapcsolati hiba" });
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return NotFound(new ErrorDTO() { Id = 91, Message = "Hiba történt az adatok mentése közben" });
+            }
+            catch (Exception)
+            {
+                return NotFound(new ErrorDTO() { Id = 92, Message = "Hiba történt az adatok mentése közben" });
             }
         }
 

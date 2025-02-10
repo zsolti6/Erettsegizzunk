@@ -38,7 +38,7 @@ namespace ErettsegizzunkAdmin.Windows
 
         private async void RefreshUi()
         {
-            //themes = await _apiService.GetTantargyaksAsync();//modosit
+            themes = await _apiService.GetTemakAsync();
             dgTemaAdatok.ItemsSource = themes;
             cbSelectAll.IsChecked = false;
         }

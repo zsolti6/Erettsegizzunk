@@ -270,11 +270,13 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
         #endregion
+
+        #region Téma
         public async Task<List<Theme>> GetTemakAsync()
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync("erettsegizzunk/Tantargyak/get-tantargyak");
+                HttpResponseMessage response = await _httpClient.GetAsync("erettsegizzunk/Themes/get-temak");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -283,7 +285,7 @@ namespace ErettsegizzunkAdmin.Services
                 }
 
                 string responseContent = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<Subject>>(responseContent);
+                return JsonConvert.DeserializeObject<List<Theme>>(responseContent);
             }
             catch (ErrorDTO er)
             {
@@ -297,7 +299,6 @@ namespace ErettsegizzunkAdmin.Services
                 return null;
             }
         }
-        #region Téma
 
         #endregion
 

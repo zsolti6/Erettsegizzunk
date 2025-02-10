@@ -136,7 +136,7 @@ namespace ErettsegizzunkAdmin.Windows {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ErettsegizzunkAdmin;V1.0.0.0;component/windows/tantargykezel.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/ErettsegizzunkAdmin;component/windows/tantargykezel.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Windows\TantargyKezel.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

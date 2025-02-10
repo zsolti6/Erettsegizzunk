@@ -80,7 +80,7 @@
                     </MenuItem>
                     <MenuItem x:Name="temaKezel"
                       Header="Téma"
-                      Click="segedKezelese_Click"
+                      Click="feladatokTemaKezelese_Click"
                       Foreground="{DynamicResource MaterialDesignPaper}"
                       DockPanel.Dock="Left">
                         <MenuItem.Icon>

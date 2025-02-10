@@ -47,7 +47,9 @@ namespace ErettsegizzunkAdmin.Windows
         //Feladatok témáinak kezelése
         private void feladatokTemaKezelese_Click(object sender, RoutedEventArgs e)
         {
-
+            TemaKezel tema = new TemaKezel(user);
+            tema.Show();
+            Close();
         }
 
         //Minden egyéb kezelése
