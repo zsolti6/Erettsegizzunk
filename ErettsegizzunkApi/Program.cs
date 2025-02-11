@@ -1,4 +1,5 @@
 using ErettsegizzunkApi.Models;
+using ErettsegizzunkApi.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using System.Security.Cryptography;
@@ -63,6 +64,13 @@ namespace ErettsegizzunkApi
             await SmtpServer.SendMailAsync(mail);
         }
 
+        public static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddHttpClient<RecaptchaService>();
+            services.AddScoped<RecaptchaService>();
+        }
+
+
 
         public static void Main(string[] args)
         {
@@ -73,6 +81,9 @@ namespace ErettsegizzunkApi
 
 
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddHttpClient<RecaptchaService>();
+            builder.Services.AddScoped<RecaptchaService>();
 
             builder.WebHost.ConfigureKestrel(options =>
             {

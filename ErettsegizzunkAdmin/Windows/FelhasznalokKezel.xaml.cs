@@ -50,6 +50,19 @@ namespace ErettsegizzunkAdmin.Windows
             RefreshUi();
         }
 
+        private async void RefreshUi(bool oldalKov = false, bool lekerdez = true)
+        {
+            if (lekerdez)
+            {
+                felhasznalok = await LoadDatasAsync(felhasznalok.Count == 50 && oldalKov ? felhasznalok[felhasznalok.Count - 1].Id : felhasznalok.Count == 0 ? 0 : felhasznalok[0].Id - 51);
+            }
+
+            dgAdatok.ItemsSource = null;
+            dgAdatok.ItemsSource = felhasznalok;
+            dgAdatok.DataContext = this;
+            cbSelectAll.IsChecked = false;
+        }
+
         private async Task<List<User>> LoadDatasAsync(int mettol)
         {
             felhasznalok.Clear();
@@ -63,11 +76,36 @@ namespace ErettsegizzunkAdmin.Windows
             return users;
         }
 
-        private async void RefreshUi()
+        private void btnOldalKov_Click(object sender, RoutedEventArgs e)
         {
-            felhasznalok = await LoadDatasAsync(pageNumber);
-            dgAdatok.ItemsSource = felhasznalok;
-            dgAdatok.DataContext = this;
+            pageNumber++;
+            RefreshUi(true);
+
+            if (pageNumber > 0)
+            {
+                btnOldalElozo.IsEnabled = true;
+            }
+
+            if (felhasznalok.Count < 50)
+            {
+                (sender as Button).IsEnabled = false;
+            }
+        }
+
+        private void btnOldalElozo_Click(object sender, RoutedEventArgs e)
+        {
+            pageNumber--;
+            RefreshUi();
+
+            if (pageNumber < 1)
+            {
+                (sender as Button).IsEnabled = false;
+            }
+
+            if (btnOldalKov.IsEnabled == false)
+            {
+                btnOldalKov.IsEnabled = true;
+            }
         }
 
         private void btnUj_Click(object sender, RoutedEventArgs e)
@@ -103,8 +141,13 @@ namespace ErettsegizzunkAdmin.Windows
         private async void btnModosit_Click(object sender, RoutedEventArgs e)
         {
             //###############################
-            string message = await _apiService.PutFelhasznalok(new FelhasznaloModotsitDTO() { users = felhasznalok.Where(x => x.IsSelected).ToList(), Token = user.Token });//BUGOS
-            MessageBoxes.CustomMessageOk(message);
+            string message = await _apiService.PutFelhasznalok(new FelhasznaloModotsitDTO() { users = felhasznalok, Token = user.Token });//NEM A LEGHATÉKONYABB
+
+            if (message != null)
+            {
+                MessageBoxes.CustomMessageOk(message);
+            }
+
             //###############################
         }
 

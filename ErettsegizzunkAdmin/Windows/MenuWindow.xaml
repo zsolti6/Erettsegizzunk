@@ -48,9 +48,9 @@
                                              Foreground="{DynamicResource MaterialDesignPaper}"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="feladatokTemaKezel"
-                      Header="Feladatok Téma"
-                      Click="feladatokTemaKezelese_Click"
+                    <MenuItem x:Name="adatbazisBackup"
+                      Header="Biztonsági mentés"
+                      Click="adatbazisBackup_Click"
                       Foreground="{DynamicResource MaterialDesignPaper}"
                       DockPanel.Dock="Left">
                         <MenuItem.Icon>

@@ -103,6 +103,24 @@
             Margin="0,0,0,20" 
             Click="btnUj_Click"/>
 
+            <Button x:Name="btnOldalKov" 
+            Content="Következő oldal" 
+            IsEnabled="False" 
+            Margin="8" 
+            Style="{DynamicResource MaterialDesignRaisedButton}" 
+            Background="{DynamicResource PrimaryHueMidBrush}" 
+            Foreground="{DynamicResource MaterialDesignPaper}"
+            Click="btnOldalKov_Click" />
+
+            <Button x:Name="btnOldalElozo" 
+            Content="Előző oldal" 
+            IsEnabled="False" 
+            Margin="8" 
+            Style="{DynamicResource MaterialDesignRaisedButton}" 
+            Background="{DynamicResource PrimaryHueMidBrush}" 
+            Foreground="{DynamicResource MaterialDesignPaper}" 
+            Click="btnOldalElozo_Click" />
+
             <CheckBox x:Name="cbSelectAll" 
                   Content="Összes kijelölése" 
                   Width="200" 

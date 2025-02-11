@@ -65,7 +65,7 @@ namespace ErettsegizzunkAdmin.Windows
             }
             catch (Exception)
             {
-                MessageBoxes.CustomError(response);
+                MessageBoxes.CustomError(new ErrorDTO(516, "Hiba történt az adatok mentése közben").ToString());
                 return;
             }
             MessageBoxes.CustomMessageOk(response);

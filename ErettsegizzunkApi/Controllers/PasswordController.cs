@@ -66,17 +66,17 @@ namespace ErettsegizzunkApi.Controllers
         [HttpPost("{Email}")]//body
         public async Task<IActionResult> ElfelejtettJelszo(string Email)
         {
-            using (var context = new ErettsegizzunkContext())
+            using (var _context = new ErettsegizzunkContext())
             {
                 try
                 {
-                    var user = context.Users.FirstOrDefault(x => x.Email == Email);
+                    var user = _context.Users.FirstOrDefault(x => x.Email == Email);
                     if (user != null)
                     {
                         string jelszo = Program.GenerateSalt().Substring(0, 16);//64 is lehet
                         user.Hash = Program.CreateSHA256(Program.CreateSHA256(jelszo + user.Salt));
-                        context.Users.Update(user);
-                        await context.SaveChangesAsync();
+                        _context.Users.Update(user);
+                        await _context.SaveChangesAsync();
                         Program.SendEmail(user.Email, "Elfelejtett jelszó", "Az új jelszava: " + jelszo);
                         return Ok("E-mail küldése megtörtént.");
                     }

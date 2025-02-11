@@ -20,9 +20,9 @@ namespace ErettsegizzunkApi.Controllers
         [HttpPost("get-sok-felhasznalo")]
         public async Task<IActionResult> GetFelhasznalok([FromBody] LoggedUserForCheckDTO logged)
         {
-            if (!Program.LoggedInUsers.ContainsKey(logged.Token) && Program.LoggedInUsers[logged.Token].Permission.Level != 9)
+            if (!Program.LoggedInUsers.ContainsKey(logged.Token) || Program.LoggedInUsers[logged.Token].Permission.Level != 9)
             {
-                return BadRequest(new ErrorDTO() { Id = 63, Message = "Hozzáférés megtagadva" });
+                return Unauthorized(new ErrorDTO() { Id = 63, Message = "Hozzáférés megtagadva" });
             }
 
             List<User> users = new List<User>();
@@ -98,9 +98,9 @@ namespace ErettsegizzunkApi.Controllers
         [HttpPost("Korlevel")]
         public async Task<IActionResult> GetKorlevel([FromBody] string token)
         {
-            if (!Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level != 9)
+            if (!Program.LoggedInUsers.ContainsKey(token) || Program.LoggedInUsers[token].Permission.Level != 9)
             {
-                return BadRequest(new ErrorDTO() { Id = 67, Message = "Hozzáférés megtagadva" });
+                return Unauthorized(new ErrorDTO() { Id = 67, Message = "Hozzáférés megtagadva" });
             }
 
             try
@@ -120,9 +120,9 @@ namespace ErettsegizzunkApi.Controllers
         [HttpPut("sajat-felhasznalo-modosit")]
         public async Task<IActionResult> PutFelhasznalok([FromBody] LoggedUser modosit)
         {
-            if (!Program.LoggedInUsers.ContainsKey(modosit.Token) && Program.LoggedInUsers[modosit.Token].Id == modosit.Id)
+            if (!Program.LoggedInUsers.ContainsKey(modosit.Token) || Program.LoggedInUsers[modosit.Token].Id == modosit.Id)
             {
-                return BadRequest(new ErrorDTO() { Id = 84, Message = "Hozzáférés megtagadva" });
+                return Unauthorized(new ErrorDTO() { Id = 84, Message = "Hozzáférés megtagadva" });
             }
 
             try
@@ -161,9 +161,9 @@ namespace ErettsegizzunkApi.Controllers
         [HttpPut("felhasznalok-modosit")]
         public async Task<IActionResult> PutFelhasznalok([FromBody] FelhasznaloModotsitDTO modosit)
         {
-            if (!Program.LoggedInUsers.ContainsKey(modosit.Token) && Program.LoggedInUsers[modosit.Token].Permission.Level != 9)
+            if (!Program.LoggedInUsers.ContainsKey(modosit.Token) || Program.LoggedInUsers[modosit.Token].Permission.Level != 9)
             {
-                return BadRequest(new ErrorDTO() { Id = 70, Message = "Hozzáférés megtagadva" });
+                return Unauthorized(new ErrorDTO() { Id = 70, Message = "Hozzáférés megtagadva" });
             }
 
             try
@@ -207,9 +207,9 @@ namespace ErettsegizzunkApi.Controllers
         [HttpDelete("delete-felhasznalok")]
         public async Task<IActionResult> DeleteFelhasznalok([FromBody] FelhasznaloTorolDTO deleteDTO)
         {
-            if (!Program.LoggedInUsers.ContainsKey(deleteDTO.Token) && Program.LoggedInUsers[deleteDTO.Token].Permission.Level != 9)
+            if (!Program.LoggedInUsers.ContainsKey(deleteDTO.Token) || Program.LoggedInUsers[deleteDTO.Token].Permission.Level != 9)
             {
-                return BadRequest(new ErrorDTO() { Id = 75, Message = "Hozzáférés megtagadva" });
+                return Unauthorized(new ErrorDTO() { Id = 75, Message = "Hozzáférés megtagadva" });
             }
 
             try

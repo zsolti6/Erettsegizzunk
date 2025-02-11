@@ -97,15 +97,15 @@ namespace ErettsegizzunkAdmin.Windows
             RefreshUi();
         }
 
-        private void btnQuestion_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private async void btnModosit_Click(object sender, RoutedEventArgs e)
         {
             //string message = await _apiService.PutTantargyak(new TantargyPutDTO() { subjects = subjects, Token = user.Token });
             //MessageBoxes.CustomMessageOk(message);
+        }
+
+        private void btnQuestion_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

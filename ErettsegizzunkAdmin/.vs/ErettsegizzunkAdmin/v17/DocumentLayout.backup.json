@@ -3,24 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\windows\\menuwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:windows\\menuwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\windows\\menuwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:windows\\menuwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\windows\\temakezel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:windows\\temakezel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\windows\\temakezel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:windows\\temakezel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\windows\\tantargykezel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:windows\\tantargykezel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|c:\\users\\bern\u00E1t oliv\u00E9r\\desktop\\projektfeladat\\erettsegizzunk\\erettsegizzunkadmin\\models\\theme.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{473D2CFA-3A6B-424E-8C54-D84401E8663A}|ErettsegizzunkAdmin.csproj|solutionrelative:models\\theme.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,17 +22,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "ApiService.cs",
               "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Services\\ApiService.cs",
               "RelativeDocumentMoniker": "Services\\ApiService.cs",
               "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Services\\ApiService.cs",
               "RelativeToolTip": "Services\\ApiService.cs",
-              "ViewState": "AgIAAAMBAAAAAAAAAAAowBkBAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAADABAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-06T09:28:44.061Z",
               "IsPinned": true,
@@ -48,54 +40,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TemaKezel.xaml",
-              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\TemaKezel.xaml",
-              "RelativeDocumentMoniker": "Windows\\TemaKezel.xaml",
-              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\TemaKezel.xaml",
-              "RelativeToolTip": "Windows\\TemaKezel.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-10T10:54:55.154Z",
-              "IsPinned": true,
+              "DocumentIndex": 0,
+              "Title": "MenuWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\MenuWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Windows\\MenuWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\MenuWindow.xaml.cs",
+              "RelativeToolTip": "Windows\\MenuWindow.xaml.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAzwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-11T07:09:50.475Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "TemaKezel.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\TemaKezel.xaml.cs",
-              "RelativeDocumentMoniker": "Windows\\TemaKezel.xaml.cs",
-              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\TemaKezel.xaml.cs",
-              "RelativeToolTip": "Windows\\TemaKezel.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-10T10:55:47.418Z",
-              "IsPinned": true,
+              "Title": "MenuWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\MenuWindow.xaml",
+              "RelativeDocumentMoniker": "Windows\\MenuWindow.xaml",
+              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\MenuWindow.xaml",
+              "RelativeToolTip": "Windows\\MenuWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-02-11T07:08:16.89Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TantargyKezel.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\TantargyKezel.xaml.cs",
-              "RelativeDocumentMoniker": "Windows\\TantargyKezel.xaml.cs",
-              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\TantargyKezel.xaml.cs",
-              "RelativeToolTip": "Windows\\TantargyKezel.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHMAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-10T10:55:51.897Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Theme.cs",
-              "DocumentMoniker": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Models\\Theme.cs",
-              "RelativeDocumentMoniker": "Models\\Theme.cs",
-              "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Models\\Theme.cs",
-              "RelativeToolTip": "Models\\Theme.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-10T11:00:17.137Z"
             }
           ]
         }

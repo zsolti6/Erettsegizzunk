@@ -1,5 +1,5 @@
-﻿using ErettsegizzunkApi.Models;
-using Microsoft.AspNetCore.Http;
+﻿using ErettsegizzunkApi.DTOs;
+using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
@@ -11,62 +11,62 @@ namespace ErettsegizzunkApi.Controllers
     public class BackupRestoreController : ControllerBase
     {
         private readonly IWebHostEnvironment _env;
+        private readonly ErettsegizzunkContext _context;
 
         public BackupRestoreController(IWebHostEnvironment env)
         {
             _env = env;
+            _context = new ErettsegizzunkContext();
         }
 
-        [Route("Backup/{token},{fileName}")]
-        [HttpGet]
-        public async Task<IActionResult> SQLBackupAsync(string token, string fileName)
+        [Route("Backup")]
+        [HttpPost]
+        public async Task<IActionResult> SQLBackupAsync([FromBody] BackupDTO backupDTO)
         {
-            if (Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level == 9)
+            try
             {
-                string hibaUzenet = "";
-                using (var context = new ErettsegizzunkContext())
+                if (!Program.LoggedInUsers.ContainsKey(backupDTO.Token) || Program.LoggedInUsers[backupDTO.Token].Permission.Level != 9)
                 {
-                    string? sqlDataSource = context.Database.GetConnectionString();
-                    MySqlCommand command = new MySqlCommand();
-                    MySqlBackup backup = new MySqlBackup(command);
-                    using (MySqlConnection myConnection = new MySqlConnection(sqlDataSource))
-                    {
-                        try
-                        {
-                            command.Connection = myConnection;
-                            await myConnection.OpenAsync();
-                            var filePath = "SQLBackupRestore/" + fileName;
-                            await System.Threading.Tasks.Task.Run(() => backup.ExportToFile(filePath));
-                            await myConnection.CloseAsync();
-                            if (System.IO.File.Exists(filePath))
-                            {
-                                var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
-                                return File(bytes, "text/plain", Path.GetFileName(filePath));
-                            }
-                            else
-                            {
-                                hibaUzenet = "Nincs ilyen file!";
-                                byte[] a = System.Text.Encoding.UTF8.GetBytes(hibaUzenet);
-                                return File(a, "text/plain", "Error.txt");
-                            }
+                    return Unauthorized(new ErrorDTO() { Id = 97, Message = "Hozzáférés megtagadva" });
+                }
 
-                        }
-                        catch (Exception ex)
-                        {
-                            return BadRequest(new { error = ex.Message });
-                        }
+                string hibaUzenet = "";
+
+                string? sqlDataSource = _context.Database.GetConnectionString();
+                MySqlCommand command = new MySqlCommand();
+                MySqlBackup backup = new MySqlBackup(command);
+                using (MySqlConnection myConnection = new MySqlConnection(sqlDataSource))
+                {
+
+                    command.Connection = myConnection;
+                    await myConnection.OpenAsync();
+                    var filePath = "SQLBackupRestore/" + backupDTO.FileName;
+                    await System.Threading.Tasks.Task.Run(() => backup.ExportToFile(filePath));
+                    await myConnection.CloseAsync();
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
+                        return File(bytes, "text/plain", Path.GetFileName(filePath));
                     }
+                    hibaUzenet = "Nincs ilyen file!";
+                    byte[] a = System.Text.Encoding.UTF8.GetBytes(hibaUzenet);
+                    return File(a, "text/plain", "Error.txt");
+
                 }
             }
-            else
+            catch (MySqlException)
             {
-                return Unauthorized("Nincs bejelentkezve/jogosultsága!");
+                return StatusCode(500, new ErrorDTO() { Id = 98, Message = "Kapcsolati hiba" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new ErrorDTO() { Id = 99, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
 
-        [Route("Restore/{token}")]
+        [Route("Restore")]
         [HttpPost]
-        public async Task<IActionResult> SQLRestoreAsync(string token)
+        public async Task<IActionResult> SQLRestoreAsync([FromBody] string token)
         {
             if (Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level == 9)
             {

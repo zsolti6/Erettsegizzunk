@@ -44,6 +44,12 @@ namespace ErettsegizzunkAdmin.Windows
             Close();
         }
 
+        //Adatbázis manuális mentése / visszaállítása
+        private void adatbazisBackup_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         //Feladatok témáinak kezelése
         private void feladatokTemaKezelese_Click(object sender, RoutedEventArgs e)
         {

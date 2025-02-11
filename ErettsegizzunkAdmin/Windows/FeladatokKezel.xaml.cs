@@ -47,6 +47,7 @@ namespace ErettsegizzunkAdmin.Windows
             }
             dgFeladatAdatok.ItemsSource = null;
             dgFeladatAdatok.ItemsSource = feladatok;
+            dgFeladatAdatok.DataContext = this;
             cbSelectAll.IsChecked = false;
         }
 
@@ -78,7 +79,7 @@ namespace ErettsegizzunkAdmin.Windows
 
             if (openFileDialog.ShowDialog() == true)
             {
-                MessageBoxResult result = MessageBoxes.CustomQuestion($"Biztosan fel akarod tölteni a  \"{openFileDialog.FileName.Split("\\").ToList().Last()}\"  adatait?", "Figyelem");
+                MessageBoxResult result = MessageBoxes.CustomQuestion($"Biztosan fel akarod tölteni a  \"{openFileDialog.FileName.Split("\\").ToList().Last()}\"  adatait?");
                 if (result == MessageBoxResult.Cancel)
                 {
                     MessageBoxes.CustomMessageOk("Feltöltés megszakítva!");
@@ -156,7 +157,7 @@ namespace ErettsegizzunkAdmin.Windows
         private void btnOldalElozo_Click(object sender, RoutedEventArgs e)
         {
             pageNumber--;
-            RefreshUi(false);
+            RefreshUi();
 
             if (pageNumber < 1)
             {
@@ -205,7 +206,13 @@ namespace ErettsegizzunkAdmin.Windows
                 return;
             }
 
-            MessageBoxes.CustomMessageOk(await _apiService.DeletFeladatok(new FeladatokDeleteDTO() { Ids = ids, Token = user.Token }));
+            string message = await _apiService.DeletFeladatok(new FeladatokDeleteDTO() { Ids = ids, Token = user.Token });
+
+            if (message != null)
+            {
+                MessageBoxes.CustomMessageOk(message);
+            }
+            
             RefreshUi();
         }
 
@@ -246,16 +253,16 @@ namespace ErettsegizzunkAdmin.Windows
             RefreshUi(false,false);
         }
 
+        private void btnQuestion_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var hwnd = new WindowInteropHelper(this).Handle;
             IntPtr hMenu = GetSystemMenu(hwnd, false);
             EnableMenuItem(hMenu, SC_CLOSE, MF_GRAYED);
-        }
-
-        private void btnQuestion_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
