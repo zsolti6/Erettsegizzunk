@@ -21,7 +21,7 @@ namespace ErettsegizzunkApi.Controllers
 
         [Route("Backup")]
         [HttpPost]
-        public async Task<IActionResult> SQLBackupAsync([FromBody] BackupDTO backupDTO)
+        public async Task<IActionResult> SQLBackupAsync([FromBody] BackupRestoreDTO backupDTO)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace ErettsegizzunkApi.Controllers
 
                     command.Connection = myConnection;
                     await myConnection.OpenAsync();
-                    var filePath = "SQLBackupRestore/" + backupDTO.FileName;
+                    var filePath = "SQLBackupRestore/" + (backupDTO.FileName.Contains('.') ? backupDTO.FileName.Remove(backupDTO.FileName.IndexOf('.')) + ".sql" : backupDTO.FileName + ".sql");
                     await System.Threading.Tasks.Task.Run(() => backup.ExportToFile(filePath));
                     await myConnection.CloseAsync();
                     if (System.IO.File.Exists(filePath))
@@ -66,52 +66,47 @@ namespace ErettsegizzunkApi.Controllers
 
         [Route("Restore")]
         [HttpPost]
-        public async Task<IActionResult> SQLRestoreAsync([FromBody] string token)
+        public async Task<IActionResult> SQLRestoreAsync([FromForm] BackupRestoreDTO restoreDTO)//dto modositasa nem biztos h kell a file név
         {
-            if (Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level == 9)
+            if (!Program.LoggedInUsers.ContainsKey(restoreDTO.Token) || Program.LoggedInUsers[restoreDTO.Token].Permission.Level != 9)
             {
-                try
-                {
-                    var context = new ErettsegizzunkContext();
-                    string? sqlDataSource = context.Database.GetConnectionString();
-                    var httpRequest = Request.Form;
-                    var postedFile = httpRequest.Files[0];
-                    string fileName = postedFile.FileName;
-                    var filePath = Path.Combine(_env.ContentRootPath, "SQLBackupRestore", fileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await postedFile.CopyToAsync(stream);
-                    }
+                return Unauthorized(new ErrorDTO() { Id = 97, Message = "Hozzáférés megtagadva" });
+            }
 
-                    MySqlCommand command = new MySqlCommand();
-                    MySqlBackup restore = new MySqlBackup(command);
-                    using (MySqlConnection mySqlConnection = new MySqlConnection(sqlDataSource))
-                    {
-                        try
-                        {
-                            command.Connection = mySqlConnection;
-                            await mySqlConnection.OpenAsync();
-                            await System.Threading.Tasks.Task.Run(() => restore.ImportFromFile(filePath));
-                            System.IO.File.Delete(filePath);
-                            return Ok("A visszaállítás sikeresen lefutott.");
-                        }
-                        catch
-                        {
-                            return StatusCode(500, "Mentésfájl sikeresen feltöltve. Az SQL szerver nem érhető el!");
-                        }
-                    }
-                }
-                catch (Exception ex)
+            try
+            {
+                var context = new ErettsegizzunkContext();
+                string? sqlDataSource = context.Database.GetConnectionString();
+                var httpRequest = Request.Form;
+                var postedFile = httpRequest.Files[0];
+                var filePath = Path.Combine(_env.ContentRootPath, "SQLBackupRestore", restoreDTO.FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    return BadRequest(new { error = "Nincs kiválasztva mentés fájl!", details = ex.Message });
+                    await postedFile.CopyToAsync(stream);
+                }
+
+                MySqlCommand command = new MySqlCommand();
+                MySqlBackup restore = new MySqlBackup(command);
+                using (MySqlConnection mySqlConnection = new MySqlConnection(sqlDataSource))
+                {
+                    try
+                    {
+                        command.Connection = mySqlConnection;
+                        await mySqlConnection.OpenAsync();
+                        await System.Threading.Tasks.Task.Run(() => restore.ImportFromFile(filePath));
+                        System.IO.File.Delete(filePath);
+                        return Ok("A visszaállítás sikeresen lefutott.");
+                    }
+                    catch
+                    {
+                        return StatusCode(500, "Mentésfájl sikeresen feltöltve. Az SQL szerver nem érhető el!");
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                return Unauthorized("Nincs bejelentkezve/jogosultsága!");
+                return BadRequest(new { error = "Nincs kiválasztva mentés fájl!", details = ex.Message });
             }
         }
-
-
     }
 }

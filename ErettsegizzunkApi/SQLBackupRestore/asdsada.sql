@@ -1,5 +1,5 @@
 -- MySqlBackup.NET 2.3.8.0
--- Dump Time: 2025-02-11 09:30:08
+-- Dump Time: 2025-02-11 10:03:23
 -- --------------------------------------
 -- Server version 10.4.32-MariaDB mariadb.org binary distribution
 
@@ -264,5 +264,5 @@ CREATE TABLE IF NOT EXISTS `user_statistics` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 
--- Dump completed on 2025-02-11 09:30:09
--- Total time: 0:0:0:0:276 (d:h:m:s:ms)
+-- Dump completed on 2025-02-11 10:03:23
+-- Total time: 0:0:0:0:220 (d:h:m:s:ms)

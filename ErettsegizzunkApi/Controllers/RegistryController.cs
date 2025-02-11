@@ -98,7 +98,7 @@ namespace ErettsegizzunkApi.Controllers
 
                     User newUser = new User()
                     {
-                        LoginName = string.Empty,
+                        LoginName = email.Substring(0,email.Length - email.IndexOf("@") + 1),
                         Email = email,
                         Active = true,
                         Hash = string.Empty,
@@ -114,8 +114,6 @@ namespace ErettsegizzunkApi.Controllers
                     Program.SendEmail(email, "Sikeres regisztráció", "Köszönjük a regisztrálást");
                     return Ok(new LoggedUser() { Id = _context.Users.First(x => x.Email == newUser.Email).Id, Email = newUser.Email, Name = newUser.LoginName, Permission = newUser.PermissionId, ProfilePicturePath = newUser.ProfilePicturePath, Token = token });
                 }
-
-                bool asd = user.GoogleUser;
 
                 return Ok(new LoggedUser() { Id = user.Id, Email = user.Email, Name = user.LoginName, Permission = user.PermissionId, ProfilePicturePath = user.ProfilePicturePath, Token = token });
             }
