@@ -139,7 +139,7 @@ namespace ErettsegizzunkApi.Controllers
                     return BadRequest(new ErrorDTO() { Id = 100, Message = "Már létezik ilyen felhasználónév!" });
                 }
 
-                if (userSearch.Email == modosit.Email && _context.Users.FirstOrDefaultAsync(x => x.Email == modosit.Email).Id != modosit.Id)
+                if (userSearch.Email == modosit.Email && _context.Users.FirstOrDefaultAsync(x => x.Email == modosit.Email).Id == modosit.Id)//elso resz kell?
                 {
                     return BadRequest(new ErrorDTO() { Id = 101, Message = "Az e-mail cím már foglalt!" });
                 }
