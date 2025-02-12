@@ -118,9 +118,9 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpPut("sajat-felhasznalo-modosit")]
-        public async Task<IActionResult> PutFelhasznalok([FromBody] LoggedUser modosit)
+        public async Task<IActionResult> PutFelhasznalo([FromBody] LoggedUser modosit)
         {
-            if (!Program.LoggedInUsers.ContainsKey(modosit.Token) || Program.LoggedInUsers[modosit.Token].Id == modosit.Id)
+            if (!Program.LoggedInUsers.ContainsKey(modosit.Token) || Program.LoggedInUsers[modosit.Token].Id != modosit.Id)
             {
                 return Unauthorized(new ErrorDTO() { Id = 84, Message = "Hozzáférés megtagadva" });
             }
@@ -132,6 +132,16 @@ namespace ErettsegizzunkApi.Controllers
                 if (userSearch is null)
                 {
                     return NotFound(new ErrorDTO() { Id = 85, Message = "Az elem nem található" });
+                }
+
+                if (userSearch.LoginName == modosit.Name)
+                {
+                    return BadRequest(new ErrorDTO() { Id = 100, Message = "Már létezik ilyen felhasználónév!" });
+                }
+
+                if (userSearch.Email == modosit.Email)
+                {
+                    return BadRequest(new ErrorDTO() { Id = 101, Message = "Az e-mail cím már foglalt!" });
                 }
 
                 userSearch.LoginName = modosit.Name;
