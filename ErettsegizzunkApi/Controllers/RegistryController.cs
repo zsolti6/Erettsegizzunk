@@ -91,11 +91,6 @@ namespace ErettsegizzunkApi.Controllers
 
                 if (user is null)
                 {
-                    if (_context.Users.FirstOrDefault(x => x.Email == email) != null)
-                    {
-                        return Ok("Ezzel az e-mail címmel már regisztráltak!");
-                    }
-
                     User newUser = new User()
                     {
                         LoginName = GenetrateEmailLoginName(),
@@ -112,7 +107,18 @@ namespace ErettsegizzunkApi.Controllers
                     await _context.SaveChangesAsync();
 
                     Program.SendEmail(email, "Sikeres regisztráció", "Köszönjük a regisztrálást");
+
+                    lock (Program.LoggedInUsers)
+                    {
+                        Program.LoggedInUsers.Add(token, newUser);
+                    }
+
                     return Ok(new LoggedUser() { Id = _context.Users.First(x => x.Email == newUser.Email).Id, Email = newUser.Email, Name = newUser.LoginName, Permission = newUser.PermissionId, ProfilePicturePath = newUser.ProfilePicturePath, Token = token });
+                }
+
+                lock (Program.LoggedInUsers)
+                {
+                    Program.LoggedInUsers.Add(token, user);
                 }
 
                 return Ok(new LoggedUser() { Id = user.Id, Email = user.Email, Name = user.LoginName, Permission = user.PermissionId, ProfilePicturePath = user.ProfilePicturePath, Token = token });
@@ -136,7 +142,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 name = Program.GenerateSalt(16);
             }
-            while (_context.Users.FirstOrDefaultAsync(x => x.LoginName == name) != null);
+            while (_context.Users.FirstOrDefaultAsync(x => x.LoginName == name) is null);
 
             return name;
         }
