@@ -98,7 +98,7 @@ namespace ErettsegizzunkApi.Controllers
 
                     User newUser = new User()
                     {
-                        LoginName = email.Substring(0,email.Length - email.IndexOf("@") + 1),
+                        LoginName = GenetrateEmailLoginName(),
                         Email = email,
                         Active = true,
                         Hash = string.Empty,
@@ -126,6 +126,19 @@ namespace ErettsegizzunkApi.Controllers
                 return BadRequest(new ErrorDTO() { Id = 83, Message = "Hiba történt a regisztráció során" });
             }
 
+        }
+
+        private string GenetrateEmailLoginName()
+        {
+            string name = string.Empty;
+
+            do
+            {
+                name = Program.GenerateSalt(16);
+            }
+            while (_context.Users.FirstOrDefaultAsync(x => x.LoginName == name) != null);
+
+            return name;
         }
     }
 }

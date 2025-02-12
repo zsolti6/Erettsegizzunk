@@ -10,14 +10,14 @@ namespace ErettsegizzunkApi
     //Scaffold-DbContext "SERVER=localhost;PORT=3306;DATABASE=erettsegizzunk;USER=root;PASSWORD=;SSL MODE=none;" mysql.entityframeworkcore -outputdir Models -f
     public static class Program
     {
-        public static int SaltLength = 64;
+        //public static int SaltLength = 64;
         public static Dictionary<string, User> LoggedInUsers = new Dictionary<string, User>();
         public static string ftpUrl = "ftp.nethely.hu";
         public static string ftpUserName = "erettsegizzunk";
         public static string ftpPassword = "Eretsegizzunk_Ftp_2024";
 
 
-        public static string GenerateSalt()
+        public static string GenerateSalt(int SaltLength = 64)
         {
             Random random = new Random();
             string karakterek = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
