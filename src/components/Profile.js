@@ -57,6 +57,7 @@ function Profile() {
       .then((response) => {
         if (response.status === 200) {
           localStorage.removeItem("user");
+          localStorage.removeItem("googleUser");
         }
       });
     localStorage.removeItem("googleUser");

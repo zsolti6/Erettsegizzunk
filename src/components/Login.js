@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
+import ReCAPTCHA from "react-google-recaptcha";  // Import reCAPTCHA
 import Navbar from "./Navbar";
 import sha256 from "crypto-js/sha256";
 import { useNavigate } from "react-router-dom";
-import { auth, provider, signInWithPopup, signInWithRedirect } from "../firebaseConfig";
-
-
+import { auth, provider, signInWithPopup } from "../firebaseConfig";
 
 function LoginPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [captchaToken, setCaptchaToken] = useState(null);
   const navigator = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -21,20 +21,21 @@ function LoginPage() {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+      console.log(user);
+      
       localStorage.setItem("googleUser", JSON.stringify(user));
-      console.log(result);
+      
       const url = "http://localhost:5000/erettsegizzunk/Registry/googleLogin";
       await axios.post(url, JSON.stringify(user.email), {
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       }).then(response => {
         if (response.status === 200) {
           localStorage.setItem("user", JSON.stringify(response.data));
           localStorage.setItem("googleLogged", true);
-          console.log("asd");
         }
       });
+
       navigator("/");
-      console.log("Login successful!", user);
     } catch (error) {
       console.error("Google login failed", error);
     }
@@ -42,11 +43,17 @@ function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    
+    if (!captchaToken) {
+      alert("Kérjük, igazolja, hogy nem robot!");
+      return;
+    }
+
     try {
       const saltUrl = "http://localhost:5000/erettsegizzunk/Login/SaltRequest";
       const saltResponse = await axios.post(saltUrl, JSON.stringify(username), {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
@@ -56,6 +63,7 @@ function LoginPage() {
       const body = {
         loginName: username,
         tmpHash: tmpHash,
+        captchaToken: captchaToken, // Send CAPTCHA token to backend
       };
 
       const loginResponse = await axios.post(loginUrl, body);
@@ -63,30 +71,6 @@ function LoginPage() {
         const user = loginResponse.data;
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("googleLogged", false);
-        fetch('https://localhost:7066/erettsegizzunk/Token/add-token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ token: user.token, id: user.id }),
-        })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            const contentType = response.headers.get('content-type');
-            if (!contentType || !contentType.includes('application/json')) {
-              throw new Error('Response is not JSON');
-            }
-            return response.json();
-          })
-          .then(data => {
-            localStorage.setItem("profileId", data.profileId);
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
-
         navigator("/");
       } else {
         alert("Hiba történt a bejelentkezéskor!");
@@ -105,10 +89,9 @@ function LoginPage() {
           <form onSubmit={handleLogin}>
             <div className="form-group mb-3">
               <input
-              placeholder="Felhasználónév"
+                placeholder="Felhasználónév"
                 type="text"
                 className="form-control"
-                id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -117,10 +100,9 @@ function LoginPage() {
             <div className="form-group mb-3">
               <div className="input-group">
                 <input
-                placeholder="Jelszó"
+                  placeholder="Jelszó"
                   type={passwordVisible ? "text" : "password"}
                   className="form-control"
-                  id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -134,12 +116,23 @@ function LoginPage() {
                 </button>
               </div>
             </div>
+
+            {/* reCAPTCHA Component */}
+            <div className="form-group mb-3 d-flex justify-content-center">
+              <ReCAPTCHA
+                sitekey="6LcTotMqAAAAAHxSzUUbDXgg_bEeTVBoCTWLLVCZ" // Replace with your actual site key
+                onChange={(token) => setCaptchaToken(token)}
+                onExpired={() => setCaptchaToken(null)}
+              />
+            </div>
+
             <button type="submit" className="btn btn-primary w-100">Belépés</button>
-            {/* Links for Forgot Password and Registration */}
+
             <div className="d-flex justify-content-between mt-3">
               <a href="/forgot-password" className="text-muted">Elfelejtett jelszó</a>
               <a href="/register" className="text-muted">Még nincs fiókod?</a>
             </div>
+
             <button className="googleLogin mt-3 btn border" onClick={handleGoogleLogin}>
               <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 256 262">
               <path fill="#4285F4" d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"></path>
