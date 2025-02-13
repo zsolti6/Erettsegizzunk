@@ -103,11 +103,7 @@ function RegisterPage() {
           {error && <div className="alert alert-danger">{error}</div>}
           <form onSubmit={handleRegister}>
             <div className="form-group mb-3">
-              <input placeholder="Felhasználónév" type="text" className="form-control" id="loginName" value={formData.loginName} onChange={handleChange} />
-            </div>
-            <div className="form-group mb-3 d-flex gap-2">
-              <input placeholder="Vezetéknév" type="text" className="form-control" id="surname" value={formData.surname} onChange={handleChange} />
-              <input placeholder="Keresztnév" type="text" className="form-control" id="firstName" value={formData.firstName} onChange={handleChange} />
+              <input placeholder="Felhasználónév" type="text" className="form-control" id="loginName" maxLength={10} value={formData.loginName} onChange={handleChange} />
             </div>
             <div className="form-group mb-3">
               <input placeholder="Email cím" type="email" className="form-control" id="email" value={formData.email} onChange={handleChange} />
