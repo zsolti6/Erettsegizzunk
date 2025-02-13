@@ -19,9 +19,8 @@ namespace ErettsegizzunkApi.Controllers
             _context = new ErettsegizzunkContext();
         }
 
-        [Route("Backup")]
-        [HttpPost]
-        public async Task<IActionResult> SQLBackupAsync(string token)
+        [HttpPost("backup")]
+        public async Task<IActionResult> SQLBackupAsync([FromBody] string token)
         {
             try
             {
@@ -40,19 +39,21 @@ namespace ErettsegizzunkApi.Controllers
 
                     command.Connection = myConnection;
                     await myConnection.OpenAsync();
-                    string filePath = "SQLBackupRestore/backup_" + DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss") + ".sql"; //(backupDTO.FileName.Contains('.') ? backupDTO.FileName.Remove(backupDTO.FileName.IndexOf('.')) + DateTime.Now.ToString() + ".sql" : backupDTO.FileName + DateTime.Now.ToString() + ".sql");
+                    string filePath = "SQLBackupRestore/backup " + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".sql";
                     await System.Threading.Tasks.Task.Run(() => backup.ExportToFile(filePath));
                     await myConnection.CloseAsync();
-                    
+
                     if (System.IO.File.Exists(filePath))
                     {
                         var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
-                        return File(bytes, "text/plain", Path.GetFileName(filePath));
+                        //return File(bytes, "text/plain", Path.GetFileName(filePath));
+                        return Ok($"Biztonsági mentés \"{Path.GetFileName(filePath)}\" néven sikeresen megtörtént.");
                     }
 
                     hibaUzenet = "Nincs ilyen file!";
                     byte[] a = System.Text.Encoding.UTF8.GetBytes(hibaUzenet);
-                    return File(a, "text/plain", "Error.txt");
+                    //return File(a, "text/plain", "Error.txt");
+                    return NotFound(new ErrorDTO() { Id = 105, Message = "Hiba történt az adatok mentése közben" });
                 }
             }
             catch (MySqlException)
@@ -65,8 +66,7 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        [Route("Restore")]
-        [HttpPost]
+        [HttpPost("restore")]
         public async Task<IActionResult> SQLRestoreAsync([FromBody] BackupRestoreDTO restoreDTO)
         {
             if (!Program.LoggedInUsers.ContainsKey(restoreDTO.Token) || Program.LoggedInUsers[restoreDTO.Token].Permission.Level != 9)
@@ -94,11 +94,11 @@ namespace ErettsegizzunkApi.Controllers
                         await mySqlConnection.OpenAsync();
                         await System.Threading.Tasks.Task.Run(() => restore.ImportFromFile(filePath));
                         System.IO.File.Delete(filePath);
-                        return Ok("A visszaállítás sikeresen lefutott.");
+                        return Ok($"A visszaállítás sikeresen lefutott a visszaállított file: \"{Path.GetFileName(filePath)}\".");
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        return StatusCode(500, "Mentésfájl sikeresen feltöltve. Az SQL szerver nem érhető el!");
+                        return StatusCode(500, "Mentésfájl sikeresen feltöltve. Az SQL szerver nem érhető el!");//the fuck is this
                     }
                 }
             }
@@ -109,6 +109,33 @@ namespace ErettsegizzunkApi.Controllers
             catch (Exception)
             {
                 return BadRequest(new ErrorDTO() { Id = 104, Message = "Hiba történt az adatok lekérdezése közben" });
+            }
+        }
+
+        [HttpPost("get-backup-names")]
+        public ActionResult<IEnumerable<List<string>>> GetBackedUpFiles([FromBody] string token)
+        {
+            try
+            {
+                if (!Program.LoggedInUsers.ContainsKey(token) || Program.LoggedInUsers[token].Permission.Level != 9)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 108, Message = "Hozzáférés megtagadva" });
+                }
+
+                string directoryPath = Path.Combine(_env.ContentRootPath, "SQLBackupRestore/");
+
+                if (Directory.Exists(directoryPath))
+                {
+                    return Ok( Directory.GetFiles(directoryPath)
+                                         .Select(Path.GetFileName)
+                                         .ToList());
+                }
+
+                return NotFound(new ErrorDTO() { Id = 106, Message = "Hiba történt az adatok lekérdezése közben" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new ErrorDTO() { Id = 107, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
     }

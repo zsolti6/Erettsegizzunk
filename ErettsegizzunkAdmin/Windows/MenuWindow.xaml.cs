@@ -47,7 +47,9 @@ namespace ErettsegizzunkAdmin.Windows
         //Adatbázis manuális mentése / visszaállítása
         private void adatbazisBackup_Click(object sender, RoutedEventArgs e)
         {
-
+            AdatbazisHelyreallitas helyreallitas = new AdatbazisHelyreallitas(user);
+            helyreallitas.Show();
+            Close();
         }
 
         //Feladatok témáinak kezelése
@@ -75,18 +77,11 @@ namespace ErettsegizzunkAdmin.Windows
         //Kijelentkezés
         private async void Logout_Click(object sender, RoutedEventArgs e)
         {
-
-            string ret = await _apiService.LogOut(user.Token);
-
-            if (ret is null)
-            {
-                return;
-            }
+            await _apiService.LogOut(user.Token);
 
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             Close();
-            MessageBoxes.CustomMessageOk(ret, "Kijelentkezve");
         }
 
         private void tantargyKezel_Click(object sender, RoutedEventArgs e)

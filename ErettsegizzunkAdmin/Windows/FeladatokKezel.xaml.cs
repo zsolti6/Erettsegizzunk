@@ -55,11 +55,11 @@ namespace ErettsegizzunkAdmin.Windows
         {
             feladatok.Clear();
             List<ErettsegizzunkApi.Models.Task> feladatoks = await _apiService.GetFeladatoksAsync(mettol);
-            if (feladatoks is null)
+            /*if (feladatoks is null)
             {
                 //MessageBoxes.CustomError(new ErrorDTO(513,"Hiba történt az adatok lekérdezése közben").ToString());
                 return new List<ErettsegizzunkApi.Models.Task>();
-            }
+            }*/
             btnOldalKov.IsEnabled = feladatoks.Count == 50;//teszt
             return feladatoks;
         }
@@ -111,13 +111,7 @@ namespace ErettsegizzunkAdmin.Windows
                         }
                     }
                     reader.Close();
-                    string ret = await _apiService.PostFeladatokFromTxt(feladatoks);
-                    if (ret is null)
-                    {
-                        return;
-                    }
-
-                    MessageBoxes.CustomMessageOk(ret);
+                    await _apiService.PostFeladatokFromTxt(feladatoks);
                     RefreshUi();
                 }
                 catch(ErrorDTO ex)
@@ -206,13 +200,15 @@ namespace ErettsegizzunkAdmin.Windows
                 return;
             }
 
-            string message = await _apiService.DeletFeladatok(new FeladatokDeleteDTO() { Ids = ids, Token = user.Token });
+            MessageBoxResult result = MessageBoxes.CustomQuestion("Biztosan törölni akarja a kijelölt eleme(ke)t?");
 
-            if (message != null)
+            if (result == MessageBoxResult.Cancel)
             {
-                MessageBoxes.CustomMessageOk(message);
+                MessageBoxes.CustomMessageOk("Törlés megszakítva");
+                return;
             }
-            
+
+            await _apiService.DeletFeladatok(new FeladatokDeleteDTO() { Ids = ids, Token = user.Token });
             RefreshUi();
         }
 

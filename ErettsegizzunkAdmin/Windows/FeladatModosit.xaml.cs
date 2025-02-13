@@ -39,8 +39,6 @@ namespace ErettsegizzunkAdmin.Windows
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            string response = string.Empty;
-
             try
             {
                 FeladatokPutPostDTO put = new FeladatokPutPostDTO()
@@ -57,18 +55,13 @@ namespace ErettsegizzunkAdmin.Windows
                     SzintId = feladat.LevelId
                     
                 };
-                response = await _apiService.PutFeladatok(put);
-                if (response is null)
-                {
-                    return;
-                }
+                await _apiService.PutFeladatok(put);
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(516, "Hiba történt az adatok mentése közben").ToString());
                 return;
             }
-            MessageBoxes.CustomMessageOk(response);
             Close();
         }
 

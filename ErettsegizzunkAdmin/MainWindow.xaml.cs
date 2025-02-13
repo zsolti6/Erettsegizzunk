@@ -39,7 +39,7 @@ namespace ErettsegizzunkAdmin
             {
                 user = await _apiService.Login(nev.Text, jelszo.Password);
 
-                if (user is null)
+                if (user.Permission == -1)
                 {
                     return;
                 }
@@ -50,17 +50,19 @@ namespace ErettsegizzunkAdmin
                     return;
                 }
 
-                user.ProfilePicture = await _apiService.ByteArrayToBitmapImage(user.ProfilePicturePath);
+                
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
                 return;
             }
-            
+
             MenuWindow menuWindow = new MenuWindow(user);
             menuWindow.Show();
             Close();
+
+            user.ProfilePicture = await _apiService.ByteArrayToBitmapImage(user.ProfilePicturePath);
         }
 
         public static string CreateSHA256(string input)

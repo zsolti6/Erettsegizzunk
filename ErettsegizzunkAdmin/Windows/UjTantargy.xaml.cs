@@ -34,8 +34,7 @@ namespace ErettsegizzunkAdmin.Windows
 
         private async void btnTantargy_Letrehoz_Click(object sender, RoutedEventArgs e)
         {
-            string message = await _apiService.PostTantargy(new TantargyDTO() { Name = tbTantargyNev.Text, Token = user.Token });
-            MessageBoxes.CustomMessageOk(message);
+            await _apiService.PostTantargy(new TantargyDTO() { Name = tbTantargyNev.Text, Token = user.Token });
             Close();
         }
 

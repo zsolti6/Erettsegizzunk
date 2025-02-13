@@ -115,7 +115,7 @@ namespace ErettsegizzunkAdmin.Windows
             RefreshUi();
         }
 
-        private async void btnTorol_Click(object sender, RoutedEventArgs e)
+        private async void btnTorol_Click(object sender, RoutedEventArgs e)//megkérdezni h biztos-e
         {
             List<int> ids = new List<int>();
 
@@ -133,21 +133,14 @@ namespace ErettsegizzunkAdmin.Windows
                 return;
             }
 
-            string message = await _apiService.DeletFelhasznalok(new FelhasznaloTorolDTO() { Ids = ids, Token = user.Token });
-            MessageBoxes.CustomMessageOk(message);
+            await _apiService.DeletFelhasznalok(new FelhasznaloTorolDTO() { Ids = ids, Token = user.Token });
             RefreshUi();
         }
 
         private async void btnModosit_Click(object sender, RoutedEventArgs e)
         {
             //###############################
-            string message = await _apiService.PutFelhasznalok(new FelhasznaloModotsitDTO() { users = felhasznalok, Token = user.Token });//NEM A LEGHATÉKONYABB
-
-            if (message != null)
-            {
-                MessageBoxes.CustomMessageOk(message);
-            }
-
+            await _apiService.PutFelhasznalok(new FelhasznaloModotsitDTO() { users = felhasznalok, Token = user.Token });//NEM A LEGHATÉKONYABB
             //###############################
         }
 

@@ -86,7 +86,7 @@ namespace ErettsegizzunkAdmin.Windows
                 return;
             }
 
-            MessageBoxes.CustomMessageOk(await _apiService.DeletTantargy(new TantargyDeleteDTO() { Ids = ids, Token = user.Token }));
+            await _apiService.DeletTantargy(new TantargyDeleteDTO() { Ids = ids, Token = user.Token });
             RefreshUi();
         }
 
@@ -104,8 +104,7 @@ namespace ErettsegizzunkAdmin.Windows
 
         private async void btnModosit_Click(object sender, RoutedEventArgs e)
         {
-            string message = await _apiService.PutTantargyak(new TantargyPutDTO() { subjects = subjects, Token = user.Token });
-            MessageBoxes.CustomMessageOk(message);
+            await _apiService.PutTantargyak(new TantargyPutDTO() { subjects = subjects, Token = user.Token });
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

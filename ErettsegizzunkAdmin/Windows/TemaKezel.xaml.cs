@@ -86,7 +86,7 @@ namespace ErettsegizzunkAdmin.Windows
                 return;
             }
 
-            MessageBoxes.CustomMessageOk(await _apiService.DeletTantargy(new TantargyDeleteDTO() { Ids = ids, Token = user.Token }));
+            await _apiService.DeletTantargy(new TantargyDeleteDTO() { Ids = ids, Token = user.Token });
             RefreshUi();
         }
 

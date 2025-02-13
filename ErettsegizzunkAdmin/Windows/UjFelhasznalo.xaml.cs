@@ -52,14 +52,13 @@ namespace ErettsegizzunkAdmin.Windows
                     Hash = MainWindow.CreateSHA256(tbJelszoMegint.Password + salt),
                     SignupDate = DateTime.Now
                 };
-                ret = await _apiService.PostFelhasznalo(newUser);
+                await _apiService.PostFelhasznalo(newUser);
             }
             catch (Exception ex)
             {
                 MessageBoxes.CustomMessageOk(ex.Message);
                 return;
             }
-            MessageBoxes.CustomMessageOk(ret);
             Close();
         }
 

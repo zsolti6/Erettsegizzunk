@@ -15,7 +15,78 @@
         WindowStyle="ThreeDBorderWindow"
         ResizeMode="CanMinimize"
         Loaded="Window_Loaded">
-    <Grid>
-        
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- DataGrid -->
+        <DataGrid x:Name="dgAdatok" AutoGenerateColumns="False" Margin="16" Grid.Row="0" Grid.RowSpan="2"
+          CanUserAddRows="False" 
+          CanUserDeleteRows="False"
+          CanUserResizeColumns="False"
+          CanUserReorderColumns="False"
+          CanUserResizeRows="False"
+          CanUserSortColumns="False"
+          RowBackground="{DynamicResource MaterialDesignPaper}" 
+          AlternatingRowBackground="{DynamicResource MaterialDesignPaperLight}" 
+          VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}" 
+          HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}" 
+          BorderBrush="{DynamicResource PrimaryHueMidBrush}" 
+          BorderThickness="1"
+          SelectionMode="Extended"
+          Style="{DynamicResource MaterialDesignDataGrid}">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Kijelölés" Binding="{Binding IsSelected, Mode=TwoWay}" />
+                <DataGridTextColumn Header="Fájl név" Binding="{Binding FileName}" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,5,10,0" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <Button x:Name="btnQuestion" Style="{StaticResource MaterialDesignFloatingActionButton}"
+                ToolTip="Help"
+                Height="25" Width="25"
+                Click="btnQuestion_Click">
+                <materialDesign:PackIcon Kind="HelpCircleOutline" Width="24" Height="24"/>
+            </Button>
+
+        </StackPanel>
+
+        <!-- Side Panel -->
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="16" VerticalAlignment="Top" HorizontalAlignment="Right">
+
+            <Button x:Name="btnBackup" 
+        Content="Új mentés készítése" 
+        Foreground="{DynamicResource MaterialDesignPaper}"
+        Style="{DynamicResource MaterialDesignRaisedButton}" 
+        Width="200" 
+        Margin="0,0,0,20" 
+        Click="btnBackup_Click"/>
+
+            <Button x:Name="btnRestore" 
+        Content="Mentés visszaállítása" 
+        Style="{DynamicResource MaterialDesignRaisedButton}" 
+        Foreground="{DynamicResource MaterialDesignPaper}"
+        Background="{DynamicResource SecondaryHueDarkBrush}"
+        Width="200" 
+        Margin="0,0,0,20" 
+        Click="btnRestore_Click"/>
+
+            <Button x:Name="btnVissza" 
+        Content="Vissza"
+        Foreground="{DynamicResource MaterialDesignPaper}"
+        Background="{DynamicResource PrimaryHueLightBrush}"
+        Style="{DynamicResource MaterialDesignRaisedButton}" 
+        Width="200" 
+        Margin="0,0,0,20" 
+        Click="btnVissza_Click"/>
+        </StackPanel>
+
     </Grid>
 </Window>

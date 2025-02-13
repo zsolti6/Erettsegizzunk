@@ -1,18 +1,15 @@
-﻿using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using ErettsegizzunkApi.Models;
-using System.Text;
+﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
 using ErettsegizzunkAdmin.DTOs;
-using System.Net.Http.Json;
 using ErettsegizzunkApi.DTOs;
-using System.Windows;
+using ErettsegizzunkApi.Models;
+using Newtonsoft.Json;
 using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text;
 using System.Windows.Media.Imaging;
-using System.Xml.Linq;
-using ErettsegizzunkAdmin.CustomMessageBoxes;
+using Task = System.Threading.Tasks.Task;
 
 namespace ErettsegizzunkAdmin.Services
 {
@@ -33,8 +30,8 @@ namespace ErettsegizzunkAdmin.Services
             try
             {
                 StringContent content = new StringContent(mettol.ToString(), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Feladatok/get-sok-feladat",content);
-                
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Feladatok/get-sok-feladat", content);
+
                 if (!response.IsSuccessStatusCode)
                 {
                     string error = await response.Content.ReadAsStringAsync();
@@ -48,16 +45,16 @@ namespace ErettsegizzunkAdmin.Services
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
+                return new List<ErettsegizzunkApi.Models.Task>();
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(502, "Kapcsolati hiba").ToString());
-                return null;
+                return new List<ErettsegizzunkApi.Models.Task>();
             }
         }
 
-        public async Task<string> PostFeladatokFromTxt(List<FeladatokPutPostDTO> feladatok)
+        public async Task PostFeladatokFromTxt(List<FeladatokPutPostDTO> feladatok)
         {
             try
             {
@@ -70,22 +67,20 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
             }
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(503, "Kapcsolati hiba").ToString());
-                return null;
             }
         }
 
-        public async Task<string> DeletFeladatok(FeladatokDeleteDTO feladatokDeleteDTO)
+        public async Task DeletFeladatok(FeladatokDeleteDTO feladatokDeleteDTO)
         {
             try
             {
@@ -105,23 +100,21 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
 
             }
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(504, "Kapcsolati hiba").ToString());
-                return null;
             }
         }
 
-        public async Task<string> PutFeladatok(FeladatokPutPostDTO feladatok)
+        public async Task PutFeladatok(FeladatokPutPostDTO feladatok)
         {
             try
             {
@@ -134,18 +127,16 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
             }
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(505, "Kapcsolati hiba").ToString());
-                return null;
             }
         }
         #endregion
@@ -170,16 +161,16 @@ namespace ErettsegizzunkAdmin.Services
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
+                return new List<Subject>();
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
-                return null;
+                return new List<Subject>();
             }
         }
 
-        public async Task<string> PutTantargyak(TantargyPutDTO tantargy)
+        public async Task PutTantargyak(TantargyPutDTO tantargy)
         {
             try
             {
@@ -192,22 +183,20 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
             }
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
-                return null;
             }
         }
 
-        public async Task<string> PostTantargy(TantargyDTO tantargy)
+        public async Task PostTantargy(TantargyDTO tantargy)
         {
             try
             {
@@ -220,22 +209,20 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
             }
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
-                return null;
             }
         }
 
-        public async Task<string> DeletTantargy(TantargyDeleteDTO tantargy)
+        public async Task DeletTantargy(TantargyDeleteDTO tantargy)
         {
             try
             {
@@ -254,19 +241,17 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
 
             }
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
-                return null;
             }
         }
         #endregion
@@ -291,12 +276,12 @@ namespace ErettsegizzunkAdmin.Services
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
+                return new List<Theme>();
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
-                return null;
+                return new List<Theme>();
             }
         }
 
@@ -322,7 +307,7 @@ namespace ErettsegizzunkAdmin.Services
 
                 //login
                 string tmpHash = MainWindow.CreateSHA256(password + salt);//.Replace("\"","")
-                StringContent contentLogin = new StringContent(JsonConvert.SerializeObject(new LoginRequest { LoginName = name, TmpHash = tmpHash}), Encoding.UTF8, "application/json");
+                StringContent contentLogin = new StringContent(JsonConvert.SerializeObject(new LoginRequest { LoginName = name, TmpHash = tmpHash }), Encoding.UTF8, "application/json");
                 HttpResponseMessage responseLogin = await _httpClient.PostAsync("erettsegizzunk/Login", contentLogin);
 
                 if (!responseLogin.IsSuccessStatusCode)
@@ -330,23 +315,22 @@ namespace ErettsegizzunkAdmin.Services
                     string error = await responseLogin.Content.ReadAsStringAsync();
                     throw new ErrorDTO(error);
                 }
-                user = await responseLogin.Content.ReadFromJsonAsync<LoggedUserDTO>();
-                return user;
+                return await responseLogin.Content.ReadFromJsonAsync<LoggedUserDTO>();
             }
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
+                return user;
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(506, "Kapcsolati hiba").ToString());
-                return null;
+                return user;
             }
         }
 
-        public async Task<string> LogOut(string token)
+        public async Task LogOut(string token)
         {
             try
             {
@@ -360,18 +344,16 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
             }
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(507, "Kapcsolati hiba").ToString());
-                return null;
             }
         }
         #endregion
@@ -397,12 +379,12 @@ namespace ErettsegizzunkAdmin.Services
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
+                return string.Empty;
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(508, "Kapcsolati hiba").ToString());
-                return null;
+                return string.Empty;
             }
         }
 
@@ -411,7 +393,7 @@ namespace ErettsegizzunkAdmin.Services
             try
             {
                 string base64String = await GetImage(imageName);
-                byte[] byteArray = Convert.FromBase64String(base64String.Replace("\"",""));
+                byte[] byteArray = Convert.FromBase64String(base64String.Replace("\"", ""));
                 MemoryStream ms = new MemoryStream(byteArray);
                 ms.Position = 0;
 
@@ -424,9 +406,10 @@ namespace ErettsegizzunkAdmin.Services
 
                 return bitmap;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return null;//HIBAÜZENET?
+                MessageBoxes.CustomError("Hiba történt a profilkép betöltése közben");
+                return null;
             }
 
         }
@@ -453,16 +436,16 @@ namespace ErettsegizzunkAdmin.Services
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
+                return new List<User>();
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(509, "Kapcsolati hiba").ToString());
-                return null;
+                return new List<User>();
             }
         }
 
-        public async Task<string> PostFelhasznalo(User user)
+        public async Task PostFelhasznalo(User user)
         {
             try
             {
@@ -475,22 +458,20 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
             }
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(510, "Kapcsolati hiba").ToString());
-                return null;
             }
         }
 
-        public async Task<string> DeletFelhasznalok(FelhasznaloTorolDTO felhasznalokDelete)
+        public async Task DeletFelhasznalok(FelhasznaloTorolDTO felhasznalokDelete)
         {
             try
             {
@@ -510,23 +491,21 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
 
             }
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(511, "Kapcsolati hiba").ToString());
-                return null;
             }
         }
 
-        public async Task<string> PutFelhasznalok(FelhasznaloModotsitDTO users)
+        public async Task PutFelhasznalok(FelhasznaloModotsitDTO users)
         {
             try
             {
@@ -539,21 +518,111 @@ namespace ErettsegizzunkAdmin.Services
                     throw new ErrorDTO(error);
                 }
 
-                return JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
             }
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return null;
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(512, "Kapcsolati hiba").ToString());
-                return null;
             }
         }
         #endregion
 
+        #region Adatbazis mentes, visszallitas
+
+        public async Task Backup(string token)//void??
+        {
+            try
+            {
+                string formatted = $"\"{token}\"";
+                StringContent content = new StringContent(formatted, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/BackupRestore/backup", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
+            }
+            catch (ErrorDTO er)
+            {
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError(error.ToString());
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError(new ErrorDTO(517, "Kapcsolati hiba").ToString());
+            }
+        }
+
+        public async Task Restore(BackupRestoreDTO restore)//void??
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(restore), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/BackupRestore/restore", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
+            }
+            catch (ErrorDTO er)
+            {
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError(error.ToString());
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError(new ErrorDTO(518, "Kapcsolati hiba").ToString());
+            }
+        }
+
+        public async Task<List<GetBackupFileNamesDTO>> GetFileNames(string token)
+        {
+            try
+            {
+                string formatted = $"\"{token}\"";
+                StringContent content = new StringContent(formatted, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/BackupRestore/get-backup-names", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+                List<string> files = JsonConvert.DeserializeObject<List<string>>(await response.Content.ReadAsStringAsync());
+
+                List<GetBackupFileNamesDTO> getBackups = new List<GetBackupFileNamesDTO>();
+                foreach (string item in files)
+                {
+                    getBackups.Add(new GetBackupFileNamesDTO() { FileName = item });
+                }
+                return getBackups.OrderByDescending(x => x.FileName).ToList();
+
+            }
+            catch (ErrorDTO er)
+            {
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError(error.ToString());
+                return new List<GetBackupFileNamesDTO>();
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError(new ErrorDTO(517, "Kapcsolati hiba").ToString());
+                return new List<GetBackupFileNamesDTO>();
+            }
+        }
+
+        #endregion
     }
 }
