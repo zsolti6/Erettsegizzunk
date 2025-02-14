@@ -50,7 +50,7 @@ namespace ErettsegizzunkAdmin
                     return;
                 }
 
-                
+                user.ProfilePicture = await _apiService.ByteArrayToBitmapImage(user.ProfilePicturePath);
             }
             catch (Exception)
             {
@@ -61,8 +61,6 @@ namespace ErettsegizzunkAdmin
             MenuWindow menuWindow = new MenuWindow(user);
             menuWindow.Show();
             Close();
-
-            user.ProfilePicture = await _apiService.ByteArrayToBitmapImage(user.ProfilePicturePath);
         }
 
         public static string CreateSHA256(string input)

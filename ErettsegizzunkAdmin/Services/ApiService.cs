@@ -9,7 +9,9 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 using Task = System.Threading.Tasks.Task;
+using Type = ErettsegizzunkApi.Models.Type;
 
 namespace ErettsegizzunkAdmin.Services
 {
@@ -287,6 +289,104 @@ namespace ErettsegizzunkAdmin.Services
 
         #endregion
 
+        #region Szint
+
+        public async Task<List<Level>> GetLevelAsync()
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync("erettsegizzunk/Levels/get-szintek");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
+                string responseContent = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Level>>(responseContent);
+            }
+            catch (ErrorDTO er)
+            {
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError(error.ToString());
+                return new List<Level>();
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError(new ErrorDTO(519, "Kapcsolati hiba").ToString());
+                return new List<Level>();
+            }
+        }
+
+        #endregion
+
+        #region Permission
+
+        public async Task<List<Permission>> GetPermessionskAsync(string token)
+        {
+            try
+            {
+                string formatted = $"\"{token}\"";
+                StringContent content = new StringContent(formatted, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Permissions/get-permissions",content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
+                string responseContent = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Permission>>(responseContent);
+            }
+            catch (ErrorDTO er)
+            {
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError(error.ToString());
+                return new List<Permission>();
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError(new ErrorDTO(520, "Kapcsolati hiba").ToString());
+                return new List<Permission>();
+            }
+        }
+
+        #endregion
+
+        #region Tipus
+
+        public async Task<List<Type>> GetTipusAsync()
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync("erettsegizzunk/Types/get-tipusok");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
+                string responseContent = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Type>>(responseContent);
+            }
+            catch (ErrorDTO er)
+            {
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError(error.ToString());
+                return new List<Type>();
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError(new ErrorDTO(521, "Kapcsolati hiba").ToString());
+                return new List<Type>();
+            }
+        }
+
+        #endregion
+
         #region Login - logout
         public async Task<LoggedUserDTO> Login(string name, string password)
         {
@@ -534,7 +634,7 @@ namespace ErettsegizzunkAdmin.Services
 
         #region Adatbazis mentes, visszallitas
 
-        public async Task Backup(string token)//void??
+        public async Task Backup(string token)
         {
             try
             {
@@ -561,7 +661,7 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
-        public async Task Restore(BackupRestoreDTO restore)//void??
+        public async Task Restore(BackupRestoreDTO restore)
         {
             try
             {

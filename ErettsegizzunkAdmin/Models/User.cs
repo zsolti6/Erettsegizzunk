@@ -1,7 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using ErettsegizzunkAdmin.Services;
+using System.ComponentModel;
 
 namespace ErettsegizzunkApi.Models;
 
@@ -39,6 +37,12 @@ public partial class User
 
     public string? PermissionName { get { return Permission is null ? "" : JogosultsagList[PermissionId - 1]; } set { PermissionId = JogosultsagList.IndexOf(value) + 1; } }
 
-    public List<string> JogosultsagList { get; } = new List<string>() { "Látogató", "Admin" };//databasből lekérni majd
+    public List<string> JogosultsagList { get; private set; }// = new List<string>() { "Látogató", "Admin" };//databasből lekérni majd
 
+    private void SetLists()
+    {
+        ApiService _apiService = new ApiService();
+
+        JogosultsagList = _apiService.GetPermessionskAsync().Result.Select(x => x.Name).ToList();
+    }
 }

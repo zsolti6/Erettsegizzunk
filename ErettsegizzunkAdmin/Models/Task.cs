@@ -1,7 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
-using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using ErettsegizzunkAdmin.Services;
 
 namespace ErettsegizzunkApi.Models;
 
@@ -38,11 +35,30 @@ public partial class Task
     public virtual ICollection<SpacedRepetition> SpacedRepetitions { get; set; } = new List<SpacedRepetition>();
 
     public string SubjectName { get { return Subject.Name; } set { SubjectId = SubjectList.IndexOf(value) + 1; } }
+
     public string LevelName { get { return Level.Name; } set { LevelId = LevelList.IndexOf(value) + 1; } }
+
     public string TypeName { get { return Type.Name; } set { TypeId = TypeList.IndexOf(value) + 1; } }
 
     //databaseből lekérni majd
-    public List<string> SubjectList { get; } = new List<string>() { "matematika", "történelem", "magyar" };
-    public List<string> LevelList { get; } = new List<string>() { "közép", "emelt"};
-    public List<string> TypeList { get; } = new List<string>() { "radio", "chechkbox", "textbox" };
+    public List<string> SubjectList { get; private set; }//new List<string>() { "matematika", "történelem", "magyar" };
+
+    public List<string> LevelList { get; private set; } //= new List<string>() { "közép", "emelt" };
+
+    public List<string> TypeList { get; private set; } //= new List<string>() { "radio", "chechkbox", "textbox" };
+    //MOST
+
+    public Task()
+    {
+        SetLists();
+    }
+
+    private void SetLists()
+    {
+        ApiService _apiService = new ApiService();
+
+        SubjectList = _apiService.GetTantargyaksAsync().Result.Select(x => x.Name).ToList();
+        LevelList = _apiService.GetLevelAsync().Result.Select(x => x.Name).ToList();
+        TypeList = _apiService.GetTipusAsync().Result.Select(x => x.Name).ToList();
+    }
 }

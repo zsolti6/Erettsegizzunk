@@ -94,7 +94,7 @@ namespace ErettsegizzunkApi.Controllers
                         await mySqlConnection.OpenAsync();
                         await System.Threading.Tasks.Task.Run(() => restore.ImportFromFile(filePath));
                         System.IO.File.Delete(filePath);
-                        return Ok($"A visszaállítás sikeresen lefutott a visszaállított file: \"{Path.GetFileName(filePath)}\".");
+                        return Ok($"A visszaállítás sikeresen lefutott a visszaállított file:\n\"{Path.GetFileName(filePath)}\"");
                     }
                     catch (Exception ex)
                     {

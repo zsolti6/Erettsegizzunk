@@ -6,13 +6,17 @@
         xmlns:local="clr-namespace:ErettsegizzunkAdmin.Windows"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
         Title="Feladat Szerkesztése" Height="500" Width="700"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
         ResizeMode="CanMinimize">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <Grid Margin="24">
+        <Grid Margin="24" Background="{DynamicResource MaterialDesignPaper}">
             <!-- Material Design Card -->
             <materialDesign:Card Padding="24">
                 <Grid>

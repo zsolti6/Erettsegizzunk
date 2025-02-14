@@ -252,7 +252,7 @@ namespace ErettsegizzunkApi.Controllers
                 return BadRequest(new ErrorDTO() { Id = 80, Message = "Hiba történt az adatok törlése közben" });
             }
 
-            return Ok(); //Üzenet?
+            return Ok("Felhasználó(k) törlése sikeresen megtörtént");
         }
     }
 }

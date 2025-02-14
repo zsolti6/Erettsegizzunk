@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ErettsegizzunkApi.Models;
+﻿namespace ErettsegizzunkApi.Models;
 
 public partial class SpacedRepetition
 {
