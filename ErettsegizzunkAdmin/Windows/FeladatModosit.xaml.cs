@@ -63,6 +63,5 @@ namespace ErettsegizzunkAdmin.Windows
         {
             Close();
         }
-
     }
 }

@@ -60,8 +60,12 @@ namespace ErettsegizzunkAdmin.Windows
             if (lekerdez)
             {
                 felhasznalok = await LoadDatasAsync(felhasznalok.Count == 50 && oldalKov ? felhasznalok[felhasznalok.Count - 1].Id : felhasznalok.Count == 0 ? 0 : felhasznalok[0].Id - 51);
-                    /*.Result
-                    .ForEach(x => x.JogosultsagList = SetLists(user.Token));*/
+                foreach (User item in felhasznalok)
+                {
+                    item.JogosultsagList = (await _apiService.GetPermessionskAsync(user.Token))
+                        .Select(x => x.Name)
+                        .ToList();
+                }
             }
 
             dgAdatok.ItemsSource = null;

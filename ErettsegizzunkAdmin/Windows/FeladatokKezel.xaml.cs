@@ -52,10 +52,10 @@ namespace ErettsegizzunkAdmin.Windows
             cbSelectAll.IsChecked = false;
         }
 
-        private async Task<List<ErettsegizzunkApi.Models.Task>> LoadDatasAsync(int mettol)
+        private async Task<List<Task>> LoadDatasAsync(int mettol)
         {
             feladatok.Clear();
-            List<ErettsegizzunkApi.Models.Task> feladatoks = await _apiService.GetFeladatoksAsync(mettol);
+            List<Task> feladatoks = await _apiService.GetFeladatoksAsync(mettol);
             /*if (feladatoks is null)
             {
                 //MessageBoxes.CustomError(new ErrorDTO(513,"Hiba történt az adatok lekérdezése közben").ToString());
@@ -167,7 +167,7 @@ namespace ErettsegizzunkAdmin.Windows
 
         private void cbSelectAll_Checked(object sender, RoutedEventArgs e)
         {
-            foreach (ErettsegizzunkApi.Models.Task feladat in feladatok)
+            foreach (Task feladat in feladatok)
             {
                 feladat.IsSelected = true;
             }
@@ -176,7 +176,7 @@ namespace ErettsegizzunkAdmin.Windows
 
         private void cbSelectAll_Unchecked(object sender, RoutedEventArgs e)
         {
-            foreach (ErettsegizzunkApi.Models.Task feladat in feladatok)
+            foreach (Task feladat in feladatok)
             {
                 feladat.IsSelected = false;
             }
@@ -187,7 +187,7 @@ namespace ErettsegizzunkAdmin.Windows
         {
             List<int> ids = new List<int>();
 
-            foreach (ErettsegizzunkApi.Models.Task feladat in feladatok)
+            foreach (Task feladat in feladatok)
             {
                 if (feladat.IsSelected)
                 {
@@ -224,7 +224,7 @@ namespace ErettsegizzunkAdmin.Windows
         {
             List<int> ids = new List<int>();
 
-            foreach (ErettsegizzunkApi.Models.Task feladat in feladatok)
+            foreach (Task feladat in feladatok)
             {
                 if (feladat.IsSelected)
                 {
