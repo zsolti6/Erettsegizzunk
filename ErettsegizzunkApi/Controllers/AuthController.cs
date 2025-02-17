@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using ErettsegizzunkApi.Services;
 using LoginRequest = ErettsegizzunkApi.Models.LoginRequest;
 using Microsoft.EntityFrameworkCore;
+using ErettsegizzunkApi.DTOs;
+using NuGet.Common;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -22,43 +24,38 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)//hibakezelés
+        public async Task<IActionResult> CaptchaLogin([FromBody] LoginRequest loginRequest)
         {
             if (string.IsNullOrEmpty(loginRequest.CaptchaToken))
             {
-                return BadRequest(new { message = "CAPTCHA is required." });
+                return BadRequest(new ErrorDTO() { Id = 109, Message = "CAPTCHA kitöltése szükséges!" });
             }
 
             bool isCaptchaValid = await _recaptchaService.VerifyRecaptchaAsync(loginRequest.CaptchaToken);
             if (!isCaptchaValid)
             {
-                return BadRequest(new { message = "CAPTCHA validation failed." });
+                return BadRequest(new ErrorDTO() { Id = 110, Message = "CAPTCHA hitelesítései hiba" });
             }
 
             User user = await _context.Users.FirstOrDefaultAsync(x => x.LoginName == loginRequest.Username);
             if (user == null)
             {
-                return Unauthorized(new { message = "Invalid username or password." });
+                return Unauthorized(new ErrorDTO() { Id = 111, Message = "Hibás név, jelszó páros" });
             }
 
-            // Hash the input password with the user's salt
             string hash = Program.CreateSHA256(loginRequest.Password);
             if (user.Hash != hash)
             {
-                return Unauthorized(new { message = "Invalid username or password." });
+                return Unauthorized(new ErrorDTO() { Id = 111, Message = "Hibás név, jelszó páros" });
             }
 
-            return Ok("Siker");
-        }
-
-        private string HashPassword(string password, string salt)
-        {
-            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            string token = Guid.NewGuid().ToString();
+            lock (Program.LoggedInUsers)
             {
-                var combinedBytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
-                var hashBytes = sha256.ComputeHash(combinedBytes);
-                return Convert.ToBase64String(hashBytes);
+                Program.LoggedInUsers.Add(token, user);
             }
+
+            return Ok(new LoggedUser { Id = user.Id, Name = user.LoginName, Email = user.Email, Permission = user.PermissionId, Newsletter = user.Newsletter, ProfilePicturePath = user.ProfilePicturePath, ProfilePicture = null, Token = token });
         }
     }
 }
