@@ -50,11 +50,18 @@ namespace ErettsegizzunkAdmin.Windows
             RefreshUi();
         }
 
+        private async System.Threading.Tasks.Task<List<string>> SetLists(string token)
+        {
+            return (await _apiService.GetPermessionskAsync(token)).Select(x => x.Name).ToList();
+        }
+
         private async void RefreshUi(bool oldalKov = false, bool lekerdez = true)
         {
             if (lekerdez)
             {
                 felhasznalok = await LoadDatasAsync(felhasznalok.Count == 50 && oldalKov ? felhasznalok[felhasznalok.Count - 1].Id : felhasznalok.Count == 0 ? 0 : felhasznalok[0].Id - 51);
+                    /*.Result
+                    .ForEach(x => x.JogosultsagList = SetLists(user.Token));*/
             }
 
             dgAdatok.ItemsSource = null;

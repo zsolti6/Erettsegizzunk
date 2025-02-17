@@ -40,25 +40,9 @@ public partial class Task
 
     public string TypeName { get { return Type.Name; } set { TypeId = TypeList.IndexOf(value) + 1; } }
 
-    //databaseből lekérni majd
-    public List<string> SubjectList { get; private set; }//new List<string>() { "matematika", "történelem", "magyar" };
+    public List<string> SubjectList { get; set; }
 
-    public List<string> LevelList { get; private set; } //= new List<string>() { "közép", "emelt" };
+    public List<string> LevelList { get; set; }
 
-    public List<string> TypeList { get; private set; } //= new List<string>() { "radio", "chechkbox", "textbox" };
-    //MOST
-
-    public Task()
-    {
-        SetLists();
-    }
-
-    private void SetLists()
-    {
-        ApiService _apiService = new ApiService();
-
-        SubjectList = _apiService.GetTantargyaksAsync().Result.Select(x => x.Name).ToList();
-        LevelList = _apiService.GetLevelAsync().Result.Select(x => x.Name).ToList();
-        TypeList = _apiService.GetTipusAsync().Result.Select(x => x.Name).ToList();
-    }
+    public List<string> TypeList { get; set; }
 }

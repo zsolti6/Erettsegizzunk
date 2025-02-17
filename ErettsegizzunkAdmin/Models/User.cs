@@ -37,12 +37,5 @@ public partial class User
 
     public string? PermissionName { get { return Permission is null ? "" : JogosultsagList[PermissionId - 1]; } set { PermissionId = JogosultsagList.IndexOf(value) + 1; } }
 
-    public List<string> JogosultsagList { get; private set; }// = new List<string>() { "Látogató", "Admin" };//databasből lekérni majd
-
-    private void SetLists()
-    {
-        ApiService _apiService = new ApiService();
-
-        JogosultsagList = _apiService.GetPermessionskAsync().Result.Select(x => x.Name).ToList();
-    }
+    public List<string> JogosultsagList { get; set; }
 }

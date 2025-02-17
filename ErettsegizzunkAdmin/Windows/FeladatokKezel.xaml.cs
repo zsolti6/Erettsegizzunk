@@ -1,5 +1,4 @@
-﻿using BespokeFusion;
-using ErettsegizzunkAdmin.CustomMessageBoxes;
+﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
 using ErettsegizzunkAdmin.Services;
 using ErettsegizzunkApi.DTOs;
 using Microsoft.Win32;
@@ -8,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using Task = ErettsegizzunkApi.Models.Task;
 
 namespace ErettsegizzunkAdmin.Windows
 {
@@ -29,8 +29,9 @@ namespace ErettsegizzunkAdmin.Windows
 
         private readonly ApiService _apiService;
         private int pageNumber = 0;
-        private List<ErettsegizzunkApi.Models.Task> feladatok = new List<ErettsegizzunkApi.Models.Task>();
-        public LoggedUserDTO user;
+        private List<Task> feladatok = new List<Task>();
+        private LoggedUserDTO user;
+
         public FeladatokKezel(LoggedUserDTO user)
         {
             InitializeComponent();
@@ -114,21 +115,21 @@ namespace ErettsegizzunkAdmin.Windows
                     await _apiService.PostFeladatokFromTxt(feladatoks);
                     RefreshUi();
                 }
-                catch(ErrorDTO ex)
+                catch (ErrorDTO ex)
                 {
                     MessageBoxes.CustomError(ex.ToString());
                     return;
                 }
                 catch (FileNotFoundException)
                 {
-                    MessageBoxes.CustomError(new ErrorDTO(514,"A megadott file nem található").ToString());
+                    MessageBoxes.CustomError(new ErrorDTO(514, "A megadott file nem található").ToString());
                     return;
                 }
                 catch (Exception)
                 {
                     MessageBoxes.CustomError(new ErrorDTO(515, "Hiba történt az adatok mentése közben").ToString());
                     return;
-                }                
+                }
             }
         }
 
@@ -246,7 +247,7 @@ namespace ErettsegizzunkAdmin.Windows
             FeladatModosit feladatModosit = new FeladatModosit(feladatok.Find(x => x.Id == ids[0]), user);
             feladatModosit.ShowDialog();
             feladatok.First(x => x.IsSelected).IsSelected = false;
-            RefreshUi(false,false);
+            RefreshUi();
         }
 
         private void btnQuestion_Click(object sender, RoutedEventArgs e)

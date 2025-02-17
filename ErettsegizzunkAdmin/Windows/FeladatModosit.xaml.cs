@@ -1,22 +1,8 @@
 ﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
 using ErettsegizzunkAdmin.Services;
 using ErettsegizzunkApi.DTOs;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Task = ErettsegizzunkApi.Models.Task;
 
 namespace ErettsegizzunkAdmin.Windows
 {
@@ -25,16 +11,24 @@ namespace ErettsegizzunkAdmin.Windows
     /// </summary>
     public partial class FeladatModosit : Window
     {
-        private ErettsegizzunkApi.Models.Task feladat;
+        private Task feladat;
         private readonly ApiService _apiService;
         private LoggedUserDTO user;
-        public FeladatModosit(ErettsegizzunkApi.Models.Task feladat, LoggedUserDTO user)
+        public FeladatModosit(Task feladat, LoggedUserDTO user)
         {
             InitializeComponent();
             _apiService = new ApiService();
             this.feladat = feladat;
-            DataContext = this.feladat;
             this.user = user;
+            DataContext = this.feladat;
+            System.Threading.Tasks.Task.Run(async () => await SetLists());
+        }
+
+        private async System.Threading.Tasks.Task SetLists()
+        {
+            feladat.SubjectList = (await _apiService.GetTantargyaksAsync()).Select(x => x.Name).ToList();
+            feladat.LevelList = (await _apiService.GetLevelAsync()).Select(x => x.Name).ToList();
+            feladat.TypeList = (await _apiService.GetTipusAsync()).Select(x => x.Name).ToList();
         }
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
@@ -53,7 +47,7 @@ namespace ErettsegizzunkAdmin.Windows
                     TantargyId = feladat.SubjectId,
                     TipusId = feladat.TypeId,
                     SzintId = feladat.LevelId
-                    
+
                 };
                 await _apiService.PutFeladatok(put);
             }

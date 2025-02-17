@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ErettsegizzunkApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("erettsegizzunk/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {

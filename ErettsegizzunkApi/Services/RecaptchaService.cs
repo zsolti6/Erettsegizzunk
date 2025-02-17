@@ -1,7 +1,4 @@
-﻿using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+﻿using System.Text.Json;
 
 namespace ErettsegizzunkApi.Services
 {
@@ -18,10 +15,15 @@ namespace ErettsegizzunkApi.Services
 
         public async Task<bool> VerifyRecaptchaAsync(string token)
         {
-            var response = await _httpClient.PostAsync(
-                $"https://www.google.com/recaptcha/api/siteverify?secret={_recaptchaSecretKey}&response={token}",
-                null
-            );
+            var values = new Dictionary<string, string>
+        {
+            { "secret", _recaptchaSecretKey },
+            { "response", token }
+        };
+
+            var content = new FormUrlEncodedContent(values);
+            var response = await _httpClient.PostAsync("https://www.google.com/recaptcha/api/siteverify", content);
+
 
             if (!response.IsSuccessStatusCode)
             {
