@@ -22,7 +22,7 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)//hibakezelés
         {
             if (string.IsNullOrEmpty(loginRequest.CaptchaToken))
             {
@@ -42,8 +42,8 @@ namespace ErettsegizzunkApi.Controllers
             }
 
             // Hash the input password with the user's salt
-            string hashedPassword = HashPassword(loginRequest.Password, user.Salt);
-            if (user.Hash != hashedPassword)
+            string hash = Program.CreateSHA256(loginRequest.Password);
+            if (user.Hash != hash)
             {
                 return Unauthorized(new { message = "Invalid username or password." });
             }

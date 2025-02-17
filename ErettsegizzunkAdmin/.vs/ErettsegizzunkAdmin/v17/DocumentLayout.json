@@ -47,8 +47,7 @@
               "ViewState": "AgIAAAABAAAAAAAAAAAewDIBAABSAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-06T09:28:44.061Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -59,8 +58,7 @@
               "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FeladatModosit.xaml",
               "RelativeToolTip": "Windows\\FeladatModosit.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-17T07:18:05.994Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-17T07:18:05.994Z"
             },
             {
               "$type": "Document",
@@ -72,8 +70,7 @@
               "RelativeToolTip": "Windows\\FeladatModosit.xaml.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAAuwBgAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-17T06:41:04.27Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-17T06:41:04.27Z"
             },
             {
               "$type": "Document",
@@ -85,8 +82,7 @@
               "RelativeToolTip": "Windows\\FeladatokKezel.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAPAAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-17T06:31:56.84Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-17T06:31:56.84Z"
             },
             {
               "$type": "Document",
@@ -96,7 +92,7 @@
               "RelativeDocumentMoniker": "Windows\\FelhasznalokKezel.xaml.cs",
               "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Windows\\FelhasznalokKezel.xaml.cs",
               "RelativeToolTip": "Windows\\FelhasznalokKezel.xaml.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAWwD0AAAC8AAAAAAAAAA==",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAQwD0AAAC8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-17T06:20:24.177Z",
               "EditorCaption": ""
@@ -111,8 +107,7 @@
               "RelativeToolTip": "Models\\User.cs",
               "ViewState": "AgIAABoAAAAAAAAAAAAUwCcAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-14T06:51:59.726Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-14T06:51:59.726Z"
             }
           ]
         }
