@@ -19,6 +19,12 @@ function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!sessionStorage.getItem("user")) {
+      navigate("/Login");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
@@ -127,6 +133,14 @@ function Profile() {
             Mentés
           </button>
         </form>
+        {!localStorage.getItem("googleUser") &&
+        <button
+          onClick={handleLogout}
+          className="btn btn-primary mt-3"
+        >
+          Jelszó megváltoztatása
+        </button>
+        }<br/>
         <button
           onClick={handleLogout}
           className="btn btn-primary mt-3"

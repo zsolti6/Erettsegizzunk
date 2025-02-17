@@ -98,7 +98,7 @@ function RegisterPage() {
     <div>
       <Navbar />
       <div className="container d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
-        <div className="card p-4" style={{ width: "500px" }}>
+        <div className="card p-4" style={{ width: "400px" }}>
           <h2 className="text-center mb-4">Fiók létrehozása</h2>
           {error && <div className="alert alert-danger">{error}</div>}
           <form onSubmit={handleRegister}>
@@ -111,8 +111,8 @@ function RegisterPage() {
             <div className="form-group mb-3">
               <div className="input-group">
                 <input placeholder="Jelszó" type={passwordVisible ? "text" : "password"} className="form-control" id="password" value={formData.password} onChange={handleChange} />
-                <button type="button" className="btn btn-outline-secondary" onClick={togglePasswordVisibility}>{passwordVisible ? "Elrejt" : "Mutat"}</button>
-                <button type="button" className="btn btn-outline-secondary" onClick={handleGeneratePassword} title="Jelszó generálása">🔑</button>
+                <button type="button" className="btn btn-outline-secondary" onClick={togglePasswordVisibility}>{passwordVisible ? <i class="bi bi-eye"></i> : <i class="bi bi-eye-slash"></i>}</button>
+                <button type="button" className="btn btn-outline-secondary" onClick={handleGeneratePassword} title="Jelszó generálása"><i class="bi bi-shuffle"></i></button>
               </div>
             </div>
             <div className="form-group mb-3">

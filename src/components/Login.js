@@ -11,6 +11,7 @@ function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [captchaToken, setCaptchaToken] = useState(null);
+  const [rememberMe, setRememberMe] = useState(false);
   const navigator = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -59,11 +60,12 @@ function LoginPage() {
 
       const salt = saltResponse.data;
       const tmpHash = sha256(password + salt.toString()).toString();
-      const loginUrl = "http://localhost:5000/erettsegizzunk/Login";
+      const loginUrl = "http://localhost:5000/erettsegizzunk/Auth/Login";
       const body = {
-        loginName: username,
-        tmpHash: tmpHash,
-        captchaToken: captchaToken, // Send CAPTCHA token to backend
+        username: username,
+        password: tmpHash,
+        captchaToken: captchaToken,
+        rememberMe: rememberMe,
       };
 
       const loginResponse = await axios.post(loginUrl, body);
@@ -112,22 +114,32 @@ function LoginPage() {
                   className="btn btn-outline-secondary"
                   onClick={togglePasswordVisibility}
                 >
-                  {passwordVisible ? "Mutat" : "Elrejt"}
+                  {passwordVisible ? <i class="bi bi-eye"></i> : <i class="bi bi-eye-slash"></i>}
                 </button>
               </div>
             </div>
+            
+            <div className="form-group mb-3 d-flex justify-content-left">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="rememberMe"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
+              <label style={{marginLeft:"5px"}} className="form-check-label" htmlFor="rememberMe">Emlékezz rám</label>
+            </div>
 
-            {/* reCAPTCHA Component */}
             <div className="form-group mb-3 d-flex justify-content-center">
               <ReCAPTCHA
-                sitekey="6LcTotMqAAAAAHxSzUUbDXgg_bEeTVBoCTWLLVCZ" // Replace with your actual site key
+                sitekey="6LeQqdkqAAAAABst5YpaC2RfBcOKWb6sShvYGBqO "
                 onChange={(token) => setCaptchaToken(token)}
                 onExpired={() => setCaptchaToken(null)}
               />
             </div>
 
             <button type="submit" className="btn btn-primary w-100">Belépés</button>
-
+          
             <div className="d-flex justify-content-between mt-3">
               <a href="/forgot-password" className="text-muted">Elfelejtett jelszó</a>
               <a href="/register" className="text-muted">Még nincs fiókod?</a>
