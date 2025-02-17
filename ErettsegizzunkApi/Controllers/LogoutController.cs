@@ -21,5 +21,10 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
+        [HttpPost("active")]
+        public IActionResult Active([FromBody] string token)
+        {
+            return Ok(Program.LoggedInUsers.ContainsKey(token));
+        }
     }
 }
