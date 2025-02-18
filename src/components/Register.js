@@ -37,8 +37,6 @@ function RegisterPage() {
     loginName: "",
     password: "",
     confirmPassword: "",
-    surname: "",
-    firstName: "",
     email: ""
   });
   const [error, setError] = useState("");
@@ -59,8 +57,6 @@ function RegisterPage() {
 
   const validateForm = () => {
     if (!formData.loginName) return "Kérjük, adja meg a felhasználónevet!";
-    if (!formData.surname) return "Kérjük, adja meg a vezetéknevét!";
-    if (!formData.firstName) return "Kérjük, adja meg a keresztnevét!";
     if (!formData.email) return "Kérjük, adja meg az email címét!";
     if (!formData.password) return "Kérjük, adjon meg egy jelszót!";
     if (formData.password !== formData.confirmPassword) return "A jelszavak nem egyeznek!";
@@ -81,7 +77,6 @@ function RegisterPage() {
         loginName: formData.loginName,
         hash: sha256(formData.password + salt).toString(),
         salt: salt,
-        name: `${formData.surname} ${formData.firstName}`,
         permissionId: 1,
         active: true,
         email: formData.email,
@@ -125,4 +120,5 @@ function RegisterPage() {
     </div>
   );
 }
+
 export default RegisterPage;

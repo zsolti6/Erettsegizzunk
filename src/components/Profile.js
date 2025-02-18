@@ -19,7 +19,7 @@ function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!sessionStorage.getItem("user")) {
+    if (localStorage.getItem("user") == null) {
       navigate("/Login");
     }
   }, [navigate]);
