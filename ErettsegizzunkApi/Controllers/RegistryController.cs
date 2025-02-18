@@ -113,7 +113,7 @@ namespace ErettsegizzunkApi.Controllers
                         Program.LoggedInUsers.Add(token, newUser);
                     }
 
-                    return Ok(new LoggedUser() { Id = _context.Users.First(x => x.Email == newUser.Email).Id, Email = newUser.Email, Name = newUser.LoginName, Permission = newUser.PermissionId, ProfilePicturePath = newUser.ProfilePicturePath, Token = token });
+                    return Ok(new LoggedUserDTO() { Id = _context.Users.First(x => x.Email == newUser.Email).Id, Email = newUser.Email, Name = newUser.LoginName, Permission = newUser.PermissionId, ProfilePicturePath = newUser.ProfilePicturePath, Token = token });
                 }
 
                 lock (Program.LoggedInUsers)
@@ -121,7 +121,7 @@ namespace ErettsegizzunkApi.Controllers
                     Program.LoggedInUsers.Add(token, user);
                 }
 
-                return Ok(new LoggedUser() { Id = user.Id, Email = user.Email, Name = user.LoginName, Permission = user.PermissionId, ProfilePicturePath = user.ProfilePicturePath, Token = token });
+                return Ok(new LoggedUserDTO() { Id = user.Id, Email = user.Email, Name = user.LoginName, Permission = user.PermissionId, ProfilePicturePath = user.ProfilePicturePath, Token = token });
             }
             catch (MySqlException)
             {

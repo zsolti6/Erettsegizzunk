@@ -2,7 +2,7 @@
 
 namespace ErettsegizzunkApi.DTOs
 {
-    public class LoggedUser
+    public class LoggedUserDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -31,13 +31,5 @@ namespace ErettsegizzunkApi.DTOs
     {
         public List<User> Users { get; set; } = null!;
         public string? Token { get; set; }
-    }
-
-    public class JelszoModositDTO
-    {
-        public string Token { get; set; }
-        public string LoginName { get; set; }
-        public string OldPassword { get; set; }
-        public string NewPassword { get; set; }
     }
 }

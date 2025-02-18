@@ -22,12 +22,12 @@ namespace ErettsegizzunkApi.Controllers
         {
             try
             {
-                User? user = _context.Users.FirstOrDefault(x => x.LoginName == jelszoModosit.LoginName);
+                User? user = _context.Users.FirstOrDefault(x => x.LoginName == jelszoModosit.LoginName && !x.GoogleUser);
                 if (user != null)
                 {
                     if (!Program.LoggedInUsers.ContainsKey(jelszoModosit.Token) && Program.LoggedInUsers[jelszoModosit.Token].LoginName == jelszoModosit.LoginName)
                     {
-                        return BadRequest(new ErrorDTO() { Id = 89, Message = "Hozzáférés megtagadva" });
+                        return Unauthorized(new ErrorDTO() { Id = 89, Message = "Hozzáférés megtagadva" });
                     }
 
                     if (Program.CreateSHA256(Program.CreateSHA256(jelszoModosit.OldPassword + user.Salt)) == user.Hash)
@@ -55,7 +55,7 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return NotFound(new ErrorDTO() { Id = 91, Message = "Hiba történt az adatok mentése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 91, Message = "Hiba történt az adatok mentése közben" });
             }
             catch (Exception)
             {
@@ -63,35 +63,39 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        [HttpPost("{Email}")]//body
-        public async Task<IActionResult> ElfelejtettJelszo(string Email)
+        [HttpPost("elfelejtett-jelszo")]
+        public async Task<IActionResult> ElfelejtettJelszo([FromBody] string email)
         {
-            using (var _context = new ErettsegizzunkContext())
+            try
             {
-                try
+                User user = _context.Users.FirstOrDefault(x => x.Email == email && !x.GoogleUser);
+                if (user != null)
                 {
-                    var user = _context.Users.FirstOrDefault(x => x.Email == Email);
-                    if (user != null)
-                    {
-                        string jelszo = Program.GenerateSalt().Substring(0, 16);//64 is lehet
-                        user.Hash = Program.CreateSHA256(Program.CreateSHA256(jelszo + user.Salt));
-                        _context.Users.Update(user);
-                        await _context.SaveChangesAsync();
-                        Program.SendEmail(user.Email, "Elfelejtett jelszó", "Az új jelszava: " + jelszo);
-                        return Ok("E-mail küldése megtörtént.");
-                    }
-                    else
-                    {
-                        return StatusCode(210, "Nincs ilyen e-Mail cím!");
-                    }
+                    string jelszo = Program.GenerateSalt().Substring(0, 16);//64 is lehet
+                    user.Hash = Program.CreateSHA256(Program.CreateSHA256(jelszo + user.Salt));
+                    _context.Users.Update(user);
+                    await _context.SaveChangesAsync();
+
+                    Program.SendEmail(user.Email, "Elfelejtett jelszó", "Az új jelszava: " + jelszo);
+                    return Ok("E-mail küldése megtörtént.");
                 }
-                catch (Exception ex)
+                else
                 {
-                    return StatusCode(211, ex.Message);
+                    return StatusCode(210, "Nincs ilyen e-Mail cím!");
                 }
             }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 113, Message = "Kapcsolati hiba" });
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 114, Message = "Hiba történt az adatok mentése közben" });
+            }
+            catch (Exception)
+            {
+                return NotFound(new ErrorDTO() { Id = 115, Message = "Hiba történt az adatok mentése közben" });
+            }
         }
-
-
     }
 }

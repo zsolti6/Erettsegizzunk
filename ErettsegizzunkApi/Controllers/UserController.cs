@@ -118,7 +118,7 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpPut("sajat-felhasznalo-modosit")]
-        public async Task<IActionResult> PutFelhasznalo([FromBody] LoggedUser modosit)
+        public async Task<IActionResult> PutFelhasznalo([FromBody] LoggedUserDTO modosit)
         {
             if (!Program.LoggedInUsers.ContainsKey(modosit.Token) || Program.LoggedInUsers[modosit.Token].Id != modosit.Id)
             {
