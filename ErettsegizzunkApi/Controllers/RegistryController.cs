@@ -11,10 +11,12 @@ namespace ErettsegizzunkApi.Controllers
     public class RegistryController : ControllerBase
     {
         private readonly ErettsegizzunkContext _context;
+        private readonly UserStatisticsController _userStatisticsController;
 
-        public RegistryController(ErettsegizzunkContext context)
+        public RegistryController(ErettsegizzunkContext context, UserStatisticsController userStatisticsController)
         {
             _context = context;
+            _userStatisticsController = userStatisticsController;
         }
 
         [HttpPost("regisztracio")]
@@ -38,7 +40,7 @@ namespace ErettsegizzunkApi.Controllers
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
 
-                Program.SendEmail(user.Email, "Regisztráció", $"https://localhost:7066/erettsegizzunk/Registry?felhasznaloNev={user.LoginName}&email={user.Email}");
+                Program.SendEmail(user.Email, "Regisztráció", $"https://localhost:7066/erettsegizzunk/Registry/regisztracio-megerostes?felhasznaloNev={user.LoginName}&email={user.Email}");
 
                 return Ok("Sikeres regisztráció. Fejezze be a regisztrációját az e-mail címére küldött link segítségével!");
             }
@@ -52,12 +54,25 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        [HttpPost("regisztracio-megerostes")]
-        public async Task<IActionResult> EndOfTheRegistry([FromBody] EndOfRegistryDTO endOfRegistry)//frombody + kell dto
+        [HttpGet("regisztracio-megerostes")]
+        public async Task<IActionResult> EndOfTheRegistry([FromQuery] string felhasznaloNev, [FromQuery] string email)//frombody + kell dto
         {
             try
             {
-                User? user = await _context.Users.FirstOrDefaultAsync(f => f.LoginName == endOfRegistry.UserName && f.Email == endOfRegistry.Email);
+                string htmlContent = @"
+                        <html>
+                            <head>
+                                <script>
+                                    setTimeout(function() {
+                                        window.close();
+                                    }, 1000);
+                                </script>
+                            </head>
+                            <body>
+                                <h3>Sikeres regisztráció</h3>
+                            </body>
+                        </html>";
+                User? user = await _context.Users.FirstOrDefaultAsync(f => f.LoginName == felhasznaloNev && f.Email == email);
 
                 if (user == null)
                 {
@@ -68,7 +83,10 @@ namespace ErettsegizzunkApi.Controllers
                     user.Active = true;
                     _context.Users.Update(user);
                     await _context.SaveChangesAsync();
-                    return Ok("A regisztráció befejezése sikeresen megtörtént.");
+
+                    _userStatisticsController.PostUserStatistic(user.Id);
+
+                    return Content(htmlContent, "text/html");
                 }
             }
             catch (MySqlException)
@@ -107,6 +125,9 @@ namespace ErettsegizzunkApi.Controllers
                     await _context.SaveChangesAsync();
 
                     Program.SendEmail(email, "Sikeres regisztráció", "Köszönjük a regisztrálást");
+                    
+                    //KELL ID VAGYMI AZ ADATBÁZISBÓL
+                    _userStatisticsController.PostUserStatistic(newUser.Id);
 
                     lock (Program.LoggedInUsers)
                     {

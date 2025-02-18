@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using ErettsegizzunkApi.DTOs;
+using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ErettsegizzunkApi.Models;
+using MySql.Data.MySqlClient;
+using Task = System.Threading.Tasks.Task;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -27,16 +25,44 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpPost("get-one-statistics")]
-        public async Task<ActionResult<UserStatistic>> GetUserStatistic(int id)
+        public async Task<ActionResult<UserStatistic>> GetUserStatistic([FromBody] GetOneStatisticsDTO getOneStatistics)
         {
-            var userStatistic = await _context.UserStatistics.FindAsync(id);
-
-            if (userStatistic == null)
+            try
             {
-                return NotFound();
+                if (!Program.LoggedInUsers.ContainsKey(getOneStatistics.Token) && Program.LoggedInUsers[getOneStatistics.Token].Id != getOneStatistics.Id)
+                {
+                    return BadRequest(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
+                }
+
+                UserStatistic userStatistic = await _context.UserStatistics.FirstOrDefaultAsync(x => x.UserId == getOneStatistics.Id);
+
+                if (userStatistic == null)
+                {
+                    return NotFound(new ErrorDTO() { Id = 117, Message = "Az elem nem található" });
+                }
+
+                Dictionary<string, int> successRates = new Dictionary<string, int>();
+
+                if (getOneStatistics.SubjectIds.Length != 0)
+                {
+                    await GetSubjects(getOneStatistics, userStatistic, successRates);
+                }
+
+                return Ok(successRates);
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 118, Message = "Kapcsolati hiba" });
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 119, Message = "Hiba történt az adatok lekérdezése közben" });
+            }
+            catch (Exception)
+            {
+                return NotFound(new ErrorDTO() { Id = 120, Message = "Hiba történt az adatok lekérdezése közben" });
             }
 
-            return userStatistic;
         }
 
         // PUT: api/UserStatistics/5
@@ -57,28 +83,24 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserStatisticExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+
             }
 
             return NoContent();
         }
 
-        // POST: api/UserStatistics
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<UserStatistic>> PostUserStatistic(UserStatistic userStatistic)
+        [HttpPost("post-user-stat")]
+        public async Task<ActionResult<UserStatistic>> PostUserStatistic([FromBody] int userid)
         {
+            UserStatistic userStatistic = new UserStatistic()
+            {
+                UserId = userid
+            };
+
             _context.UserStatistics.Add(userStatistic);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserStatistic", new { id = userStatistic.Id }, userStatistic);
+            return Ok();
         }
 
         // DELETE: api/UserStatistics/5
@@ -97,9 +119,54 @@ namespace ErettsegizzunkApi.Controllers
             return NoContent();
         }
 
-        private bool UserStatisticExists(int id)
+        private async Task GetSubjects(GetOneStatisticsDTO getOneStatistics, UserStatistic userStatistic, Dictionary<string, int> successRates)
         {
-            return _context.UserStatistics.Any(e => e.Id == id);
+            for (int i = 0; i < getOneStatistics.SubjectIds.Length; i++)
+            {
+
+                switch (getOneStatistics.SubjectIds[i])
+                {
+                    case 1:
+                        string[] mathSuccesfullTask = userStatistic.MathSuccessfulTasks.Split(";");
+                        string[] mathUnsuccessfulTask = userStatistic.MathUnsuccessfulTasks.Split(";");
+                        await GetPercentage(mathSuccesfullTask, mathUnsuccessfulTask, successRates, "Matek");
+                        break;
+
+
+                    case 2:
+                        string[] historySuccesfullTask = userStatistic.HistorySuccessfulTasks.Split(";");
+                        string[] historyUnsuccessfulTask = userStatistic.HistoryUnsuccessfulTasks.Split(";");
+                        await GetPercentage(historySuccesfullTask, historyUnsuccessfulTask, successRates, "Történelem");
+                        break;
+
+
+                    case 3:
+
+                        string[] hungarianSuccesfullTask = userStatistic.HungarianSuccessfulTasks.Split(";");
+                        string[] hingarianUnsuccessfulTask = userStatistic.HungarianUnsuccessfulTasks.Split(";");
+                        await GetPercentage(hungarianSuccesfullTask, hingarianUnsuccessfulTask, successRates, "Magyar");
+                        break;
+                }
+
+            }
+        }
+
+        private async Task GetPercentage(string[] succesFull, string[] unSuccessFull, Dictionary<string, int> successRates, string nev)
+        {
+            int sikerDarab = 0;
+            int sikertelenDarab = 0;
+
+            foreach (string item in succesFull)
+            {
+                sikerDarab += item.Split(',').Count();
+            }
+
+            foreach (string item in unSuccessFull)
+            {
+                sikertelenDarab += item.Split(',').Count();
+            }
+
+            successRates.Add(nev, (int)Math.Round((double)sikerDarab * 100 / (sikerDarab + sikertelenDarab)));
         }
     }
 }

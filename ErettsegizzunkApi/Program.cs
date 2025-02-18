@@ -1,3 +1,4 @@
+using ErettsegizzunkApi.Controllers;
 using ErettsegizzunkApi.Models;
 using ErettsegizzunkApi.Services;
 using Microsoft.EntityFrameworkCore;
@@ -97,6 +98,7 @@ namespace ErettsegizzunkApi
             // Add services to the container.
 
             builder.Services.AddControllers();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -107,6 +109,7 @@ namespace ErettsegizzunkApi
 
             // Register controllers
             builder.Services.AddControllers();
+            builder.Services.AddScoped<UserStatisticsController>();
 
             var app = builder.Build();
 
