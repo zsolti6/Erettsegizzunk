@@ -55,7 +55,7 @@ namespace ErettsegizzunkApi.Controllers
                 Program.LoggedInUsers.Add(token, user);
             }
 
-            return Ok(new LoggedUserDTO { Id = user.Id, Name = user.LoginName, Email = user.Email, Permission = user.PermissionId, Newsletter = user.Newsletter, ProfilePicturePath = user.ProfilePicturePath, ProfilePicture = null, Token = token });
+            return Ok(new LoggedUserDTO { Id = user.Id, Name = user.LoginName, Email = user.Email, Permission = user.PermissionId, Newsletter = user.Newsletter, ProfilePicturePath = user.ProfilePicturePath, ProfilePicture = null, Token = token, GoogleUser = user.GoogleUser });
         }
     }
 }

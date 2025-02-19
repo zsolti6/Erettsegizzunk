@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
+using Task = ErettsegizzunkApi.Models.Task;
+using Type = ErettsegizzunkApi.Models.Type;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -20,9 +22,9 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpPost("get-sok-feladat")]
-        public async Task<ActionResult<IEnumerable<Models.Task>>> GetFeladatoks([FromBody] int mettol)
+        public async Task<ActionResult<IEnumerable<Task>>> GetFeladatoks([FromBody] int mettol)
         {
-            List<Models.Task>? feladatok = new List<Models.Task>();
+            List<Task>? feladatok = new List<Task>();
             try
             {
                 feladatok = await _context.Tasks
@@ -54,22 +56,22 @@ namespace ErettsegizzunkApi.Controllers
 
         //Random 15 feladat tantárgy és szint (közép felső) paraméter alapján
         [HttpPost("get-random-feladatok")]
-        public async Task<ActionResult<IEnumerable<Models.Task>>> GetFeladatoksTipusSzint([FromBody] FeladatokGetRandomDTO get)
+        public async Task<ActionResult<IEnumerable<Task>>> GetFeladatoksTipusSzint([FromBody] FeladatokGetRandomDTO get)
         {
             if (get.Tantargy is null || get.Szint is null)
             {
                 return BadRequest(new ErrorDTO() { Id = 4, Message = "A keresési feltétel nem lehet üres"});
             }
 
-            List<Models.Task>? randomFeladatok = new List<Models.Task>();
+            List<Task>? randomFeladatok = new List<Task>();
 
             try
             {
                 randomFeladatok = await _context.Tasks
-                .Include<Models.Task, Level>(x => x.Level)
-                .Include<Models.Task, Subject>(x => x.Subject)
+                .Include<Task, Level>(x => x.Level)
+                .Include<Task, Subject>(x => x.Subject)
                 .Include(x => x.Themes)
-                .Include<Models.Task, Models.Type>(x => x.Type)
+                .Include<Task, Type>(x => x.Type)
                 .Where(x => x.Subject.Name == get.Tantargy && x.Level.Name == get.Szint)
                 .OrderBy(x => EF.Functions.Random())
                 .Take(15)
@@ -94,22 +96,22 @@ namespace ErettsegizzunkApi.Controllers
 
         //Egy feladat lekérése id alapján
         [HttpPost("get-egy-feladat")]
-        public async Task<ActionResult<Models.Task>> GetFeladat([FromBody] FeladatokGetSpecificDTO get)
+        public async Task<ActionResult<Task>> GetFeladat([FromBody] FeladatokGetSpecificDTO get)
         {
             if (get.Id is null)
             {
                 return BadRequest(new ErrorDTO() { Id = 8, Message = "A keresési feltétel nem lehet ütes"});
             }
 
-            Models.Task? feladat = new Models.Task();
+            Task? feladat = new Task();
 
             try
             {
                 feladat = await _context.Tasks
-                .Include<Models.Task, Level>(x => x.Level)
-                .Include<Models.Task, Subject>(x => x.Subject)
+                .Include<Task, Level>(x => x.Level)
+                .Include<Task, Subject>(x => x.Subject)
                 .Include(x => x.Themes)
-                .Include<Models.Task, Models.Type>(x => x.Type)
+                .Include<Task, Type>(x => x.Type)
                 .Where(x => x.Id == get.Id)
                 .FirstOrDefaultAsync();
 
@@ -186,7 +188,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Egy feladat felvitele
         [HttpPost("post-egy-feladat")]
-        public async Task<ActionResult<Models.Task>> PostFeladat([FromBody]FeladatokPutPostDTO post)
+        public async Task<ActionResult<Task>> PostFeladat([FromBody]FeladatokPutPostDTO post)
         {
             if (!Program.LoggedInUsers.ContainsKey(post.Token) && Program.LoggedInUsers[post.Token].Permission.Level != 9)
             {
@@ -220,7 +222,7 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return NotFound(new ErrorDTO() { Id = 21, Message = "Hiba történt az adatok mentése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 21, Message = "Hiba történt az adatok mentése közben" });
             }
             catch (Exception)
             {
@@ -232,7 +234,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Több feladat felvitele
         [HttpPost("post-tobb-feladat")]
-        public async Task<ActionResult<Models.Task>> PostFeladatok([FromBody] List<FeladatokPutPostDTO> post)
+        public async Task<ActionResult<Task>> PostFeladatok([FromBody] List<FeladatokPutPostDTO> post)
         {
             if (!Program.LoggedInUsers.ContainsKey(post[0].Token) && Program.LoggedInUsers[post[0].Token].Permission.Level != 9)
             {
@@ -291,7 +293,7 @@ namespace ErettsegizzunkApi.Controllers
 
             try
             {
-                List<Models.Task> feladatok = await _context.Tasks.Where(x => feladatokDeleteDTO.Ids.Contains(x.Id)).ToListAsync();
+                List<Task> feladatok = await _context.Tasks.Where(x => feladatokDeleteDTO.Ids.Contains(x.Id)).ToListAsync();
                 
                 if (feladatok == null)
                 {

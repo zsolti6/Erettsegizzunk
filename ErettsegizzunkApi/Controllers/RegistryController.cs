@@ -65,11 +65,11 @@ namespace ErettsegizzunkApi.Controllers
                                 <script>
                                     setTimeout(function() {
                                         window.close();
-                                    }, 1000);
+                                    }, 10);
                                 </script>
                             </head>
                             <body>
-                                <h3>Sikeres regisztráció</h3>
+                                <h3>Sikeres regisztracio</h3>
                             </body>
                         </html>";
                 User? user = await _context.Users.FirstOrDefaultAsync(f => f.LoginName == felhasznaloNev && f.Email == email);
@@ -85,6 +85,10 @@ namespace ErettsegizzunkApi.Controllers
                     await _context.SaveChangesAsync();
 
                     _userStatisticsController.PostUserStatistic(user.Id);
+                    string body = "<p>A regisztráció befejezése sikeresen megtörtént</p>" +
+                    "<img src='http://images.erettsegizzunk.nhely.hu/1715962531.84313.123565.jpg' alt='Image'/>";
+
+                    Program.SendEmail(user.Email, "Regisztráció befejezve", body, true);
 
                     return Content(htmlContent, "text/html");
                 }
@@ -125,8 +129,9 @@ namespace ErettsegizzunkApi.Controllers
                     await _context.SaveChangesAsync();
 
                     Program.SendEmail(email, "Sikeres regisztráció", "Köszönjük a regisztrálást");
-                    
-                    //KELL ID VAGYMI AZ ADATBÁZISBÓL
+
+                    //KELL ID VAGYMI AZ ADATBÁZISBÓL --> JÓ????
+                    newUser.Id = _context.Users.FirstOrDefaultAsync(x => x.Email == email).Id;
                     _userStatisticsController.PostUserStatistic(newUser.Id);
 
                     lock (Program.LoggedInUsers)
@@ -134,7 +139,7 @@ namespace ErettsegizzunkApi.Controllers
                         Program.LoggedInUsers.Add(token, newUser);
                     }
 
-                    return Ok(new LoggedUserDTO() { Id = _context.Users.First(x => x.Email == newUser.Email).Id, Email = newUser.Email, Name = newUser.LoginName, Permission = newUser.PermissionId, ProfilePicturePath = newUser.ProfilePicturePath, Token = token });
+                    return Ok(new LoggedUserDTO() { Id = _context.Users.First(x => x.Email == newUser.Email).Id, Email = newUser.Email, Name = newUser.LoginName, Permission = newUser.PermissionId, ProfilePicturePath = newUser.ProfilePicturePath, Token = token, GoogleUser = newUser.GoogleUser });
                 }
 
                 lock (Program.LoggedInUsers)
@@ -142,7 +147,7 @@ namespace ErettsegizzunkApi.Controllers
                     Program.LoggedInUsers.Add(token, user);
                 }
 
-                return Ok(new LoggedUserDTO() { Id = user.Id, Email = user.Email, Name = user.LoginName, Permission = user.PermissionId, ProfilePicturePath = user.ProfilePicturePath, Token = token });
+                return Ok(new LoggedUserDTO() { Id = user.Id, Email = user.Email, Name = user.LoginName, Permission = user.PermissionId, ProfilePicturePath = user.ProfilePicturePath, Token = token, GoogleUser = user.GoogleUser });
             }
             catch (MySqlException)
             {

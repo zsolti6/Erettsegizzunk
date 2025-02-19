@@ -19,9 +19,38 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpPost("get-all-statistics")]
-        public async Task<ActionResult<IEnumerable<UserStatistic>>> GetUserStatistics()
+        public async Task<ActionResult<IEnumerable<UserStatistic>>> GetUserStatistics([FromBody] GetAllStatisticsDTO getAllStatistics)
         {
-            return await _context.UserStatistics.ToListAsync();
+            List<UserStatistic> statistics = new List<UserStatistic>();
+
+            try
+            {
+                if (!Program.LoggedInUsers.ContainsKey(getAllStatistics.Token) && Program.LoggedInUsers[getAllStatistics.Token].PermissionId != 9)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 126, Message = "Hozzáférés megtagadva" });
+                }
+
+                statistics = await _context.UserStatistics
+                    .Where(x => x.Id > getAllStatistics.Mettol)
+                    .Take(50)
+                    .ToListAsync();
+
+                if (statistics is null)
+                {
+                    return NotFound(new ErrorDTO() { Id = 129, Message = "Az elem nem található" });
+                }
+
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 127, Message = "Kapcsolati hiba" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new ErrorDTO() { Id = 128, Message = "Hiba történt az adatok lekérdezése közben" });
+            }
+
+            return Ok(statistics);
         }
 
         [HttpPost("get-one-statistics")]
@@ -31,12 +60,12 @@ namespace ErettsegizzunkApi.Controllers
             {
                 if (!Program.LoggedInUsers.ContainsKey(getOneStatistics.Token) && Program.LoggedInUsers[getOneStatistics.Token].Id != getOneStatistics.Id)
                 {
-                    return BadRequest(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
+                    return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
                 }
 
                 UserStatistic userStatistic = await _context.UserStatistics.FirstOrDefaultAsync(x => x.UserId == getOneStatistics.Id);
 
-                if (userStatistic == null)
+                if (userStatistic is null)
                 {
                     return NotFound(new ErrorDTO() { Id = 117, Message = "Az elem nem található" });
                 }
@@ -65,58 +94,81 @@ namespace ErettsegizzunkApi.Controllers
 
         }
 
-        // PUT: api/UserStatistics/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserStatistic(int id, UserStatistic userStatistic)
+        [HttpPut("put-statisztika")]
+        public async Task<IActionResult> PutUserStatistic([FromBody] PutStatisticsDTO putStatistics)
         {
-            if (id != userStatistic.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(userStatistic).State = EntityState.Modified;
-
             try
             {
+                if (!Program.LoggedInUsers.ContainsKey(putStatistics.Token) && Program.LoggedInUsers[putStatistics.Token].Id != putStatistics.UserId)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 121, Message = "Hozzáférés megtagadva" });
+                }
+
+                UserStatistic? userStatistic = await _context.UserStatistics.FirstOrDefaultAsync(x => x.UserId == putStatistics.UserId);
+
+                if (userStatistic is null)
+                {
+                    return BadRequest(new ErrorDTO() { Id = 122, Message = "Ilyen nevű felhasználó nem létezik" });
+                }
+
+                foreach (int id in putStatistics.TaskIds.Keys)
+                {
+                    if (putStatistics.TaskIds[id])
+                    {
+                        await PutStatistics(putStatistics, userStatistic, id, true);
+                        continue;
+                    }
+
+                    await PutStatistics(putStatistics, userStatistic, id, false);
+                }
+
+                _context.Entry(userStatistic).State = EntityState.Modified;
+
                 await _context.SaveChangesAsync();
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 123, Message = "Kapcsolati hiba" });
             }
             catch (DbUpdateConcurrencyException)
             {
-
+                return StatusCode(500, new ErrorDTO() { Id = 124, Message = "Hiba történt az adatok mentése közben" });
+            }
+            catch (Exception)
+            {
+                return NotFound(new ErrorDTO() { Id = 125, Message = "Hiba történt az adatok mentése közben" });
             }
 
-            return NoContent();
+            return Ok("Adatok sikeresen elmentve");
         }
 
         [HttpPost("post-user-stat")]
         public async Task<ActionResult<UserStatistic>> PostUserStatistic([FromBody] int userid)
         {
-            UserStatistic userStatistic = new UserStatistic()
+            try
             {
-                UserId = userid
-            };
+                UserStatistic userStatistic = new UserStatistic()
+                {
+                    UserId = userid
+                };
 
-            _context.UserStatistics.Add(userStatistic);
-            await _context.SaveChangesAsync();
-
-            return Ok();
-        }
-
-        // DELETE: api/UserStatistics/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserStatistic(int id)
-        {
-            var userStatistic = await _context.UserStatistics.FindAsync(id);
-            if (userStatistic == null)
+                _context.UserStatistics.Add(userStatistic);
+                await _context.SaveChangesAsync();
+            }
+            catch (MySqlException)
             {
-                return NotFound();
+                return StatusCode(500, new ErrorDTO() { Id = 130, Message = "Kapcsolati hiba" });
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 131, Message = "Hiba történt az adatok mentése közben" });
+            }
+            catch (Exception)
+            {
+                return NotFound(new ErrorDTO() { Id = 132, Message = "Hiba történt az adatok mentése közben" });
             }
 
-            _context.UserStatistics.Remove(userStatistic);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok();
         }
 
         private async Task GetSubjects(GetOneStatisticsDTO getOneStatistics, UserStatistic userStatistic, Dictionary<string, int> successRates)
@@ -127,46 +179,65 @@ namespace ErettsegizzunkApi.Controllers
                 switch (getOneStatistics.SubjectIds[i])
                 {
                     case 1:
-                        string[] mathSuccesfullTask = userStatistic.MathSuccessfulTasks.Split(";");
-                        string[] mathUnsuccessfulTask = userStatistic.MathUnsuccessfulTasks.Split(";");
-                        await GetPercentage(mathSuccesfullTask, mathUnsuccessfulTask, successRates, "Matek");
+                        int mathSuccesfullTask = userStatistic.MathSuccessfulTasks.Replace(",", "").Count();
+                        int mathUnSuccesfullTask = userStatistic.MathUnsuccessfulTasks.Replace(",", "").Count();
+                        successRates.Add("Matek", (int)Math.Round((double)mathSuccesfullTask * 100 / (mathSuccesfullTask + mathUnSuccesfullTask)));
                         break;
 
 
                     case 2:
-                        string[] historySuccesfullTask = userStatistic.HistorySuccessfulTasks.Split(";");
-                        string[] historyUnsuccessfulTask = userStatistic.HistoryUnsuccessfulTasks.Split(";");
-                        await GetPercentage(historySuccesfullTask, historyUnsuccessfulTask, successRates, "Történelem");
+                        int historySuccessfulTasks = userStatistic.HistorySuccessfulTasks.Replace(",", "").Count();
+                        int historyUnsuccessfulTasks = userStatistic.HistoryUnsuccessfulTasks.Replace(",", "").Count();
+                        successRates.Add("Történelem", (int)Math.Round((double)historySuccessfulTasks * 100 / (historySuccessfulTasks + historyUnsuccessfulTasks)));
                         break;
 
 
                     case 3:
-
-                        string[] hungarianSuccesfullTask = userStatistic.HungarianSuccessfulTasks.Split(";");
-                        string[] hingarianUnsuccessfulTask = userStatistic.HungarianUnsuccessfulTasks.Split(";");
-                        await GetPercentage(hungarianSuccesfullTask, hingarianUnsuccessfulTask, successRates, "Magyar");
+                        int hungarianSuccessfulTasks = userStatistic.HungarianSuccessfulTasks.Replace(",", "").Count();
+                        int hungarianUnsuccessfulTasks = userStatistic.HungarianUnsuccessfulTasks.Replace(",", "").Count();
+                        successRates.Add("Magyar", (int)Math.Round((double)hungarianSuccessfulTasks * 100 / (hungarianSuccessfulTasks + hungarianUnsuccessfulTasks)));
                         break;
                 }
 
             }
         }
 
-        private async Task GetPercentage(string[] succesFull, string[] unSuccessFull, Dictionary<string, int> successRates, string nev)
+        private async Task PutStatistics(PutStatisticsDTO putStatistics, UserStatistic userStatistic, int taskId, bool success)
         {
-            int sikerDarab = 0;
-            int sikertelenDarab = 0;
-
-            foreach (string item in succesFull)
+            switch (putStatistics.SubjectId)
             {
-                sikerDarab += item.Split(',').Count();
-            }
+                case 1:
+                    if (success)
+                    {
+                        userStatistic.MathSuccessfulTasks += $"{taskId},";
+                        break;
+                    }
 
-            foreach (string item in unSuccessFull)
-            {
-                sikertelenDarab += item.Split(',').Count();
-            }
+                    userStatistic.MathUnsuccessfulTasks += $"{taskId},";
+                    break;
 
-            successRates.Add(nev, (int)Math.Round((double)sikerDarab * 100 / (sikerDarab + sikertelenDarab)));
+
+                case 2:
+                    if (success)
+                    {
+                        userStatistic.HistorySuccessfulTasks += $"{taskId},";
+                        break;
+                    }
+
+                    userStatistic.HistoryUnsuccessfulTasks += $"{taskId},";
+                    break;
+
+
+                case 3:
+                    if (success)
+                    {
+                        userStatistic.HungarianSuccessfulTasks += $"{taskId},";
+                        break;
+                    }
+
+                    userStatistic.HungarianUnsuccessfulTasks += $"{taskId},";
+                    break;
+            }
         }
     }
 }

@@ -56,7 +56,7 @@ namespace ErettsegizzunkApi.Controllers
                     {
                         Program.LoggedInUsers.Add(token, loggeduser);
                     }
-                    return Ok(new LoggedUserDTO { Id = loggeduser.Id, Name = loggeduser.LoginName, Email = loggeduser.Email, Permission = loggeduser.PermissionId, Newsletter =loggeduser.Newsletter,  ProfilePicturePath = loggeduser.ProfilePicturePath, ProfilePicture = null, Token = token });
+                    return Ok(new LoggedUserDTO { Id = loggeduser.Id, Name = loggeduser.LoginName, Email = loggeduser.Email, Permission = loggeduser.PermissionId, Newsletter = loggeduser.Newsletter, ProfilePicturePath = loggeduser.ProfilePicturePath, ProfilePicture = null, Token = token, GoogleUser = loggeduser.GoogleUser });
                 }
                 else
                 {

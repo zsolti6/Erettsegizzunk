@@ -30,9 +30,9 @@ namespace ErettsegizzunkApi.Controllers
                         return Unauthorized(new ErrorDTO() { Id = 89, Message = "Hozzáférés megtagadva" });
                     }
 
-                    if (Program.CreateSHA256(Program.CreateSHA256(jelszoModosit.OldPassword + user.Salt)) == user.Hash)
+                    if (Program.CreateSHA256(Program.CreateSHA256(jelszoModosit.OldPassword + user.Salt)) == user.Hash) //modosit??
                     {
-                        user.Hash = Program.CreateSHA256(Program.CreateSHA256(jelszoModosit.NewPassword + user.Salt));
+                        user.Hash = Program.CreateSHA256(Program.CreateSHA256(jelszoModosit.NewPassword + user.Salt)); //modosit??
                         _context.Users.Update(user);
                         await _context.SaveChangesAsync();
 
@@ -76,7 +76,10 @@ namespace ErettsegizzunkApi.Controllers
                     _context.Users.Update(user);
                     await _context.SaveChangesAsync();
 
-                    Program.SendEmail(user.Email, "Elfelejtett jelszó", "Az új jelszava: " + jelszo);
+                    string body = $"<p>Az új jelszava: + {jelszo}</p>" +
+                   "<img src='http://images.erettsegizzunk.nhely.hu/1715962531.84313.123565.jpg' alt='Image'/>";
+
+                    Program.SendEmail(user.Email, "Elfelejtett jelszó", body);
                     return Ok("E-mail küldése megtörtént.");
                 }
                 else

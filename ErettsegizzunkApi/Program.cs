@@ -44,7 +44,7 @@ namespace ErettsegizzunkApi
             }
         }
 
-        public static async System.Threading.Tasks.Task SendEmail(string mailAddressTo, string subject, string body)
+        public static async System.Threading.Tasks.Task SendEmail(string mailAddressTo, string subject, string body, bool isHtml = false)
         {
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
@@ -52,6 +52,7 @@ namespace ErettsegizzunkApi
             mail.To.Add(mailAddressTo);
             mail.Subject = subject;
             mail.Body = body;
+            mail.IsBodyHtml = isHtml;
 
             /*System.Net.Mail.Attachment attachment;
             attachment = new System.Net.Mail.Attachment("");

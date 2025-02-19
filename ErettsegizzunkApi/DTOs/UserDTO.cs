@@ -12,6 +12,7 @@ namespace ErettsegizzunkApi.DTOs
         public byte[]? ProfilePicture { get; set; } = null;
         public string? ProfilePicturePath { get; set; } = null!;
         public string Token { get; set; }
+        public bool GoogleUser { get; set; }
     }
 
     public class LoggedUserForCheckDTO
