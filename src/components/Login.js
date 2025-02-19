@@ -13,7 +13,7 @@ function LoginPage() {
   const [captchaToken, setCaptchaToken] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
   const navigator = useNavigate();
-
+  
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
@@ -23,19 +23,27 @@ function LoginPage() {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       console.log(user);
-      
-      localStorage.setItem("googleUser", JSON.stringify(user));
+      if(rememberMe){
+        localStorage.setItem("googleUser", JSON.stringify(user));
+      }else{
+        sessionStorage.setItem("googleUser", JSON.stringify(user));
+      }
       
       const url = "http://localhost:5000/erettsegizzunk/Registry/googleLogin";
       await axios.post(url, JSON.stringify(user.email), {
         headers: { "Content-Type": "application/json" },
       }).then(response => {
         if (response.status === 200) {
-          localStorage.setItem("user", JSON.stringify(response.data));
-          localStorage.setItem("googleLogged", true);
+          if(rememberMe){
+            localStorage.setItem("user", JSON.stringify(response.data));
+            localStorage.setItem("googleLogged", true);
+          }else{
+            sessionStorage.setItem("user", JSON.stringify(response.data));
+            sessionStorage.setItem("googleLogged", true);
+          }
         }
       });
-
+      localStorage.setItem("rememberMe", rememberMe);
       navigator("/");
     } catch (error) {
       console.error("Google login failed", error);
@@ -64,15 +72,21 @@ function LoginPage() {
       const body = {
         username: username,
         password: tmpHash,
-        captchaToken: captchaToken,
-        rememberMe: rememberMe,
+        captchaToken: captchaToken
       };
 
       const loginResponse = await axios.post(loginUrl, body);
       if (loginResponse.status === 200) {
         const user = loginResponse.data;
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("googleLogged", false);
+        if(rememberMe){
+          localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("googleLogged", false);
+        }else{
+          sessionStorage.setItem("user", JSON.stringify(user));
+          sessionStorage.setItem("googleLogged", false);
+        }
+        
+        localStorage.setItem("rememberMe", rememberMe);
         navigator("/");
       } else {
         alert("Hiba történt a bejelentkezéskor!");

@@ -88,7 +88,7 @@ function RegisterPage() {
       setError('Hiba történt a regisztráció során: ' + (error.response ? error.response.data : error.message));
     }
   };
-
+  
   return (
     <div>
       <Navbar />

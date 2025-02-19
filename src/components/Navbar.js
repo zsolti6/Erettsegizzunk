@@ -4,11 +4,12 @@ import "../css/Navbar.css";
 
 function Navbar() {
   const navigate = useNavigate();
+
+  const rememberMe = localStorage.getItem("rememberMe") == "true";
+  const googleLogged = JSON.parse(rememberMe ? localStorage.getItem("googleLogged") : sessionStorage.getItem("googleLogged"));
+  const user = JSON.parse(rememberMe ? localStorage.getItem("user") : sessionStorage.getItem("user"));
+  const googleUser = JSON.parse(rememberMe ? localStorage.getItem("googleUser") : sessionStorage.getItem("googleUser"));
   
-  const googleLogged = JSON.parse(localStorage.getItem("googleLogged"));
-  const user = JSON.parse(localStorage.getItem("user"));
-  const googleUser = JSON.parse(localStorage.getItem("googleUser"));
- 
   
   const navigateToProfile = () => {
     navigate("/profile");
@@ -32,8 +33,8 @@ function Navbar() {
               onClick={navigateToProfile}
               src={
                 googleLogged
-                  ? googleUser.photoURL // Google profile picture
-                  : `http://images.erettsegizzunk.nhely.hu/${user.profilePicturePath}` // Local profile picture
+                  ? `${googleUser.photoURL}?t=${new Date().getTime()}` 
+                  : `http://images.erettsegizzunk.nhely.hu/${user.profilePicturePath}?t=${new Date().getTime()}`
               }
               alt="Profile"
               className="profile-picture"

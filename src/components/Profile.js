@@ -15,17 +15,23 @@ function Profile() {
       profilePicturePath: "string",
       token: "string"
   });
-  
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [changePassword, setChangePassword] = useState(false);
+  const rememberMe = localStorage.getItem("rememberMe") == "true";
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (localStorage.getItem("user") == null) {
-      navigate("/Login");
-    }
-  }, [navigate]);
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    if ((rememberMe ? localStorage.getItem("user") : sessionStorage.getItem("user")) == null) {
+      navigate("/Login");
+    }
+  }, [navigate, rememberMe]);
+
+  useEffect(() => {
+    const storedUser = rememberMe ? localStorage.getItem("user") : sessionStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUserData({
@@ -39,7 +45,23 @@ function Profile() {
         token: parsedUser.token || "string"
       });
     }
-  }, []);
+  }, [rememberMe]);
+
+  const formData = {
+    token: userData.token,
+    loginName: userData.name,
+    oldPassword: "",
+    newPassword: ""
+  }
+
+  const handlePasswordChange = () => {
+    if(changePassword){
+      axios.put("https://localhost:7066/erettsegizzunk/Password/jelszo-modositas", formData)
+      .then((response) => {
+        console.log(response);
+      });
+    }
+  }
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -53,7 +75,7 @@ function Profile() {
     axios
       .post(
         "http://localhost:5000/erettsegizzunk/Logout",
-        JSON.stringify(JSON.parse(localStorage.getItem("user")).token),
+        JSON.stringify(JSON.parse(rememberMe ? localStorage.getItem("user") : sessionStorage.getItem("user")).token),
         {
           headers: {
             "Content-Type": "application/json",
@@ -62,12 +84,18 @@ function Profile() {
       )
       .then((response) => {
         if (response.status === 200) {
-          localStorage.removeItem("user");
-          localStorage.removeItem("googleUser");
+          if(rememberMe){
+            localStorage.removeItem("user");
+            localStorage.removeItem("googleUser");
+            localStorage.removeItem("googleLogged");
+          }else{
+            sessionStorage.removeItem("user");
+            sessionStorage.removeItem("googleUser");
+            localStorage.removeItem("googleLogged");
+          }
+          localStorage.removeItem("rememberMe");
         }
       });
-    localStorage.removeItem("googleUser");
-    localStorage.removeItem("user");
     navigate("/login");
   };
 
@@ -113,9 +141,52 @@ function Profile() {
               value={userData.email}
               onChange={handleInputChange}
               className="form-control"
+              disabled={(rememberMe ? localStorage.getItem("googleLogged") === "true" : sessionStorage.getItem("googleLogged") === "true")}
               required
             />
           </div>
+          <div className="mb-3 mt-1 d-flex align-items-center">
+            <input
+              type="checkbox"
+              id="passwordChange"
+              name="passwordChange"
+              checked={/*userData.newsletter*/ false}
+              onChange={handleInputChange}
+              className="form-check-input me-2"
+            />
+            <label htmlFor="passwordChange" style={{lineHeight: "1"}} className="form-check-label">
+              Szeretnék jelszavat változtatni
+            </label>
+          </div>
+          <div className="form-group mb-3">
+  <input 
+    placeholder="Jelszó" 
+    type="password"  // Always hidden
+    className="form-control" 
+    id="password" 
+    value={formData.password} 
+  />
+</div>
+
+<div className="form-group mb-3">
+  <div className="input-group">
+    <input 
+      placeholder="Jelszó megerősítése" 
+      type={passwordVisible ? "text" : "password"}
+      className="form-control" 
+      id="confirmPassword" 
+      value={formData.confirmPassword} 
+    />
+    <button 
+      type="button" 
+      className="btn btn-outline-secondary" 
+      onClick={togglePasswordVisibility}
+    >
+      {passwordVisible ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
+    </button>
+  </div>
+</div>
+
           <div className="mb-3 mt-1">
             <input
               type="checkbox"
@@ -129,13 +200,13 @@ function Profile() {
               Feliratkozom a hírlevélre
             </label>
           </div>
-          <button type="submit" className="btn btn-primary w-100 mb-3">
+          <button onClick={handlePasswordChange} type="submit" className="btn btn-primary w-100 mb-3">
             Mentés
           </button>
         </form>
-        {!localStorage.getItem("googleUser") &&
+        {(rememberMe ? !localStorage.getItem("googleUser") : !sessionStorage.getItem("googleUser")) &&
         <button
-          onClick={handleLogout}
+          onClick={console.log("asd")}
           className="btn btn-primary mt-3"
         >
           Jelszó megváltoztatása

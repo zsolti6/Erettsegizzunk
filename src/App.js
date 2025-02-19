@@ -12,6 +12,7 @@ import SearchComponent from "./components/SearchComponent";
 import SelectorComponent from "./components/SelectorComponent";
 import ExericeStats from "./components/ExerciseStats";
 import Profile from "./components/Profile";
+import PasswordReset from "./components/PasswordReset";
 
 function App() {
   usePreventZoom();
@@ -29,6 +30,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/reset-password" element={<PasswordReset />} />
         </Routes>
         <FooterComponent />
       </Router>

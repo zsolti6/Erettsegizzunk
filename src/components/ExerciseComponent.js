@@ -15,8 +15,8 @@ function ExerciseComponent() {
 
   const location = useLocation();
   const { subject, difficulty } = location.state || {
-    subject: "történelem",
-    difficulty: "közép",
+    subject: "",
+    difficulty: "",
   };
 
   useEffect(() => {
