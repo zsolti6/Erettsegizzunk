@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import ReCAPTCHA from "react-google-recaptcha";
 import sha256 from "crypto-js/sha256";
 import Navbar from "./Navbar";
 
@@ -41,6 +42,7 @@ function RegisterPage() {
   });
   const [error, setError] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState(null);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -65,6 +67,12 @@ function RegisterPage() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    if (!captchaToken) {
+      alert("Kérjük, igazolja, hogy nem robot!");
+      return;
+    }
+
     const validationError = validateForm();
     if (validationError) {
       setError(validationError);
@@ -82,8 +90,12 @@ function RegisterPage() {
         email: formData.email,
         profilePicturePath: "default.jpg"
       };
-      const url = "http://localhost:5000/erettsegizzunk/Registry/regisztracio";
-      await axios.post(url, body);
+      const user = {
+        User: body,
+        CaptchaToken: captchaToken
+      }
+      const url = "http://localhost:5000/erettsegizzunk/Auth/regisztracio";
+      await axios.post(url, user);
     } catch (error) {
       setError('Hiba történt a regisztráció során: ' + (error.response ? error.response.data : error.message));
     }
@@ -112,6 +124,13 @@ function RegisterPage() {
             </div>
             <div className="form-group mb-3">
               <input placeholder="Jelszó megerősítése" type="password" className="form-control" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
+            </div>
+            <div className="form-group mb-3 d-flex justify-content-center">
+              <ReCAPTCHA
+                sitekey="6LeQqdkqAAAAABst5YpaC2RfBcOKWb6sShvYGBqO "
+                onChange={(token) => setCaptchaToken(token)}
+                onExpired={() => setCaptchaToken(null)}
+              />
             </div>
             <button type="submit" className="btn btn-primary w-100">Regisztrálás</button>
           </form>

@@ -7,8 +7,9 @@ import "../css/taskStyle.css";
 
 const ExerciseStats = () => {
   const { state } = useLocation();
-  const { taskValues, exercises } = state || {};
-
+  const { taskValues, exercises, subjectId } = state || {};
+  console.log(subjectId);
+  
   const headers = ["Feladat", "Megoldás", "Válaszaid", "Értékelés"];
 
   const sortedTaskValues = Object.values(taskValues || {}).sort((a, b) => a.taskId - b.taskId);
@@ -50,7 +51,7 @@ const ExerciseStats = () => {
       <Navbar />
       <div style={{ marginTop: "8vh" }}>
         <h2 className="mb-4">Feladatok összegzése</h2>
-
+        <h1>{subjectId}</h1>
         <div className="table-responsive">
           <table className="table table-striped table-bordered">
             <thead className="thead-dark">

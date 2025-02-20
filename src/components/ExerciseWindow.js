@@ -2,7 +2,7 @@ import React from "react";
 import TaskComponent from "./TaskComponent";
 import "../css/SubPage.css";
 
-function ExerciseWindow({ tasks, activeTask, taskValues, updateTaskValues }) {
+function ExerciseWindow({ activeTask, taskValues, updateTaskValues }) {
   return (
     <div className="exercise">
       {activeTask ? (

@@ -14,10 +14,14 @@ function ExerciseComponent() {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const { subject, difficulty } = location.state || {
+  const { subject, difficulty, subjectId } = location.state || {
     subject: "",
     difficulty: "",
+    subjectId: 0
   };
+
+  //console.log(subjectId);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,7 +99,7 @@ function ExerciseComponent() {
               <button
                 id="taskDone"
                 className="btn btn-success"
-                onClick={() => navigate("/exercise/stats", { state: { taskValues, exercises } })}
+                onClick={() => navigate("/exercise/stats", { state: { taskValues, exercises, subjectId } })}
               >
                 <i className="bi bi-check-circle"></i>
               </button>

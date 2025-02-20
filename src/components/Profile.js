@@ -18,7 +18,7 @@ function Profile() {
   });
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
-  const rememberMe = localStorage.getItem("rememberMe") == "true";
+  const rememberMe = localStorage.getItem("rememberMe") === "true";
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -135,7 +135,6 @@ function Profile() {
     });
 };
 
-
   return (
     <div className="d-flex flex-column min-vh-100">
       <Navbar />
@@ -177,7 +176,10 @@ function Profile() {
             id="passwordChange"
             name="passwordChange"
             checked={changePassword}
-            onChange={() => setChangePassword(!changePassword)}
+            onChange={() => {
+              setChangePassword(!changePassword)
+              setFormData({...formData, oldPassword: "", newPassword: ""})
+            }}
             className="form-check-input me-2"
           />
           <label htmlFor="passwordChange" style={{lineHeight: "1"}} className="form-check-label">
@@ -187,7 +189,7 @@ function Profile() {
           <div className="form-group mb-3">
             <input 
               placeholder="Régi jelszó" 
-              type="text"  // Always hidden
+              type="password"
               className="form-control" 
               id="password" 
               disabled={!changePassword}
@@ -204,7 +206,7 @@ function Profile() {
                 id="confirmPassword"
                 disabled={!changePassword}
                 onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })} 
-                value={formData.confirmPassword}
+                value={formData.newPassword}
               />
               <button 
                 type="button" 

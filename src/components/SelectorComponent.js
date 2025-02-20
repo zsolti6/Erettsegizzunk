@@ -8,19 +8,22 @@ function SelectorComponent() {
   const [formData, setFormData] = useState({
     subject: "",
     difficulty: "közép",
+    subjectId: 0
   });
   const [subjects, setSubjects] = useState([]);
-
   const navigate = useNavigate();
-
+  const dict = {
+    "magyar": 3,
+    "matek"
+  }
   useEffect(() => {
-    axios
-      .get("https://localhost:7066/erettsegizzunk/Tantargyak/get-tantargyak")
+    axios.get("https://localhost:7066/erettsegizzunk/Tantargyak/get-tantargyak")
       .then((response) => {
         const formattedSubjects = response.data.map((subject) => ({
           value: String(subject.name), // Convert id to string
           label: subject.name
         }));
+        console.log(formattedSubjects);
         setSubjects(formattedSubjects);
         setFormData((prev) => ({
           ...prev,
@@ -35,10 +38,11 @@ function SelectorComponent() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    const key = Object.keys(formData).find(key => obj[key] === valueToFind);
   };
 
   const handleStartExercise = () => {
-    navigate("/exercise", { state: formData });
+    navigate("/exercise", { state: formData, subjectId: formData.subjectId });
   };
 
   return (

@@ -30,7 +30,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/reset-password" element={<PasswordReset />} />
+          <Route path="/forgot-password" element={<PasswordReset />} />
         </Routes>
         <FooterComponent />
       </Router>
