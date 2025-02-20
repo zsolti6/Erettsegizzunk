@@ -22,6 +22,10 @@ nav .logo {
     cursor: pointer;
 }
 
+nav .navbar-brand{
+    cursor: pointer;
+}
+
 /* Link Container Styles */
 nav .link-container {
     display: flex;
@@ -64,4 +68,9 @@ nav .home-link:hover, nav .auth-link:hover{
 
 .noHover:hover{
     color: #fff;
+}
+
+img:hover{
+    cursor: pointer;
+    border: 2px solid white;
 }

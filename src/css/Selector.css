@@ -1,124 +1,153 @@
-body {
-  height: 90vh;
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f7fc;
+  color: #333;
 }
 
-.exercise {
-  width: 50%;
-  height: auto;
-  margin: 10vh auto;
-  background-color: white;
-  border: 2px solid black;
-  padding: 20px;
-  box-sizing: border-box;
+body{
+  margin-top: 7vh !important;
+}
+
+/* Page Layout */
+.page-wrapper {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
   justify-content: center;
-  align-items: center;
   text-align: center;
+  padding: 5vh 2vw;
 }
 
-.exercise h3 {
+.content-container {
+  margin-top: -10vh;
+  max-height: 90vh;
+  width: 90%;
+  max-width: 500px;
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease-in-out;
+}
+
+h3 {
+  font-size: 1.8rem;
+  color: #0c7810;
   margin-bottom: 20px;
 }
 
+/* Form Styling */
 .exercise-form {
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 10px;
 }
 
-/* First Radio Button Group (Subjects) */
-.radio-inputs {
+/* Radio Group */
+.radio-group {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: #EEE;
-  border-radius: 0.5rem;
-  padding: 0.25rem;
-  width: 300px;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.radio-inputs .radio {
   width: 100%;
-  text-align: center;
+  max-width: 320px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.radio-inputs .radio input {
+.radio-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  border-radius: 8px;
+}
+
+.radio-option input {
   display: none;
 }
 
-.radio-inputs .radio .name {
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0;
-  color: rgba(51, 65, 85, 1);
-  transition: all 0.15s ease-in-out;
+.radio-option .name {
+  width: 100%;
+  padding: 12px 0;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s;
 }
 
-.radio-inputs .radio input:checked + .name {
-  background-color: #fff;
-  font-weight: 600;
+.radio-option input:checked + .name {
+  background-color: #0c7810;
+  color: white;
+  font-weight: bold;
+  transform: scale(1.05);
+}
+
+.radio-option:hover .name {
+  background-color: #e6f4ea;
+  transform: scale(1.03);
 }
 
 /* Button Styling */
-button {
+.select-button {
   margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #0c7810;
+  padding: 14px 24px;
+  font-size: 18px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #0c7810, #45a049);
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-button:hover {
-  background-color: #45a049;
+.select-button:hover {
+  background: linear-gradient(135deg, #088d17, #5aba63);
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* From Uiverse.io by Yaya12085 */ 
-.radio-inputs1 {
-  margin-bottom: 15px;
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  border-radius: 0.5rem;
-  background-color: #EEE;
-  box-sizing: border-box;
-  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
-  padding: 0.25rem;
-  width: 300px;
-  font-size: 14px;
+.select-button:active {
+  transform: scale(0.98);
 }
 
-.radio-inputs1 .radio {
-  flex: 1 1 auto;
-  text-align: center;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .content-container {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .radio-group {
+    max-width: 100%;
+  }
+
+  .select-button {
+    width: 100%;
+  }
 }
 
-.radio-inputs1 .radio input {
-  display: none;
-}
+@media (max-width: 480px) {
+  h3 {
+    font-size: 1.5rem;
+  }
 
-.radio-inputs1 .radio .name {
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  border: none;
-  padding: .5rem 0;
-  color: rgba(51, 65, 85, 1);
-  transition: all .15s ease-in-out;
-}
+  .radio-option .name {
+    font-size: 14px;
+    padding: 10px 0;
+  }
 
-.radio-inputs1 .radio input:checked + .name {
-  background-color: #fff;
-  font-weight: 600;
+  .select-button {
+    padding: 12px 18px;
+    font-size: 16px;
+  }
 }

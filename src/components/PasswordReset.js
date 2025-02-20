@@ -38,7 +38,6 @@ function PasswordReset() {
 
   return (
     <div>
-      <Navbar />
       <div className="container d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
         <div className="card p-4" style={{ width: "400px" }}>
           <h2 className="text-center mb-4">Jelszó visszaállítása</h2>

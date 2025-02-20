@@ -39,7 +39,7 @@ function Navbar() {
           </ul>
           {user ? (
             <div className="d-flex align-items-center">
-              <span className="me-2 text-white">{user.name || googleUser.displayName}</span>
+              <span className="me-2 fs-5 text-white">{user.name || googleUser.displayName}</span>
               <img
                 onClick={navigateToProfile}
                 src={
@@ -47,7 +47,6 @@ function Navbar() {
                     ? `${googleUser.photoURL}?t=${new Date().getTime()}`
                     : `http://images.erettsegizzunk.nhely.hu/${user.profilePicturePath}?t=${new Date().getTime()}`
                 }
-                alt="Profile"
                 className="rounded-circle" style={{ maxHeight: "35px" }}
               />
             </div>

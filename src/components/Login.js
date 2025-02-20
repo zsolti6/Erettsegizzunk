@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";  // Import reCAPTCHA
-import Navbar from "./Navbar";
 import sha256 from "crypto-js/sha256";
 import { useNavigate } from "react-router-dom";
 import { auth, provider, signInWithPopup } from "../firebaseConfig";
@@ -98,7 +97,6 @@ function LoginPage() {
 
   return (
     <div>
-      <Navbar />
       <div className="container d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
         <div className="card p-4" style={{ width: "400px" }}>
           <h2 className="text-center mb-4">Bejelentkezés</h2>
@@ -158,7 +156,7 @@ function LoginPage() {
               <a href="/forgot-password" className="text-muted">Elfelejtett jelszó</a>
               <a href="/register" className="text-muted">Még nincs fiókod?</a>
             </div>
-
+            <div className="d-flex justify-content-center">
             <button className="googleLogin mt-3 btn border" onClick={handleGoogleLogin}>
               <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 256 262">
               <path fill="#4285F4" d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"></path>
@@ -168,6 +166,7 @@ function LoginPage() {
             </svg>
               Folytatás Google-fiókkal
             </button>
+            </div>
           </form>
         </div>
       </div>

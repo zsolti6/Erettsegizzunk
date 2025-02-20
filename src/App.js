@@ -13,12 +13,14 @@ import SelectorComponent from "./components/SelectorComponent";
 import ExericeStats from "./components/ExerciseStats";
 import Profile from "./components/Profile";
 import PasswordReset from "./components/PasswordReset";
+import Navbar from "./components/Navbar";
 
 function App() {
   usePreventZoom();
   return (
-    <div className="App">
+    <div>
       <Router>
+        <Navbar/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/statistics" element={<StatisticsComponent />} />
@@ -32,9 +34,9 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/forgot-password" element={<PasswordReset />} />
         </Routes>
-        <FooterComponent />
+        <FooterComponent/>
       </Router>
-    </div>
+      </div>
   );
 }
 

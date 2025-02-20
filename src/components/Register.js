@@ -3,7 +3,6 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import sha256 from "crypto-js/sha256";
-import Navbar from "./Navbar";
 
 function GenerateSalt(SaltLength) {
   const karakterek = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -103,7 +102,6 @@ function RegisterPage() {
   
   return (
     <div>
-      <Navbar />
       <div className="container d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
         <div className="card p-4" style={{ width: "400px" }}>
           <h2 className="text-center mb-4">Fiók létrehozása</h2>

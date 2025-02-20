@@ -11,7 +11,7 @@ function FooterComponent() {
         bottom: 0,
         width: "100%",
         height: "8vh",
-        zIndex: "-1",
+        zIndex: "2",
       }}
     >
       <div className="text-center p-3">

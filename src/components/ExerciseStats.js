@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from "./Navbar";
 import { Tooltip } from "bootstrap";
 import "../css/taskStyle.css";
 import axios from "axios";
@@ -70,7 +69,6 @@ const ExerciseStats = () => {
 
   return (
     <div className="container col-md-8" style={{ height: "100vh" }}>
-      <Navbar />
       <div style={{ marginTop: "8vh" }}>
         <h2 className="mb-4">Feladatok összegzése</h2>
         <div className="table-responsive">

@@ -2,15 +2,14 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../css/Selector.css";
-import Navbar from "./Navbar";
 
 function SelectorComponent() {
   const [formData, setFormData] = useState({
-    subject: "",  // Keep subjectName inside formData
-    difficulty: "közép"
+    subject: "",
+    difficulty: "közép",
   });
 
-  const [subjectId, setSubjectId] = useState(""); // Store subjectId separately
+  const [subjectId, setSubjectId] = useState("");
   const [subjects, setSubjects] = useState([]);
   const navigate = useNavigate();
 
@@ -21,8 +20,8 @@ function SelectorComponent() {
         const formattedSubjects = response.data.map((subject) => ({
           id: subject.id,
           name: subject.name,
-          value: String(subject.name), // Convert id to string
-          label: subject.name
+          value: String(subject.name),
+          label: subject.name,
         }));
 
         setSubjects(formattedSubjects);
@@ -31,10 +30,9 @@ function SelectorComponent() {
           setSubjectId(formattedSubjects[0].id);
           setFormData((prev) => ({
             ...prev,
-            subject: formattedSubjects[0].name
+            subject: formattedSubjects[0].name,
           }));
         }
-        console.log(formData);
       })
       .catch((error) => {
         console.error("Error fetching subjects:", error);
@@ -47,10 +45,10 @@ function SelectorComponent() {
     if (name === "subject") {
       const selectedSubject = subjects.find((subject) => subject.id.toString() === value);
       if (selectedSubject) {
-        setSubjectId(selectedSubject.id); // Update subjectId separately
+        setSubjectId(selectedSubject.id);
         setFormData((prev) => ({
           ...prev,
-          subject: selectedSubject.name // Keep subjectName inside formData
+          subject: selectedSubject.name,
         }));
       }
     } else {
@@ -59,18 +57,17 @@ function SelectorComponent() {
   };
 
   const handleStartExercise = () => {
-    navigate("/exercise", { state: { ...formData, subjectId } }); // Pass subjectId separately
+    navigate("/exercise", { state: { ...formData, subjectId } });
   };
 
   return (
     <div className="page-wrapper">
-      <Navbar />
       <div className="content-container">
         <h3>Válassz tantárgyat</h3>
         <form className="exercise-form">
-          <div className="radio-inputs">
+          <div className="radio-group">
             {subjects.map(({ id, name }) => (
-              <label className="radio" key={id}>
+              <label className="radio-option" key={id}>
                 <input
                   type="radio"
                   name="subject"
@@ -85,8 +82,8 @@ function SelectorComponent() {
 
           <p>Középszintű vagy emelt szintű érettségi feladatokat szeretnél gyakorolni?</p>
 
-          <div className="radio-inputs1">
-            <label className="radio">
+          <div className="radio-group">
+            <label className="radio-option">
               <input
                 type="radio"
                 name="difficulty"
@@ -96,7 +93,7 @@ function SelectorComponent() {
               />
               <span className="name">Közép szint</span>
             </label>
-            <label className="radio">
+            <label className="radio-option">
               <input
                 type="radio"
                 name="difficulty"
@@ -108,7 +105,7 @@ function SelectorComponent() {
             </label>
           </div>
 
-          <button type="button" onClick={handleStartExercise}>
+          <button type="button" className="select-button" onClick={handleStartExercise}>
             Feladatlap megkezdése
           </button>
         </form>

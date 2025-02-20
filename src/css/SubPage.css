@@ -13,21 +13,55 @@
   text-align: center; /* Center the text inside */
 }
 
-.action h3{
-  margin-top: 8vh;
+.subject-row {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.action{
-  height: 25vh;
-  margin-top: 20vh;
+/* Default height for mobile devices */
+.action {
+  height: 15vh;
+  margin-top: 3vh;
   cursor: pointer;
-  transition-duration: 0.23s;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #f8f9fa;
 }
 
-.action:hover{
-  box-shadow: 5px 5px 5px black;
-  transform: scale(1.1);
-  transition-duration: 0.23s;
+/* Make the cards taller when in a single row (desktop) */
+@media (min-width: 992px) {
+  .subject-row {
+    flex-wrap: nowrap;
+  }
+  
+  .action {
+    height: 30vh;
+  }
+}
+
+/* Tablet adjustments */
+@media (max-width: 991px) and (min-width: 768px) {
+  .action {
+    height: 20vh;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  .action {
+    height: 10vh;
+    font-size: 1rem;
+  }
+}
+
+.action:hover {
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
 }
 
 .exercise{

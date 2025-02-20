@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
 import Sidenav from "./SideNav";
 import ExerciseWindow from "./ExerciseWindow";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -71,7 +70,6 @@ function ExerciseComponent() {
 
   return (
     <div style={{ height: "92vh" }}>
-      <Navbar />
       <div style={{ display: "flex", height: "100%" }}>
         <Sidenav tasks={exercises} setActiveComponent={setActiveIndex} activeIndex={activeIndex} />
         <div style={{ padding: "20px", flex: 1, display: "flex", alignItems: "center", /*backgroundColor: "blue",*/ height: "100%", zIndex: 10, marginLeft: "26vh"}}>

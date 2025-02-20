@@ -1,5 +1,4 @@
 import axios from "axios";
-import Navbar from "./Navbar";
 import sha256 from "crypto-js/sha256";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -137,7 +136,6 @@ function Profile() {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      <Navbar />
       <div className="container mt-5 mb-5">
         <h1 className="text-center mb-4 mt-3">Profilom</h1>
         <form onSubmit={handleSubmit} className="bg-light p-4 rounded shadow mx-auto mt-4" style={{ maxWidth: '500px' }}>
@@ -231,16 +229,18 @@ function Profile() {
               Feliratkozom a hírlevélre
             </label>
           </div>
-          <button type="submit" className="btn btn-primary w-100 mb-3">
+          <button type="submit" className="btn btn-primary w-100 mb-2">
             Mentés
           </button>
         </form>
+        <div className="w-25 mx-auto text-center">
         <button
           onClick={handleLogout}
           className="btn btn-primary mt-3"
         >
           Kijelentkezés
         </button>
+        </div>
       </div>
     </div>
   );
