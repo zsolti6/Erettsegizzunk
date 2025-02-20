@@ -23,10 +23,13 @@ namespace ErettsegizzunkAdmin.Windows
     public partial class UjFelhasznalo : Window
     {
         private readonly ApiService _apiService;
-        public UjFelhasznalo()
+        User newUser;
+        public UjFelhasznalo(List<string> jogosultsagList)
         {
             InitializeComponent();
             _apiService = new ApiService();
+            newUser = new User() { JogosultsagList = jogosultsagList };
+            DataContext = newUser;
         }
 
         private async void UjFelhasznalo_Click(object sender, RoutedEventArgs e)
@@ -41,7 +44,7 @@ namespace ErettsegizzunkAdmin.Windows
             try
             {
                 string salt = MainWindow.GenerateSalt();
-                User newUser = new User()
+                newUser = new User()
                 {
                     LoginName = tbFelhasznev.Text,
                     Email = tbEmail.Text,

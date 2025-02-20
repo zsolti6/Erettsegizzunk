@@ -51,10 +51,9 @@
                          x:Name="tbJelszoMegint" FontSize="14" Padding="10"/>
 
             <!-- Role Dropdown -->
-            <ComboBox materialDesign:HintAssist.Hint="Role"
+            <ComboBox materialDesign:HintAssist.Hint="Role" ItemsSource="{Binding JogosultsagList}"
+                      SelectedItem="{Binding PermissionName, Mode=TwoWay}"
                       x:Name="cbJogosultsag" SelectedIndex="0" Padding="10">
-                <ComboBoxItem Content="Látogató"/>
-                <ComboBoxItem Content="Admin"/>
             </ComboBox>
         </StackPanel>
 

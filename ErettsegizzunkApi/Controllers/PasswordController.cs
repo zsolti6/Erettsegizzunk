@@ -3,6 +3,8 @@ using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
+using System.Runtime.CompilerServices;
+using static System.Net.WebRequestMethods;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -30,9 +32,9 @@ namespace ErettsegizzunkApi.Controllers
                         return Unauthorized(new ErrorDTO() { Id = 89, Message = "Hozzáférés megtagadva" });
                     }
 
-                    if (Program.CreateSHA256(Program.CreateSHA256(jelszoModosit.OldPassword + user.Salt)) == user.Hash) //modosit??
+                    if (Program.CreateSHA256(jelszoModosit.OldPassword) == user.Hash) //jo??
                     {
-                        user.Hash = Program.CreateSHA256(Program.CreateSHA256(jelszoModosit.NewPassword + user.Salt)); //modosit??
+                        user.Hash = Program.CreateSHA256(jelszoModosit.NewPassword); //jo??
                         _context.Users.Update(user);
                         await _context.SaveChangesAsync();
 
@@ -63,9 +65,31 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        [HttpPost("elfelejtett-jelszo")]
-        public async Task<IActionResult> ElfelejtettJelszo([FromBody] string email)
+        [HttpPost("elfelejtett-jelszo-keres")]
+        public async Task<IActionResult> ElfelejtettJelszoKeres([FromBody] string email)
         {
+            string body = $"A jelszava visszaállításáshoz kattintson a linkre. Amennyiben nem ön próbálta helyreállítani a jelszavát akkor hagyja figyelmen kívül ezt az üzenetet https://localhost:7066/erettsegizzunk/Password/elfelejtett-jelszo?email={Uri.EscapeDataString(email)}";
+            Program.SendEmail(email,"Jelszó helyreállítás",body);
+            return Ok();
+        }
+
+
+        [HttpGet("elfelejtett-jelszo")]
+        public async Task<IActionResult> ElfelejtettJelszo([FromQuery] string email)
+        {
+            string htmlContent = @"
+                        <html>
+                            <head>
+                                <script>
+                                    setTimeout(function() {
+                                        window.close();
+                                    }, 10);
+                                </script>
+                            </head>
+                            <body>
+                                <h3>Sikeres regisztracio</h3>
+                            </body>
+                        </html>";
             try
             {
                 User user = _context.Users.FirstOrDefault(x => x.Email == email && !x.GoogleUser);
@@ -76,15 +100,18 @@ namespace ErettsegizzunkApi.Controllers
                     _context.Users.Update(user);
                     await _context.SaveChangesAsync();
 
-                    string body = $"<p>Az új jelszava: + {jelszo}</p>" +
+                    string body = $"<p>Az új jelszava:{jelszo}</p>" +
                    "<img src='http://images.erettsegizzunk.nhely.hu/1715962531.84313.123565.jpg' alt='Image'/>";
 
-                    Program.SendEmail(user.Email, "Elfelejtett jelszó", body);
-                    return Ok("E-mail küldése megtörtént.");
+
+
+                    Program.SendEmail(user.Email, "Elfelejtett jelszó", body, true);
+                    return Content(htmlContent, "text/html");
                 }
                 else
                 {
-                    return StatusCode(210, "Nincs ilyen e-Mail cím!");
+                    return Content(htmlContent, "text/html");
+                    //return StatusCode(210, "Nincs ilyen e-mail cím!");
                 }
             }
             catch (MySqlException)

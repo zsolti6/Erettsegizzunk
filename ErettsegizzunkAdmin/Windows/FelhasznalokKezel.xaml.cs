@@ -121,7 +121,7 @@ namespace ErettsegizzunkAdmin.Windows
 
         private void btnUj_Click(object sender, RoutedEventArgs e)
         {
-            UjFelhasznalo ujFelhasznalo = new UjFelhasznalo();
+            UjFelhasznalo ujFelhasznalo = new UjFelhasznalo(felhasznalok[0].JogosultsagList);
             ujFelhasznalo.ShowDialog();
             RefreshUi();
         }
@@ -141,6 +141,20 @@ namespace ErettsegizzunkAdmin.Windows
             if (ids.Count < 1)
             {
                 MessageBoxes.CustomMessageOk("Kérem jelöljön ki legalább egy törlésre szánt elemet!");
+                return;
+            }
+
+            MessageBoxResult result = MessageBoxes.CustomQuestion("Biztosan tötölni akarja a kijelölt felhasználó(ka)t?");
+
+            if (result == MessageBoxResult.Cancel)
+            {
+                MessageBoxes.CustomMessageOk("Törlés megszakítva!");
+                return;
+            }
+
+            if (ids.Contains(user.Id))
+            {
+                MessageBoxes.CustomError("A törlendő fiókok tartalmaznak egy admin felhasználói fiókot! Az admin fiók törlése nem lehetséges csak egy másik admin fiókból!");
                 return;
             }
 

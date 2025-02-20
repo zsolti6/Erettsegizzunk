@@ -134,7 +134,7 @@ namespace ErettsegizzunkApi.Controllers
                     return NotFound(new ErrorDTO() { Id = 85, Message = "Az elem nem található" });
                 }
 
-                if (userSearch.LoginName == modosit.Name)
+                if (userSearch.LoginName == modosit.Name && _context.Users.FirstOrDefaultAsync(x => x.LoginName == modosit.Name).Id == modosit.Id)
                 {
                     return BadRequest(new ErrorDTO() { Id = 100, Message = "Már létezik ilyen felhasználónév!" });
                 }

@@ -76,6 +76,7 @@ namespace ErettsegizzunkApi
 
         public static void Main(string[] args)
         {
+            //vegen kiszedni
             LoggedInUsers["token"] = new User
             {
                 Permission = new Permission { Level = 9 }
@@ -110,7 +111,7 @@ namespace ErettsegizzunkApi
 
             // Register controllers
             builder.Services.AddControllers();
-            builder.Services.AddScoped<UserStatisticsController>();
+            builder.Services.AddScoped<UserStatisticsController>(); //statisztika miatt kell
 
             var app = builder.Build();
 

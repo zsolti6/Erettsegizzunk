@@ -10,7 +10,7 @@
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
-        Title="Feladat Szerkesztése" Height="500" Width="700"
+        Title="Feladat Szerkesztése" Height="550" Width="700"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
         ResizeMode="CanMinimize">
