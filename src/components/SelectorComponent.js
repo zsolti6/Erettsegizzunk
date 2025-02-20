@@ -6,29 +6,35 @@ import Navbar from "./Navbar";
 
 function SelectorComponent() {
   const [formData, setFormData] = useState({
-    subject: "",
-    difficulty: "közép",
-    subjectId: 0
+    subject: "",  // Keep subjectName inside formData
+    difficulty: "közép"
   });
+
+  const [subjectId, setSubjectId] = useState(""); // Store subjectId separately
   const [subjects, setSubjects] = useState([]);
   const navigate = useNavigate();
-  const dict = {
-    "magyar": 3,
-    "matek"
-  }
+
   useEffect(() => {
-    axios.get("https://localhost:7066/erettsegizzunk/Tantargyak/get-tantargyak")
+    axios
+      .get("https://localhost:7066/erettsegizzunk/Tantargyak/get-tantargyak")
       .then((response) => {
         const formattedSubjects = response.data.map((subject) => ({
+          id: subject.id,
+          name: subject.name,
           value: String(subject.name), // Convert id to string
           label: subject.name
         }));
-        console.log(formattedSubjects);
+
         setSubjects(formattedSubjects);
-        setFormData((prev) => ({
-          ...prev,
-          subject: formattedSubjects[0]?.value || "",
-        }));
+
+        if (formattedSubjects.length > 0) {
+          setSubjectId(formattedSubjects[0].id);
+          setFormData((prev) => ({
+            ...prev,
+            subject: formattedSubjects[0].name
+          }));
+        }
+        console.log(formData);
       })
       .catch((error) => {
         console.error("Error fetching subjects:", error);
@@ -37,12 +43,23 @@ function SelectorComponent() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    const key = Object.keys(formData).find(key => obj[key] === valueToFind);
+
+    if (name === "subject") {
+      const selectedSubject = subjects.find((subject) => subject.id.toString() === value);
+      if (selectedSubject) {
+        setSubjectId(selectedSubject.id); // Update subjectId separately
+        setFormData((prev) => ({
+          ...prev,
+          subject: selectedSubject.name // Keep subjectName inside formData
+        }));
+      }
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleStartExercise = () => {
-    navigate("/exercise", { state: formData, subjectId: formData.subjectId });
+    navigate("/exercise", { state: { ...formData, subjectId } }); // Pass subjectId separately
   };
 
   return (
@@ -52,16 +69,16 @@ function SelectorComponent() {
         <h3>Válassz tantárgyat</h3>
         <form className="exercise-form">
           <div className="radio-inputs">
-            {subjects.map(({ value, label }) => (
-              <label className="radio" key={value}>
+            {subjects.map(({ id, name }) => (
+              <label className="radio" key={id}>
                 <input
                   type="radio"
                   name="subject"
-                  value={value}
-                  checked={formData.subject === value}
+                  value={id}
+                  checked={subjectId === id}
                   onChange={handleChange}
                 />
-                <span className="name">{label}</span>
+                <span className="name">{name}</span>
               </label>
             ))}
           </div>

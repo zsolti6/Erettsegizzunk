@@ -139,8 +139,8 @@ function Profile() {
     <div className="d-flex flex-column min-vh-100">
       <Navbar />
       <div className="container mt-5 mb-5">
-        <h1 className="text-center mb-4 mt-5">Profilom</h1>
-        <form onSubmit={handleSubmit} className="bg-light p-4 rounded shadow mx-auto mt-5" style={{ maxWidth: '500px' }}>
+        <h1 className="text-center mb-4 mt-3">Profilom</h1>
+        <form onSubmit={handleSubmit} className="bg-light p-4 rounded shadow mx-auto mt-4" style={{ maxWidth: '500px' }}>
           <div className="mb-1">
             <label htmlFor="name" className="form-label">
               Felhasználónév

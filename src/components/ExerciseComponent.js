@@ -32,7 +32,7 @@ function ExerciseComponent() {
           "https://localhost:7066/erettsegizzunk/Feladatok/get-random-feladatok",
           postData
         );
-        console.log(response.data);
+        //console.log(response.data);
         
         const tasksWithIds = response.data.map((task, index) => ({
           ...task,

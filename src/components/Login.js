@@ -128,12 +128,12 @@ function LoginPage() {
                   className="btn btn-outline-secondary"
                   onClick={togglePasswordVisibility}
                 >
-                  {passwordVisible ? <i class="bi bi-eye"></i> : <i class="bi bi-eye-slash"></i>}
+                  {passwordVisible ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
                 </button>
               </div>
             </div>
             
-            <div className="form-group mb-3 d-flex justify-content-left">
+            <div className="form-group mb-2 d-flex justify-content-left">
               <input
                 type="checkbox"
                 className="form-check-input"

@@ -133,6 +133,9 @@ function RegisterPage() {
               />
             </div>
             <button type="submit" className="btn btn-primary w-100">Regisztrálás</button>
+            <div className="d-flex justify-content-center mt-2">
+              <a href="/login" className="text-muted">Van már fiókod? Jelentkezz be!</a>
+            </div>
           </form>
         </div>
       </div>
