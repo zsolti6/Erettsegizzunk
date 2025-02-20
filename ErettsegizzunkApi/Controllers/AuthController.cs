@@ -1,13 +1,8 @@
-﻿using ErettsegizzunkApi.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using ErettsegizzunkApi.DTOs;
+using ErettsegizzunkApi.Models;
 using ErettsegizzunkApi.Services;
-using LoginRequest = ErettsegizzunkApi.Models.LoginRequest;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ErettsegizzunkApi.DTOs;
-using NuGet.Common;
-using NuGet.Protocol.Plugins;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -27,26 +22,17 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> CaptchaLogin([FromBody] LoginRequest loginRequest)
+        public async Task<IActionResult> CaptchaLogin([FromBody] LoginRegistryRequestDTO LoginRegistryRequest)
         {
-            if (string.IsNullOrEmpty(loginRequest.CaptchaToken))
-            {
-                return BadRequest(new ErrorDTO() { Id = 109, Message = "CAPTCHA kitöltése szükséges!" });
-            }
+            await CheckCaptcha(LoginRegistryRequest);
 
-            bool isCaptchaValid = await _recaptchaService.VerifyRecaptchaAsync(loginRequest.CaptchaToken);
-            if (!isCaptchaValid)
-            {
-                return BadRequest(new ErrorDTO() { Id = 110, Message = "CAPTCHA hitelesítései hiba" });
-            }
-
-            User user = await _context.Users.FirstOrDefaultAsync(x => x.LoginName == loginRequest.Username);
+            User user = await _context.Users.FirstOrDefaultAsync(x => x.LoginName == LoginRegistryRequest.Username);
             if (user == null)
             {
                 return Unauthorized(new ErrorDTO() { Id = 111, Message = "Hibás név, jelszó páros" });
             }
 
-            string hash = Program.CreateSHA256(loginRequest.Password);
+            string hash = Program.CreateSHA256(LoginRegistryRequest.Password);
             if (user.Hash != hash)
             {
                 return Unauthorized(new ErrorDTO() { Id = 112, Message = "Hibás név, jelszó páros" });
@@ -62,20 +48,28 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         [HttpPost("regisztracio")]
-        public async Task<IActionResult> CaptchaRegistry([FromBody] CaptchaRegisrtyDTO captchaRegisrty)//refactore error kezelés
+        public async Task<IActionResult> CaptchaRegistry([FromBody] LoginRegistryRequestDTO LoginRegistryRequest)//error kezelés
         {
-            if (string.IsNullOrEmpty(captchaRegisrty.CaptchaToken))
+            await CheckCaptcha(LoginRegistryRequest);
+
+            return Ok(await _registryController.Registry(LoginRegistryRequest.User));
+
+        }
+
+        private async Task<IActionResult> CheckCaptcha(LoginRegistryRequestDTO LoginRegistryRequest)
+        {
+            if (string.IsNullOrEmpty(LoginRegistryRequest.CaptchaToken))
             {
                 return BadRequest(new ErrorDTO() { Id = 109, Message = "CAPTCHA kitöltése szükséges!" });
             }
 
-            bool isCaptchaValid = await _recaptchaService.VerifyRecaptchaAsync(captchaRegisrty.CaptchaToken);
+            bool isCaptchaValid = await _recaptchaService.VerifyRecaptchaAsync(LoginRegistryRequest.CaptchaToken);
             if (!isCaptchaValid)
             {
                 return BadRequest(new ErrorDTO() { Id = 110, Message = "CAPTCHA hitelesítései hiba" });
             }
 
-            return Ok(_registryController.Registry(captchaRegisrty.user));
+            return NoContent();
         }
     }
 }
