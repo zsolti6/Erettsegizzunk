@@ -1,5 +1,6 @@
 ﻿using ErettsegizzunkApi.DTOs;
 using ErettsegizzunkApi.Models;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
@@ -13,6 +14,7 @@ namespace ErettsegizzunkApi.Controllers
     public class PasswordController : ControllerBase
     {
         private readonly ErettsegizzunkContext _context;
+        private string Token;
 
         public PasswordController(ErettsegizzunkContext context)
         {
@@ -68,6 +70,7 @@ namespace ErettsegizzunkApi.Controllers
         [HttpPost("elfelejtett-jelszo-keres")]
         public async Task<IActionResult> ElfelejtettJelszoKeres([FromBody] string email)
         {
+            GenerateToken();
             string body = $"A jelszava visszaállításáshoz kattintson a linkre. Amennyiben nem ön próbálta helyreállítani a jelszavát akkor hagyja figyelmen kívül ezt az üzenetet https://localhost:7066/erettsegizzunk/Password/elfelejtett-jelszo?email={Uri.EscapeDataString(email)}";
             Program.SendEmail(email,"Jelszó helyreállítás",body);
             return Ok();
@@ -75,23 +78,17 @@ namespace ErettsegizzunkApi.Controllers
 
 
         [HttpGet("elfelejtett-jelszo")]
-        public async Task<IActionResult> ElfelejtettJelszo([FromQuery] string email)
+        public async Task<IActionResult> ElfelejtettJelszo([FromQuery] string email, [FromQuery] string token)
         {
-            string htmlContent = @"
-                        <html>
-                            <head>
-                                <script>
-                                    setTimeout(function() {
-                                        window.close();
-                                    }, 10);
-                                </script>
-                            </head>
-                            <body>
-                                <h3>Sikeres regisztracio</h3>
-                            </body>
-                        </html>";
+            string htmlContent = "";
+
             try
             {
+                if (token != Token)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 133, Message = "Hozzáférés megtagadva" });
+                }
+
                 User user = _context.Users.FirstOrDefault(x => x.Email == email && !x.GoogleUser);
                 if (user != null)
                 {
@@ -103,13 +100,32 @@ namespace ErettsegizzunkApi.Controllers
                     string body = $"<p>Az új jelszava:{jelszo}</p>" +
                    "<img src='http://images.erettsegizzunk.nhely.hu/1715962531.84313.123565.jpg' alt='Image'/>";
 
-
+                    htmlContent = @"
+                        <html>
+                            <head>
+                                <script>
+                                    setTimeout(function() {
+                                        window.close();
+                                    }, 10);
+                                </script>
+                            </head>
+                            <body>
+                                <h3>Sikeres jelszó helyreállítás</h3>
+                            </body>
+                        </html>";
 
                     Program.SendEmail(user.Email, "Elfelejtett jelszó", body, true);
                     return Content(htmlContent, "text/html");
                 }
                 else
                 {
+                    htmlContent = @"
+                        <html>
+                            <body>
+                                <h1>Sikertelen jelszó helyreállítás.</h1>
+                            </body>
+                        </html>";
+
                     return Content(htmlContent, "text/html");
                     //return StatusCode(210, "Nincs ilyen e-mail cím!");
                 }
@@ -126,6 +142,15 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return NotFound(new ErrorDTO() { Id = 115, Message = "Hiba történt az adatok mentése közben" });
             }
+            finally
+            {
+                Token = Guid.NewGuid().ToString();
+            }
+        }
+
+        private void GenerateToken()
+        {
+            Token = Guid.NewGuid().ToString();
         }
     }
 }

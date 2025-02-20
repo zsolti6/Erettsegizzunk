@@ -113,6 +113,9 @@ namespace ErettsegizzunkApi
             builder.Services.AddControllers();
             builder.Services.AddScoped<UserStatisticsController>(); //statisztika miatt kell
 
+            builder.Services.AddControllers();
+            builder.Services.AddScoped<RegistryController>(); //statisztika miatt kell
+
             var app = builder.Build();
 
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

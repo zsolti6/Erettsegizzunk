@@ -1,4 +1,6 @@
-﻿namespace ErettsegizzunkApi.DTOs
+﻿using ErettsegizzunkApi.Models;
+
+namespace ErettsegizzunkApi.DTOs
 {
     public class RegistryDTO
     {
@@ -21,10 +23,10 @@
         public string? ProfilePicturePath { get; set; }
     }
 
-    public class EndOfRegistryDTO
+    public class CaptchaRegisrtyDTO
     {
-        public string UserName { get; set; }
+        public User user { get; set; }
 
-        public string Email { get; set; }
+        public string CaptchaToken { get; set; }
     }
 }
