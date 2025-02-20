@@ -1,5 +1,6 @@
 import axios from "axios";
 import Navbar from "./Navbar";
+import sha256 from "crypto-js/sha256";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -30,6 +31,13 @@ function Profile() {
     }
   }, [navigate, rememberMe]);
 
+  const [formData, setFormData] = useState({
+    token: "",
+    loginName: "",
+    oldPassword: "",
+    newPassword: ""
+  });
+
   useEffect(() => {
     const storedUser = rememberMe ? localStorage.getItem("user") : sessionStorage.getItem("user");
     if (storedUser) {
@@ -44,24 +52,17 @@ function Profile() {
         profilePicturePath: parsedUser.profilePicturePath || "string",
         token: parsedUser.token || "string"
       });
-    }
-  }, [rememberMe]);
-
-  const formData = {
-    token: userData.token,
-    loginName: userData.name,
-    oldPassword: "",
-    newPassword: ""
-  }
-
-  const handlePasswordChange = () => {
-    if(changePassword){
-      axios.put("https://localhost:7066/erettsegizzunk/Password/jelszo-modositas", formData)
-      .then((response) => {
-        console.log(response);
+      setFormData({
+        token: parsedUser.token || "string",
+        loginName: parsedUser.name || "string",
+        oldPassword: "",
+        newPassword: ""
       });
+      
     }
-  }
+  }, [rememberMe, changePassword]);
+
+  
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -99,16 +100,41 @@ function Profile() {
     navigate("/login");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(userData);
+    const saltUrl = "http://localhost:5000/erettsegizzunk/Login/SaltRequest";
+    const saltResponse = await axios.post(saltUrl, JSON.stringify(formData.loginName), {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const salt = saltResponse.data;
+    const tmpHashOldPswd = sha256(formData.oldPassword + salt.toString()).toString();
+    const tmpHashNewPswd = sha256(formData.newPassword + salt.toString()).toString();
+
+    // Instead of updating state, create a new object and send it
+    const updatedFormData = {
+      ...formData,
+      oldPassword: tmpHashOldPswd,
+      newPassword: tmpHashNewPswd,
+    };
+
+
+    if (changePassword) {
+      axios.post("https://localhost:7066/erettsegizzunk/Password/jelszo-modositas", updatedFormData)
+      .then((response) => {
+        console.log(response);
+      });
+    }
 
     axios.put("https://localhost:7066/erettsegizzunk/User/sajat-felhasznalo-modosit", userData)
     .then((response) => {
       console.log(response);
     });
-  };
+};
+
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -116,7 +142,7 @@ function Profile() {
       <div className="container mt-5 mb-5">
         <h1 className="text-center mb-4 mt-5">Profilom</h1>
         <form onSubmit={handleSubmit} className="bg-light p-4 rounded shadow mx-auto mt-5" style={{ maxWidth: '500px' }}>
-          <div className="mb-3">
+          <div className="mb-1">
             <label htmlFor="name" className="form-label">
               Felhasználónév
             </label>
@@ -146,46 +172,49 @@ function Profile() {
             />
           </div>
           <div className="mb-3 mt-1 d-flex align-items-center">
-            <input
-              type="checkbox"
-              id="passwordChange"
-              name="passwordChange"
-              checked={/*userData.newsletter*/ false}
-              onChange={handleInputChange}
-              className="form-check-input me-2"
-            />
-            <label htmlFor="passwordChange" style={{lineHeight: "1"}} className="form-check-label">
-              Szeretnék jelszavat változtatni
-            </label>
+          <input
+            type="checkbox"
+            id="passwordChange"
+            name="passwordChange"
+            checked={changePassword}
+            onChange={() => setChangePassword(!changePassword)}
+            className="form-check-input me-2"
+          />
+          <label htmlFor="passwordChange" style={{lineHeight: "1"}} className="form-check-label">
+            Szeretnék jelszavat változtatni
+          </label>
           </div>
           <div className="form-group mb-3">
-  <input 
-    placeholder="Jelszó" 
-    type="password"  // Always hidden
-    className="form-control" 
-    id="password" 
-    value={formData.password} 
-  />
-</div>
-
-<div className="form-group mb-3">
-  <div className="input-group">
-    <input 
-      placeholder="Jelszó megerősítése" 
-      type={passwordVisible ? "text" : "password"}
-      className="form-control" 
-      id="confirmPassword" 
-      value={formData.confirmPassword} 
-    />
-    <button 
-      type="button" 
-      className="btn btn-outline-secondary" 
-      onClick={togglePasswordVisibility}
-    >
-      {passwordVisible ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
-    </button>
-  </div>
-</div>
+            <input 
+              placeholder="Régi jelszó" 
+              type="text"  // Always hidden
+              className="form-control" 
+              id="password" 
+              disabled={!changePassword}
+              onChange={(e) => setFormData({ ...formData, oldPassword: e.target.value })} 
+              value={formData.oldPassword}
+            />
+          </div>
+          <div className="form-group mb-3">
+            <div className="input-group">
+              <input 
+                placeholder="Új jelszó"
+                type={passwordVisible ? "text" : "password"}
+                className="form-control"
+                id="confirmPassword"
+                disabled={!changePassword}
+                onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })} 
+                value={formData.confirmPassword}
+              />
+              <button 
+                type="button" 
+                className="btn btn-outline-secondary" 
+                onClick={togglePasswordVisibility}
+              >
+                {passwordVisible ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
+              </button>
+            </div>
+          </div>
 
           <div className="mb-3 mt-1">
             <input
@@ -200,18 +229,10 @@ function Profile() {
               Feliratkozom a hírlevélre
             </label>
           </div>
-          <button onClick={handlePasswordChange} type="submit" className="btn btn-primary w-100 mb-3">
+          <button type="submit" className="btn btn-primary w-100 mb-3">
             Mentés
           </button>
         </form>
-        {(rememberMe ? !localStorage.getItem("googleUser") : !sessionStorage.getItem("googleUser")) &&
-        <button
-          onClick={console.log("asd")}
-          className="btn btn-primary mt-3"
-        >
-          Jelszó megváltoztatása
-        </button>
-        }<br/>
         <button
           onClick={handleLogout}
           className="btn btn-primary mt-3"

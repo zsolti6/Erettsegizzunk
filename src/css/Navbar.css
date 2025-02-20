@@ -53,10 +53,6 @@ nav .auth-links-wrapper .auth-link, .logo {
     transition: color 0.2s;
 }
 
-nav div:hover{
-    color: #ccc;
-}
-
 nav .home-link:hover, nav .auth-link:hover{
     color: #ccc;
 }

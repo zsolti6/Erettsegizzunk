@@ -74,7 +74,7 @@ function LoginPage() {
         password: tmpHash,
         captchaToken: captchaToken
       };
-
+        
       const loginResponse = await axios.post(loginUrl, body);
       if (loginResponse.status === 200) {
         const user = loginResponse.data;
