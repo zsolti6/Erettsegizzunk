@@ -1,34 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Tooltip } from "bootstrap";
 import "../css/taskStyle.css";
 import axios from "axios";
+import { BASE_URL } from '../config';
 
-const ExerciseStats = () => {
+export const ExerciseStats = () => {
   const { state } = useLocation();
   const { taskValues, exercises, subjectId } = state || {};
 
   const sortedTaskValues = Object.values(taskValues || {}).sort((a, b) => a.taskId - b.taskId);
-  
-  useEffect(() => {
-    const user = getUser();
-    if (!user) return;
 
-    const taskCorrects = getTaskCorrectness();
-
-    //console.log("Task Corrects:", taskCorrects);
-    sendStatistics(user, taskCorrects);
-  }, []);
-
-  const getUser = () => {
-    const rememberMe = localStorage.getItem("rememberMe") === "true";
-    return rememberMe
-      ? JSON.parse(localStorage.getItem("user"))
-      : JSON.parse(sessionStorage.getItem("user"));
-  };
-
-  const getTaskCorrectness = () => {
+  const getTaskCorrectness = useCallback(() => {
     const correctness = {};
     sortedTaskValues.forEach((task) => {
       const exercise = exercises.find((ex) => ex.taskId === task.taskId);
@@ -37,6 +21,34 @@ const ExerciseStats = () => {
       correctness[exercise.id] = result === guess;
     });
     return correctness;
+  }, [sortedTaskValues, exercises]);
+
+  const sendStatistics = useCallback((user, taskCorrects) => {
+    axios.put(`${BASE_URL}/erettsegizzunk/UserStatistics/put-statisztika`, {
+      userId: user.id,
+      token: user.token,
+      subjectId: subjectId,
+      taskIds: taskCorrects,
+    })
+    .then(response => console.log("Stats updated:", response))
+    .catch(error => console.error("Error updating stats:", error));
+  }, [subjectId]);
+
+  useEffect(() => {
+    const user = getUser();
+    if (!user) return;
+
+    const taskCorrects = getTaskCorrectness();
+
+    //console.log("Task Corrects:", taskCorrects);
+    sendStatistics(user, taskCorrects);
+  }, [getTaskCorrectness, sendStatistics]);
+
+  const getUser = () => {
+    const rememberMe = localStorage.getItem("rememberMe") === "true";
+    return rememberMe
+      ? JSON.parse(localStorage.getItem("user"))
+      : JSON.parse(sessionStorage.getItem("user"));
   };
 
   const getCorrectAnswers = (task) => {
@@ -50,17 +62,6 @@ const ExerciseStats = () => {
     const guessArray = task.values;
     const answersArray = task.answers.split(";");
     return answersArray.filter((_, index) => guessArray[index] === "1").join(", ") || "Nem válaszoltál";
-  };
-
-  const sendStatistics = (user, taskCorrects) => {
-    axios.put("http://localhost:5000/erettsegizzunk/UserStatistics/put-statisztika", {
-      userId: user.id,
-      token: user.token,
-      subjectId: subjectId,
-      taskIds: taskCorrects,
-    })
-    .then(response => console.log("Stats updated:", response))
-    .catch(error => console.error("Error updating stats:", error));
   };
 
   useEffect(() => {
@@ -106,5 +107,3 @@ const ExerciseStats = () => {
     </div>
   );
 };
-
-export default ExerciseStats;

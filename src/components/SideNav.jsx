@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/Sidenav.css";
 
-function Sidenav({ tasks, setActiveComponent, activeIndex }) {
+export const Sidenav = ({ tasks, setActiveComponent, activeIndex }) => {
   return (
     <div className="sidenav">
       {tasks.map((task, index) => (
@@ -18,6 +18,3 @@ function Sidenav({ tasks, setActiveComponent, activeIndex }) {
     </div>
   );
 }
-
-export default Sidenav;
-

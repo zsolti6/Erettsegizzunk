@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/SubPage.css";
 
-function Home() {
+export const Home = () => {
   return (
     <div className="d-flex flex-column min-vh-100">
       <div className="container-fluid d-flex flex-column align-items-center justify-content-center text-center flex-grow-1 py-5">
@@ -26,8 +26,6 @@ function Home() {
     </div>
   );
 }
-
-export default Home;
 
 function SubjectComponent({ text, linkto }) {
   const navigate = useNavigate();

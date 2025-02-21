@@ -1,8 +1,8 @@
 import React from "react";
-import TaskComponent from "./TaskComponent";
+import { TaskComponent } from "./TaskComponent";
 import "../css/SubPage.css";
 
-function ExerciseWindow({ activeTask, taskValues, updateTaskValues }) {
+export const ExerciseWindow = ({ activeTask, taskValues, updateTaskValues }) =>  {
   return (
     <div className="exercise">
       {activeTask ? (
@@ -17,5 +17,3 @@ function ExerciseWindow({ activeTask, taskValues, updateTaskValues }) {
     </div>
   );
 }
-
-export default ExerciseWindow;

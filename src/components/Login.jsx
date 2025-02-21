@@ -4,8 +4,9 @@ import ReCAPTCHA from "react-google-recaptcha";  // Import reCAPTCHA
 import sha256 from "crypto-js/sha256";
 import { useNavigate } from "react-router-dom";
 import { auth, provider, signInWithPopup } from "../firebaseConfig";
+import { BASE_URL } from '../config';
 
-function LoginPage() {
+export const LoginPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +29,7 @@ function LoginPage() {
         sessionStorage.setItem("googleUser", JSON.stringify(user));
       }
       
-      const url = "http://localhost:5000/erettsegizzunk/Registry/googleLogin";
+      const url = `${BASE_URL}/erettsegizzunk/Registry/googleLogin`;
       await axios.post(url, JSON.stringify(user.email), {
         headers: { "Content-Type": "application/json" },
       }).then(response => {
@@ -58,7 +59,7 @@ function LoginPage() {
     }
 
     try {
-      const saltUrl = "http://localhost:5000/erettsegizzunk/Login/SaltRequest";
+      const saltUrl = `${BASE_URL}/erettsegizzunk/Login/SaltRequest`;
       const saltResponse = await axios.post(saltUrl, JSON.stringify(username), {
         headers: {
           "Content-Type": "application/json",
@@ -67,7 +68,7 @@ function LoginPage() {
 
       const salt = saltResponse.data;
       const tmpHash = sha256(password + salt.toString()).toString();
-      const loginUrl = "http://localhost:5000/erettsegizzunk/Auth/Login";
+      const loginUrl = `${BASE_URL}/erettsegizzunk/Auth/Login`;
       const body = {
         username: username,
         password: tmpHash,
@@ -173,5 +174,3 @@ function LoginPage() {
     </div>
   );
 }
-
-export default LoginPage;

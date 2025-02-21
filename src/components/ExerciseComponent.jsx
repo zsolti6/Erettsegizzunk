@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import Sidenav from "./SideNav";
-import ExerciseWindow from "./ExerciseWindow";
+import { Sidenav } from "./SideNav";
+import { ExerciseWindow } from "./ExerciseWindow";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "../css/taskStyle.css";
+import { BASE_URL } from '../config';
 
-function ExerciseComponent() {
+export const ExerciseComponent = () => {
   const [exercises, setExercises] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [taskValues, setTaskValues] = useState({});
@@ -28,7 +29,7 @@ function ExerciseComponent() {
         const postData = { tantargy: subject, szint: difficulty };
         
         const response = await axios.post(
-          "https://localhost:7066/erettsegizzunk/Feladatok/get-random-feladatok",
+          `${BASE_URL}/erettsegizzunk/Feladatok/get-random-feladatok`,
           postData
         );
         //console.log(response.data);
@@ -108,5 +109,3 @@ function ExerciseComponent() {
     </div>
   );
 }
-
-export default ExerciseComponent;

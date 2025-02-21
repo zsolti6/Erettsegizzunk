@@ -3,8 +3,9 @@ import sha256 from "crypto-js/sha256";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BASE_URL } from '../config';
 
-function Profile() {
+export const Profile = () => {
   const [userData, setUserData] = useState({
       id: 0,
       name: "string",
@@ -74,7 +75,7 @@ function Profile() {
   const handleLogout = () => {
     axios
       .post(
-        "http://localhost:5000/erettsegizzunk/Logout",
+        `${BASE_URL}/erettsegizzunk/Logout`,
         JSON.stringify(JSON.parse(rememberMe ? localStorage.getItem("user") : sessionStorage.getItem("user")).token),
         {
           headers: {
@@ -102,7 +103,7 @@ function Profile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const saltUrl = "http://localhost:5000/erettsegizzunk/Login/SaltRequest";
+    const saltUrl = `${BASE_URL}/erettsegizzunk/Login/SaltRequest`;
     const saltResponse = await axios.post(saltUrl, JSON.stringify(formData.loginName), {
       headers: {
         "Content-Type": "application/json",
@@ -122,13 +123,13 @@ function Profile() {
 
 
     if (changePassword) {
-      axios.post("https://localhost:7066/erettsegizzunk/Password/jelszo-modositas", updatedFormData)
+      axios.post(`${BASE_URL}/erettsegizzunk/Password/jelszo-modositas`, updatedFormData)
       .then((response) => {
         console.log(response);
       });
     }
 
-    axios.put("https://localhost:7066/erettsegizzunk/User/sajat-felhasznalo-modosit", userData)
+    axios.put(`${BASE_URL}/erettsegizzunk/User/sajat-felhasznalo-modosit`, userData)
     .then((response) => {
       console.log(response);
     });
@@ -245,5 +246,3 @@ function Profile() {
     </div>
   );
 }
-
-export default Profile;

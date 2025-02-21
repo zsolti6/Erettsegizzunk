@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../css/taskStyle.css";
 
-function TaskComponent({ elem, values, updateValues }) {
+export const TaskComponent = ({ elem, values, updateValues }) => {
   const [taskValues, setTaskValues] = useState(
     Array.isArray(values) ? values : [values] // Ensure it's always an array
   );
@@ -115,5 +115,3 @@ function TaskComponent({ elem, values, updateValues }) {
 
   return null;
 }
-
-export default TaskComponent;

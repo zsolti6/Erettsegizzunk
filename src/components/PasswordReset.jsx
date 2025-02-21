@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Navbar from "./Navbar";
+import { BASE_URL } from '../config';
 
-function PasswordReset() {
+export const PasswordReset = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -14,7 +14,7 @@ function PasswordReset() {
 
     try {
       const response = await axios.post(
-        "https://localhost:7066/erettsegizzunk/Password/elfelejtett-jelszo-keres",
+        `${BASE_URL}/erettsegizzunk/Password/elfelejtett-jelszo-keres`,
         JSON.stringify(email),
         {
           headers: {
@@ -73,5 +73,3 @@ function PasswordReset() {
     </div>
   );
 }
-
-export default PasswordReset;

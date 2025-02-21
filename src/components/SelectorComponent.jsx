@@ -2,8 +2,9 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../css/Selector.css";
+import { BASE_URL } from '../config';
 
-function SelectorComponent() {
+export const SelectorComponent = () => {
   const [formData, setFormData] = useState({
     subject: "",
     difficulty: "közép",
@@ -14,8 +15,7 @@ function SelectorComponent() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get("https://localhost:7066/erettsegizzunk/Tantargyak/get-tantargyak")
+    axios.get(`${BASE_URL}/erettsegizzunk/Tantargyak/get-tantargyak`)
       .then((response) => {
         const formattedSubjects = response.data.map((subject) => ({
           id: subject.id,
@@ -113,5 +113,3 @@ function SelectorComponent() {
     </div>
   );
 }
-
-export default SelectorComponent;

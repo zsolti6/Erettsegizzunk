@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/Navbar.css";
 
-function Navbar() {
+export const Navbar = () => {
   const navigate = useNavigate();
 
   const rememberMe = localStorage.getItem("rememberMe") === "true";
@@ -47,6 +47,7 @@ function Navbar() {
                     ? `${googleUser.photoURL}?t=${new Date().getTime()}`
                     : `http://images.erettsegizzunk.nhely.hu/${user.profilePicturePath}?t=${new Date().getTime()}`
                 }
+                alt=""
                 className="rounded-circle" style={{ maxHeight: "35px" }}
               />
             </div>
@@ -61,5 +62,3 @@ function Navbar() {
     </nav>
   );
 }
-
-export default Navbar;

@@ -1,8 +1,7 @@
 import React from "react";
 import "../css/SubPage.css";
-import Navbar from "./Navbar";
 
-function SearchComponent() {
+export const SearchComponent = () => {
   return (
     <div
       style={{
@@ -16,5 +15,3 @@ function SearchComponent() {
     </div>
   );
 }
-
-export default SearchComponent;

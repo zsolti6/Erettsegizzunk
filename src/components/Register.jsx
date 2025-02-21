@@ -3,8 +3,9 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import sha256 from "crypto-js/sha256";
+import { BASE_URL } from '../config';
 
-function GenerateSalt(SaltLength) {
+export const GenerateSalt = (SaltLength) => {
   const karakterek = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let salt = "";
   for (let i = 0; i < SaltLength; i++) {
@@ -32,7 +33,7 @@ function GenerateRandomPassword(length = 16) {
   return password;
 }
 
-function RegisterPage() {
+export const RegisterPage = () => {
   const [formData, setFormData] = useState({
     loginName: "",
     password: "",
@@ -93,7 +94,7 @@ function RegisterPage() {
         User: body,
         CaptchaToken: captchaToken
       }
-      const url = "http://localhost:5000/erettsegizzunk/Auth/regisztracio";
+      const url = `${BASE_URL}/erettsegizzunk/Auth/regisztracio`;
       await axios.post(url, user);
     } catch (error) {
       setError('Hiba történt a regisztráció során: ' + (error.response ? error.response.data : error.message));
@@ -140,5 +141,3 @@ function RegisterPage() {
     </div>
   );
 }
-
-export default RegisterPage;
