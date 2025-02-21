@@ -16,7 +16,7 @@ namespace ErettsegizzunkApi
         public static string ftpUrl = "ftp.nethely.hu";
         public static string ftpUserName = "erettsegizzunk";
         public static string ftpPassword = "Eretsegizzunk_Ftp_2024";
-
+        public static string connectionString = string.Empty;
 
         public static string GenerateSalt(int SaltLength = 64)
         {
@@ -83,19 +83,21 @@ namespace ErettsegizzunkApi
             };
 
 
+
+
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddHttpClient<RecaptchaService>();
             builder.Services.AddScoped<RecaptchaService>();
 
-            builder.WebHost.ConfigureKestrel(options =>
+            /*builder.WebHost.ConfigureKestrel(options =>
             {
                 options.ListenAnyIP(5000); // HTTP
                 options.ListenAnyIP(7066, listenOptions =>
                 {
                     listenOptions.UseHttps(); // HTTPS
                 });
-            });
+            });*/
 
             // Add services to the container.
 
