@@ -39,8 +39,7 @@
               "ViewState": "AgIAAFsCAAAAAAAAAAAkwAoAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-06T09:28:44.061Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -75,7 +74,7 @@
               "RelativeDocumentMoniker": "DTOs\\UserDTO.cs",
               "ToolTip": "C:\\Users\\Bern\u00E1t Oliv\u00E9r\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\DTOs\\UserDTO.cs",
               "RelativeToolTip": "DTOs\\UserDTO.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAwCUAAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAwwCUAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-24T09:33:10.066Z",
               "EditorCaption": ""
