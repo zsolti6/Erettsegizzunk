@@ -9,7 +9,6 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Windows.Media.Imaging;
-using System.Xml.Linq;
 using Task = System.Threading.Tasks.Task;
 using Type = ErettsegizzunkApi.Models.Type;
 
@@ -22,7 +21,7 @@ namespace ErettsegizzunkAdmin.Services
         public ApiService()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7066/");
+            _httpClient.BaseAddress = new Uri("https://erettsegizzunkapi.onrender.com/");
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
