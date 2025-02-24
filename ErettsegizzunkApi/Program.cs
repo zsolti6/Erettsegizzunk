@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using DotNetEnv;
 
 namespace ErettsegizzunkApi
 {
@@ -13,10 +14,12 @@ namespace ErettsegizzunkApi
     {
         //public static int SaltLength = 64;
         public static Dictionary<string, User> LoggedInUsers = new Dictionary<string, User>();
-        public static string ftpUrl = "ftp.nethely.hu";
-        public static string ftpUserName = "erettsegizzunk";
-        public static string ftpPassword = "Eretsegizzunk_Ftp_2024";
-        public static string connectionString = string.Empty;
+        public static string ftpUrl = "";
+        public static string ftpUserName = "";
+        public static string ftpPassword = "";
+        private static string email = "";
+        private static string emailPassword = "";
+        private static string smtp = "";
 
         public static string GenerateSalt(int SaltLength = 64)
         {
@@ -46,20 +49,17 @@ namespace ErettsegizzunkApi
 
         public static async System.Threading.Tasks.Task SendEmail(string mailAddressTo, string subject, string body, bool isHtml = false)
         {
+
             MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-            mail.From = new MailAddress("noreplyerettsegizzunk@gmail.com");
+            SmtpClient SmtpServer = new SmtpClient(smtp);
+            mail.From = new MailAddress(email);
             mail.To.Add(mailAddressTo);
             mail.Subject = subject;
             mail.Body = body;
             mail.IsBodyHtml = isHtml;
 
-            /*System.Net.Mail.Attachment attachment;
-            attachment = new System.Net.Mail.Attachment("");
-            mail.Attachments.Add(attachment);*/
-
             SmtpServer.Port = 587;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("noreplyerettsegizzunk@gmail.com", "oshelhrvotaqkuej");
+            SmtpServer.Credentials = new System.Net.NetworkCredential(email, emailPassword);
 
             SmtpServer.EnableSsl = true;
 
@@ -76,31 +76,33 @@ namespace ErettsegizzunkApi
 
         public static void Main(string[] args)
         {
+            Env.Load();
+
+            string dbConnection = Env.GetString("CONNECTION_STRING");
+            string apiKey = Env.GetString("SECRET_KEY");
+            ftpUrl = Env.GetString("FTP_URL");
+            ftpUserName = Env.GetString("FTP_USERNAME");
+            ftpPassword = Env.GetString("FTP_PASSWORD");
+            email = Env.GetString("EMAIL");
+            emailPassword = Env.GetString("EMAIL_PASSWORD");
+            smtp = Env.GetString("SMTP");
+
             //vegen kiszedni
             LoggedInUsers["token"] = new User
             {
                 Permission = new Permission { Level = 9 }
             };
 
-
-
-
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Configuration["ConnectionStrings:DefaultConnection"] = dbConnection;
+            builder.Configuration["ApiSettings:SecretKey"] = apiKey;
 
             builder.Services.AddHttpClient<RecaptchaService>();
             builder.Services.AddScoped<RecaptchaService>();
 
-            /*builder.WebHost.ConfigureKestrel(options =>
-            {
-                options.ListenAnyIP(5000); // HTTP
-                options.ListenAnyIP(7066, listenOptions =>
-                {
-                    listenOptions.UseHttps(); // HTTPS
-                });
-            });*/
 
             // Add services to the container.
-
             builder.Services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -119,6 +121,10 @@ namespace ErettsegizzunkApi
             builder.Services.AddScoped<RegistryController>(); //statisztika miatt kell
 
             var app = builder.Build();
+
+            // Get the PORT from the environment variable or default to 5000
+            var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+            app.Urls.Add($"http://*:{port}");
 
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 

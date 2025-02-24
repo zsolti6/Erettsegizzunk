@@ -53,47 +53,6 @@ namespace ErettsegizzunkApi.Controllers
 
             return Ok(users);
         }
-        /*
-        [HttpGet("nev/{token},{loginname}")]//átírni postra
-        public async Task<IActionResult> GetLoginName(string token, string loginname)
-        {
-            if (Program.LoggedInUsers.ContainsKey(token) && Program.LoggedInUsers[token].Permission.Level == 9)
-            {
-                using (ErettsegizzunkContext cx = new ErettsegizzunkContext())
-                {
-                    try
-                    {
-                        return Ok(await cx.Users.Include(x => x.Permission).FirstOrDefaultAsync(x => x.LoginName == loginname));
-                    }
-                    catch (Exception ex)
-                    {
-                        return StatusCode(200, ex.InnerException?.Message); //ez is egy megoldás -- részletesebb hibaüzenet
-                    }
-                }
-            }
-            else
-            {
-                return BadRequest("Nincs jogosultságod!");
-            }
-        }
-
-        [HttpPost("get-egy-felhasznalo")]
-        public async Task<IActionResult> GetId([FromBody] GetEgyFelhasznaloDTO felhasznalo)
-        {
-            if (!Program.LoggedInUsers.ContainsKey(felhasznalo.Token) && Program.LoggedInUsers[felhasznalo.Token].Permission.Level != 9)
-            {
-                return BadRequest(new ErrorDTO() { Id = 67, Message = "Hozzáférés megtagadva" });
-            }
-
-            try
-            {
-                return Ok(await _context.Users.Include(x => x.Permission).FirstOrDefaultAsync(x => x.Id == felhasznalo.Id));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(200, ex.InnerException?.Message); //ez is egy megoldás -- részletesebb hibaüzenet biztonsági rés lehet
-            }
-        }*/
 
         [HttpPost("Korlevel")]
         public async Task<IActionResult> GetKorlevel([FromBody] string token)
@@ -134,12 +93,16 @@ namespace ErettsegizzunkApi.Controllers
                     return NotFound(new ErrorDTO() { Id = 85, Message = "Az elem nem található" });
                 }
 
-                if (userSearch.LoginName == modosit.Name && _context.Users.FirstOrDefaultAsync(x => x.LoginName == modosit.Name).Id == modosit.Id)
+                User? existingUserByLogin = await _context.Users.FirstOrDefaultAsync(x => x.LoginName == modosit.Name);
+
+                if (existingUserByLogin != null && existingUserByLogin.Id != modosit.Id)
                 {
                     return BadRequest(new ErrorDTO() { Id = 100, Message = "Már létezik ilyen felhasználónév!" });
                 }
 
-                if (userSearch.Email == modosit.Email && _context.Users.FirstOrDefaultAsync(x => x.Email == modosit.Email).Id == modosit.Id)//elso resz kell?
+                User? existingUserByEmail = await _context.Users.FirstOrDefaultAsync(x => x.Email == modosit.Email);
+
+                if (existingUserByEmail != null && existingUserByEmail.Id != modosit.Id)
                 {
                     return BadRequest(new ErrorDTO() { Id = 101, Message = "Az e-mail cím már foglalt!" });
                 }
@@ -150,9 +113,10 @@ namespace ErettsegizzunkApi.Controllers
                 userSearch.Newsletter = modosit.Newsletter;
 
                 _context.Entry(userSearch).State = EntityState.Modified;
-
                 await _context.SaveChangesAsync();
+
                 return Ok("Módosítás végrehajtva");
+
             }
             catch (MySqlException)
             {
@@ -162,7 +126,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return NotFound(new ErrorDTO() { Id = 87, Message = "Hiba történt az adatok mentése közben" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return NotFound(new ErrorDTO() { Id = 88, Message = "Hiba történt az adatok mentése közben" });
             }

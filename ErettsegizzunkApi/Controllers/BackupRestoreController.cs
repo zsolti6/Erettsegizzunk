@@ -122,7 +122,9 @@ namespace ErettsegizzunkApi.Controllers
                     return Unauthorized(new ErrorDTO() { Id = 108, Message = "Hozzáférés megtagadva" });
                 }
 
+
                 string directoryPath = Path.Combine(_env.ContentRootPath, "SQLBackupRestore/");
+                Console.WriteLine("Directory Path: " + directoryPath);
 
                 if (Directory.Exists(directoryPath))
                 {
@@ -131,7 +133,7 @@ namespace ErettsegizzunkApi.Controllers
                                          .ToList());
                 }
 
-                return NotFound(new ErrorDTO() { Id = 106, Message = "Hiba történt az adatok lekérdezése közben" });
+                return NotFound(new ErrorDTO() { Id = 106, Message = "A keresett adatok nem találhatóak" });
             }
             catch (Exception)
             {

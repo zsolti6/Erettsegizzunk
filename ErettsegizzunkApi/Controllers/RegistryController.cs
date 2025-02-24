@@ -34,13 +34,12 @@ namespace ErettsegizzunkApi.Controllers
                     return Ok("Ezzel az e-mail címmel már regisztráltak!");
                 }
 
-                //user.PermissionId = 1;
                 user.Active = true;//falsra kell rakni ha meg lesz az emailes cucc
                 user.Hash = Program.CreateSHA256(user.Hash);
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
 
-                Program.SendEmail(user.Email, "Regisztráció", $"https://localhost:7066/erettsegizzunk/Registry/regisztracio-megerosites?felhasznaloNev={user.LoginName}&email={user.Email}");
+                Program.SendEmail(user.Email, "Regisztráció", $"https://erettsegizzunkapi.onrender.com/Registry/regisztracio-megerosites?felhasznaloNev={user.LoginName}&email={user.Email}");
 
                 return Ok("Sikeres regisztráció. Fejezze be a regisztrációját az e-mail címére küldött link segítségével!");
             }
@@ -131,8 +130,8 @@ namespace ErettsegizzunkApi.Controllers
                     Program.SendEmail(email, "Sikeres regisztráció", "Köszönjük a regisztrálást");
 
                     //KELL ID VAGYMI AZ ADATBÁZISBÓL --> JÓ????
-                    newUser.Id = _context.Users.FirstOrDefaultAsync(x => x.Email == email).Id;
-                    _userStatisticsController.PostUserStatistic(newUser.Id);
+                    newUser.Id = (await _context.Users.FirstOrDefaultAsync(x => x.Email == email)).Id;
+                    await _userStatisticsController.PostUserStatistic(newUser.Id);
 
                     lock (Program.LoggedInUsers)
                     {
@@ -153,7 +152,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return StatusCode(500, new ErrorDTO() { Id = 82, Message = "Kapcsolati hiba" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return BadRequest(new ErrorDTO() { Id = 83, Message = "Hiba történt a regisztráció során" });
             }

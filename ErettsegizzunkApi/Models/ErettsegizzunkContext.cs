@@ -33,9 +33,7 @@ public partial class ErettsegizzunkContext : DbContext
 
     public virtual DbSet<UserStatistic> UserStatistics { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySQL("SERVER=erettsegizzunk2.mysql.database.azure.com;PORT=3306;DATABASE=erettsegizzunk;USER=ErettsegiAdmin;PASSWORD=3rettsegi-4dmin;SSL MODE=required;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
