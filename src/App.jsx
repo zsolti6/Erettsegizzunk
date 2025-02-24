@@ -1,6 +1,7 @@
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import usePreventZoom from "./usePreventZoom";
-import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Home } from "./components/Home";
 import { ExerciseComponent } from "./components/ExerciseComponent";
 import { LoginPage } from "./components/Login";
@@ -17,10 +18,45 @@ import { Navbar } from "./components/Navbar";
 
 export const App = () => {
   usePreventZoom();
+  const [user, setUser] = useState(null);
+  const [googleLogged, setGoogleLogged] = useState(false);
+  const rememberMe = localStorage.getItem("rememberMe") === "true";
+
+  useEffect(() => {
+    const storedUser = rememberMe ? localStorage.getItem("user") : sessionStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    const storedGoogleLogged = rememberMe ? localStorage.getItem("googleLogged") : sessionStorage.getItem("googleLogged");
+    if (storedGoogleLogged) {
+      setGoogleLogged(JSON.parse(storedGoogleLogged));
+    }
+  }, [rememberMe]);
+
+  const handleLogout = () => {
+    setUser(null);
+    setGoogleLogged(false);
+    if (rememberMe) {
+      localStorage.removeItem("user");
+      localStorage.removeItem("googleUser");
+      localStorage.removeItem("googleLogged");
+    } else {
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("googleUser");
+      localStorage.removeItem("googleLogged");
+    }
+    localStorage.removeItem("rememberMe");
+  };
+
+  const handleLogin = (userData, isGoogleLogged) => {
+    setUser(userData);
+    setGoogleLogged(isGoogleLogged);
+  };
+
   return (
     <div>
       <Router>
-        <Navbar/>
+        <Navbar user={user} googleLogged={googleLogged} handleLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/statistics" element={<StatisticsComponent />} />
@@ -29,13 +65,13 @@ export const App = () => {
           <Route path="/exercise" element={<ExerciseComponent />} />
           <Route path="/selector" element={<SelectorComponent />} />
           <Route path="/exercise/stats" element={<ExerciseStats />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage handleLogin={handleLogin} />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile user={user} setUser={setUser} googleLogged={googleLogged} handleLogout={handleLogout} />} />
           <Route path="/forgot-password" element={<PasswordReset />} />
         </Routes>
-        <FooterComponent/>
+        <FooterComponent />
       </Router>
-      </div>
+    </div>
   );
-}
+};

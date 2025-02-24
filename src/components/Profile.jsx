@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BASE_URL } from '../config';
 
-export const Profile = () => {
+export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
   const [userData, setUserData] = useState({
       id: 0,
       name: "string",
@@ -18,7 +18,6 @@ export const Profile = () => {
   });
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
-  const rememberMe = localStorage.getItem("rememberMe") === "true";
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -26,10 +25,10 @@ export const Profile = () => {
   };
 
   useEffect(() => {
-    if ((rememberMe ? localStorage.getItem("user") : sessionStorage.getItem("user")) == null) {
+    if (user == null) {
       navigate("/Login");
     }
-  }, [navigate, rememberMe]);
+  }, [navigate, user]);
 
   const [formData, setFormData] = useState({
     token: "",
@@ -39,30 +38,25 @@ export const Profile = () => {
   });
 
   useEffect(() => {
-    const storedUser = rememberMe ? localStorage.getItem("user") : sessionStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
+    if (user) {
       setUserData({
-        name: parsedUser.name || "",
-        email: parsedUser.email || "",
-        newsletter: parsedUser.newsletter || false,
-        id: parsedUser.id || 0,
-        permission: parsedUser.permission || 0,
-        profilePicture: parsedUser.profilePicture || null,
-        profilePicturePath: parsedUser.profilePicturePath || "string",
-        token: parsedUser.token || "string"
+        name: user.name || "",
+        email: user.email || "",
+        newsletter: user.newsletter || false,
+        id: user.id || 0,
+        permission: user.permission || 0,
+        profilePicture: user.profilePicture || null,
+        profilePicturePath: user.profilePicturePath || "string",
+        token: user.token || "string"
       });
       setFormData({
-        token: parsedUser.token || "string",
-        loginName: parsedUser.name || "string",
+        token: user.token || "string",
+        loginName: user.name || "string",
         oldPassword: "",
         newPassword: ""
       });
-      
     }
-  }, [rememberMe, changePassword]);
-
-  
+  }, [user, changePassword]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -72,68 +66,40 @@ export const Profile = () => {
     });
   };
 
-  const handleLogout = () => {
-    axios
-      .post(
-        `${BASE_URL}/erettsegizzunk/Logout`,
-        JSON.stringify(JSON.parse(rememberMe ? localStorage.getItem("user") : sessionStorage.getItem("user")).token),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        if (response.status === 200) {
-          if(rememberMe){
-            localStorage.removeItem("user");
-            localStorage.removeItem("googleUser");
-            localStorage.removeItem("googleLogged");
-          }else{
-            sessionStorage.removeItem("user");
-            sessionStorage.removeItem("googleUser");
-            localStorage.removeItem("googleLogged");
-          }
-          localStorage.removeItem("rememberMe");
-        }
-      });
-    navigate("/login");
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const saltUrl = `${BASE_URL}/erettsegizzunk/Login/SaltRequest`;
-    const saltResponse = await axios.post(saltUrl, JSON.stringify(formData.loginName), {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const salt = saltResponse.data;
-    const tmpHashOldPswd = sha256(formData.oldPassword + salt.toString()).toString();
-    const tmpHashNewPswd = sha256(formData.newPassword + salt.toString()).toString();
-
-    // Instead of updating state, create a new object and send it
-    const updatedFormData = {
-      ...formData,
-      oldPassword: tmpHashOldPswd,
-      newPassword: tmpHashNewPswd,
-    };
-
-
     if (changePassword) {
-      axios.post(`${BASE_URL}/erettsegizzunk/Password/jelszo-modositas`, updatedFormData)
-      .then((response) => {
-        console.log(response);
+      const saltUrl = `${BASE_URL}/erettsegizzunk/Login/SaltRequest`;
+      const saltResponse = await axios.post(saltUrl, JSON.stringify(formData.loginName), {
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
+
+      const salt = saltResponse.data;
+      const tmpHashOldPswd = sha256(formData.oldPassword + salt.toString()).toString();
+      const tmpHashNewPswd = sha256(formData.newPassword + salt.toString()).toString();
+
+      const updatedFormData = {
+        ...formData,
+        oldPassword: tmpHashOldPswd,
+        newPassword: tmpHashNewPswd,
+      };
+
+      axios.post(`${BASE_URL}/erettsegizzunk/Password/jelszo-modositas`, updatedFormData)
+        .then((response) => {
+          console.log(response);
+        });
     }
 
     axios.put(`${BASE_URL}/erettsegizzunk/User/sajat-felhasznalo-modosit`, userData)
-    .then((response) => {
-      console.log(response);
-    });
-};
+      .then((response) => {
+        console.log(response);
+      });
+    setChangePassword(false);
+    setUser(userData);
+  };
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -165,10 +131,11 @@ export const Profile = () => {
               value={userData.email}
               onChange={handleInputChange}
               className="form-control"
-              disabled={(rememberMe ? localStorage.getItem("googleLogged") === "true" : sessionStorage.getItem("googleLogged") === "true")}
+              disabled={googleLogged}
               required
             />
           </div>
+          {!googleLogged && <div>
           <div className="mb-3 mt-1 d-flex align-items-center">
           <input
             type="checkbox"
@@ -216,13 +183,14 @@ export const Profile = () => {
               </button>
             </div>
           </div>
-
+          </div>
+          }
           <div className="mb-3 mt-1">
             <input
               type="checkbox"
               id="newsletter"
               name="newsletter"
-              checked={userData.newsletter}
+              checked={userData.newsletter == true}
               onChange={handleInputChange}
               className="form-check-input"
             />
@@ -245,4 +213,4 @@ export const Profile = () => {
       </div>
     </div>
   );
-}
+};

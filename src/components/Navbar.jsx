@@ -3,13 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/Navbar.css";
 
-export const Navbar = () => {
+export const Navbar = ({ user, googleLogged, handleLogout }) => {
   const navigate = useNavigate();
-
-  const rememberMe = localStorage.getItem("rememberMe") === "true";
-  const googleLogged = JSON.parse(rememberMe ? localStorage.getItem("googleLogged") : sessionStorage.getItem("googleLogged"));
-  const user = JSON.parse(rememberMe ? localStorage.getItem("user") : sessionStorage.getItem("user"));
-  const googleUser = JSON.parse(rememberMe ? localStorage.getItem("googleUser") : sessionStorage.getItem("googleUser"));
 
   const navigateToProfile = () => {
     navigate("/profile");
@@ -39,15 +34,15 @@ export const Navbar = () => {
           </ul>
           {user ? (
             <div className="d-flex align-items-center">
-              <span className="me-2 fs-5 text-white">{user.name || googleUser.displayName}</span>
+              <span className="me-2 fs-5 text-white">{user.name || user.displayName}</span>
               <img
                 onClick={navigateToProfile}
                 src={
                   googleLogged
-                    ? `${googleUser.photoURL}?t=${new Date().getTime()}`
+                    ? `${user.photoURL}?t=${new Date().getTime()}`
                     : `http://images.erettsegizzunk.nhely.hu/${user.profilePicturePath}?t=${new Date().getTime()}`
                 }
-                alt=""
+                alt="kep"
                 className="rounded-circle" style={{ maxHeight: "35px" }}
               />
             </div>
@@ -61,4 +56,4 @@ export const Navbar = () => {
       </div>
     </nav>
   );
-}
+};

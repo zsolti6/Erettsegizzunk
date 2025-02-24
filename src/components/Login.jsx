@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, provider, signInWithPopup } from "../firebaseConfig";
 import { BASE_URL } from '../config';
 
-export const LoginPage = () => {
+export const LoginPage = ({ handleLogin }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -34,13 +34,15 @@ export const LoginPage = () => {
         headers: { "Content-Type": "application/json" },
       }).then(response => {
         if (response.status === 200) {
+          const userData = response.data;
           if(rememberMe){
-            localStorage.setItem("user", JSON.stringify(response.data));
+            localStorage.setItem("user", JSON.stringify(userData));
             localStorage.setItem("googleLogged", true);
           }else{
-            sessionStorage.setItem("user", JSON.stringify(response.data));
+            sessionStorage.setItem("user", JSON.stringify(userData));
             sessionStorage.setItem("googleLogged", true);
           }
+          handleLogin(userData, true); // Update the App state
         }
       });
       localStorage.setItem("rememberMe", rememberMe);
@@ -50,7 +52,7 @@ export const LoginPage = () => {
     }
   };
 
-  const handleLogin = async (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     
     if (!captchaToken) {
@@ -77,16 +79,17 @@ export const LoginPage = () => {
         
       const loginResponse = await axios.post(loginUrl, body);
       if (loginResponse.status === 200) {
-        const user = loginResponse.data;
+        const userData = loginResponse.data;
         if(rememberMe){
-          localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("user", JSON.stringify(userData));
           localStorage.setItem("googleLogged", false);
         }else{
-          sessionStorage.setItem("user", JSON.stringify(user));
+          sessionStorage.setItem("user", JSON.stringify(userData));
           sessionStorage.setItem("googleLogged", false);
         }
         
         localStorage.setItem("rememberMe", rememberMe);
+        handleLogin(userData, false); // Update the App state
         navigator("/");
       } else {
         alert("Hiba történt a bejelentkezéskor!");
@@ -101,7 +104,7 @@ export const LoginPage = () => {
       <div className="container d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
         <div className="card p-4" style={{ width: "400px" }}>
           <h2 className="text-center mb-4">Bejelentkezés</h2>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleLoginSubmit}>
             <div className="form-group mb-3">
               <input
                 placeholder="Felhasználónév"
@@ -173,4 +176,4 @@ export const LoginPage = () => {
       </div>
     </div>
   );
-}
+};
