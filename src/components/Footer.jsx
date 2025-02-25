@@ -6,15 +6,15 @@ export const FooterComponent = () => {
     <Footer
       container
       style={{
-        marginTop: "-8vh",
+        marginTop: "-6vh",
         position: "relative",
         bottom: 0,
         width: "100%",
-        height: "8vh",
+        height: "6vh",
         zIndex: "2",
       }}
     >
-      <div className="text-center p-3 color-bg3 h-100 text-light">
+      <div className="text-center p-2 color-bg3 h-100 text-light">
         <span>
           Elérhetőség: @
           <a href="https://github.com/pixel-pirates">Pixel Pirates</a>
