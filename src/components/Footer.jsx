@@ -14,7 +14,7 @@ export const FooterComponent = () => {
         zIndex: "2",
       }}
     >
-      <div className="text-center p-3">
+      <div className="text-center p-3 color-bg3 h-100 text-light">
         <span>
           Elérhetőség: @
           <a href="https://github.com/pixel-pirates">Pixel Pirates</a>

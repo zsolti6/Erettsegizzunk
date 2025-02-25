@@ -11,7 +11,7 @@ export const Navbar = ({ user, googleLogged, handleLogout }) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav className="navbar navbar-expand-lg navbar-dark color-bg1 fixed-top">
       <div className="container-fluid">
         <span className="navbar-brand" onClick={() => navigate("/")}>Érettségizzünk!</span>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +49,7 @@ export const Navbar = ({ user, googleLogged, handleLogout }) => {
           ) : (
             <div className="d-flex">
               <Link to="/login" className="btn btn-outline-light me-2">Bejelentkezés</Link>
-              <Link to="/register" className="btn btn-light">Regisztráció</Link>
+              <Link to="/register" className="btn btn-light color-text2">Regisztráció</Link>
             </div>
           )}
         </div>

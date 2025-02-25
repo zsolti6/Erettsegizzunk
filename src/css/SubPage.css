@@ -21,16 +21,17 @@
 /* Default height for mobile devices */
 .action {
   height: 15vh;
+  margin: auto;
   margin-top: 3vh;
   cursor: pointer;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  background-color: #f8f9fa;
+  border-radius: 15%;
 }
 
 /* Make the cards taller when in a single row (desktop) */
@@ -56,6 +57,7 @@
   .action {
     height: 10vh;
     font-size: 1rem;
+    border-radius: 10%;
   }
 }
 
@@ -65,7 +67,6 @@
 }
 
 .exercise{
-  /*background-color: yellow !important;*/
   margin-top: 14vh !important;
   width: 90% !important;
   height: 100% !important;
@@ -99,4 +100,26 @@
 
 .googleLogin:hover {
   transform: scale(1.02);
+}
+
+#contentDiv{
+  margin-top: -20vh;
+  width: 100%;
+  height: 50vh;
+}
+
+#mainDiv{
+  height: 50vh;
+}
+
+p{
+  margin: auto;
+}
+
+.nav-link{
+  color: white !important;
+}
+
+.nav-link:hover{
+  color: lightgray !important;
 }

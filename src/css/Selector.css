@@ -1,15 +1,3 @@
-body, html {
-  height: 100%;
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background-color: #f4f7fc;
-  color: #333;
-}
-
-body{
-  margin-top: 7vh !important;
-}
-
 /* Page Layout */
 .page-wrapper {
   display: flex;
@@ -22,8 +10,8 @@ body{
 }
 
 .content-container {
-  margin-top: -10vh;
-  max-height: 90vh;
+  margin-top: -3vh;
+  max-height: 75vh;
   width: 90%;
   max-width: 500px;
   background: white;
@@ -49,6 +37,7 @@ h3 {
 
 /* Radio Group */
 .radio-group {
+  max-height: 320px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -60,6 +49,7 @@ h3 {
 }
 
 .radio-option {
+  margin-top: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,6 +58,7 @@ h3 {
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
   border-radius: 8px;
+  height: 50px;
 }
 
 .radio-option input {
@@ -84,14 +75,15 @@ h3 {
 }
 
 .radio-option input:checked + .name {
-  background-color: #0c7810;
+  
+  background-color: #4c0cb5;
   color: white;
   font-weight: bold;
   transform: scale(1.05);
 }
 
 .radio-option:hover .name {
-  background-color: #e6f4ea;
+  background-color: #4d0cb512;
   transform: scale(1.03);
 }
 
