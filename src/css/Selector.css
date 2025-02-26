@@ -76,7 +76,7 @@ h3 {
 
 .radio-option input:checked + .name {
   
-  background-color: #4c0cb5;
+  background: linear-gradient(135deg, #4c0cb5, #651bdd);
   color: white;
   font-weight: bold;
   transform: scale(1.05);
@@ -93,7 +93,7 @@ h3 {
   padding: 14px 24px;
   font-size: 18px;
   font-weight: bold;
-  background: linear-gradient(135deg, #0c7810, #45a049);
+  background: linear-gradient(135deg, #4c0cb5, #651bdd);
   color: white;
   border: none;
   border-radius: 8px;
@@ -103,7 +103,7 @@ h3 {
 }
 
 .select-button:hover {
-  background: linear-gradient(135deg, #088d17, #5aba63);
+  background: linear-gradient(135deg, #651bdd, #4c0cb5);
   transform: scale(1.05);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }

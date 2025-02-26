@@ -15,10 +15,10 @@ export const FooterComponent = () => {
       }}
     >
       <div className="text-center p-2 color-bg3 h-100 text-light">
-        <span>
+        <p>
           Elérhetőség: @
           <a href="https://github.com/pixel-pirates">Pixel Pirates</a>
-        </span>
+        </p>
       </div>
     </Footer>
   );

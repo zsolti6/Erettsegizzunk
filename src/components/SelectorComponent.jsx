@@ -63,7 +63,7 @@ export const SelectorComponent = () => {
   return (
     <div className="page-wrapper">
       <div className="content-container">
-        <h3>Válassz tantárgyat</h3>
+        <h4>Válassz tantárgyat</h4>
         <form className="exercise-form">
           <div className="radio-group">
             {subjects.map(({ id, name }) => (

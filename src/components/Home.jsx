@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/SubPage.css";
+import { HmacSHA256 } from "crypto-js";
 
 export const Home = () => {
   return (
@@ -14,13 +15,13 @@ export const Home = () => {
         </p>
         <div className="row w-100 g-3 gx-5 justify-content-center subject-row">
           <div className="col-lg-3 col-md-4 col-sm-8 col-10">
-            <SubjectComponent text={"Statisztika"} linkto={"/statistics"} />
+            <SubjectComponent text={"Statisztika"} icon={<i class="bi bi-bar-chart-line"></i>} linkto={"/statistics"} />
           </div>
           <div className="col-lg-3 col-md-4 col-sm-8 col-10">
-            <SubjectComponent text={"Új feladatlap"} linkto={"/selector"} />
+            <SubjectComponent text={"Új feladatlap"} icon={<i class="bi bi-pencil-square"></i>} linkto={"/selector"} />
           </div>
           <div className="col-lg-3 col-md-4 col-sm-8 col-10">
-            <SubjectComponent text={"Útmutató"} linkto={"/tutorial"} />
+            <SubjectComponent text={"Útmutató"} icon={<i class="bi bi-book"></i>} linkto={"/tutorial"} />
           </div>
         </div>
       </div>
@@ -29,7 +30,7 @@ export const Home = () => {
   );
 }
 
-function SubjectComponent({ text, linkto }) {
+function SubjectComponent({ text, linkto, icon }) {
   const navigate = useNavigate();
   return (
     <div
@@ -37,7 +38,10 @@ function SubjectComponent({ text, linkto }) {
       onClick={() => navigate(linkto)}
       className="action p-4 d-flex align-items-center justify-content-center cursor-pointer shadow-sm text-center w-100 color-bg2 color-text1"
     >
-      {text}
+      <h2>
+      {text}<br></br>
+      {icon}
+      </h2>
     </div>
   );
 }
