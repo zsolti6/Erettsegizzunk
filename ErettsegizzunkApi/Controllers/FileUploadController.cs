@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using FluentFTP;
+using System.Threading.Tasks;
+using System.IO;
+using ErettsegizzunkApi.DTOs;
+using Humanizer;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -15,10 +20,10 @@ namespace ErettsegizzunkApi.Controllers
             _env = env;
         }
 
-        [Route("BackEndServer")]
-        [HttpPost]
+       // [Route("BackEndServer")]
+        //[HttpPost]
 
-        public IActionResult FileUploadBackEnd()
+        private IActionResult FileUploadBackEnd()
         {
             try
             {
@@ -41,28 +46,25 @@ namespace ErettsegizzunkApi.Controllers
 
         [Route("FtpServer")]
         [HttpPost]
-        public async Task<IActionResult> FileUploadFtp()//from body?
+        public async Task<IActionResult> FileUploadFtp([FromBody] ImageUpload imageUpload)
         {
             try
             {
-                var httpRequest = Request.Form;
-                var postedFile = httpRequest.Files[0];
-                string fileName = postedFile.FileName;
-                string subFolder = "";
-
-                var url = "ftp://ftp.nethely.hu" + subFolder + "/" + fileName;
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(url);
-                request.Credentials = new NetworkCredential(Program.ftpUserName, Program.ftpPassword);
-                request.Method = WebRequestMethods.Ftp.UploadFile;
-                await using (Stream ftpStream = request.GetRequestStream())
+                if (!Program.LoggedInUsers.ContainsKey(imageUpload.Token) && Program.LoggedInUsers[imageUpload.Token].Permission.Level != 9)
                 {
-                    postedFile.CopyTo(ftpStream);
+                    return BadRequest(new ErrorDTO() { Id = 12, Message = "Hozzáférés megtagadva" });//szam
                 }
-                return Ok(fileName);
+                using var ms = new MemoryStream();
+                await imageUpload.File.CopyToAsync(ms);
+                byte[] fileBytes = ms.ToArray();
 
+                // (FTP upload logic goes here)
+
+                return Ok("File uploaded successfully.");
             }
             catch (Exception ex)
             {
+                // Log the exception as needed
                 return Ok("default.jpg");
             }
         }

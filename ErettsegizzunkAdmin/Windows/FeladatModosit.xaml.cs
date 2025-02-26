@@ -6,9 +6,6 @@ using Task = ErettsegizzunkApi.Models.Task;
 
 namespace ErettsegizzunkAdmin.Windows
 {
-    /// <summary>
-    /// Interaction logic for FeladatModosit.xaml
-    /// </summary>
     public partial class FeladatModosit : Window
     {
         private Task feladat;
@@ -16,12 +13,11 @@ namespace ErettsegizzunkAdmin.Windows
         private LoggedUserDTO user;
         public FeladatModosit(Task feladat, LoggedUserDTO user)
         {
-            InitializeComponent();
             _apiService = new ApiService();
-            this.feladat = feladat;
             this.user = user;
-            DataContext = this.feladat;
-            System.Threading.Tasks.Task.Run(async () => await SetLists());
+            this.feladat = feladat;
+            InitializeComponent();
+            InitializeAsync();
         }
 
         private async System.Threading.Tasks.Task SetLists()
@@ -62,6 +58,12 @@ namespace ErettsegizzunkAdmin.Windows
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private async void InitializeAsync()
+        {
+            await SetLists();
+            DataContext = feladat;
         }
     }
 }

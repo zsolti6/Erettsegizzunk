@@ -9,8 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\hatter.jpg" />
+    <None Remove="Images\hatter.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MaterialDesignColors" Version="3.1.0" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.1" />
   </ItemGroup>
@@ -19,6 +25,10 @@
     <Reference Include="BespokeFusion">
       <HintPath>..\..\..\messagebox\Material-Message-Box\BespokeFusion\bin\Release\net48\BespokeFusion.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\hatter.jpg" />
   </ItemGroup>
 
 </Project>

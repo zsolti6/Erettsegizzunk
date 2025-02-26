@@ -123,8 +123,8 @@ namespace ErettsegizzunkApi
             var app = builder.Build();
 
             // Get the PORT from the environment variable or default to 5000
-            var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-            app.Urls.Add($"http://*:{port}");
+            //var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+            //app.Urls.Add($"http://*:{port}");
 
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 

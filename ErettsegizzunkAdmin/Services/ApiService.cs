@@ -3,11 +3,13 @@ using ErettsegizzunkAdmin.DTOs;
 using ErettsegizzunkApi.DTOs;
 using ErettsegizzunkApi.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using Task = System.Threading.Tasks.Task;
 using Type = ErettsegizzunkApi.Models.Type;
@@ -457,7 +459,49 @@ namespace ErettsegizzunkAdmin.Services
         }
         #endregion
 
-        #region Kép letöltés
+        #region Kép letöltés, feltöltés
+        public async Task UploadImageAsync(string token, string filePath = "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Images\\hatter.jpg")//hibakezelés forntend üzenetek
+        {
+            try
+            {
+                // Read file bytes and get the file name.
+                string fileName = Path.GetFileName(filePath);
+                byte[] fileBytes = File.ReadAllBytes(filePath);
+
+                // Create a MultipartFormDataContent container.
+                using var multipartContent = new MultipartFormDataContent();
+
+                // Add the token as a form field.
+                multipartContent.Add(new StringContent(token), "Token");
+
+                // Add the file content.
+                var fileContent = new ByteArrayContent(fileBytes);
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                multipartContent.Add(fileContent, "File", fileName);
+
+                // Build the URL for your API endpoint.
+                string url = "https://localhost:7066/erettsegizzunk/FileUpload/FtpServer";
+
+                // Send the POST request.
+                HttpResponseMessage response = await _httpClient.PostAsync(url, multipartContent);
+                if (response.IsSuccessStatusCode)
+                {
+                    // Handle success (optional)
+                    string result = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Upload successful: " + result);
+                }
+                else
+                {
+                    // Handle failure (optional)
+                    Console.WriteLine("Upload failed: " + response.ReasonPhrase);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Exception occurred: {ex.Message}");
+            }
+        }
+
         public async Task<string> GetImage(string imageName)
         {
             try
@@ -512,6 +556,8 @@ namespace ErettsegizzunkAdmin.Services
             }
 
         }
+
+
         #endregion
 
         #region Felhasználók

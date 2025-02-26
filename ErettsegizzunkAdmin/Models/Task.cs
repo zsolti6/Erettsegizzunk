@@ -22,7 +22,7 @@ public partial class Task
 
     public int LevelId { get; set; }
 
-    public string? PicName { get; set; }
+    public string? PicName { get; set; } = null;
 
     public virtual Level? Level { get; set; }
 

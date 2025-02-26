@@ -30,10 +30,12 @@ namespace ErettsegizzunkAdmin
         {
             InitializeComponent();
             _apiService = new ApiService();
+            
         }
 
         private async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
+            await _apiService.UploadImageAsync("token");
             LoggedUserDTO user = new LoggedUserDTO();
             try
             {
