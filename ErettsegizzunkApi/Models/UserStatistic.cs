@@ -11,17 +11,17 @@ public partial class UserStatistic
 
     public DateTime? StatisticsDate { get; set; }
 
-    public string? MathSuccessfulTasks { get; set; }
+    public string MathSuccessfulTasks { get; set; } = string.Empty;
 
-    public string? MathUnsuccessfulTasks { get; set; }
+    public string MathUnsuccessfulTasks { get; set; } = string.Empty;
 
-    public string? HistorySuccessfulTasks { get; set; }
+    public string HistorySuccessfulTasks { get; set; } = string.Empty;
 
-    public string? HistoryUnsuccessfulTasks { get; set; }
+    public string HistoryUnsuccessfulTasks { get; set; } = string.Empty;
 
-    public string? HungarianSuccessfulTasks { get; set; }
+    public string HungarianSuccessfulTasks { get; set; } = string.Empty;
 
-    public string? HungarianUnsuccessfulTasks { get; set; }
+    public string HungarianUnsuccessfulTasks { get; set; } = string.Empty;
 
     public virtual User User { get; set; } = null!;
 }

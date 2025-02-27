@@ -58,7 +58,7 @@ namespace ErettsegizzunkApi.Controllers
         {
             try
             {
-                if (!Program.LoggedInUsers.ContainsKey(getOneStatistics.Token) && Program.LoggedInUsers[getOneStatistics.Token].Id != getOneStatistics.Id)
+                if (!Program.LoggedInUsers.ContainsKey(getOneStatistics.Token) || Program.LoggedInUsers[getOneStatistics.Token].Id != getOneStatistics.Id)
                 {
                     return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
                 }
@@ -70,11 +70,14 @@ namespace ErettsegizzunkApi.Controllers
                     return NotFound(new ErrorDTO() { Id = 117, Message = "Az elem nem található" });
                 }
 
-                Dictionary<string, int> successRates = new Dictionary<string, int>();
+                Dictionary<string, int[]> successRates = new Dictionary<string, int[]>();
+
 
                 if (getOneStatistics.SubjectIds.Length != 0)
                 {
                     await GetSubjects(getOneStatistics, userStatistic, successRates);
+                    
+
                 }
 
                 return Ok(successRates);
@@ -90,6 +93,48 @@ namespace ErettsegizzunkApi.Controllers
             catch (Exception)
             {
                 return NotFound(new ErrorDTO() { Id = 120, Message = "Hiba történt az adatok lekérdezése közben" });
+            }
+
+        }
+
+        //szures add: szint, (feladatok megjelenítése statisztikával egyszerre max 50 szürés: tanátrgy, szint, téma)
+        [HttpPost("get-one-statistics-filter")]
+        public async Task<ActionResult<UserStatistic>> GetUserStatisticFilter([FromBody] GetOneFilterStatisticsDTO filterStatisticsDTO)
+        {
+            try
+            {
+                if (!Program.LoggedInUsers.ContainsKey(filterStatisticsDTO.Token) || Program.LoggedInUsers[filterStatisticsDTO.Token].Id != filterStatisticsDTO.Id)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 134, Message = "Hozzáférés megtagadva" });//hibaüzenet átírás szám
+                }
+
+                UserStatistic userStatistic = await _context.UserStatistics.FirstOrDefaultAsync(x => x.UserId == filterStatisticsDTO.Id);
+
+                if (userStatistic is null)
+                {
+                    return NotFound(new ErrorDTO() { Id = 135, Message = "Az elem nem található" });
+                }
+
+                Dictionary<Subject, int[]> successRates = new Dictionary<Subject, int[]>();
+
+                if (true)
+                {
+                    //await GetSubjects(getOneStatistics, userStatistic, successRates);
+                }
+
+                return Ok(successRates);
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 136, Message = "Kapcsolati hiba" });
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 137, Message = "Hiba történt az adatok lekérdezése közben" });
+            }
+            catch (Exception)
+            {
+                return NotFound(new ErrorDTO() { Id = 138, Message = "Hiba történt az adatok lekérdezése közben" });
             }
 
         }
@@ -170,32 +215,38 @@ namespace ErettsegizzunkApi.Controllers
 
             return Ok();
         }
-
-        private async Task GetSubjects(GetOneStatisticsDTO getOneStatistics, UserStatistic userStatistic, Dictionary<string, int> successRates)
+        
+        private async Task GetSubjects(GetOneStatisticsDTO getOneStatistics, UserStatistic userStatistic, Dictionary<string, int[]> successRates)
         {
             for (int i = 0; i < getOneStatistics.SubjectIds.Length; i++)
             {
-
+                int seged = 0;
                 switch (getOneStatistics.SubjectIds[i])
                 {
                     case 1:
-                        int mathSuccesfullTask = userStatistic.MathSuccessfulTasks.Replace(",", "").Count();
-                        int mathUnSuccesfullTask = userStatistic.MathUnsuccessfulTasks.Replace(",", "").Count();
-                        successRates.Add("Matek", (int)Math.Round((double)mathSuccesfullTask * 100 / (mathSuccesfullTask + mathUnSuccesfullTask)));
+                        seged = userStatistic.MathSuccessfulTasks.Split(",").Count();
+                        int mathSuccesfullTask = seged < 0 ? 0 : seged;
+                        seged = userStatistic.MathUnsuccessfulTasks.Split(",").Count();
+                        int mathUnSuccesfullTask = seged < 0 ? 0 : seged;
+                        successRates.Add("Matek", new int[] { (int)Math.Round((double)mathSuccesfullTask * 100 / (mathSuccesfullTask + mathUnSuccesfullTask)), mathSuccesfullTask + mathUnSuccesfullTask });
                         break;
 
 
                     case 2:
-                        int historySuccessfulTasks = userStatistic.HistorySuccessfulTasks.Replace(",", "").Count();
-                        int historyUnsuccessfulTasks = userStatistic.HistoryUnsuccessfulTasks.Replace(",", "").Count();
-                        successRates.Add("Történelem", (int)Math.Round((double)historySuccessfulTasks * 100 / (historySuccessfulTasks + historyUnsuccessfulTasks)));
+                        seged = userStatistic.HistorySuccessfulTasks.Split(",").Count();
+                        int historySuccessfulTasks = seged < 0 ? 0 : seged; 
+                        seged = userStatistic.HistoryUnsuccessfulTasks.Split(",").Count();
+                        int historyUnsuccessfulTasks = seged < 0 ? 0 : seged;
+                        successRates.Add("Történelem", new int[] { (int)Math.Round((double)historySuccessfulTasks * 100 / (historySuccessfulTasks + historyUnsuccessfulTasks)), historySuccessfulTasks + historyUnsuccessfulTasks });
                         break;
 
 
                     case 3:
-                        int hungarianSuccessfulTasks = userStatistic.HungarianSuccessfulTasks.Replace(",", "").Count();
-                        int hungarianUnsuccessfulTasks = userStatistic.HungarianUnsuccessfulTasks.Replace(",", "").Count();
-                        successRates.Add("Magyar", (int)Math.Round((double)hungarianSuccessfulTasks * 100 / (hungarianSuccessfulTasks + hungarianUnsuccessfulTasks)));
+                        seged = userStatistic.HungarianSuccessfulTasks.Split(",").Count();
+                        int hungarianSuccessfulTasks = seged < 0 ? 0 : seged;
+                        seged = userStatistic.HungarianUnsuccessfulTasks.Split(",").Count();
+                        int hungarianUnsuccessfulTasks = seged < 0 ? 0 : seged;
+                        successRates.Add("Magyar", new int[] { (int)Math.Round((double)hungarianSuccessfulTasks * 100 / (hungarianSuccessfulTasks + hungarianUnsuccessfulTasks)), hungarianSuccessfulTasks + hungarianUnsuccessfulTasks });
                         break;
                 }
 

@@ -83,7 +83,7 @@ namespace ErettsegizzunkApi.Controllers
                     _context.Users.Update(user);
                     await _context.SaveChangesAsync();
 
-                    _userStatisticsController.PostUserStatistic(user.Id);
+                    await _userStatisticsController.PostUserStatistic(user.Id);
                     string body = "<p>A regisztráció befejezése sikeresen megtörtént</p>" +
                     "<img src='http://images.erettsegizzunk.nhely.hu/1715962531.84313.123565.jpg' alt='Image'/>";
 

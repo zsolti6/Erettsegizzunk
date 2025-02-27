@@ -46,11 +46,11 @@ namespace ErettsegizzunkApi.Controllers
 
         [Route("FtpServer")]
         [HttpPost]
-        public async Task<IActionResult> FileUploadFtp([FromBody] ImageUpload imageUpload)
+        public async Task<IActionResult> FileUploadFtp([FromBody] ImageUpload imageUpload)//bugos????
         {
             try
             {
-                if (!Program.LoggedInUsers.ContainsKey(imageUpload.Token) && Program.LoggedInUsers[imageUpload.Token].Permission.Level != 9)
+                if (!Program.LoggedInUsers.ContainsKey(imageUpload.Token) || Program.LoggedInUsers[imageUpload.Token].Permission.Level != 9)
                 {
                     return BadRequest(new ErrorDTO() { Id = 12, Message = "Hozzáférés megtagadva" });//szam
                 }
