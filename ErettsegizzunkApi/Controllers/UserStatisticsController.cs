@@ -1,9 +1,11 @@
 ﻿using ErettsegizzunkApi.DTOs;
 using ErettsegizzunkApi.Models;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
-using Task = System.Threading.Tasks.Task;
+using Newtonsoft.Json;
+using Task = ErettsegizzunkApi.Models.Task;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -76,8 +78,6 @@ namespace ErettsegizzunkApi.Controllers
                 if (getOneStatistics.SubjectIds.Length != 0)
                 {
                     await GetSubjects(getOneStatistics, userStatistic, successRates);
-                    
-
                 }
 
                 return Ok(successRates);
@@ -99,30 +99,30 @@ namespace ErettsegizzunkApi.Controllers
 
         //szures add: szint, (feladatok megjelenítése statisztikával egyszerre max 50 szürés: tanátrgy, szint, téma)
         [HttpPost("get-one-statistics-filter")]
-        public async Task<ActionResult<UserStatistic>> GetUserStatisticFilter([FromBody] GetOneFilterStatisticsDTO filterStatisticsDTO)
+        public async Task<ActionResult<UserStatistic>> GetUserStatisticFilter([FromBody] GetOneFilterStatisticsDTO getOneFilter)
         {
             try
             {
-                if (!Program.LoggedInUsers.ContainsKey(filterStatisticsDTO.Token) || Program.LoggedInUsers[filterStatisticsDTO.Token].Id != filterStatisticsDTO.Id)
+                if (!Program.LoggedInUsers.ContainsKey(getOneFilter.Token) || Program.LoggedInUsers[getOneFilter.Token].Id != getOneFilter.Id)
                 {
-                    return Unauthorized(new ErrorDTO() { Id = 134, Message = "Hozzáférés megtagadva" });//hibaüzenet átírás szám
+                    //return Unauthorized(new ErrorDTO() { Id = 134, Message = "Hozzáférés megtagadva" });//hibaüzenet átírás szám
                 }
 
-                UserStatistic userStatistic = await _context.UserStatistics.FirstOrDefaultAsync(x => x.UserId == filterStatisticsDTO.Id);
+                UserStatistic userStatistic = await _context.UserStatistics.FirstOrDefaultAsync(x => x.UserId == getOneFilter.Id);
 
                 if (userStatistic is null)
                 {
                     return NotFound(new ErrorDTO() { Id = 135, Message = "Az elem nem található" });
                 }
 
-                Dictionary<Subject, int[]> successRates = new Dictionary<Subject, int[]>();
+                List<FilteredTaksDTO> filteredTaks = new List<FilteredTaksDTO>();
 
                 if (true)
                 {
-                    //await GetSubjects(getOneStatistics, userStatistic, successRates);
+                    filteredTaks = await GetSubjectSuccesfullUnsuccesfullCount(getOneFilter,userStatistic);
                 }
 
-                return Ok(successRates);
+                return Ok(filteredTaks);
             }
             catch (MySqlException)
             {
@@ -132,14 +132,14 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return StatusCode(500, new ErrorDTO() { Id = 137, Message = "Hiba történt az adatok lekérdezése közben" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return NotFound(new ErrorDTO() { Id = 138, Message = "Hiba történt az adatok lekérdezése közben" });
             }
 
         }
 
-        [HttpPut("put-statisztika")]
+        [HttpPut("put-statisztika")] //nem a végére hanem az elejésre kell a vessző
         public async Task<IActionResult> PutUserStatistic([FromBody] PutStatisticsDTO putStatistics)
         {
             try
@@ -215,8 +215,68 @@ namespace ErettsegizzunkApi.Controllers
 
             return Ok();
         }
+
+        private async Task<List<FilteredTaksDTO>> GetSubjectSuccesfullUnsuccesfullCount(GetOneFilterStatisticsDTO getOneFilter, UserStatistic userStatistic)
+        {
+            List<FilteredTaksDTO> feladatok = new List<FilteredTaksDTO>();
+            HashSet<int> ids = new HashSet<int>();
+            string[] tasks;
+            int joDb = 0;
+            int rosszDb = 0;
+            switch (getOneFilter.SubjectId)
+            {
+                case 1:
+                    tasks = (userStatistic.MathSuccessfulTasks + userStatistic.MathUnsuccessfulTasks).Split(",");
+                    joDb = userStatistic.MathSuccessfulTasks.Split(",").Count();
+                    rosszDb = userStatistic.MathUnsuccessfulTasks.Split(",").Count();
+                    foreach (string item in tasks)
+                    {
+                        ids.Add(int.Parse(item));
+                    }
+                    break;
+
+                case 2:
+                    tasks = (userStatistic.HistorySuccessfulTasks + userStatistic.HistoryUnsuccessfulTasks).Split(",");
+                    joDb = userStatistic.HistorySuccessfulTasks.Split(",").Count();
+                    rosszDb = userStatistic.HistoryUnsuccessfulTasks.Split(",").Count();
+                    foreach (string item in tasks)
+                    {
+                        ids.Add(int.Parse(item));
+                    }
+                    break;
+
+                case 3:
+                    tasks = (userStatistic.HungarianSuccessfulTasks + userStatistic.HungarianUnsuccessfulTasks).Split(",");
+                    joDb = userStatistic.HungarianSuccessfulTasks.Split(",").Count();
+                    rosszDb = userStatistic.HungarianUnsuccessfulTasks.Split(",").Count();
+                    foreach (string item in tasks)
+                    {
+                        ids.Add(int.Parse(item));
+                    }
+                    break;
+
+            }
+
+            List<Task> taskList = await _context.Tasks
+                .Where(x => ids.Contains(x.Id))
+                .Take(50)
+                .ToListAsync();
+
+            foreach (Task task in taskList)
+            {
+                FilteredTaksDTO filteredTaks = new FilteredTaksDTO()
+                {
+                    Task = task,
+                    JoRossz = new int[] { joDb, rosszDb },
+                };
+                feladatok.Add(filteredTaks);
+            }
+
+
+            return feladatok;
+        }
         
-        private async Task GetSubjects(GetOneStatisticsDTO getOneStatistics, UserStatistic userStatistic, Dictionary<string, int[]> successRates)
+        private async System.Threading.Tasks.Task GetSubjects(GetOneStatisticsDTO getOneStatistics, UserStatistic userStatistic, Dictionary<string, int[]> successRates)
         {
             for (int i = 0; i < getOneStatistics.SubjectIds.Length; i++)
             {
@@ -253,7 +313,7 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        private async Task PutStatistics(PutStatisticsDTO putStatistics, UserStatistic userStatistic, int taskId, bool success)
+        private async System.Threading.Tasks.Task PutStatistics(PutStatisticsDTO putStatistics, UserStatistic userStatistic, int taskId, bool success)
         {
             switch (putStatistics.SubjectId)
             {

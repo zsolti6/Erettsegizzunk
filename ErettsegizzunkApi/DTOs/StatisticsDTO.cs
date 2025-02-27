@@ -1,4 +1,5 @@
 ﻿using ErettsegizzunkApi.Models;
+using Task = ErettsegizzunkApi.Models.Task;
 
 namespace ErettsegizzunkApi.DTOs
 {
@@ -25,14 +26,21 @@ namespace ErettsegizzunkApi.DTOs
     {
         public int Id { get; set; }
 
+        public int OldalSzam { get; set; }
+
         public int[] SzintId { get; set; }
 
-        public int[] SubjectId { get; set; }
+        public int SubjectId { get; set; }
 
         public string Token { get; set; }
 
-        public Dictionary<Subject, int[]> Feladatok { get; set; }
+    }
 
+    public class FilteredTaksDTO
+    {
+        public Task Task { get; set; }
+
+        public int[] JoRossz { get; set; }
     }
 
     public class PutStatisticsDTO
