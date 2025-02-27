@@ -1,10 +1,8 @@
 ﻿using ErettsegizzunkApi.DTOs;
 using ErettsegizzunkApi.Models;
-using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
-using Newtonsoft.Json;
 using Task = ErettsegizzunkApi.Models.Task;
 
 namespace ErettsegizzunkApi.Controllers
@@ -156,16 +154,18 @@ namespace ErettsegizzunkApi.Controllers
                     return BadRequest(new ErrorDTO() { Id = 122, Message = "Ilyen nevű felhasználó nem létezik" });
                 }
 
-                foreach (int id in putStatistics.TaskIds.Keys)
+                for (int i = 0; i < putStatistics.TaskIds.Keys.Count; i++)
                 {
-                    if (putStatistics.TaskIds[id])
+                    if (putStatistics.TaskIds[i])
                     {
-                        await PutStatistics(putStatistics, userStatistic, id, true);
+                        await PutStatistics(putStatistics, userStatistic, i + 1, true, i);
                         continue;
                     }
 
-                    await PutStatistics(putStatistics, userStatistic, id, false);
+                    await PutStatistics(putStatistics, userStatistic, i + 1, false, i);
                 }
+
+                userStatistic.StatisticsDates += DateTime.Now.ToString("yyyy-MM-dd") + ";";
 
                 _context.Entry(userStatistic).State = EntityState.Modified;
 
@@ -226,9 +226,9 @@ namespace ErettsegizzunkApi.Controllers
             switch (getOneFilter.SubjectId)
             {
                 case 1:
-                    tasks = (userStatistic.MathSuccessfulTasks + userStatistic.MathUnsuccessfulTasks).Split(",");
-                    joDb = userStatistic.MathSuccessfulTasks.Split(",").Count();
-                    rosszDb = userStatistic.MathUnsuccessfulTasks.Split(",").Count();
+                    tasks = (userStatistic.MathSuccessfulTasks + userStatistic.MathUnsuccessfulTasks).Split(new char[] { ',', ';' });
+                    joDb = userStatistic.MathSuccessfulTasks.Split(new char[] { ',', ';' }).Count();
+                    rosszDb = userStatistic.MathUnsuccessfulTasks.Split(new char[] { ',', ';' }).Count();
                     foreach (string item in tasks)
                     {
                         ids.Add(int.Parse(item));
@@ -236,9 +236,9 @@ namespace ErettsegizzunkApi.Controllers
                     break;
 
                 case 2:
-                    tasks = (userStatistic.HistorySuccessfulTasks + userStatistic.HistoryUnsuccessfulTasks).Split(",");
-                    joDb = userStatistic.HistorySuccessfulTasks.Split(",").Count();
-                    rosszDb = userStatistic.HistoryUnsuccessfulTasks.Split(",").Count();
+                    tasks = (userStatistic.HistorySuccessfulTasks + userStatistic.HistoryUnsuccessfulTasks).Split(new char[] { ',', ';' });
+                    joDb = userStatistic.HistorySuccessfulTasks.Split(new char[] { ',', ';' }).Count();
+                    rosszDb = userStatistic.HistoryUnsuccessfulTasks.Split(new char[] { ',', ';' }).Count();
                     foreach (string item in tasks)
                     {
                         ids.Add(int.Parse(item));
@@ -246,9 +246,9 @@ namespace ErettsegizzunkApi.Controllers
                     break;
 
                 case 3:
-                    tasks = (userStatistic.HungarianSuccessfulTasks + userStatistic.HungarianUnsuccessfulTasks).Split(",");
-                    joDb = userStatistic.HungarianSuccessfulTasks.Split(",").Count();
-                    rosszDb = userStatistic.HungarianUnsuccessfulTasks.Split(",").Count();
+                    tasks = (userStatistic.HungarianSuccessfulTasks + userStatistic.HungarianUnsuccessfulTasks).Split(new char[] { ',', ';' });
+                    joDb = userStatistic.HungarianSuccessfulTasks.Split(new char[] { ',', ';' }).Count();
+                    rosszDb = userStatistic.HungarianUnsuccessfulTasks.Split(new char[] { ',', ';' }).Count();
                     foreach (string item in tasks)
                     {
                         ids.Add(int.Parse(item));
@@ -284,27 +284,27 @@ namespace ErettsegizzunkApi.Controllers
                 switch (getOneStatistics.SubjectIds[i])
                 {
                     case 1:
-                        seged = userStatistic.MathSuccessfulTasks.Split(",").Count();
+                        seged = userStatistic.MathSuccessfulTasks.Split(new char[] {',',';'}).Count();
                         int mathSuccesfullTask = seged < 0 ? 0 : seged;
-                        seged = userStatistic.MathUnsuccessfulTasks.Split(",").Count();
+                        seged = userStatistic.MathUnsuccessfulTasks.Split(new char[] { ',', ';' }).Count();
                         int mathUnSuccesfullTask = seged < 0 ? 0 : seged;
                         successRates.Add("Matek", new int[] { (int)Math.Round((double)mathSuccesfullTask * 100 / (mathSuccesfullTask + mathUnSuccesfullTask)), mathSuccesfullTask + mathUnSuccesfullTask });
                         break;
 
 
                     case 2:
-                        seged = userStatistic.HistorySuccessfulTasks.Split(",").Count();
+                        seged = userStatistic.HistorySuccessfulTasks.Split(new char[] { ',', ';' }).Count();
                         int historySuccessfulTasks = seged < 0 ? 0 : seged; 
-                        seged = userStatistic.HistoryUnsuccessfulTasks.Split(",").Count();
+                        seged = userStatistic.HistoryUnsuccessfulTasks.Split(new char[] { ',', ';' }).Count();
                         int historyUnsuccessfulTasks = seged < 0 ? 0 : seged;
                         successRates.Add("Történelem", new int[] { (int)Math.Round((double)historySuccessfulTasks * 100 / (historySuccessfulTasks + historyUnsuccessfulTasks)), historySuccessfulTasks + historyUnsuccessfulTasks });
                         break;
 
 
                     case 3:
-                        seged = userStatistic.HungarianSuccessfulTasks.Split(",").Count();
+                        seged = userStatistic.HungarianSuccessfulTasks.Split(new char[] { ',', ';' }).Count();
                         int hungarianSuccessfulTasks = seged < 0 ? 0 : seged;
-                        seged = userStatistic.HungarianUnsuccessfulTasks.Split(",").Count();
+                        seged = userStatistic.HungarianUnsuccessfulTasks.Split(new char[] { ',', ';' }).Count();
                         int hungarianUnsuccessfulTasks = seged < 0 ? 0 : seged;
                         successRates.Add("Magyar", new int[] { (int)Math.Round((double)hungarianSuccessfulTasks * 100 / (hungarianSuccessfulTasks + hungarianUnsuccessfulTasks)), hungarianSuccessfulTasks + hungarianUnsuccessfulTasks });
                         break;
@@ -313,40 +313,63 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        private async System.Threading.Tasks.Task PutStatistics(PutStatisticsDTO putStatistics, UserStatistic userStatistic, int taskId, bool success)
+        private async System.Threading.Tasks.Task PutStatistics(PutStatisticsDTO putStatistics, UserStatistic userStatistic, int taskId, bool success, int hol)//elso adatfelvitel esetén ne rakjon felesleges ,-őt
         {
             switch (putStatistics.SubjectId)
             {
                 case 1:
                     if (success)
                     {
-                        userStatistic.MathSuccessfulTasks += $"{taskId},";
-                        break;
+                        userStatistic.MathSuccessfulTasks += $",{taskId}";
+                    }
+                    else
+                    {
+                        userStatistic.MathUnsuccessfulTasks += $",{taskId}";
                     }
 
-                    userStatistic.MathUnsuccessfulTasks += $"{taskId},";
+                    if (hol == 14)
+                    {
+                        userStatistic.MathSuccessfulTasks += ";";
+                        userStatistic.MathUnsuccessfulTasks += ";";
+                    }
                     break;
 
 
                 case 2:
                     if (success)
                     {
-                        userStatistic.HistorySuccessfulTasks += $"{taskId},";
-                        break;
+                        userStatistic.HistorySuccessfulTasks += $",{taskId}";
+                    }
+                    else
+                    {
+                        userStatistic.HistoryUnsuccessfulTasks += $",{taskId}";
                     }
 
-                    userStatistic.HistoryUnsuccessfulTasks += $"{taskId},";
+                    if (hol == 14)
+                    {
+                        userStatistic.HistorySuccessfulTasks += ";";
+                        userStatistic.HistoryUnsuccessfulTasks += ";";
+                    }
+
                     break;
 
 
                 case 3:
                     if (success)
                     {
-                        userStatistic.HungarianSuccessfulTasks += $"{taskId},";
-                        break;
+                        userStatistic.HungarianSuccessfulTasks += $",{taskId}";
+                    }
+                    else
+                    {
+                        userStatistic.HungarianUnsuccessfulTasks += $",{taskId}";
                     }
 
-                    userStatistic.HungarianUnsuccessfulTasks += $"{taskId},";
+                    if (hol == 14)
+                    {
+                        userStatistic.HungarianSuccessfulTasks += ";";
+                        userStatistic.HungarianUnsuccessfulTasks += ";";
+                    }
+
                     break;
             }
         }

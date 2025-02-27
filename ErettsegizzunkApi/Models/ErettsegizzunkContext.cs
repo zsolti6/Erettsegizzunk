@@ -316,32 +316,32 @@ public partial class ErettsegizzunkContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
             entity.Property(e => e.HistorySuccessfulTasks)
-                .HasDefaultValueSql("'NULL'")
+                .HasDefaultValueSql("")
                 .HasColumnType("text")
                 .HasColumnName("historySuccessfulTasks");
             entity.Property(e => e.HistoryUnsuccessfulTasks)
-                .HasDefaultValueSql("'NULL'")
+                .HasDefaultValueSql("")
                 .HasColumnType("text")
                 .HasColumnName("historyUnsuccessfulTasks");
             entity.Property(e => e.HungarianSuccessfulTasks)
-                .HasDefaultValueSql("'NULL'")
+                .HasDefaultValueSql("")
                 .HasColumnType("text")
                 .HasColumnName("hungarianSuccessfulTasks");
             entity.Property(e => e.HungarianUnsuccessfulTasks)
-                .HasDefaultValueSql("'NULL'")
+                .HasDefaultValueSql("")
                 .HasColumnType("text")
                 .HasColumnName("hungarianUnsuccessfulTasks");
             entity.Property(e => e.MathSuccessfulTasks)
-                .HasDefaultValueSql("'NULL'")
+                .HasDefaultValueSql("")
                 .HasColumnType("text")
                 .HasColumnName("mathSuccessfulTasks");
             entity.Property(e => e.MathUnsuccessfulTasks)
-                .HasDefaultValueSql("'NULL'")
+                .HasDefaultValueSql("")
                 .HasColumnType("text")
                 .HasColumnName("mathUnsuccessfulTasks");
-            entity.Property(e => e.StatisticsDate)
-                .HasDefaultValueSql("'NULL'")
-                .HasColumnType("date")
+            entity.Property(e => e.StatisticsDates)
+                .HasDefaultValueSql("")
+                .HasColumnType("text")
                 .HasColumnName("statisticsDate");
             entity.Property(e => e.UserId)
                 .HasColumnType("int(11)")
