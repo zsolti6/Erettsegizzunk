@@ -35,3 +35,11 @@ code {
 .color-text2{
   color: #290661 !important;
 }
+
+#root{
+  height: 100%;
+}
+
+body{
+  height: 100%;
+}

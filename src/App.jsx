@@ -21,17 +21,19 @@ export const App = () => {
   const [user, setUser] = useState(null);
   const [googleLogged, setGoogleLogged] = useState(false);
   const rememberMe = localStorage.getItem("rememberMe") === "true";
-
+  
   useEffect(() => {
     const storedUser = rememberMe ? localStorage.getItem("user") : sessionStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+    
     const storedGoogleLogged = rememberMe ? localStorage.getItem("googleLogged") : sessionStorage.getItem("googleLogged");
     if (storedGoogleLogged) {
       setGoogleLogged(JSON.parse(storedGoogleLogged));
     }
-  }, [rememberMe]);
+  }, []); // No dependency on `rememberMe` to avoid unnecessary re-runs
+  
 
   const handleLogout = () => {
     setUser(null);
@@ -59,7 +61,7 @@ export const App = () => {
         <Navbar user={user} googleLogged={googleLogged} handleLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/statistics" element={<StatisticsComponent />} />
+          <Route path="/statistics" element={<StatisticsComponent user={user} />} />
           <Route path="/tutorial" element={<TutorialComponent />} />
           <Route path="/search" element={<SearchComponent />} />
           <Route path="/exercise" element={<ExerciseComponent />} />

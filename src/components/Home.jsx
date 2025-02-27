@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/SubPage.css";
-import { HmacSHA256 } from "crypto-js";
 
 export const Home = () => {
   return (

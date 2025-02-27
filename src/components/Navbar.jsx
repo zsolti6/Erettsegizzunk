@@ -3,9 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/Navbar.css";
 
-export const Navbar = ({ user, googleLogged, handleLogout }) => {
+export const Navbar = ({ user, googleLogged }) => {
   const navigate = useNavigate();
-
   const navigateToProfile = () => {
     navigate("/profile");
   };

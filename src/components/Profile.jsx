@@ -49,6 +49,8 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
         profilePicturePath: user.profilePicturePath || "string",
         token: user.token || "string"
       });
+      console.log(user.newsletter);
+      
       setFormData({
         token: user.token || "string",
         loginName: user.name || "string",
@@ -145,6 +147,7 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
             onChange={() => {
               setChangePassword(!changePassword)
               setFormData({...formData, oldPassword: "", newPassword: ""})
+              setPasswordVisible(false);
             }}
             className="form-check-input me-2"
           />
@@ -178,6 +181,7 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
                 type="button" 
                 className="btn btn-outline-secondary" 
                 onClick={togglePasswordVisibility}
+                disabled={!changePassword}
               >
                 {passwordVisible ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
               </button>
