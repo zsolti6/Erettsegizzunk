@@ -316,31 +316,31 @@ public partial class ErettsegizzunkContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
             entity.Property(e => e.HistorySuccessfulTasks)
-                .HasDefaultValueSql("")
+                .HasDefaultValue("")
                 .HasColumnType("text")
                 .HasColumnName("historySuccessfulTasks");
             entity.Property(e => e.HistoryUnsuccessfulTasks)
-                .HasDefaultValueSql("")
+                .HasDefaultValue("")
                 .HasColumnType("text")
                 .HasColumnName("historyUnsuccessfulTasks");
             entity.Property(e => e.HungarianSuccessfulTasks)
-                .HasDefaultValueSql("")
+                .HasDefaultValue("")
                 .HasColumnType("text")
                 .HasColumnName("hungarianSuccessfulTasks");
             entity.Property(e => e.HungarianUnsuccessfulTasks)
-                .HasDefaultValueSql("")
+                .HasDefaultValue("")
                 .HasColumnType("text")
                 .HasColumnName("hungarianUnsuccessfulTasks");
             entity.Property(e => e.MathSuccessfulTasks)
-                .HasDefaultValueSql("")
+                .HasDefaultValue("")
                 .HasColumnType("text")
                 .HasColumnName("mathSuccessfulTasks");
             entity.Property(e => e.MathUnsuccessfulTasks)
-                .HasDefaultValueSql("")
+                .HasDefaultValue("")
                 .HasColumnType("text")
                 .HasColumnName("mathUnsuccessfulTasks");
             entity.Property(e => e.StatisticsDates)
-                .HasDefaultValueSql("")
+                .HasDefaultValue("")
                 .HasColumnType("text")
                 .HasColumnName("statisticsDate");
             entity.Property(e => e.UserId)

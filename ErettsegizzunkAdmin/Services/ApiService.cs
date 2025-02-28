@@ -458,7 +458,7 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
         #endregion
-
+        //bugos
         #region Kép letöltés, feltöltés
         public async Task UploadImageAsync(string token, string filePath = "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Images\\hatter.jpg")//hibakezelés forntend üzenetek
         {
