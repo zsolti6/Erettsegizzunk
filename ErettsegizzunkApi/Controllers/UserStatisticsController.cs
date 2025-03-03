@@ -343,7 +343,7 @@ namespace ErettsegizzunkApi.Controllers
                             seged = userStatistic.MathSuccessfulTasks.Remove(userStatistic.MathSuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
                         }
                         int mathSuccesfullTask = seged < 0 ? 0 : seged;
-
+                        seged = 0;
                         if (userStatistic.MathUnsuccessfulTasks.Length > 0)
                         {
                             seged = userStatistic.MathUnsuccessfulTasks.Remove(userStatistic.MathUnsuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
@@ -360,7 +360,7 @@ namespace ErettsegizzunkApi.Controllers
                             seged = userStatistic.HistorySuccessfulTasks.Remove(userStatistic.HistorySuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
                         }
                         int historySuccessfulTasks = seged < 0 ? 0 : seged;
-
+                        seged = 0;
                         if (userStatistic.HistoryUnsuccessfulTasks.Length > 0)
                         {
                             seged = userStatistic.HistoryUnsuccessfulTasks.Remove(userStatistic.HistoryUnsuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
@@ -378,7 +378,7 @@ namespace ErettsegizzunkApi.Controllers
                             seged = userStatistic.HungarianSuccessfulTasks.Remove(userStatistic.HungarianSuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
                         }
                         int hungarianSuccessfulTasks = seged < 0 ? 0 : seged;
-
+                        seged = 0;
                         if (userStatistic.HungarianUnsuccessfulTasks.Length > 0)
                         {
                             seged = userStatistic.HungarianUnsuccessfulTasks.Remove(userStatistic.HungarianUnsuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
