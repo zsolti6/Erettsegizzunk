@@ -61,7 +61,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 if (!Program.LoggedInUsers.ContainsKey(getOneStatistics.Token) || Program.LoggedInUsers[getOneStatistics.Token].Id != getOneStatistics.Id)
                 {
-                    return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
+                    //return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
                 }
 
                 UserStatistic userStatistic = await _context.UserStatistics.FirstOrDefaultAsync(x => x.UserId == getOneStatistics.Id);
@@ -145,7 +145,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 if (!Program.LoggedInUsers.ContainsKey(putStatistics.Token) && Program.LoggedInUsers[putStatistics.Token].Id != putStatistics.UserId)
                 {
-                    return Unauthorized(new ErrorDTO() { Id = 121, Message = "Hozzáférés megtagadva" });
+                    //return Unauthorized(new ErrorDTO() { Id = 121, Message = "Hozzáférés megtagadva" });
                 }
 
                 UserStatistic? userStatistic = await _context.UserStatistics.FirstOrDefaultAsync(x => x.UserId == putStatistics.UserId);
@@ -155,9 +155,11 @@ namespace ErettsegizzunkApi.Controllers
                     return BadRequest(new ErrorDTO() { Id = 122, Message = "Ilyen nevű felhasználó nem létezik" });
                 }
 
+                //var asd = putStatistics.TaskIds.Values.ToList()[0];
+
                 for (int i = 0; i < putStatistics.TaskIds.Keys.Count; i++)
                 {
-                    if (putStatistics.TaskIds[i])
+                    if (putStatistics.TaskIds.Values.ToList()[i])
                     {
                         await PutStatistics(putStatistics, userStatistic, i + 1, true, i);
                         continue;
@@ -180,7 +182,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return StatusCode(500, new ErrorDTO() { Id = 124, Message = "Hiba történt az adatok mentése közben" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return NotFound(new ErrorDTO() { Id = 125, Message = "Hiba történt az adatok mentése közben" });
             }
@@ -340,8 +342,8 @@ namespace ErettsegizzunkApi.Controllers
 
                     if (hol == 14)
                     {
-                        userStatistic.MathSuccessfulTasks.Remove(userStatistic.MathSuccessfulTasks.Length - 1).Append(';');
-                        userStatistic.MathUnsuccessfulTasks.Remove(userStatistic.MathUnsuccessfulTasks.Length - 1).Append(';');
+                        userStatistic.MathSuccessfulTasks = userStatistic.MathSuccessfulTasks.Substring(0, userStatistic.MathSuccessfulTasks.Length - 1) + ';';
+                        userStatistic.MathUnsuccessfulTasks = userStatistic.MathUnsuccessfulTasks.Substring(0, userStatistic.MathUnsuccessfulTasks.Length - 1) + ';';
                     }
                     break;
 
@@ -358,8 +360,8 @@ namespace ErettsegizzunkApi.Controllers
 
                     if (hol == 14)
                     {
-                        userStatistic.HistorySuccessfulTasks.Remove(userStatistic.HistorySuccessfulTasks.Length - 1).Append(';');
-                        userStatistic.HistoryUnsuccessfulTasks.Remove(userStatistic.HistoryUnsuccessfulTasks.Length - 1).Append(';');
+                        userStatistic.HistorySuccessfulTasks = userStatistic.HistorySuccessfulTasks.Substring(0, userStatistic.HistorySuccessfulTasks.Length - 1) + ';';
+                        userStatistic.HistoryUnsuccessfulTasks = userStatistic.HistoryUnsuccessfulTasks.Substring(0, userStatistic.HistoryUnsuccessfulTasks.Length - 1) + ';';
                     }
 
                     break;
@@ -377,8 +379,8 @@ namespace ErettsegizzunkApi.Controllers
 
                     if (hol == 14)
                     {
-                        userStatistic.HungarianSuccessfulTasks.Remove(userStatistic.HungarianSuccessfulTasks.Length - 1).Append(';');
-                        userStatistic.HungarianUnsuccessfulTasks.Remove(userStatistic.HungarianUnsuccessfulTasks.Length - 1).Append(';');
+                        userStatistic.HungarianSuccessfulTasks = userStatistic.HungarianSuccessfulTasks.Substring(0, userStatistic.HungarianSuccessfulTasks.Length - 1) + ';';
+                        userStatistic.HungarianUnsuccessfulTasks = userStatistic.HungarianUnsuccessfulTasks.Substring(0, userStatistic.HungarianUnsuccessfulTasks.Length - 1) + ';';
                     }
 
                     break;
