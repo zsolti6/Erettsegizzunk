@@ -51,7 +51,7 @@ namespace ErettsegizzunkApi
         {
 
             MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient(smtp);
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
             mail.From = new MailAddress(email);
             mail.To.Add(mailAddressTo);
             mail.Subject = subject;
@@ -64,6 +64,7 @@ namespace ErettsegizzunkApi
             SmtpServer.EnableSsl = true;
 
             await SmtpServer.SendMailAsync(mail);
+
         }
 
         public static void ConfigureServices(IServiceCollection services)

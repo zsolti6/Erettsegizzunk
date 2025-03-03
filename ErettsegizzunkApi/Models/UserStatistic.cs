@@ -9,7 +9,7 @@ public partial class UserStatistic
 
     public int UserId { get; set; }
 
-    public string? StatisticsDates { get; set; }
+    public string StatisticsDates { get; set; } = string.Empty;
 
     public string MathSuccessfulTasks { get; set; } = string.Empty;
 

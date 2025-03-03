@@ -65,9 +65,9 @@
                                              Foreground="{DynamicResource MaterialDesignPaper}"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="szintKezel"
-                      Header="Szint"
-                      Click="segedKezelese_Click"
+                    <MenuItem x:Name="kepFeltolt"
+                      Header="Kép feltöltése"
+                      Click="kepFeltolt_Click"
                       Foreground="{DynamicResource MaterialDesignPaper}"
                       DockPanel.Dock="Left">
                         <MenuItem.Icon>

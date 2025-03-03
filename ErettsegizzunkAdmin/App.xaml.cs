@@ -1,4 +1,5 @@
-﻿using ErettsegizzunkAdmin.Services;
+﻿using DotNetEnv;
+using ErettsegizzunkAdmin.Services;
 using ErettsegizzunkApi.DTOs;
 using System.Windows;
 
@@ -11,6 +12,8 @@ namespace ErettsegizzunkAdmin
     {
         public static int id = -1;
         public static string token = string.Empty;
+        public static string ftpUrl = "";
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -23,6 +26,11 @@ namespace ErettsegizzunkAdmin
 
             // You could also include Application.DispatcherUnhandledException for UI-thread exceptions:
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+
+            Env.Load();
+
+            ftpUrl = Env.GetString("FTP_URL");
+
         }
 
         protected override void OnExit(ExitEventArgs e)

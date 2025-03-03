@@ -39,7 +39,7 @@ namespace ErettsegizzunkApi.Controllers
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
 
-                Program.SendEmail(user.Email, "Regisztráció", $"https://erettsegizzunkapi.onrender.com/Registry/regisztracio-megerosites?felhasznaloNev={user.LoginName}&email={user.Email}");
+                Program.SendEmail(user.Email, "Regisztráció", $"https://localhost:7066/erettsegizzunk/Registry/regisztracio-megerosites?felhasznaloNev={user.LoginName}&email={user.Email}");
 
                 return Ok("Sikeres regisztráció. Fejezze be a regisztrációját az e-mail címére küldött link segítségével!");
             }
@@ -125,6 +125,7 @@ namespace ErettsegizzunkApi.Controllers
                     };
 
                     await _context.Users.AddAsync(newUser);
+
                     await _context.SaveChangesAsync();
 
                     Program.SendEmail(email, "Sikeres regisztráció", "Köszönjük a regisztrálást");

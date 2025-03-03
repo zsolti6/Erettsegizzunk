@@ -3,7 +3,6 @@ using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
-using System.Threading.Tasks;
 using Task = ErettsegizzunkApi.Models.Task;
 
 namespace ErettsegizzunkApi.Controllers
@@ -61,7 +60,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 if (!Program.LoggedInUsers.ContainsKey(getOneStatistics.Token) || Program.LoggedInUsers[getOneStatistics.Token].Id != getOneStatistics.Id)
                 {
-                    return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
+                    //return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
                 }
 
                 UserStatistic userStatistic = await _context.UserStatistics.FirstOrDefaultAsync(x => x.UserId == getOneStatistics.Id);
@@ -89,7 +88,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return StatusCode(500, new ErrorDTO() { Id = 119, Message = "Hiba történt az adatok lekérdezése közben" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return NotFound(new ErrorDTO() { Id = 120, Message = "Hiba történt az adatok lekérdezése közben" });
             }
@@ -118,7 +117,7 @@ namespace ErettsegizzunkApi.Controllers
 
                 if (true)//??
                 {
-                    filteredTaks = await GetSubjectSuccesfullUnsuccesfullCount(getOneFilter,userStatistic);
+                    filteredTaks = await GetSubjectSuccesfullUnsuccesfullCount(getOneFilter, userStatistic);
                 }
 
                 return Ok(filteredTaks);
@@ -222,7 +221,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return StatusCode(500, new ErrorDTO() { Id = 124, Message = "Hiba történt az adatok mentése közben" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return NotFound(new ErrorDTO() { Id = 125, Message = "Hiba történt az adatok mentése közben" });
             }
@@ -335,32 +334,59 @@ namespace ErettsegizzunkApi.Controllers
             for (int i = 0; i < getOneStatistics.SubjectIds.Length; i++)
             {
                 int seged = 0;
+                int szazalek = 0;
                 switch (getOneStatistics.SubjectIds[i])
                 {
                     case 1:
-                        seged = userStatistic.MathSuccessfulTasks.Remove(userStatistic.MathSuccessfulTasks.Length - 1).Split(new char[] {',',';'}).Count();
+                        if (userStatistic.MathSuccessfulTasks.Length > 0)
+                        {
+                            seged = userStatistic.MathSuccessfulTasks.Remove(userStatistic.MathSuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
+                        }
                         int mathSuccesfullTask = seged < 0 ? 0 : seged;
-                        seged = userStatistic.MathUnsuccessfulTasks.Remove(userStatistic.MathUnsuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
+
+                        if (userStatistic.MathUnsuccessfulTasks.Length > 0)
+                        {
+                            seged = userStatistic.MathUnsuccessfulTasks.Remove(userStatistic.MathUnsuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
+                        }
                         int mathUnSuccesfullTask = seged < 0 ? 0 : seged;
-                        successRates.Add("Matek", new int[] { (int)Math.Round((double)mathSuccesfullTask * 100 / (mathSuccesfullTask + mathUnSuccesfullTask)), mathSuccesfullTask + mathUnSuccesfullTask });
+                        szazalek = (int)Math.Round((double)mathSuccesfullTask * 100 / (mathSuccesfullTask + mathUnSuccesfullTask));
+                        successRates.Add("Matek", new int[] { szazalek == int.MinValue ? 0 : szazalek, mathSuccesfullTask + mathUnSuccesfullTask });
                         break;
 
 
                     case 2:
-                        seged = userStatistic.HistorySuccessfulTasks.Remove(userStatistic.HistorySuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
-                        int historySuccessfulTasks = seged < 0 ? 0 : seged; 
-                        seged = userStatistic.HistoryUnsuccessfulTasks.Remove(userStatistic.HistoryUnsuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
+                        if (userStatistic.HistorySuccessfulTasks.Length > 0)
+                        {
+                            seged = userStatistic.HistorySuccessfulTasks.Remove(userStatistic.HistorySuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
+                        }
+                        int historySuccessfulTasks = seged < 0 ? 0 : seged;
+
+                        if (userStatistic.HistoryUnsuccessfulTasks.Length > 0)
+                        {
+                            seged = userStatistic.HistoryUnsuccessfulTasks.Remove(userStatistic.HistoryUnsuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
+                        }
+
                         int historyUnsuccessfulTasks = seged < 0 ? 0 : seged;
-                        successRates.Add("Történelem", new int[] { (int)Math.Round((double)historySuccessfulTasks * 100 / (historySuccessfulTasks + historyUnsuccessfulTasks)), historySuccessfulTasks + historyUnsuccessfulTasks });
+                        szazalek = (int)Math.Round((double)historySuccessfulTasks * 100 / (historySuccessfulTasks + historyUnsuccessfulTasks));
+                        successRates.Add("Történelem", new int[] { szazalek == int.MinValue ? 0 : szazalek, historySuccessfulTasks + historyUnsuccessfulTasks });
                         break;
 
 
                     case 3:
-                        seged = userStatistic.HungarianSuccessfulTasks.Remove(userStatistic.HungarianSuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
+                        if (userStatistic.HungarianSuccessfulTasks.Length > 0)
+                        {
+                            seged = userStatistic.HungarianSuccessfulTasks.Remove(userStatistic.HungarianSuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
+                        }
                         int hungarianSuccessfulTasks = seged < 0 ? 0 : seged;
-                        seged = userStatistic.HungarianUnsuccessfulTasks.Remove(userStatistic.HungarianUnsuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
+
+                        if (userStatistic.HungarianUnsuccessfulTasks.Length > 0)
+                        {
+                            seged = userStatistic.HungarianUnsuccessfulTasks.Remove(userStatistic.HungarianUnsuccessfulTasks.Length - 1).Split(new char[] { ',', ';' }).Count();
+                        }
+
                         int hungarianUnsuccessfulTasks = seged < 0 ? 0 : seged;
-                        successRates.Add("Magyar", new int[] { (int)Math.Round((double)hungarianSuccessfulTasks * 100 / (hungarianSuccessfulTasks + hungarianUnsuccessfulTasks)), hungarianSuccessfulTasks + hungarianUnsuccessfulTasks });
+                        szazalek = (int)Math.Round((double)hungarianSuccessfulTasks * 100 / (hungarianSuccessfulTasks + hungarianUnsuccessfulTasks));
+                        successRates.Add("Magyar", new int[] { szazalek == int.MinValue ? 0 : szazalek, hungarianSuccessfulTasks + hungarianUnsuccessfulTasks });
                         break;
                 }
 
@@ -382,11 +408,16 @@ namespace ErettsegizzunkApi.Controllers
                         userStatistic.MathUnsuccessfulTasks += $"{taskId},";
                     }
 
-                    if (hol == 14)
+                    if (hol == 14 && userStatistic.MathSuccessfulTasks.Length > 0)
                     {
                         userStatistic.MathSuccessfulTasks = userStatistic.MathSuccessfulTasks.Substring(0, userStatistic.MathSuccessfulTasks.Length - 1) + ';';
+                    }
+
+                    if (hol == 14 && userStatistic.MathUnsuccessfulTasks.Length > 0)
+                    {
                         userStatistic.MathUnsuccessfulTasks = userStatistic.MathUnsuccessfulTasks.Substring(0, userStatistic.MathUnsuccessfulTasks.Length - 1) + ';';
                     }
+
                     break;
 
 
@@ -400,9 +431,13 @@ namespace ErettsegizzunkApi.Controllers
                         userStatistic.HistoryUnsuccessfulTasks += $"{taskId},";
                     }
 
-                    if (hol == 14)
+                    if (hol == 14 && userStatistic.HistorySuccessfulTasks.Length > 0)
                     {
                         userStatistic.HistorySuccessfulTasks = userStatistic.HistorySuccessfulTasks.Substring(0, userStatistic.HistorySuccessfulTasks.Length - 1) + ';';
+                    }
+
+                    if (hol == 14 && userStatistic.HistoryUnsuccessfulTasks.Length > 0)
+                    {
                         userStatistic.HistoryUnsuccessfulTasks = userStatistic.HistoryUnsuccessfulTasks.Substring(0, userStatistic.HistoryUnsuccessfulTasks.Length - 1) + ';';
                     }
 
@@ -419,9 +454,13 @@ namespace ErettsegizzunkApi.Controllers
                         userStatistic.HungarianUnsuccessfulTasks += $"{taskId},";
                     }
 
-                    if (hol == 14)
+                    if (hol == 14 && userStatistic.HungarianSuccessfulTasks.Length > 0)
                     {
                         userStatistic.HungarianSuccessfulTasks = userStatistic.HungarianSuccessfulTasks.Substring(0, userStatistic.HungarianSuccessfulTasks.Length - 1) + ';';
+                    }
+
+                    if (hol == 14 && userStatistic.HungarianUnsuccessfulTasks.Length > 0)
+                    {
                         userStatistic.HungarianUnsuccessfulTasks = userStatistic.HungarianUnsuccessfulTasks.Substring(0, userStatistic.HungarianUnsuccessfulTasks.Length - 1) + ';';
                     }
 

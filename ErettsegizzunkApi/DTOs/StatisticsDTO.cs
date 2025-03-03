@@ -54,11 +54,9 @@ namespace ErettsegizzunkApi.DTOs
         public Dictionary<int, bool> TaskIds { get; set; }
     }
 
-    public class GetFillingByDateDTO
+    public class GetFillingByDateDTO //Dátumut berakni ide ha szűrni kell
     {
         public int UserId { get; set; }
-
-//        public DateOnly date { get; set; }
 
         public string Token { get; set; }
     }

@@ -35,7 +35,6 @@ namespace ErettsegizzunkAdmin
 
         private async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            await _apiService.UploadImageAsync("token");
             LoggedUserDTO user = new LoggedUserDTO();
             try
             {

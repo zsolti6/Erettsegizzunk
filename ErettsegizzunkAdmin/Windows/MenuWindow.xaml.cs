@@ -1,6 +1,7 @@
 ﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
 using ErettsegizzunkAdmin.Services;
 using ErettsegizzunkApi.DTOs;
+using MaterialDesignThemes.Wpf;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -88,6 +89,13 @@ namespace ErettsegizzunkAdmin.Windows
         {
             TantargyKezel tantargy = new TantargyKezel(user);
             tantargy.Show();
+            Close();
+        }
+
+        private void kepFeltolt_Click(object sender, RoutedEventArgs e)
+        {
+            KepFeltoltes kepFeltoltes = new KepFeltoltes(user);
+            kepFeltoltes.Show();
             Close();
         }
 

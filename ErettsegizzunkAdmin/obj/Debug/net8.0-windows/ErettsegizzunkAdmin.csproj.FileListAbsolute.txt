@@ -86,3 +86,9 @@ C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdm
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\Microsoft.AspNetCore.Http.Features.dll
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\Microsoft.Extensions.Primitives.dll
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\System.IO.Pipelines.dll
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\DotNetEnv.dll
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.dll
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\Sprache.dll
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\KepFeltoltes.g.cs
+C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\KepFeltoltes.baml

@@ -23,7 +23,7 @@ namespace ErettsegizzunkAdmin.Services
         public ApiService()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://erettsegizzunkapi.onrender.com/");
+            _httpClient.BaseAddress = new Uri("https://localhost:7066/");
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
@@ -458,7 +458,7 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
         #endregion
-        //bugos
+        
         #region Kép letöltés, feltöltés
         public async Task UploadImageAsync(string token, string filePath = "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Images\\hatter.jpg")//hibakezelés forntend üzenetek
         {
@@ -479,11 +479,8 @@ namespace ErettsegizzunkAdmin.Services
                 fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 multipartContent.Add(fileContent, "File", fileName);
 
-                // Build the URL for your API endpoint.
-                string url = "https://localhost:7066/erettsegizzunk/FileUpload/FtpServer";
-
                 // Send the POST request.
-                HttpResponseMessage response = await _httpClient.PostAsync(url, multipartContent);
+                HttpResponseMessage response = await _httpClient.PostAsync(App.ftpUrl, multipartContent);
                 if (response.IsSuccessStatusCode)
                 {
                     // Handle success (optional)
