@@ -53,4 +53,13 @@ namespace ErettsegizzunkApi.DTOs
 
         public Dictionary<int, bool> TaskIds { get; set; }
     }
+
+    public class GetFillingByDateDTO
+    {
+        public int UserId { get; set; }
+
+//        public DateOnly date { get; set; }
+
+        public string Token { get; set; }
+    }
 }

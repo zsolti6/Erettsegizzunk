@@ -61,7 +61,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 if (!Program.LoggedInUsers.ContainsKey(getOneStatistics.Token) || Program.LoggedInUsers[getOneStatistics.Token].Id != getOneStatistics.Id)
                 {
-                    //return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
+                    return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
                 }
 
                 UserStatistic userStatistic = await _context.UserStatistics.FirstOrDefaultAsync(x => x.UserId == getOneStatistics.Id);
@@ -96,15 +96,15 @@ namespace ErettsegizzunkApi.Controllers
 
         }
 
-        //szures add: szint, (feladatok megjelenítése statisztikával egyszerre max 50 szürés: tanátrgy, szint, téma)
+        //szures add: szint, (feladatok megjelenítése statisztikával egyszerre max 50 szürés: tanátrgy, szint, téma) ==> kész: tantárgy
         [HttpPost("get-one-statistics-filter")]
-        public async Task<ActionResult<UserStatistic>> GetUserStatisticFilter([FromBody] GetOneFilterStatisticsDTO getOneFilter)//NINCS DOKUMENTÁLVA
+        public async Task<ActionResult<UserStatistic>> GetUserStatisticFilter([FromBody] GetOneFilterStatisticsDTO getOneFilter)
         {
             try
             {
                 if (!Program.LoggedInUsers.ContainsKey(getOneFilter.Token) || Program.LoggedInUsers[getOneFilter.Token].Id != getOneFilter.Id)
                 {
-                    //return Unauthorized(new ErrorDTO() { Id = 134, Message = "Hozzáférés megtagadva" });
+                    return Unauthorized(new ErrorDTO() { Id = 134, Message = "Hozzáférés megtagadva" });
                 }
 
                 UserStatistic userStatistic = await _context.UserStatistics.FirstOrDefaultAsync(x => x.UserId == getOneFilter.Id);
@@ -116,7 +116,7 @@ namespace ErettsegizzunkApi.Controllers
 
                 List<FilteredTaksDTO> filteredTaks = new List<FilteredTaksDTO>();
 
-                if (true)
+                if (true)//??
                 {
                     filteredTaks = await GetSubjectSuccesfullUnsuccesfullCount(getOneFilter,userStatistic);
                 }
@@ -138,6 +138,48 @@ namespace ErettsegizzunkApi.Controllers
 
         }
 
+        [HttpPost("get-filling-byDate")]
+        public async Task<IActionResult> GetFillingByDate(GetFillingByDateDTO getFillingByDate) //dokumentálni
+        {
+            try
+            {
+                if (!Program.LoggedInUsers.ContainsKey(getFillingByDate.Token) || Program.LoggedInUsers[getFillingByDate.Token].Id != getFillingByDate.UserId)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 139, Message = "Hozzáférés megtagadva" });
+                }
+
+                UserStatistic userStatistic = await _context.UserStatistics.FirstOrDefaultAsync(x => x.UserId == getFillingByDate.UserId);
+
+                if (userStatistic is null)
+                {
+                    return NotFound(new ErrorDTO() { Id = 140, Message = "Az elem nem található" });
+                }
+
+                Dictionary<string, int> statisztika = new Dictionary<string, int>();
+
+                statisztika = _context.UserStatistics
+                            .AsEnumerable()
+                            .SelectMany(x => x.StatisticsDates.Split(';'))
+                            .Where(date => !string.IsNullOrEmpty(date))
+                            .GroupBy(date => date)
+                            .ToDictionary(g => g.Key, g => g.Count());
+
+                return Ok(statisztika);
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 141, Message = "Kapcsolati hiba" });
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 142, Message = "Hiba történt az adatok lekérdezése közben" });
+            }
+            catch (Exception)
+            {
+                return NotFound(new ErrorDTO() { Id = 143, Message = "Hiba történt az adatok lekérdezése közben" });
+            }
+        }
+
         [HttpPut("put-statisztika")] //nem a végére hanem az elejésre kell a vessző
         public async Task<IActionResult> PutUserStatistic([FromBody] PutStatisticsDTO putStatistics)
         {
@@ -145,7 +187,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 if (!Program.LoggedInUsers.ContainsKey(putStatistics.Token) && Program.LoggedInUsers[putStatistics.Token].Id != putStatistics.UserId)
                 {
-                    //return Unauthorized(new ErrorDTO() { Id = 121, Message = "Hozzáférés megtagadva" });
+                    return Unauthorized(new ErrorDTO() { Id = 121, Message = "Hozzáférés megtagadva" });
                 }
 
                 UserStatistic? userStatistic = await _context.UserStatistics.FirstOrDefaultAsync(x => x.UserId == putStatistics.UserId);
@@ -154,8 +196,6 @@ namespace ErettsegizzunkApi.Controllers
                 {
                     return BadRequest(new ErrorDTO() { Id = 122, Message = "Ilyen nevű felhasználó nem létezik" });
                 }
-
-                //var asd = putStatistics.TaskIds.Values.ToList()[0];
 
                 for (int i = 0; i < putStatistics.TaskIds.Keys.Count; i++)
                 {
@@ -182,7 +222,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return StatusCode(500, new ErrorDTO() { Id = 124, Message = "Hiba történt az adatok mentése közben" });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return NotFound(new ErrorDTO() { Id = 125, Message = "Hiba történt az adatok mentése közben" });
             }
@@ -218,6 +258,8 @@ namespace ErettsegizzunkApi.Controllers
 
             return Ok();
         }
+
+        #region Local functions
 
         private async Task<List<FilteredTaksDTO>> GetSubjectSuccesfullUnsuccesfullCount(GetOneFilterStatisticsDTO getOneFilter, UserStatistic userStatistic)
         {
@@ -386,5 +428,6 @@ namespace ErettsegizzunkApi.Controllers
                     break;
             }
         }
+        #endregion
     }
 }
