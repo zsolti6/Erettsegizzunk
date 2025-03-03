@@ -64,8 +64,8 @@ export const PasswordReset = () => {
             )}
 
             <div className="d-flex justify-content-between mt-3">
-              <a href="/login" className="text-muted">Vissza a bejelentkezéshez</a>
-              <a href="/register" className="text-muted">Még nincs fiókod?</a>
+              <a href="/belepes" className="text-muted">Vissza a bejelentkezéshez</a>
+              <a href="/regisztracio" className="text-muted">Még nincs fiókod?</a>
             </div>
           </form>
         </div>

@@ -61,16 +61,16 @@ export const App = () => {
         <Navbar user={user} googleLogged={googleLogged} handleLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/statistics" element={<StatisticsComponent user={user} />} />
-          <Route path="/tutorial" element={<TutorialComponent />} />
-          <Route path="/search" element={<SearchComponent />} />
-          <Route path="/exercise" element={<ExerciseComponent />} />
-          <Route path="/selector" element={<SelectorComponent />} />
-          <Route path="/exercise/stats" element={<ExerciseStats />} />
-          <Route path="/login" element={<LoginPage handleLogin={handleLogin} />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/profile" element={<Profile user={user} setUser={setUser} googleLogged={googleLogged} handleLogout={handleLogout} />} />
-          <Route path="/forgot-password" element={<PasswordReset />} />
+          <Route path="/statisztika" element={<StatisticsComponent user={user} />} />
+          <Route path="/utmutato" element={<TutorialComponent />} />
+          <Route path="/feladat-kereses" element={<SearchComponent />} />
+          <Route path="/gyakorlas" element={<ExerciseComponent />} />
+          <Route path="/feladat-valasztas" element={<SelectorComponent />} />
+          <Route path="/gyakorlas/statisztika" element={<ExerciseStats />} />
+          <Route path="/belepes" element={<LoginPage handleLogin={handleLogin} />} />
+          <Route path="/regisztracio" element={<RegisterPage />} />
+          <Route path="/profil" element={<Profile user={user} setUser={setUser} googleLogged={googleLogged} handleLogout={handleLogout} />} />
+          <Route path="/elfelejtett-jelszo" element={<PasswordReset />} />
         </Routes>
         <FooterComponent />
       </Router>

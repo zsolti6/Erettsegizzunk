@@ -57,7 +57,7 @@ export const SelectorComponent = () => {
   };
 
   const handleStartExercise = () => {
-    navigate("/exercise", { state: { ...formData, subjectId } });
+    navigate("/gyakorlas", { state: { ...formData, subjectId } });
   };
 
   return (

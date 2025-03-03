@@ -6,7 +6,7 @@ import "../css/Navbar.css";
 export const Navbar = ({ user, googleLogged }) => {
   const navigate = useNavigate();
   const navigateToProfile = () => {
-    navigate("/profile");
+    navigate("/profil");
   };
 
   return (
@@ -19,16 +19,16 @@ export const Navbar = ({ user, googleLogged }) => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
-              <Link to="/statistics" className="nav-link">Statisztika</Link>
+              <Link to="/statisztika" className="nav-link">Statisztika</Link>
             </li>
             <li className="nav-item">
-              <Link to="/tutorial" className="nav-link">Útmutató</Link>
+              <Link to="/utmutato" className="nav-link">Útmutató</Link>
             </li>
             <li className="nav-item">
-              <Link to="/search" className="nav-link">Feladat keresése</Link>
+              <Link to="/feladat-kereses" className="nav-link">Feladat keresése</Link>
             </li>
             <li className="nav-item">
-              <Link to="/selector" className="nav-link">Új feladatlap</Link>
+              <Link to="/feladat-valasztas" className="nav-link">Új feladatlap</Link>
             </li>
           </ul>
           {user ? (
@@ -39,7 +39,7 @@ export const Navbar = ({ user, googleLogged }) => {
                 src={
                   googleLogged
                     ? `${user.photoURL}?t=${new Date().getTime()}`
-                    : `http://images.erettsegizzunk.nhely.hu/${user.profilePicturePath}?t=${new Date().getTime()}`
+                    : `http://images.erettsegizzunk.nhely.hu/${user.profilePicturePath}`
                 }
                 alt="kep"
                 className="rounded-circle" style={{ maxHeight: "35px" }}
@@ -47,8 +47,8 @@ export const Navbar = ({ user, googleLogged }) => {
             </div>
           ) : (
             <div className="d-flex">
-              <Link to="/login" className="btn btn-outline-light me-2">Bejelentkezés</Link>
-              <Link to="/register" className="btn btn-light color-text2">Regisztráció</Link>
+              <Link to="/belepes" className="btn btn-outline-light me-2">Bejelentkezés</Link>
+              <Link to="/regisztracio" className="btn btn-light color-text2">Regisztráció</Link>
             </div>
           )}
         </div>

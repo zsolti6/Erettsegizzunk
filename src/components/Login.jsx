@@ -153,12 +153,12 @@ export const LoginPage = ({ handleLogin }) => {
                 onExpired={() => setCaptchaToken(null)}
               />
             </div>
-
+            
             <button type="submit" className="btn btn-primary w-100">Belépés</button>
           
             <div className="d-flex justify-content-between mt-3">
-              <a href="/forgot-password" className="text-muted">Elfelejtett jelszó</a>
-              <a href="/register" className="text-muted">Még nincs fiókod?</a>
+              <a href="/elfelejtett-jelszo" className="text-muted">Elfelejtett jelszó</a>
+              <a href="/regisztracio" className="text-muted">Még nincs fiókod?</a>
             </div>
             <div className="d-flex justify-content-center">
             <button className="googleLogin mt-3 btn border" onClick={handleGoogleLogin}>

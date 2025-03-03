@@ -26,7 +26,7 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
 
   useEffect(() => {
     if (user == null) {
-      navigate("/Login");
+      navigate("/belepes");
     }
   }, [navigate, user]);
 

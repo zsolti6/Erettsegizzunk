@@ -43,7 +43,6 @@
   .subject-row {
     flex-wrap: nowrap;
   }
-  
   .action {
     height: 30vh;
   }
@@ -54,6 +53,9 @@
   .action {
     height: 20vh;
   }
+  .action h2 i{
+    font-size: 3rem;
+  }
 }
 
 /* Mobile adjustments */
@@ -62,6 +64,9 @@
     height: 10vh;
     font-size: 1rem;
     border-radius: 10%;
+  }
+  .action h2 i{
+    font-size: 2rem;
   }
 }
 

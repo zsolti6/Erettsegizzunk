@@ -4,6 +4,7 @@ import { Footer } from "flowbite-react";
 export const FooterComponent = () => {
   return (
     <Footer
+    id="footer"
       container
       style={{
         marginTop: "-6vh",

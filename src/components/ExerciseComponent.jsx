@@ -98,7 +98,7 @@ export const ExerciseComponent = () => {
               <button
                 id="taskDone"
                 className="btn btn-success"
-                onClick={() => navigate("/exercise/stats", { state: { taskValues, exercises, subjectId } })}
+                onClick={() => navigate("/gyakorlas/statisztika", { state: { taskValues, exercises, subjectId } })}
               >
                 <i className="bi bi-check-circle"></i>
               </button>
