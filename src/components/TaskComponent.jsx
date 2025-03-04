@@ -63,7 +63,7 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
         <h3>{elem.taskId}. feladat</h3>
         <h3><b>{elem.description}</b></h3>
         <p>{elem.text}</p>
-        {elem.picName != null && <img className="taskPic" src={"http://images.erettsegizzunk.nhely.hu/" + elem.picName} alt={elem.picName} title={elem.picName} />}
+        {elem.picName != null && <img className="taskPic" src={"https://res.cloudinary.com/drpkpopsq/image/upload/v1741078235/" + elem.picName} alt={elem.picName} title={elem.picName} />}
         <div className={elem.picName != null ? "inputGroup2" : "inputGroup1" }>
         {elem.isCorrect.split(";").map((helyes, index) => (
           <div key={index}>

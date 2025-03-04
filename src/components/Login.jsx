@@ -18,11 +18,32 @@ export const LoginPage = ({ handleLogin }) => {
     setPasswordVisible(!passwordVisible);
   };
 
+  const convertImageToBase64 = async (imageUrl) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+  
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result); // Get Base64 string
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch (error) {
+      console.error("Failed to convert image to Base64", error);
+      return null;
+    }
+  };
+
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       console.log(user);
+
+      const base64Image = await convertImageToBase64(user.photoURL);
+      localStorage.setItem("profilePicture", base64Image);
+
       if(rememberMe){
         localStorage.setItem("googleUser", JSON.stringify(user));
       }else{

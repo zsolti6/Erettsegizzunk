@@ -49,7 +49,6 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
         profilePicturePath: user.profilePicturePath || "string",
         token: user.token || "string"
       });
-      console.log(user.newsletter);
       
       setFormData({
         token: user.token || "string",
@@ -113,6 +112,7 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
               Felhasználónév
             </label>
             <input
+              maxLength={10}
               type="text"
               id="name"
               name="name"
@@ -194,7 +194,7 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
               type="checkbox"
               id="newsletter"
               name="newsletter"
-              checked={userData.newsletter == true}
+              checked={userData.newsletter === true}
               onChange={handleInputChange}
               className="form-check-input"
             />

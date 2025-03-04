@@ -62,7 +62,7 @@
 @media (max-width: 767px) {
   .action {
     height: 10vh;
-    font-size: 1rem;
+    font-size: 1rem !important;
     border-radius: 10%;
   }
   .action h2 i{

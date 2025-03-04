@@ -55,6 +55,16 @@ export const App = () => {
     setGoogleLogged(isGoogleLogged);
   };
 
+  useEffect(() => {
+    if(user){
+      if (rememberMe) {
+        localStorage.setItem("user", JSON.stringify(user));
+      } else {
+        sessionStorage.setItem("user", JSON.stringify(user));
+      }
+    }
+  }, [user]);
+
   return (
     <div>
       <Router>

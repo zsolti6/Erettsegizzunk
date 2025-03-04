@@ -38,8 +38,9 @@ export const Navbar = ({ user, googleLogged }) => {
                 onClick={navigateToProfile}
                 src={
                   googleLogged
-                    ? `${user.photoURL}?t=${new Date().getTime()}`
-                    : `http://images.erettsegizzunk.nhely.hu/${user.profilePicturePath}`
+                    //? `${user.photoURL}?t=${new Date().getTime()}`
+                    ? localStorage.getItem("profilePicture")
+                    : `https://res.cloudinary.com/drpkpopsq/image/upload/v1741078235/${user.profilePicturePath}`
                 }
                 alt="kep"
                 className="rounded-circle" style={{ maxHeight: "35px" }}
