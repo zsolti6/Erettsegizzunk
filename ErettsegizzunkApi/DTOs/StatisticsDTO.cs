@@ -30,7 +30,7 @@ namespace ErettsegizzunkApi.DTOs
 
         public int[] SzintId { get; set; }
 
-        public int SubjectId { get; set; }
+        public int[] SubjectIds { get; set; }
 
         public string Token { get; set; }
 
@@ -39,6 +39,10 @@ namespace ErettsegizzunkApi.DTOs
     public class FilteredTaksDTO
     {
         public Task Task { get; set; }
+
+        public string UtolsoKitoltesDatum { get; set; }
+
+        public bool UtolsoSikeres { get; set; }
 
         public int[] JoRossz { get; set; }
     }

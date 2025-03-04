@@ -153,7 +153,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return StatusCode(500, new ErrorDTO() { Id = 82, Message = "Kapcsolati hiba" });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest(new ErrorDTO() { Id = 83, Message = "Hiba történt a regisztráció során" });
             }
