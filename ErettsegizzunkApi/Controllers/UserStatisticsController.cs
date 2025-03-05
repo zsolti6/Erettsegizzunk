@@ -45,11 +45,11 @@ namespace ErettsegizzunkApi.Controllers
 
 
         [HttpPost("get-taskFilloutCount")]
-        public async Task<IActionResult> PutUserStatistic([FromBody] int userId)
+        public async Task<IActionResult> PutUserStatistic([FromBody] GetFillingCountDTO getFillingCount)
         {
             try
             {
-                User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+                User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == getFillingCount.UserId);
 
                 if (user is null)
                 {
@@ -59,7 +59,7 @@ namespace ErettsegizzunkApi.Controllers
                 Dictionary<string, int> taskFilloutCount = new Dictionary<string, int>();
                 taskFilloutCount = await _context.UserStatistics
                     .Include(x => x.Task.Subject)
-                    .Where(x => x.UserId == userId)
+                    .Where(x => x.UserId == getFillingCount.UserId)
                     .GroupBy(x => x.Task.Subject!.Name)
                     .ToDictionaryAsync(g => g.Key!, g => g.Select(x => x.TaskId).Distinct().Count());
 
