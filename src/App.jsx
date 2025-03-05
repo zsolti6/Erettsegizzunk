@@ -66,11 +66,12 @@ export const App = () => {
   }, [user]);
 
   return (
-    <div className="App h-100 w-100">
-      <Router>
-        <Navbar user={user} googleLogged={googleLogged} handleLogout={handleLogout} />
-        <Routes>
-          <Route path="/" element={<Home />} />
+    <Router>
+      <div className="d-flex flex-column min-vh-100"> {/* Flexbox container */}
+        <Navbar /> {/* Navbar at the top */}
+        <div className="flex-grow-1"> {/* Main content area */}
+          <Routes>
+            <Route path="/" element={<Home />} />
           <Route path="/statisztika" element={<StatisticsComponent user={user} />} />
           <Route path="/utmutato" element={<TutorialComponent />} />
           <Route path="/feladat-kereses" element={<SearchComponent />} />
@@ -81,9 +82,10 @@ export const App = () => {
           <Route path="/regisztracio" element={<RegisterPage />} />
           <Route path="/profil" element={<Profile user={user} setUser={setUser} googleLogged={googleLogged} handleLogout={handleLogout} />} />
           <Route path="/elfelejtett-jelszo" element={<PasswordReset />} />
-        </Routes>
-        <FooterComponent />
-      </Router>
-    </div>
+          </Routes>
+        </div>
+        <FooterComponent /> {/* Footer at the bottom */}
+      </div>
+    </Router>
   );
 };

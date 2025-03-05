@@ -1,25 +1,21 @@
 import React from "react";
-import { Footer } from "flowbite-react";
 
 export const FooterComponent = () => {
   return (
-    <Footer
-    id="footer"
-      container
+    <footer
+      className="mt-auto py-3 bg-purple-800 text-white text-center color-bg1"
       style={{
-        position: "relative",
-        bottom: 0,
-        width: "100%",
-        height: "6vh",
-        zIndex: "2",
+        width: "100%"
       }}
     >
-      <div className="text-center p-2 color-bg3 h-100 text-light">
-        <p>
+      <div className="container">
+        <p className="mb-0">
           Elérhetőség: @
-          <a href="https://github.com/pixel-pirates">Pixel Pirates</a>
+          <a href="https://github.com/pixel-pirates" className="text-white hover:text-gray-300">
+            Pixel Pirates
+          </a>
         </p>
       </div>
-    </Footer>
+    </footer>
   );
-}
+};

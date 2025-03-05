@@ -1,18 +1,3 @@
-.exercise {
-  width: 50%; /* Flexible width */
-  height: auto; /* Adjust based on content */
-  margin: 10vh auto; /* Center horizontally and add top margin */
-  background-color: white;
-  /*border: 2px solid black;*/
-  padding: 20px;
-  box-sizing: border-box; /* Include padding in width/height calculation */
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Vertically center the content */
-  align-items: center; /* Horizontally center the content */
-  text-align: center; /* Center the text inside */
-}
-
 .subject-row {
   display: flex;
   flex-wrap: wrap;
@@ -75,12 +60,7 @@
   transform: scale(1.05);
 }
 
-.exercise{
-  margin-top: 14vh !important;
-  width: 90% !important;
-  height: 100% !important;
-  margin-left: 8.5vh !important;
-}
+
 
 .googleLogin {
   max-width: 320px;

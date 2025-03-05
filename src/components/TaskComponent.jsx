@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/taskStyle.css";
 
 export const TaskComponent = ({ elem, values, updateValues }) => {
-  const [taskValues, setTaskValues] = useState(
-    Array.isArray(values) ? values : [values] // Ensure it's always an array
-  );
+  const [taskValues, setTaskValues] = useState(Array.isArray(values) ? values : [values]);
 
   useEffect(() => {
-    setTaskValues(Array.isArray(values) ? values : [values]); // Ensure consistency
+    setTaskValues(Array.isArray(values) ? values : [values]);
   }, [elem.id, values]);
 
   const handleTextboxChange = (index, value) => {
@@ -18,8 +18,6 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
   };
 
   const handleRadioChange = (index) => {
-    if (!Array.isArray(taskValues)) return; // Prevent errors
-
     const newValues = taskValues.map((_, i) => (i === index ? "1" : "0"));
     setTaskValues(newValues);
     updateValues(newValues);
@@ -32,86 +30,52 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
     updateValues(newValues);
   };
 
-  if (elem.type.name === "textbox") {
-    return (
-      <div className="task">
-        <h3>{elem.taskId}. feladat</h3>
-        <h5><b>{elem.description}</b></h5>
-        <p>{elem.text}</p>
-        {elem.picName != null && <img className="taskPic" src={"http://images.erettsegizzunk.nhely.hu/" + elem.picName} alt={elem.picName} title={elem.picName} />}        
-        {elem.isCorrect.split(";").map(
-          (helyes, index) =>
-            helyes === "1" && (
-              <div key={index}>
-                <input
-                  className="tbStyle"
-                  id={`textbox-${elem.id}-${index}`}
-                  type="text"
-                  value={taskValues[index] || ""}
-                  onChange={(e) => handleTextboxChange(index, e.target.value)}
-                />
-              </div>
-            )
-        )}
-      </div>
-    );
-  }
-
-  if (elem.type.name === "radio") {
-    return (
-      <div className="task">
-        <h3>{elem.taskId}. feladat</h3>
-        <h3><b>{elem.description}</b></h3>
-        <p>{elem.text}</p>
-        {elem.picName != null && <img className="taskPic" src={"https://res.cloudinary.com/drpkpopsq/image/upload/v1741078235/" + elem.picName} alt={elem.picName} title={elem.picName} />}
-        <div className={elem.picName != null ? "inputGroup2" : "inputGroup1" }>
-        {elem.isCorrect.split(";").map((helyes, index) => (
-          <div key={index}>
-            <input
-              className="rStyle form-check-input"
-              name={`radio-${elem.id}`}
-              type="radio"
-              id={`radio-${elem.id}-${index}`}
-              value={index}
-              checked={taskValues[index] === "1"}
-              onChange={() => handleRadioChange(index)}
-            />
-            <label htmlFor={`radio-${elem.id}-${index}`}>
-              {elem.answers.split(";")[index]}
-            </label>
-          </div>
-        ))}
+  return (
+    <Card className="shadow-sm p-3 mb-4 bg-white rounded">
+      <Card.Body>
+        <Card.Title>{elem.taskId}. {elem.description}</Card.Title>
+        <Card.Text>{elem.text}</Card.Text>
+        {elem.picName && <img className="img-fluid rounded" src={`https://res.cloudinary.com/drpkpopsq/image/upload/v1741078235/${elem.picName}`} alt={elem.picName} />}
+        <div className="mt-3">
+          {elem.type.name === "textbox" && elem.isCorrect.split(";").map((_, index) => (
+            <input key={index} className="form-control mb-2" type="text" value={taskValues[index] || ""} onChange={(e) => handleTextboxChange(index, e.target.value)} />
+          ))}
+          {elem.type.name === "radio" && elem.isCorrect.split(";").map((_, index) => (
+            <div key={index} className="form-check">
+              <input className="form-check-input" type="radio" name={`radio-${elem.id}`} checked={taskValues[index] === "1"} onChange={() => handleRadioChange(index)} />
+              <label className="form-check-label">{elem.answers.split(";")[index]}</label>
+            </div>
+          ))}
+          {elem.type.name === "checkbox" && elem.isCorrect.split(";").map((_, index) => (
+            <div key={index} className="form-check">
+              <input className="form-check-input" type="checkbox" checked={taskValues[index] === "1"} onChange={() => handleCheckboxChange(index)} />
+              <label className="form-check-label">{elem.answers.split(";")[index]}</label>
+            </div>
+          ))}
         </div>
-      </div>
-    );
-  }
+      </Card.Body>
+    </Card>
+  );
+};
 
-  if (elem.type.name === "checkbox") {
-    return (
-      <div className="task">
-        <h3>{elem.taskId}. feladat</h3>
-        <h5><b>{elem.description}</b></h5>
-        <p>{elem.text}</p>
-        {elem.picName != null && <img className="taskPic" src={"http://images.erettsegizzunk.nhely.hu/" + elem.picName} alt={elem.picName} title={elem.picName} />}
-        {elem.isCorrect.split(";").map((helyes, index) => (
-          <div key={index}>
-            <input
-              className="cbStyle form-check-input"
-              name={`checkbox-${elem.id}`}
-              type="checkbox"
-              id={`checkbox-${elem.id}-${index}`}
-              value={index}
-              checked={taskValues[index] === "1"}
-              onChange={() => handleCheckboxChange(index)}
+export const ExerciseComponent = ({ exercises, activeIndex, setActiveIndex, taskValues, updateTaskValues }) => {
+  return (
+    <Container className="mt-4">
+      <Row className="justify-content-center">
+        <Col md={8}>
+          {exercises.length > 0 && (
+            <TaskComponent
+              elem={exercises[activeIndex]}
+              values={taskValues[exercises[activeIndex].id]?.values || []}
+              updateValues={(newValues) => updateTaskValues(exercises[activeIndex].id, newValues)}
             />
-            <label htmlFor={`checkbox-${elem.id}-${index}`}>
-              {elem.answers.split(";")[index]}
-            </label>
+          )}
+          <div className="d-flex justify-content-between mt-3">
+            {activeIndex > 0 && <Button variant="primary" onClick={() => setActiveIndex(activeIndex - 1)}>Previous</Button>}
+            {activeIndex < exercises.length - 1 && <Button variant="primary" onClick={() => setActiveIndex(activeIndex + 1)}>Next</Button>}
           </div>
-        ))}
-      </div>
-    );
-  }
-
-  return null;
-}
+        </Col>
+      </Row>
+    </Container>
+  );
+};
