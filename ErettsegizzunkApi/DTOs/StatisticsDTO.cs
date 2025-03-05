@@ -10,32 +10,6 @@ namespace ErettsegizzunkApi.DTOs
         public int Mettol { get; set; }
     }
 
-    public class GetOneStatisticsDTO
-    {
-        public int Id { get; set; }
-
-        public string Token { get; set; }
-
-        public int[] SubjectIds { get; set; }
-
-        public int[] ThemeIds { get; set; }
-
-    }
-
-    public class GetOneFilterStatisticsDTO
-    {
-        public int Id { get; set; }
-
-        public int OldalSzam { get; set; }
-
-        public int[] SzintId { get; set; }
-
-        public int[] SubjectIds { get; set; }
-
-        public string Token { get; set; }
-
-    }
-
     public class FilteredTaksDTO
     {
         public Task Task { get; set; }
@@ -56,7 +30,7 @@ namespace ErettsegizzunkApi.DTOs
         public Dictionary<int, bool> TaskIds { get; set; }
     }
 
-    public class GetFillingCountDTO //Dátumut berakni ide ha szűrni kell
+    public class GetFillingCountDTO
     {
         public int UserId { get; set; }
 

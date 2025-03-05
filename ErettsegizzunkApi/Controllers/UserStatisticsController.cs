@@ -26,7 +26,7 @@ namespace ErettsegizzunkApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserStatistic>>> GetUserStatistics()
         {
-            return await _context.UserStatistics.ToListAsync();
+            return Ok(_context.UserStatistics.Count());
         }
 
         // GET: api/UserStatistics/5
@@ -45,7 +45,7 @@ namespace ErettsegizzunkApi.Controllers
 
 
         [HttpPost("get-taskFilloutCount")]
-        public async Task<IActionResult> PutUserStatistic([FromBody] GetFillingCountDTO getFillingCount)
+        public async Task<IActionResult> GetTaskFilloutCount([FromBody] GetFillingCountDTO getFillingCount)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace ErettsegizzunkApi.Controllers
                     .Include(x => x.Task.Subject)
                     .Where(x => x.UserId == getFillingCount.UserId)
                     .GroupBy(x => x.Task.Subject!.Name)
-                    .ToDictionaryAsync(g => g.Key!, g => g.Select(x => x.TaskId).Distinct().Count());
+                    .ToDictionaryAsync(g => g.Key!, g => g.Select(x => x.TaskId).Count());
 
                 return Ok(taskFilloutCount);
             }
@@ -99,6 +99,28 @@ namespace ErettsegizzunkApi.Controllers
                 throw;
             }
             
+            return Ok();
+        }
+
+        [HttpPost("get-filling-byDate")]
+        public async Task<ActionResult<UserStatistic>> GetFillingByDate([FromBody] GetFillingCountDTO fillingByDateCount)
+        {
+            try
+            {
+                Dictionary<string, int> taskFilloutCount = new Dictionary<string, int>();
+                taskFilloutCount = await _context.UserStatistics
+                    .Where(x => x.UserId == fillingByDateCount.UserId)
+                    .GroupBy(x => x.FilloutDate.ToString())
+                    .ToDictionaryAsync(g => g.Key!, g => g.Count());
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
             return Ok();
         }
 
