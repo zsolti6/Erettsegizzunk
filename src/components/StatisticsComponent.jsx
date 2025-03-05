@@ -30,14 +30,14 @@ const UserStatisticsChart = ({ user }) => {
     const fetchUserStatistics = async () => {
       try {
         const body = {
-          id: user.id,
+          userId: user.id,
           token: user.token,
-          subjectIds: [1, 2, 3],
-          themeIds: [0],
+          /*subjectIds: [1, 2, 3],
+          themeIds: [0],*/
         };
-        const response = await axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/get-one-statistics`, body);
-        const formattedData = Object.entries(response.data).map(([name, [successRate, count]]) => ({ name, count }));
-        setData(formattedData);
+        const response = await axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/get-taskFilloutCount`, body);
+        const formattedData = Object.entries(response.data).map(([name, count]) => ({ name, count }));
+        setData(formattedData); 
       } catch (error) {
         console.error("Error fetching user statistics:", error);
       }

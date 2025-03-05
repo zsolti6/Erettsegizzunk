@@ -24,10 +24,9 @@ export const ExerciseStats = () => {
   }, [sortedTaskValues, exercises]);
 
   const sendStatistics = useCallback((user, taskCorrects) => {
-    axios.put(`${BASE_URL}/erettsegizzunk/UserStatistics/put-statisztika`, {
+    axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/post-user-statistics`, {
       userId: user.id,
       token: user.token,
-      subjectId: subjectId,
       taskIds: taskCorrects,
     })
     .then(response => console.log("Stats updated:", response))

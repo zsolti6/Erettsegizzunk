@@ -7,8 +7,7 @@ export const FooterComponent = () => {
     id="footer"
       container
       style={{
-        marginTop: "-6vh",
-        position: "absolute",
+        position: "relative",
         bottom: 0,
         width: "100%",
         height: "6vh",

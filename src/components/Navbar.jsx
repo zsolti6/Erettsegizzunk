@@ -38,8 +38,7 @@ export const Navbar = ({ user, googleLogged }) => {
                 onClick={navigateToProfile}
                 src={
                   googleLogged
-                    //? `${user.photoURL}?t=${new Date().getTime()}`
-                    ? localStorage.getItem("profilePicture")
+                    ? user.photoURL
                     : `https://res.cloudinary.com/drpkpopsq/image/upload/v1741078235/${user.profilePicturePath}`
                 }
                 alt="kep"

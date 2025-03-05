@@ -66,7 +66,7 @@ export const App = () => {
   }, [user]);
 
   return (
-    <div>
+    <div className="App h-100 w-100">
       <Router>
         <Navbar user={user} googleLogged={googleLogged} handleLogout={handleLogout} />
         <Routes>
