@@ -10,6 +10,7 @@ using DotNetEnv;
 namespace ErettsegizzunkApi
 {
     //Scaffold-DbContext "SERVER=localhost;PORT=3306;DATABASE=erettsegizzunk;USER=root;PASSWORD=;SSL MODE=none;" mysql.entityframeworkcore -outputdir Models -f
+    //Scaffold-DbContext "SERVER=erettsegizzunk2.mysql.database.azure.com;PORT=3306;DATABASE=erettsegizzunk;USER=ErettsegiAdmin;PASSWORD=3rettsegi-4dmin;SSL MODE=required;" mysql.entityframeworkcore -outputdir Models -f
     public static class Program
     {
         //public static int SaltLength = 64;

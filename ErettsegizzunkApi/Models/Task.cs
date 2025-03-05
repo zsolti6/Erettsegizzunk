@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace ErettsegizzunkApi.Models;
 
@@ -25,11 +26,16 @@ public partial class Task
 
     public virtual Level? Level { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<SpacedRepetition> SpacedRepetitions { get; set; } = new List<SpacedRepetition>();
 
     public virtual Subject? Subject { get; set; }
 
     public virtual Type? Type { get; set; }
 
+    [JsonIgnore]
+    public virtual ICollection<UserStatistic> UserStatistics { get; set; } = new List<UserStatistic>();
+
+    [JsonIgnore]
     public virtual ICollection<Theme> Themes { get; set; } = new List<Theme>();
 }

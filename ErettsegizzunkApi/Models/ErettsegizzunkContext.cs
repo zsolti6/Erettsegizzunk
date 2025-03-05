@@ -33,7 +33,7 @@ public partial class ErettsegizzunkContext : DbContext
 
     public virtual DbSet<UserStatistic> UserStatistics { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL();
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)=> optionsBuilder.UseMySQL();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -43,12 +43,9 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.ToTable("level");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(15)
-                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("name");
         });
 
@@ -62,20 +59,13 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.HasIndex(e => e.Name, "name").IsUnique();
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Description)
                 .HasMaxLength(100)
-                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("description");
-            entity.Property(e => e.Level)
-                .HasDefaultValueSql("'NULL'")
-                .HasColumnType("int(1)")
-                .HasColumnName("level");
+            entity.Property(e => e.Level).HasColumnName("level");
             entity.Property(e => e.Name)
                 .HasMaxLength(32)
-                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("name");
         });
 
@@ -89,36 +79,29 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.HasIndex(e => e.UserId, "userId");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.IntervalDays)
                 .HasDefaultValueSql("'1'")
-                .HasColumnType("int(11)")
                 .HasColumnName("intervalDays");
             entity.Property(e => e.LastCorrectTime)
-                .HasDefaultValueSql("'current_timestamp()'")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp")
                 .HasColumnName("lastCorrectTime");
             entity.Property(e => e.NextDueTime)
-                .HasDefaultValueSql("'current_timestamp()'")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp")
                 .HasColumnName("nextDueTime");
-            entity.Property(e => e.TaskId)
-                .HasColumnType("int(11)")
-                .HasColumnName("taskId");
-            entity.Property(e => e.UserId)
-                .HasColumnType("int(11)")
-                .HasColumnName("userId");
+            entity.Property(e => e.TaskId).HasColumnName("taskId");
+            entity.Property(e => e.UserId).HasColumnName("userId");
 
             entity.HasOne(d => d.Task).WithMany(p => p.SpacedRepetitions)
                 .HasForeignKey(d => d.TaskId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("spaced_repetition_ibfk_2");
 
             entity.HasOne(d => d.User).WithMany(p => p.SpacedRepetitions)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("spaced_repetition_ibfk_1");
         });
 
@@ -128,12 +111,9 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.ToTable("subject");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
-                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("name");
         });
 
@@ -149,55 +129,36 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.HasIndex(e => e.TypeId, "typeId");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Answers)
                 .HasMaxLength(1024)
-                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("answers");
             entity.Property(e => e.Description)
                 .HasMaxLength(1024)
-                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("description");
             entity.Property(e => e.IsCorrect)
                 .HasMaxLength(20)
-                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("isCorrect");
-            entity.Property(e => e.LevelId)
-                .HasDefaultValueSql("'NULL'")
-                .HasColumnType("int(11)")
-                .HasColumnName("levelId");
+            entity.Property(e => e.LevelId).HasColumnName("levelId");
             entity.Property(e => e.PicName)
-                .HasMaxLength(18)
-                .HasDefaultValueSql("'NULL'")
+                .HasMaxLength(25)
                 .HasColumnName("picName");
-            entity.Property(e => e.SubjectId)
-                .HasDefaultValueSql("'NULL'")
-                .HasColumnType("int(11)")
-                .HasColumnName("subjectId");
+            entity.Property(e => e.SubjectId).HasColumnName("subjectId");
             entity.Property(e => e.Text)
                 .HasMaxLength(1024)
-                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("text");
-            entity.Property(e => e.TypeId)
-                .HasDefaultValueSql("'NULL'")
-                .HasColumnType("int(11)")
-                .HasColumnName("typeId");
+            entity.Property(e => e.TypeId).HasColumnName("typeId");
 
             entity.HasOne(d => d.Level).WithMany(p => p.Tasks)
                 .HasForeignKey(d => d.LevelId)
-                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("task_ibfk_3");
 
             entity.HasOne(d => d.Subject).WithMany(p => p.Tasks)
                 .HasForeignKey(d => d.SubjectId)
-                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("task_ibfk_1");
 
             entity.HasOne(d => d.Type).WithMany(p => p.Tasks)
                 .HasForeignKey(d => d.TypeId)
-                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("task_ibfk_2");
 
             entity.HasMany(d => d.Themes).WithMany(p => p.Tasks)
@@ -205,11 +166,11 @@ public partial class ErettsegizzunkContext : DbContext
                     "TaskTheme",
                     r => r.HasOne<Theme>().WithMany()
                         .HasForeignKey("ThemeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("task_theme_ibfk_2"),
                     l => l.HasOne<Task>().WithMany()
                         .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("task_theme_ibfk_1"),
                     j =>
                     {
@@ -217,11 +178,9 @@ public partial class ErettsegizzunkContext : DbContext
                         j.ToTable("task_theme");
                         j.HasIndex(new[] { "ThemeId" }, "themeId");
                         j.IndexerProperty<int>("TaskId")
-                            .HasColumnType("int(11)")
+                            .ValueGeneratedOnAdd()
                             .HasColumnName("taskId");
-                        j.IndexerProperty<int>("ThemeId")
-                            .HasColumnType("int(11)")
-                            .HasColumnName("themeId");
+                        j.IndexerProperty<int>("ThemeId").HasColumnName("themeId");
                     });
         });
 
@@ -231,12 +190,9 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.ToTable("theme");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
-                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("name");
         });
 
@@ -246,12 +202,9 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.ToTable("type");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
-                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("name");
         });
 
@@ -267,13 +220,12 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.HasIndex(e => e.PermissionId, "permission");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Active).HasColumnName("active");
             entity.Property(e => e.Email)
                 .HasMaxLength(64)
                 .HasColumnName("email");
+            entity.Property(e => e.GoogleUser).HasColumnName("googleUser");
             entity.Property(e => e.Hash)
                 .HasMaxLength(64)
                 .HasColumnName("HASH");
@@ -281,23 +233,17 @@ public partial class ErettsegizzunkContext : DbContext
                 .HasMaxLength(16)
                 .HasColumnName("loginName");
             entity.Property(e => e.Newsletter).HasColumnName("newsletter");
-            entity.Property(e => e.PermissionId)
-                .HasColumnType("int(11)")
-                .HasColumnName("permissionId");
+            entity.Property(e => e.PermissionId).HasColumnName("permissionId");
             entity.Property(e => e.ProfilePicturePath)
                 .HasMaxLength(64)
-                .HasDefaultValueSql("'NULL'")
                 .HasColumnName("profilePicturePath");
             entity.Property(e => e.Salt)
                 .HasMaxLength(64)
                 .HasColumnName("SALT");
             entity.Property(e => e.SignupDate)
-                .HasDefaultValueSql("'current_timestamp()'")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp")
                 .HasColumnName("signupDate");
-            entity.Property(e => e.GoogleUser)
-                .HasDefaultValueSql("'0'")
-                .HasColumnName("googleUser");
 
             entity.HasOne(d => d.Permission).WithMany(p => p.Users)
                 .HasForeignKey(d => d.PermissionId)
@@ -312,40 +258,19 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.HasIndex(e => e.UserId, "userId");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
-            entity.Property(e => e.HistorySuccessfulTasks)
-                .HasDefaultValue("")
-                .HasColumnType("text")
-                .HasColumnName("historySuccessfulTasks");
-            entity.Property(e => e.HistoryUnsuccessfulTasks)
-                .HasDefaultValue("")
-                .HasColumnType("text")
-                .HasColumnName("historyUnsuccessfulTasks");
-            entity.Property(e => e.HungarianSuccessfulTasks)
-                .HasDefaultValue("")
-                .HasColumnType("text")
-                .HasColumnName("hungarianSuccessfulTasks");
-            entity.Property(e => e.HungarianUnsuccessfulTasks)
-                .HasDefaultValue("")
-                .HasColumnType("text")
-                .HasColumnName("hungarianUnsuccessfulTasks");
-            entity.Property(e => e.MathSuccessfulTasks)
-                .HasDefaultValue("")
-                .HasColumnType("text")
-                .HasColumnName("mathSuccessfulTasks");
-            entity.Property(e => e.MathUnsuccessfulTasks)
-                .HasDefaultValue("")
-                .HasColumnType("text")
-                .HasColumnName("mathUnsuccessfulTasks");
-            entity.Property(e => e.StatisticsDates)
-                .HasDefaultValue("")
-                .HasColumnType("text")
-                .HasColumnName("statisticsDate");
-            entity.Property(e => e.UserId)
-                .HasColumnType("int(11)")
-                .HasColumnName("userId");
+            entity.HasIndex(e => e.TaskId, "user_statistics_ibfk_2");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.FilloutDate)
+                .HasColumnType("timestamp")
+                .HasColumnName("filloutDate");
+            entity.Property(e => e.IsSuccessful).HasColumnName("isSuccessful");
+            entity.Property(e => e.TaskId).HasColumnName("taskId");
+            entity.Property(e => e.UserId).HasColumnName("userId");
+
+            entity.HasOne(d => d.Task).WithMany(p => p.UserStatistics)
+                .HasForeignKey(d => d.TaskId)
+                .HasConstraintName("user_statistics_ibfk_2");
 
             entity.HasOne(d => d.User).WithMany(p => p.UserStatistics)
                 .HasForeignKey(d => d.UserId)

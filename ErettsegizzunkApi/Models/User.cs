@@ -22,17 +22,17 @@ public partial class User
 
     public bool Newsletter { get; set; }
 
-    public string? ProfilePicturePath { get; set; } = "default.jpg";
-
-    public bool GoogleUser { get; set; } = false;
+    public string? ProfilePicturePath { get; set; }
 
     public DateTime SignupDate { get; set; }
 
-    public virtual Permission? Permission { get; set; } = null;
+    public bool GoogleUser { get; set; }
+
+    public virtual Permission Permission { get; set; } = null!;
 
     [JsonIgnore]
-    public virtual ICollection<SpacedRepetition>? SpacedRepetitions { get; set; } = new List<SpacedRepetition>();    
+    public virtual ICollection<SpacedRepetition> SpacedRepetitions { get; set; } = new List<SpacedRepetition>();
 
-    [JsonIgnore]
-    public virtual ICollection<UserStatistic>? UserStatistics { get; set; } = new List<UserStatistic>();
+    [JsonIgnore] //--> kell?
+    public virtual ICollection<UserStatistic> UserStatistics { get; set; } = new List<UserStatistic>();
 }

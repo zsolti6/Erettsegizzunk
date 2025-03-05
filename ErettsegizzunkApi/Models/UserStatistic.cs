@@ -9,19 +9,13 @@ public partial class UserStatistic
 
     public int UserId { get; set; }
 
-    public string StatisticsDates { get; set; } = string.Empty;
+    public int TaskId { get; set; }
 
-    public string MathSuccessfulTasks { get; set; } = string.Empty;
+    public bool IsSuccessful { get; set; }
 
-    public string MathUnsuccessfulTasks { get; set; } = string.Empty;
+    public DateTime FilloutDate { get; set; }
 
-    public string HistorySuccessfulTasks { get; set; } = string.Empty;
-
-    public string HistoryUnsuccessfulTasks { get; set; } = string.Empty;
-
-    public string HungarianSuccessfulTasks { get; set; } = string.Empty;
-
-    public string HungarianUnsuccessfulTasks { get; set; } = string.Empty;
+    public virtual Task Task { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
 }

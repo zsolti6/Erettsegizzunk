@@ -47,13 +47,11 @@ namespace ErettsegizzunkApi.DTOs
         public int[] JoRossz { get; set; }
     }
 
-    public class PutStatisticsDTO
+    public class PostStatisticsDTO
     {
-        public int UserId { get; set; }
-
         public string Token { get; set; }
 
-        public int SubjectId { get; set; }
+        public int UserId { get; set; }
 
         public Dictionary<int, bool> TaskIds { get; set; }
     }

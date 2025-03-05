@@ -9,7 +9,7 @@ public partial class Type
     public int Id { get; set; }
 
     public string? Name { get; set; }
-
+    
     [JsonIgnore]
     public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
 }
