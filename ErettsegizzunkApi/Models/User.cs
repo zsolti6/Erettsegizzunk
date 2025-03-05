@@ -28,7 +28,8 @@ public partial class User
 
     public bool GoogleUser { get; set; }
 
-    public virtual Permission Permission { get; set; } = null!;
+    [JsonIgnore]
+    public virtual Permission? Permission { get; set; } = null;
 
     [JsonIgnore]
     public virtual ICollection<SpacedRepetition> SpacedRepetitions { get; set; } = new List<SpacedRepetition>();

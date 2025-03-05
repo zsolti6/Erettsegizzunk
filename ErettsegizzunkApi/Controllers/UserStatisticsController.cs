@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ErettsegizzunkApi.Models;
 using ErettsegizzunkApi.DTOs;
+using NuGet.Packaging;
 
 namespace ErettsegizzunkApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("erettsegizzunk/[controller]")]
     [ApiController]
     public class UserStatisticsController : ControllerBase
     {
@@ -42,39 +43,62 @@ namespace ErettsegizzunkApi.Controllers
             return userStatistic;
         }
 
-        // PUT: api/UserStatistics/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserStatistic(int id, UserStatistic userStatistic)
-        {
-            if (id != userStatistic.Id)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(userStatistic).State = EntityState.Modified;
-            return NoContent();
+        [HttpPost("get-taskFilloutCount")]
+        public async Task<IActionResult> PutUserStatistic([FromBody] int userId)
+        {
+            try
+            {
+                User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+
+                if (user is null)
+                {
+                    return NotFound();
+                }
+
+                Dictionary<string, int> taskFilloutCount = new Dictionary<string, int>();
+                taskFilloutCount = await _context.UserStatistics
+                    .Include(x => x.Task.Subject)
+                    .Where(x => x.UserId == userId)
+                    .GroupBy(x => x.Task.Subject!.Name)
+                    .ToDictionaryAsync(g => g.Key!, g => g.Select(x => x.TaskId).Distinct().Count());
+
+                return Ok(taskFilloutCount);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
-        // POST: api/UserStatistics
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPost("post-user-statistics")]
-        public async Task<ActionResult<UserStatistic>> PostUserStatistic(PostStatisticsDTO postStatistics)
+        public async Task<ActionResult<UserStatistic>> PostUserStatistic([FromBody] PostStatisticsDTO postStatistics)
         {
-
-            foreach (int taskId in postStatistics.TaskIds.Keys)
+            try
             {
-                UserStatistic userStatistic = new UserStatistic()
+                foreach (int taskId in postStatistics.TaskIds.Keys)
                 {
-                    UserId = postStatistics.UserId,
-                    TaskId = taskId,
-                    IsSuccessful = postStatistics.TaskIds[taskId]
-                };
+                    UserStatistic userStatistic = new UserStatistic()
+                    {
+                        UserId = postStatistics.UserId,
+                        TaskId = taskId,
+                        IsSuccessful = postStatistics.TaskIds[taskId],
+                        FilloutDate = DateTime.Now
+                    };
 
-                _context.UserStatistics.Add(userStatistic);
+                    _context.UserStatistics.Add(userStatistic);
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
             
-            await _context.SaveChangesAsync();
             return Ok();
         }
 
