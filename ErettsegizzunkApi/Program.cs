@@ -102,7 +102,8 @@ namespace ErettsegizzunkApi
                 serverOptions.ListenAnyIP(5000); // HTTP
                 serverOptions.ListenAnyIP(7066, listenOptions =>
                 {
-                    listenOptions.UseHttps("https/cert.pfx", "Ezajelszavam_2004");
+                    listenOptions.UseHttps("Certs/cert.pfx", "Ezajelszavam_2004");
+
                 });
             });
 
