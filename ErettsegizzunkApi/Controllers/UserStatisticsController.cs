@@ -29,6 +29,43 @@ namespace ErettsegizzunkApi.Controllers
             return Ok(_context.UserStatistics.Count());
         }
 
+        [HttpPost("get-match-history")]
+        public async Task<IActionResult> GetMatchHistory([FromBody] FilteredDeatiledDTO filteredDeatiled)
+        {
+
+            try
+            {
+                User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == filteredDeatiled.UserId);
+
+                if (user is null)
+                {
+                    return NotFound();
+                }
+
+                List<FilteredTaskLessDTO> filteredTasks = new List<FilteredTaskLessDTO>();
+
+                filteredTasks = await _context.UserStatistics
+                    .Include(x => x.Task)
+                    .Include(x => x.Task.Subject)
+                    .Include(x => x.Task.Level)
+                    .Where(x => x.UserId == filteredDeatiled.UserId)
+                    .Select(x => new FilteredTaskLessDTO { Task = x.Task, UtolsoKitoltesDatum = x.FilloutDate, UtolsoSikeres = x.IsSuccessful })
+                    .OrderByDescending(x => x.UtolsoKitoltesDatum)
+                    .ToListAsync();
+
+
+                return Ok(filteredTasks);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+
+        }
+
 
         [HttpPost("get-statitstics-detailed")]
         public async Task<IActionResult> GetStatisticsDeatiled([FromBody] FilteredDeatiledDTO filteredDeatiled)

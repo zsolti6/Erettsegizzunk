@@ -32,6 +32,15 @@ namespace ErettsegizzunkApi.DTOs
         public string[] Temak { get; set; }
     }
 
+    public class FilteredTaskLessDTO
+    {
+        public Task Task { get; set; }
+
+        public DateTime UtolsoKitoltesDatum { get; set; }
+
+        public bool UtolsoSikeres { get; set; }
+    }
+
     public class PostStatisticsDTO
     {
         public string Token { get; set; }
