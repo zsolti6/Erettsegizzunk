@@ -32,7 +32,7 @@ RUN dotnet publish "ErettsegizzunkApi/ErettsegizzunkApi.csproj" -c $BUILD_CONFIG
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY Certs /app/Certs
+COPY ./Certs /app/Certs || true
 ENV ASPNETCORE_URLS=http://+:5000;https://+:7066
 ENTRYPOINT ["dotnet", "ErettsegizzunkApi.dll"]
 
