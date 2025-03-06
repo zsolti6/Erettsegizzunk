@@ -29,18 +29,50 @@ namespace ErettsegizzunkApi.Controllers
             return Ok(_context.UserStatistics.Count());
         }
 
-        // GET: api/UserStatistics/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserStatistic>> GetUserStatistic(int id)
-        {
-            var userStatistic = await _context.UserStatistics.FindAsync(id);
 
-            if (userStatistic == null)
+        [HttpPost("get-statitstics-detailed")]
+        public async Task<IActionResult> GetStatisticsDeatiled([FromBody] FilteredDeatiledDTO filteredDeatiled)
+        {
+            try
             {
-                return NotFound();
+                User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == filteredDeatiled.UserId);
+
+                if (user is null)
+                {
+                    return NotFound();
+                }
+
+                List<FilteredTaskDTO> filteredTasks = new List<FilteredTaskDTO>();
+
+                filteredTasks = _context.UserStatistics
+                    .Include(x => x.Task)
+                    .Where(x => x.UserId == filteredDeatiled.UserId)
+                    .AsEnumerable() 
+                    .GroupBy(x => x.TaskId) 
+                    .Select(g =>
+                    {
+                        var lastEntry = g.OrderBy(x => x.FilloutDate).Last();
+
+                        return new FilteredTaskDTO
+                        {
+                            Task = lastEntry.Task,
+                            UtolsoKitoltesDatum = lastEntry.FilloutDate,
+                            UtolsoSikeres = lastEntry.IsSuccessful,
+                            JoRossz = new int[] { g.Count(x => x.IsSuccessful), g.Count(x => !x.IsSuccessful) }
+                        };
+                    })
+                    .ToList();
+
+
+                return Ok(filteredTasks);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
 
-            return userStatistic;
+            return Ok();
         }
 
 
@@ -78,6 +110,7 @@ namespace ErettsegizzunkApi.Controllers
         {
             try
             {
+                DateTime date = DateTime.Now;
                 foreach (int taskId in postStatistics.TaskIds.Keys)
                 {
                     UserStatistic userStatistic = new UserStatistic()
@@ -85,7 +118,7 @@ namespace ErettsegizzunkApi.Controllers
                         UserId = postStatistics.UserId,
                         TaskId = taskId,
                         IsSuccessful = postStatistics.TaskIds[taskId],
-                        FilloutDate = DateTime.Now
+                        FilloutDate = date
                     };
 
                     _context.UserStatistics.Add(userStatistic);
@@ -110,18 +143,16 @@ namespace ErettsegizzunkApi.Controllers
                 Dictionary<string, int> taskFilloutCount = new Dictionary<string, int>();
                 taskFilloutCount = await _context.UserStatistics
                     .Where(x => x.UserId == fillingByDateCount.UserId)
-                    .GroupBy(x => x.FilloutDate.ToString())
-                    .ToDictionaryAsync(g => g.Key!, g => g.Count());
+                    .GroupBy(x => x.FilloutDate.Date.ToString())
+                    .ToDictionaryAsync(g => g.Key!, g => g.Count() / 15);
 
-                await _context.SaveChangesAsync();
+                return Ok(taskFilloutCount);
             }
             catch (Exception ex)
             {
 
                 throw;
             }
-
-            return Ok();
         }
 
         // DELETE: api/UserStatistics/5

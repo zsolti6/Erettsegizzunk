@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace ErettsegizzunkApi.Models;
 
@@ -17,5 +18,6 @@ public partial class UserStatistic
 
     public virtual Task Task { get; set; } = null!;
 
+    [JsonIgnore]
     public virtual User User { get; set; } = null!;
 }

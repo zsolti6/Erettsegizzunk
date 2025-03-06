@@ -10,11 +10,20 @@ namespace ErettsegizzunkApi.DTOs
         public int Mettol { get; set; }
     }
 
-    public class FilteredTaksDTO
+    public class FilteredDeatiledDTO
+    {
+        public string Token { get; set; }
+
+        public int UserId { get; set; }
+
+        public int Mettol { get; set; }
+    }
+
+    public class FilteredTaskDTO
     {
         public Task Task { get; set; }
 
-        public string UtolsoKitoltesDatum { get; set; }
+        public DateTime UtolsoKitoltesDatum { get; set; }
 
         public bool UtolsoSikeres { get; set; }
 
