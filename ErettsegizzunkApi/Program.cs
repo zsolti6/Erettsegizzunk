@@ -97,6 +97,16 @@ namespace ErettsegizzunkApi
 
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                serverOptions.ListenAnyIP(5000); // HTTP
+                serverOptions.ListenAnyIP(7066, listenOptions =>
+                {
+                    listenOptions.UseHttps("https/cert.pfx", "Ezajelszavam_2004");
+                });
+            });
+
+
             builder.Configuration["ConnectionStrings:DefaultConnection"] = dbConnection;
             builder.Configuration["ApiSettings:SecretKey"] = apiKey;
 
@@ -116,10 +126,6 @@ namespace ErettsegizzunkApi
                 options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
-
-            // Get the PORT from the environment variable or default to 5000
-            //var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-            //app.Urls.Add($"http://*:{port}");
 
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 

@@ -4,8 +4,6 @@
 # Base image for runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-ENV ASPNETCORE_URLS=http://+:5000
-ENV ASPNETCORE_URLS=https://+:7066
 EXPOSE 7066
 EXPOSE 5000
 
@@ -34,3 +32,6 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "ErettsegizzunkApi.dll"]
+
+ENV ASPNETCORE_URLS=http://+:5000
+ENV ASPNETCORE_URLS=https://+:7066
