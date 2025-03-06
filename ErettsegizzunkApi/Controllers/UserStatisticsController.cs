@@ -188,7 +188,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 if (!Program.LoggedInUsers.ContainsKey(fillingByDateCount.Token) || Program.LoggedInUsers[fillingByDateCount.Token].Id != fillingByDateCount.UserId)
                 {
-                    return Unauthorized(new ErrorDTO() { Id = 18, Message = "Hozzáférés megtagadva" });
+                    return Unauthorized(new ErrorDTO() { Id = 129, Message = "Hozzáférés megtagadva" });
                 }
 
                 Dictionary<string, int> taskFilloutCount = new Dictionary<string, int>();
@@ -201,11 +201,11 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (MySqlException)
             {
-                return StatusCode(500, new ErrorDTO() { Id = 2, Message = "Kapcsolati hiba" });
+                return StatusCode(500, new ErrorDTO() { Id = 130, Message = "Kapcsolati hiba" });
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 3, Message = "Hiba történt az adatok lekérdezése közben" });
+                return BadRequest(new ErrorDTO() { Id = 131, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
 
@@ -216,7 +216,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 if (!Program.LoggedInUsers.ContainsKey(statisticsReset.Token) || Program.LoggedInUsers[statisticsReset.Token].Id != statisticsReset.UserId)
                 {
-                    return Unauthorized(new ErrorDTO() { Id = 18, Message = "Hozzáférés megtagadva" });
+                    return Unauthorized(new ErrorDTO() { Id = 132, Message = "Hozzáférés megtagadva" });
                 }
 
                 User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == statisticsReset.UserId);
@@ -237,15 +237,15 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (MySqlException)
             {
-                return StatusCode(500, new ErrorDTO() { Id = 20, Message = "Kapcsolati hiba" });
+                return StatusCode(500, new ErrorDTO() { Id = 134, Message = "Kapcsolati hiba" });
             }
             catch (DbUpdateConcurrencyException)
             {
-                return StatusCode(500, new ErrorDTO() { Id = 21, Message = "Hiba történt az adatok mentése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 135, Message = "Hiba történt az adatok mentése közben" });
             }
             catch (Exception)
             {
-                return NotFound(new ErrorDTO() { Id = 22, Message = "Hiba történt az adatok mentése közben" });
+                return NotFound(new ErrorDTO() { Id = 136, Message = "Hiba történt az adatok mentése közben" });
             }
 
 
