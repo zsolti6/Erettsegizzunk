@@ -80,6 +80,8 @@ namespace ErettsegizzunkApi
         {
             Env.Load();
 
+            var certPath = Environment.GetEnvironmentVariable("CERT_PATH"); // Your environment variable with the file path
+            var certPassword = Environment.GetEnvironmentVariable("CERT_PASSWORD");
             string dbConnection = Env.GetString("CONNECTION_STRING");
             string apiKey = Env.GetString("SECRET_KEY");
             ftpUrl = Env.GetString("FTP_URL");
@@ -102,11 +104,10 @@ namespace ErettsegizzunkApi
                 serverOptions.ListenAnyIP(5000); // HTTP
                 serverOptions.ListenAnyIP(7066, listenOptions =>
                 {
-                    listenOptions.UseHttps("Certs/cert.pfx", "Ezajelszavam_2004");
+                    listenOptions.UseHttps(certPath, certPassword);
 
                 });
             });
-
 
             builder.Configuration["ConnectionStrings:DefaultConnection"] = dbConnection;
             builder.Configuration["ApiSettings:SecretKey"] = apiKey;
