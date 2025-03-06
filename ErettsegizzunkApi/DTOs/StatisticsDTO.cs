@@ -28,6 +28,8 @@ namespace ErettsegizzunkApi.DTOs
         public bool UtolsoSikeres { get; set; }
 
         public int[] JoRossz { get; set; }
+
+        public string[] Temak { get; set; }
     }
 
     public class PostStatisticsDTO

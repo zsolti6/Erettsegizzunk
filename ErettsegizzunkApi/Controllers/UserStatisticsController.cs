@@ -46,12 +46,14 @@ namespace ErettsegizzunkApi.Controllers
 
                 filteredTasks = _context.UserStatistics
                     .Include(x => x.Task)
+                    .Include(x => x.Task.Subject)
+                    .Include(x => x.Task.Level)
                     .Where(x => x.UserId == filteredDeatiled.UserId)
                     .AsEnumerable() 
                     .GroupBy(x => x.TaskId) 
                     .Select(g =>
                     {
-                        var lastEntry = g.OrderBy(x => x.FilloutDate).Last();
+                        UserStatistic lastEntry = g.OrderBy(x => x.FilloutDate).Last();
 
                         return new FilteredTaskDTO
                         {
@@ -71,8 +73,6 @@ namespace ErettsegizzunkApi.Controllers
 
                 throw;
             }
-
-            return Ok();
         }
 
 
