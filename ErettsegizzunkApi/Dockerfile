@@ -15,7 +15,7 @@ WORKDIR /src
 
 # Copy the project file and restore dependencies
 COPY ["ErettsegizzunkApi/ErettsegizzunkApi.csproj", "ErettsegizzunkApi/"]
-COPY Certs /Certs
+COPY Certs /app/Certs
 WORKDIR /src/ErettsegizzunkApi
 RUN dotnet restore
 
