@@ -117,8 +117,8 @@ export const RegisterPage = () => {
             <div className="form-group mb-3">
               <div className="input-group">
                 <input placeholder="Jelszó" type={passwordVisible ? "text" : "password"} className="form-control" id="password" value={formData.password} onChange={handleChange} />
-                <button type="button" className="btn btn-outline-secondary" onClick={togglePasswordVisibility}>{passwordVisible ? <i class="bi bi-eye"></i> : <i class="bi bi-eye-slash"></i>}</button>
-                <button type="button" className="btn btn-outline-secondary" onClick={handleGeneratePassword} title="Jelszó generálása"><i class="bi bi-shuffle"></i></button>
+                <button type="button" className="btn btn-outline-secondary" onClick={togglePasswordVisibility}>{passwordVisible ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}</button>
+                <button type="button" className="btn btn-outline-secondary" onClick={handleGeneratePassword} title="Jelszó generálása"><i className="bi bi-shuffle"></i></button>
               </div>
             </div>
             <div className="form-group mb-3">

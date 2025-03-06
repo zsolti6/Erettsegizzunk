@@ -15,25 +15,60 @@ import { ExerciseStats } from "./components/ExerciseStats";
 import { Profile } from "./components/Profile";
 import { PasswordReset } from "./components/PasswordReset";
 import { Navbar } from "./components/Navbar";
+import { BASE_URL } from "./config";
+import axios from "axios";
 
 export const App = () => {
   usePreventZoom();
+  
   const [user, setUser] = useState(null);
   const [googleLogged, setGoogleLogged] = useState(false);
   const rememberMe = localStorage.getItem("rememberMe") === "true";
-  
+
+  // Load user from storage on first render
   useEffect(() => {
-    const storedUser = rememberMe ? localStorage.getItem("user") : sessionStorage.getItem("user");
+    const storedUser = rememberMe
+      ? localStorage.getItem("user")
+      : sessionStorage.getItem("user");
+
+    console.log("Stored User on Load:", storedUser);
+
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-    
-    const storedGoogleLogged = rememberMe ? localStorage.getItem("googleLogged") : sessionStorage.getItem("googleLogged");
+
+    const storedGoogleLogged = rememberMe
+      ? localStorage.getItem("googleLogged")
+      : sessionStorage.getItem("googleLogged");
+
     if (storedGoogleLogged) {
       setGoogleLogged(JSON.parse(storedGoogleLogged));
     }
-  }, []); // No dependency on `rememberMe` to avoid unnecessary re-runs
-  
+  }, []);
+
+  // Check if user is active after state updates
+  useEffect(() => {
+    checkActiveStatus();
+  }, [user]);
+
+  const checkActiveStatus = () => {
+    if (user && user.token) {
+      axios.post(`${BASE_URL}/erettsegizzunk/Logout/active`, user.token, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("Active status response:", response.data);
+        if(response.data === false){ 
+          handleLogout();
+        }
+      })
+      .catch((error) => {
+        console.error("Error checking active status:", error);
+      });
+    }
+  }
 
   const handleLogout = () => {
     setUser(null);
@@ -45,7 +80,7 @@ export const App = () => {
     } else {
       sessionStorage.removeItem("user");
       sessionStorage.removeItem("googleUser");
-      localStorage.removeItem("googleLogged");
+      sessionStorage.removeItem("googleLogged");
     }
     localStorage.removeItem("rememberMe");
   };
@@ -55,8 +90,9 @@ export const App = () => {
     setGoogleLogged(isGoogleLogged);
   };
 
+  // Persist user in storage when user state updates
   useEffect(() => {
-    if(user){
+    if (user) {
       if (rememberMe) {
         localStorage.setItem("user", JSON.stringify(user));
       } else {
@@ -67,24 +103,24 @@ export const App = () => {
 
   return (
     <Router>
-      <div className="d-flex flex-column min-vh-100"> {/* Flexbox container */}
-        <Navbar /> {/* Navbar at the top */}
-        <div className="flex-grow-1"> {/* Main content area */}
+      <div className="d-flex flex-column min-vh-100">
+        <Navbar user={user} googleLogged={googleLogged} />
+        <div className="flex-grow-1">
           <Routes>
             <Route path="/" element={<Home />} />
-          <Route path="/statisztika" element={<StatisticsComponent user={user} />} />
-          <Route path="/utmutato" element={<TutorialComponent />} />
-          <Route path="/feladat-kereses" element={<SearchComponent />} />
-          <Route path="/gyakorlas" element={<ExerciseComponent />} />
-          <Route path="/feladat-valasztas" element={<SelectorComponent />} />
-          <Route path="/gyakorlas/statisztika" element={<ExerciseStats />} />
-          <Route path="/belepes" element={<LoginPage handleLogin={handleLogin} />} />
-          <Route path="/regisztracio" element={<RegisterPage />} />
-          <Route path="/profil" element={<Profile user={user} setUser={setUser} googleLogged={googleLogged} handleLogout={handleLogout} />} />
-          <Route path="/elfelejtett-jelszo" element={<PasswordReset />} />
+            <Route path="/statisztika" element={<StatisticsComponent user={user} />} />
+            <Route path="/utmutato" element={<TutorialComponent />} />
+            <Route path="/feladat-kereses" element={<SearchComponent />} />
+            <Route path="/gyakorlas" element={<ExerciseComponent />} />
+            <Route path="/feladat-valasztas" element={<SelectorComponent />} />
+            <Route path="/gyakorlas/statisztika" element={<ExerciseStats />} />
+            <Route path="/belepes" element={<LoginPage handleLogin={handleLogin} />} />
+            <Route path="/regisztracio" element={<RegisterPage />} />
+            <Route path="/profil" element={<Profile user={user} setUser={setUser} googleLogged={googleLogged} handleLogout={handleLogout} />} />
+            <Route path="/elfelejtett-jelszo" element={<PasswordReset />} />
           </Routes>
         </div>
-        <FooterComponent /> {/* Footer at the bottom */}
+        <FooterComponent />
       </div>
     </Router>
   );

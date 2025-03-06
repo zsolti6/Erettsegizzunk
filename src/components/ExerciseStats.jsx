@@ -1,107 +1,40 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Tooltip } from "bootstrap";
 import "../css/taskStyle.css";
-import axios from "axios";
-import { BASE_URL } from '../config';
 
 export const ExerciseStats = () => {
   const { state } = useLocation();
-  const { taskValues, exercises, subjectId } = state || {};
-
+  const { taskValues, exercises } = state || {};
   const sortedTaskValues = Object.values(taskValues || {}).sort((a, b) => a.taskId - b.taskId);
 
-  const getTaskCorrectness = useCallback(() => {
-    const correctness = {};
-    sortedTaskValues.forEach((task) => {
-      const exercise = exercises.find((ex) => ex.taskId === task.taskId);
-      const result = getCorrectAnswers(task);
-      const guess = getUserAnswers(task);
-      correctness[exercise.id] = result === guess;
-    });
-    return correctness;
-  }, [sortedTaskValues, exercises]);
-
-  const sendStatistics = useCallback((user, taskCorrects) => {
-    axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/post-user-statistics`, {
-      userId: user.id,
-      token: user.token,
-      taskIds: taskCorrects,
-    })
-    .then(response => console.log("Stats updated:", response))
-    .catch(error => console.error("Error updating stats:", error));
-  }, [subjectId]);
-
-  useEffect(() => {
-    const user = getUser();
-    if (!user) return;
-
-    const taskCorrects = getTaskCorrectness();
-
-    //console.log("Task Corrects:", taskCorrects);
-    sendStatistics(user, taskCorrects);
-  }, [getTaskCorrectness, sendStatistics]);
-
-  const getUser = () => {
-    const rememberMe = localStorage.getItem("rememberMe") === "true";
-    return rememberMe
-      ? JSON.parse(localStorage.getItem("user"))
-      : JSON.parse(sessionStorage.getItem("user"));
-  };
-
-  const getCorrectAnswers = (task) => {
-    const isCorrectArray = task.isCorrect.split(";");
-    const answersArray = task.answers.split(";");
-    return answersArray.filter((_, index) => isCorrectArray[index] === "1").join(", ");
-  };
-
-  const getUserAnswers = (task) => {
-    if (task.isCorrect === "1;") return task.values;
-    const guessArray = task.values;
-    const answersArray = task.answers.split(";");
-    return answersArray.filter((_, index) => guessArray[index] === "1").join(", ") || "Nem válaszoltál";
-  };
+  const getCorrectAnswers = (task) => task.answers.split(";").filter((_, i) => task.isCorrect.split(";")[i] === "1").join(", ");
+  const getUserAnswers = (task) => task.answers.split(";").filter((_, i) => task.values[i] === "1").join(", ") || "Nem válaszoltál";
 
   useEffect(() => {
     document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((el) => new Tooltip(el));
   }, []);
 
   return (
-    <div className="container col-md-8" style={{ height: "100vh" }}>
-      <div style={{ marginTop: "8vh" }}>
-        <h2 className="mb-4">Feladatok összegzése</h2>
-        <div className="table-responsive">
-          <table className="table table-striped table-bordered">
-            <thead className="thead-dark">
-              <tr>
-                {["Feladat", "Megoldás", "Válaszaid", "Értékelés"].map((header, index) => (
-                  <th key={index} scope="col" className="text-center fs-5">{header}</th>
-                ))}
+    <div className="container col-md-8" style={{ height: "100vh", marginTop: "8vh" }}>
+      <h2 className="mb-4">Feladatok összegzése</h2>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered">
+          <thead className="thead-dark">
+            <tr>{["Feladat", "Megoldás", "Válaszaid", "Értékelés"].map((h, i) => <th key={i} className="text-center">{h}</th>)}</tr>
+          </thead>
+          <tbody>
+            {sortedTaskValues.map((task, i) => (
+              <tr key={i}>
+                <td>{task.taskId}</td>
+                <td>{getCorrectAnswers(task)}</td>
+                <td>{getUserAnswers(task)}</td>
+                <td>{getCorrectAnswers(task) === getUserAnswers(task) ? "✅" : "❌"}</td>
               </tr>
-            </thead>
-            <tbody>
-              {sortedTaskValues.map((task, index) => {
-                const exercise = exercises.find((ex) => ex.taskId === task.taskId);
-                return (
-                  <tr key={index}>
-                    <td
-                      className="fw-bold fs-5 text-center"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      data-bs-title={`${exercise?.description || "N/A"}\n${exercise?.text || "N/A"}`}
-                    >
-                      {task.taskId}
-                    </td>
-                    <td>{getCorrectAnswers(task)}</td>
-                    <td>{getUserAnswers(task)}</td>
-                    <td>{getCorrectAnswers(task) === getUserAnswers(task) ? "✅" : "❌"}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

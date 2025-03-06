@@ -256,3 +256,144 @@ body{
     margin-left: 125px; /* Half of sidebar width */
   }
 }
+
+.statistics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.statistics-item {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  background: #fff;
+}
+
+.statistics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.statistics-header div {
+  flex: 1;
+  text-align: center;
+}
+
+.task-text {
+  flex: 2;
+  text-align: left;
+}
+
+.solution-count, .wrong-count, .percentage {
+  flex: 1;
+  text-align: center;
+}
+
+.arrow {
+  font-size: 1.2rem;
+  flex: 0.5;
+}
+
+.statistics-details {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.task-details {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 2;
+}
+
+.pie-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+/* Custom CSS */
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.card-header:hover {
+  background-color: #f1f1f1;
+}
+
+.card-body {
+  padding: 16px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.arrow {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.fw-bold {
+  font-weight: 600;
+}
+
+/* Pie Chart Container */
+.pie-chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Custom CSS for Mobile Responsiveness */
+.card-header {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping on mobile */
+  gap: 10px; /* Add spacing between elements */
+}
+
+.card-header .col-12 {
+  flex: 1 1 100%; /* Full width on mobile */
+}
+
+.card-header .col-6 {
+  flex: 1 1 50%; /* Half width on mobile */
+}
+
+.card-body .row {
+  display: flex;
+  flex-direction: column; /* Stack columns vertically on mobile */
+  gap: 16px; /* Add spacing between stacked columns */
+}
+
+@media (min-width: 768px) {
+  .card-header {
+    flex-wrap: nowrap; /* Prevent wrapping on larger screens */
+  }
+
+  .card-body .row {
+    flex-direction: row; /* Side-by-side columns on larger screens */
+  }
+}

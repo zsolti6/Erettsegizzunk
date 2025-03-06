@@ -11,44 +11,37 @@ export const ExerciseComponent = () => {
   const [exercises, setExercises] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [taskValues, setTaskValues] = useState({});
-  const [isOpen, setIsOpen] = useState(false); // Sidebar visibility
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { subject, difficulty, subjectId } = location.state || {
-    subject: "",
-    difficulty: "",
-    subjectId: 0,
-  };
+  const { subject, difficulty, subjectId } = location.state || {};
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postData = { tantargy: subject, szint: difficulty };
-        const response = await axios.post(
-          `${BASE_URL}/erettsegizzunk/Feladatok/get-random-feladatok`,
-          postData
-        );
+        const response = await axios.post(`${BASE_URL}/erettsegizzunk/Feladatok/get-random-feladatok`, {
+          tantargy: subject,
+          szint: difficulty,
+        });
+
         const tasksWithIds = response.data.map((task, index) => ({
           ...task,
           taskId: index + 1,
         }));
         setExercises(tasksWithIds);
 
-        const initialValues = {};
-        tasksWithIds.forEach((task) => {
-          initialValues[task.id] = {
+        const initialValues = tasksWithIds.reduce((acc, task) => {
+          acc[task.id] = {
             taskId: task.taskId,
             isCorrect: task.isCorrect,
             answers: task.answers,
-            values:
-              task.type.name === "textbox"
-                ? [""]
-                : Array(task.isCorrect.split(";").length).fill("0"),
+            values: task.type.name === "textbox" ? [""] : Array(task.isCorrect.split(";").length).fill("0"),
           };
-        });
+          return acc;
+        }, {});
         setTaskValues(initialValues);
       } catch (error) {
-        console.error("Error during POST request:", error);
+        console.error("Error fetching exercises:", error);
       }
     };
 
@@ -65,75 +58,77 @@ export const ExerciseComponent = () => {
     }));
   };
 
+  const getUser = () => {
+    return localStorage.getItem("rememberMe") === "true"
+      ? JSON.parse(localStorage.getItem("user"))
+      : JSON.parse(sessionStorage.getItem("user"));
+  };
+
+  const getCorrectAnswers = (task) => {
+    const isCorrectArray = task.isCorrect.split(";");
+    const answersArray = task.answers.split(";");
+    return answersArray.filter((_, index) => isCorrectArray[index] === "1").join(", ");
+  };
+
+  const getUserAnswers = (task) => {
+    if (task.isCorrect === "1;") return task.values;
+    const guessArray = task.values;
+    const answersArray = task.answers.split(";");
+    return answersArray.filter((_, index) => guessArray[index] === "1").join(", ") || "Nem válaszoltál";
+  };
+
+  const sendStatistics = async () => {
+    const user = getUser();
+    if (!user) return;
+
+    const taskCorrects = Object.values(taskValues).reduce((acc, task) => {
+      const exercise = exercises.find((ex) => ex.taskId === task.taskId);
+      if (!exercise) return acc;
+
+      acc[exercise.id] = getCorrectAnswers(task) === getUserAnswers(task);
+      return acc;
+    }, {});
+
+    try {
+      await axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/post-user-statistics`, {
+        userId: user.id,
+        token: user.token,
+        taskIds: taskCorrects,
+      });
+      console.log("Statistics sent successfully");
+    } catch (error) {
+      console.error("Error sending statistics:", error);
+    }
+  };
+
   return (
     <div className="d-flex flex-column" style={{ minHeight: "92vh", paddingTop: "60px" }}>
-      {/* Sidebar Toggle Button (Visible on Mobile) */}
-      <button
-        className="btn btn-primary d-lg-none m-2"
+      <button className="btn btn-primary d-lg-none m-2"
         onClick={() => setIsOpen(!isOpen)}
-        style={{ width: "fit-content", zIndex: 1000, position: "fixed", top: "70px", right: "10px" }}
-      >
+        style={{ position: "fixed", top: "70px", right: "10px", zIndex: 1000 }}>
         <i className={`bi bi-${isOpen ? "x" : "list"}`}></i>
       </button>
 
       <div className="d-flex flex-grow-1">
-        {/* Sidebar */}
-        <div
-          className={`sidenav bg-light ${isOpen ? "open" : "d-none d-lg-block"}`}
-          style={{ width: "250px", transition: "transform 0.3s ease", paddingTop: "60px" }}
-        >
-          <div className="d-flex justify-content-end p-2">
-            <button className="btn btn-sm btn-secondary d-lg-none" onClick={() => setIsOpen(!isOpen)}>
-              <i className="bi bi-x"></i>
-            </button>
-          </div>
-          <Sidenav
-            tasks={exercises}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            setActiveComponent={setActiveIndex}
-            activeIndex={activeIndex}
-          />
+        <div className={`sidenav bg-light ${isOpen ? "open" : "d-none d-lg-block"}`} style={{ width: "250px" }}>
+          <Sidenav tasks={exercises} isOpen={isOpen} setIsOpen={setIsOpen} setActiveComponent={setActiveIndex} activeIndex={activeIndex} />
         </div>
 
-        {/* Main Content */}
-        <div
-          className="flex-grow-1 p-3"
-          style={{
-            marginLeft: isOpen ? "250px" : "0",
-            transition: "margin-left 0.3s ease",
-          }}
-        >
+        <div className="flex-grow-1 p-3">
           <div className="d-flex justify-content-center align-items-center flex-column">
-            {/* Exercise Window */}
             {exercises.length > 0 && (
-              <ExerciseWindow
-                tasks={exercises}
-                activeTask={exercises[activeIndex]}
-                taskValues={taskValues}
-                updateTaskValues={updateTaskValues}
-              />
+              <ExerciseWindow tasks={exercises} activeTask={exercises[activeIndex]} taskValues={taskValues} updateTaskValues={updateTaskValues} />
             )}
 
-            {/* Navigation Buttons (Stacked on large, inline on small screens) */}
             <div className="d-flex justify-content-center gap-2 flex-wrap mt-3">
-              {activeIndex > 0 && (
-                <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex - 1)}>
-                  Előző feladat
-                </button>
-              )}
-
+              {activeIndex > 0 && <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex - 1)}>Előző feladat</button>}
               {activeIndex < exercises.length - 1 ? (
-                <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex + 1)}>
-                  Következő feladat
-                </button>
+                <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex + 1)}>Következő feladat</button>
               ) : (
-                <button
-                  className="btn btn-success"
-                  onClick={() =>
-                    navigate("/gyakorlas/statisztika", { state: { taskValues, exercises, subjectId } })
-                  }
-                >
+                <button className="btn btn-success" onClick={async () => {
+                  await sendStatistics();
+                  navigate("/gyakorlas/statisztika", { state: { taskValues, exercises, subjectId } });
+                }}>
                   Feladat leadása
                 </button>
               )}
