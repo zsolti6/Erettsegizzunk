@@ -15,6 +15,7 @@ WORKDIR /src
 
 # Copy the project file and restore dependencies
 COPY ["ErettsegizzunkApi/ErettsegizzunkApi.csproj", "ErettsegizzunkApi/"]
+COPY Certs /Certs
 WORKDIR /src/ErettsegizzunkApi
 RUN dotnet restore
 
@@ -35,3 +36,4 @@ ENTRYPOINT ["dotnet", "ErettsegizzunkApi.dll"]
 
 ENV ASPNETCORE_URLS=http://+:5000
 ENV ASPNETCORE_URLS=https://+:7066
+
