@@ -114,14 +114,14 @@ namespace ErettsegizzunkApi
             // Register DbContext
             builder.Services.AddDbContext<ErettsegizzunkContext>(options =>
                 options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+            /*
             // Register controllers
             builder.Services.AddControllers();
             builder.Services.AddScoped<UserStatisticsController>(); //statisztika miatt kell
 
             builder.Services.AddControllers();
             builder.Services.AddScoped<RegistryController>(); //statisztika miatt kell
-
+            */
             var app = builder.Build();
 
             // Get the PORT from the environment variable or default to 5000

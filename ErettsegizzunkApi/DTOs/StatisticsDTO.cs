@@ -3,11 +3,11 @@ using Task = ErettsegizzunkApi.Models.Task;
 
 namespace ErettsegizzunkApi.DTOs
 {
-    public class GetAllStatisticsDTO
+    public class StatisticsResetDTO
     {
         public string Token { get; set; }
 
-        public int Mettol { get; set; }
+        public int UserId { get; set; }
     }
 
     public class FilteredDeatiledDTO

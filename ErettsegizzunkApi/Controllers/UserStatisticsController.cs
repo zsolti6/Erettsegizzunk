@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using ErettsegizzunkApi.Models;
 using ErettsegizzunkApi.DTOs;
 using NuGet.Packaging;
+using MySql.Data.MySqlClient;
+using Microsoft.Extensions.Hosting;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -22,24 +24,15 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
-        // GET: api/UserStatistics
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserStatistic>>> GetUserStatistics()
-        {
-            return Ok(_context.UserStatistics.Count());
-        }
-
         [HttpPost("get-match-history")]
         public async Task<IActionResult> GetMatchHistory([FromBody] FilteredDeatiledDTO filteredDeatiled)
         {
 
             try
             {
-                User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == filteredDeatiled.UserId);
-
-                if (user is null)
+                if (!Program.LoggedInUsers.ContainsKey(filteredDeatiled.Token) || Program.LoggedInUsers[filteredDeatiled.Token].Id != filteredDeatiled.UserId)
                 {
-                    return NotFound();
+                    return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
                 }
 
                 List<FilteredTaskLessDTO> filteredTasks = new List<FilteredTaskLessDTO>();
@@ -57,10 +50,13 @@ namespace ErettsegizzunkApi.Controllers
                 return Ok(filteredTasks);
 
             }
-            catch (Exception ex)
+            catch (MySqlException)
             {
-
-                throw;
+                return StatusCode(500, new ErrorDTO() { Id = 117, Message = "Kapcsolati hiba" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new ErrorDTO() { Id = 118, Message = "Hiba történt az adatok lekérdezése közben" });
             }
 
 
@@ -72,11 +68,9 @@ namespace ErettsegizzunkApi.Controllers
         {
             try
             {
-                User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == filteredDeatiled.UserId);
-
-                if (user is null)
+                if (!Program.LoggedInUsers.ContainsKey(filteredDeatiled.Token) || Program.LoggedInUsers[filteredDeatiled.Token].Id != filteredDeatiled.UserId)
                 {
-                    return NotFound();
+                    return Unauthorized(new ErrorDTO() { Id = 119, Message = "Hozzáférés megtagadva" });
                 }
 
                 List<FilteredTaskDTO> filteredTasks = new List<FilteredTaskDTO>();
@@ -102,13 +96,15 @@ namespace ErettsegizzunkApi.Controllers
                     })
                     .ToList();
 
-
                 return Ok(filteredTasks);
             }
-            catch (Exception ex)
+            catch (MySqlException)
             {
-
-                throw;
+                return StatusCode(500, new ErrorDTO() { Id = 120, Message = "Kapcsolati hiba" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new ErrorDTO() { Id = 121, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
 
@@ -118,11 +114,9 @@ namespace ErettsegizzunkApi.Controllers
         {
             try
             {
-                User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == getFillingCount.UserId);
-
-                if (user is null)
+                if (!Program.LoggedInUsers.ContainsKey(getFillingCount.Token) || Program.LoggedInUsers[getFillingCount.Token].Id != getFillingCount.UserId)
                 {
-                    return NotFound();
+                    return Unauthorized(new ErrorDTO() { Id = 122, Message = "Hozzáférés megtagadva" });
                 }
 
                 Dictionary<string, int> taskFilloutCount = new Dictionary<string, int>();
@@ -134,10 +128,13 @@ namespace ErettsegizzunkApi.Controllers
 
                 return Ok(taskFilloutCount);
             }
-            catch (Exception ex)
+            catch (MySqlException)
             {
-
-                throw;
+                return StatusCode(500, new ErrorDTO() { Id = 123, Message = "Kapcsolati hiba" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new ErrorDTO() { Id = 124, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
 
@@ -147,6 +144,11 @@ namespace ErettsegizzunkApi.Controllers
         {
             try
             {
+                if (!Program.LoggedInUsers.ContainsKey(postStatistics.Token) || Program.LoggedInUsers[postStatistics.Token].Id != postStatistics.UserId)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 125, Message = "Hozzáférés megtagadva" });
+                }
+
                 DateTime date = DateTime.Now;
                 foreach (int taskId in postStatistics.TaskIds.Keys)
                 {
@@ -163,12 +165,19 @@ namespace ErettsegizzunkApi.Controllers
 
                 await _context.SaveChangesAsync();
             }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 126, Message = "Kapcsolati hiba" });
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 127, Message = "Hiba történt az adatok mentése közben" });
+            }
             catch (Exception)
             {
-
-                throw;
+                return NotFound(new ErrorDTO() { Id = 128, Message = "Hiba történt az adatok mentése közben" });
             }
-            
+
             return Ok();
         }
 
@@ -177,6 +186,11 @@ namespace ErettsegizzunkApi.Controllers
         {
             try
             {
+                if (!Program.LoggedInUsers.ContainsKey(fillingByDateCount.Token) || Program.LoggedInUsers[fillingByDateCount.Token].Id != fillingByDateCount.UserId)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 18, Message = "Hozzáférés megtagadva" });
+                }
+
                 Dictionary<string, int> taskFilloutCount = new Dictionary<string, int>();
                 taskFilloutCount = await _context.UserStatistics
                     .Where(x => x.UserId == fillingByDateCount.UserId)
@@ -185,25 +199,55 @@ namespace ErettsegizzunkApi.Controllers
 
                 return Ok(taskFilloutCount);
             }
-            catch (Exception ex)
+            catch (MySqlException)
             {
-
-                throw;
+                return StatusCode(500, new ErrorDTO() { Id = 2, Message = "Kapcsolati hiba" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new ErrorDTO() { Id = 3, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
 
-        // DELETE: api/UserStatistics/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserStatistic(int id)
+        [HttpDelete("statisztika-reset")]
+        public async Task<IActionResult> DeleteUserStatistic([FromBody] StatisticsResetDTO statisticsReset)
         {
-            var userStatistic = await _context.UserStatistics.FindAsync(id);
-            if (userStatistic == null)
+            try
             {
-                return NotFound();
+                if (!Program.LoggedInUsers.ContainsKey(statisticsReset.Token) || Program.LoggedInUsers[statisticsReset.Token].Id != statisticsReset.UserId)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 18, Message = "Hozzáférés megtagadva" });
+                }
+
+                User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == statisticsReset.UserId);
+
+                if (user is null)
+                {
+                    return NotFound();
+                }
+
+                List<UserStatistic> userStatisticsDelete = new List<UserStatistic>();
+
+                userStatisticsDelete = await _context.UserStatistics
+                    .Where(x => x.UserId == statisticsReset.UserId)
+                    .ToListAsync();
+
+                _context.UserStatistics.RemoveRange(userStatisticsDelete);
+                await _context.SaveChangesAsync();
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 20, Message = "Kapcsolati hiba" });
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 21, Message = "Hiba történt az adatok mentése közben" });
+            }
+            catch (Exception)
+            {
+                return NotFound(new ErrorDTO() { Id = 22, Message = "Hiba történt az adatok mentése közben" });
             }
 
-            _context.UserStatistics.Remove(userStatistic);
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }

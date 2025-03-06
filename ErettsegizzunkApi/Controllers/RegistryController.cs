@@ -11,12 +11,10 @@ namespace ErettsegizzunkApi.Controllers
     public class RegistryController : ControllerBase
     {
         private readonly ErettsegizzunkContext _context;
-        private readonly UserStatisticsController _userStatisticsController;
 
-        public RegistryController(ErettsegizzunkContext context, UserStatisticsController userStatisticsController)
+        public RegistryController(ErettsegizzunkContext context)
         {
             _context = context;
-            _userStatisticsController = userStatisticsController;
         }
 
         [HttpPost("regisztracio")]
@@ -82,8 +80,6 @@ namespace ErettsegizzunkApi.Controllers
                     user.Active = true;
                     _context.Users.Update(user);
                     await _context.SaveChangesAsync();
-
-                    //await _userStatisticsController.PostUserStatistic(user.Id);
                     string body = "<p>A regisztráció befejezése sikeresen megtörtént</p>" +
                     "<img src='http://images.erettsegizzunk.nhely.hu/1715962531.84313.123565.jpg' alt='Image'/>";
 
@@ -125,14 +121,13 @@ namespace ErettsegizzunkApi.Controllers
                     };
 
                     await _context.Users.AddAsync(newUser);
-
+                    //AWAIT NEM VÁR MERT KAKI
                     await _context.SaveChangesAsync();
 
                     Program.SendEmail(email, "Sikeres regisztráció", "Köszönjük a regisztrálást");
 
                     //KELL ID VAGYMI AZ ADATBÁZISBÓL --> JÓ????
                     newUser.Id = (await _context.Users.FirstOrDefaultAsync(x => x.Email == email)).Id;
-                    //await _userStatisticsController.PostUserStatistic(newUser.Id);
 
                     lock (Program.LoggedInUsers)
                     {

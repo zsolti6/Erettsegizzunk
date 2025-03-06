@@ -12,7 +12,7 @@ EXPOSE 5001
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["ErettsegizzunkApi.csproj", "."]
+COPY ["ErettsegizzunkApi/ErettsegizzunkApi.csproj", "ErettsegizzunkApi/"]
 RUN dotnet restore "./ErettsegizzunkApi.csproj"
 COPY . .
 WORKDIR "/src/."
