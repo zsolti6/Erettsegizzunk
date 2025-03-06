@@ -8,6 +8,7 @@ EXPOSE 7066
 EXPOSE 5000
 
 
+
 # Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
@@ -15,7 +16,6 @@ WORKDIR /src
 
 # Copy the project file and restore dependencies
 COPY ["ErettsegizzunkApi/ErettsegizzunkApi.csproj", "ErettsegizzunkApi/"]
-COPY Certs /app/Certs
 WORKDIR /src/ErettsegizzunkApi
 RUN dotnet restore
 
@@ -32,8 +32,9 @@ RUN dotnet publish "ErettsegizzunkApi/ErettsegizzunkApi.csproj" -c $BUILD_CONFIG
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY Certs /app/Certs
+ENV ASPNETCORE_URLS=http://+:5000;https://+:7066
 ENTRYPOINT ["dotnet", "ErettsegizzunkApi.dll"]
 
-ENV ASPNETCORE_URLS=http://+:5000
-ENV ASPNETCORE_URLS=https://+:7066
+
 
