@@ -1,4 +1,4 @@
-using ErettsegizzunkApi.Controllers;
+﻿using ErettsegizzunkApi.Controllers;
 using ErettsegizzunkApi.Models;
 using ErettsegizzunkApi.Services;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +6,7 @@ using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using DotNetEnv;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ErettsegizzunkApi
 {
@@ -80,8 +81,8 @@ namespace ErettsegizzunkApi
         {
             Env.Load();
 
-            var certPath = Environment.GetEnvironmentVariable("CERT_PATH"); // Your environment variable with the file path
-            var certPassword = Environment.GetEnvironmentVariable("CERT_PASSWORD");
+            /*var certPath = Environment.GetEnvironmentVariable("CERT_PATH"); // Your environment variable with the file path
+            var certPassword = Environment.GetEnvironmentVariable("CERT_PASSWORD");*/
             string dbConnection = Env.GetString("CONNECTION_STRING");
             string apiKey = Env.GetString("SECRET_KEY");
             ftpUrl = Env.GetString("FTP_URL");
@@ -97,17 +98,33 @@ namespace ErettsegizzunkApi
                 Permission = new Permission { Level = 9 }
             };
 
-            var builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder(args);//szépíteni
 
-            builder.WebHost.ConfigureKestrel(serverOptions =>
+            string certBase64 = Env.GetString("CERT_PFX_BASE64");
+            string certPassword = Env.GetString("CERT_PASSWORD");
+
+            if (!string.IsNullOrEmpty(certBase64))
             {
-                serverOptions.ListenAnyIP(5000); // HTTP
-                serverOptions.ListenAnyIP(7066, listenOptions =>
-                {
-                    listenOptions.UseHttps(certPath, certPassword);
+                var certBytes = Convert.FromBase64String(certBase64);
+                var certificate = new X509Certificate2(certBytes, certPassword, X509KeyStorageFlags.MachineKeySet);
 
+                builder.WebHost.ConfigureKestrel(serverOptions =>
+                {
+                    serverOptions.ListenAnyIP(5000); // HTTP
+                    serverOptions.ListenAnyIP(7066, listenOptions =>
+                    {
+                        listenOptions.UseHttps(certificate);
+                    });
                 });
-            });
+            }
+            else
+            {
+                // Optionally log a warning or configure HTTP-only mode if the certificate is not provided.
+                builder.WebHost.ConfigureKestrel(serverOptions =>
+                {
+                    serverOptions.ListenAnyIP(5000); // Fallback HTTP
+                });
+            }
 
             builder.Configuration["ConnectionStrings:DefaultConnection"] = dbConnection;
             builder.Configuration["ApiSettings:SecretKey"] = apiKey;
