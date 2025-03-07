@@ -102,19 +102,16 @@ namespace ErettsegizzunkApi
 
             string certBase64 = Env.GetString("CERT_PFX_BASE64");
             string certPassword = Env.GetString("CERT_PASSWORD");
+            string port = Env.GetString("PORT") ?? "10000";
 
             if (!string.IsNullOrEmpty(certBase64))
             {
                 var certBytes = Convert.FromBase64String(certBase64);
                 var certificate = new X509Certificate2(certBytes, certPassword, X509KeyStorageFlags.MachineKeySet);
 
-                builder.WebHost.ConfigureKestrel(serverOptions =>
+                builder.WebHost.ConfigureKestrel(options =>
                 {
-                    serverOptions.ListenAnyIP(5000); // HTTP
-                    serverOptions.ListenAnyIP(7066, listenOptions =>
-                    {
-                        listenOptions.UseHttps(certificate);
-                    });
+                    options.ListenAnyIP(int.Parse(port));
                 });
             }
             else

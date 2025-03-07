@@ -4,7 +4,7 @@
 # Base image for runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 7066
+#EXPOSE 7066
 EXPOSE 5000
 
 
@@ -33,7 +33,7 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 #COPY ./Certs /app/Certs
-ENV ASPNETCORE_URLS=http://+:5000;https://+:7066
+#ENV ASPNETCORE_URLS=http://+:5000;https://+:7066
 ENTRYPOINT ["dotnet", "ErettsegizzunkApi.dll"]
 
 
