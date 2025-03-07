@@ -141,6 +141,9 @@ namespace ErettsegizzunkApi
             builder.Services.AddDbContext<ErettsegizzunkContext>(options =>
                 options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddControllers();
+            builder.Services.AddScoped<RegistryController>(); //regisztráció miatt kell
+
             var app = builder.Build();
 
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
