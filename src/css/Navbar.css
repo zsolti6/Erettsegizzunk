@@ -22,7 +22,7 @@ nav .logo {
     cursor: pointer;
 }
 
-nav .navbar-brand{
+nav .navbar-brand {
     cursor: pointer;
 }
 
@@ -57,20 +57,48 @@ nav .auth-links-wrapper .auth-link, .logo {
     transition: color 0.2s;
 }
 
-nav .home-link:hover, nav .auth-link:hover{
+nav .home-link:hover, nav .auth-link:hover {
     color: #ccc;
 }
 
-#pp{
+#pp {
     max-height: 35px;
     border-radius: 50%;
 }
 
-.noHover:hover{
+.noHover:hover {
     color: #fff;
 }
 
-img:hover{
+img:hover {
     cursor: pointer;
     border: 2px solid white;
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+    background-color: #444;
+    border: 1px solid black;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    min-width: 200px;
+    padding: 10px 0;
+}
+
+.dropdown-menu .dropdown-item {
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #290661;
+    color: #fff;
+}
+
+.dropdown-menu .dropdown-item:active {
+    background-color: #666;
+    color: #fff;
 }

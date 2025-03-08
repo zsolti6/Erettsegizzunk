@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BASE_URL } from '../config';
+import "../css/Profile.css"; // Import the CSS file
 
 export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
   const [userData, setUserData] = useState({
@@ -103,10 +104,10 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
   };
 
   return (
-    <div className="d-flex flex-column min-vh-100">
+    <div className="profile-container d-flex flex-column min-vh-100">
       <div className="container mt-5 mb-5">
-        <h1 className="text-center mb-4 mt-3">Profilom</h1>
-        <form onSubmit={handleSubmit} className="bg-light p-4 rounded shadow mx-auto mt-4" style={{ maxWidth: '500px' }}>
+        <h1 className="text-center mb-4 mt-3">Adataim</h1>
+        <form onSubmit={handleSubmit} className="profile-card bg-light p-4 rounded shadow mx-auto mt-4">
           <div className="mb-1">
             <label htmlFor="name" className="form-label">
               Felhasználónév
@@ -206,14 +207,6 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
             Mentés
           </button>
         </form>
-        <div className="w-25 mx-auto text-center">
-        <button
-          onClick={handleLogout}
-          className="btn btn-primary mt-3"
-        >
-          Kijelentkezés
-        </button>
-        </div>
       </div>
     </div>
   );

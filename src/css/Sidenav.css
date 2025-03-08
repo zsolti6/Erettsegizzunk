@@ -1,66 +1,67 @@
 /* Sidebar container */
 .sidenav {
-  height: 100vh;
+  height: calc(100vh - 50px); /* Adjust height to account for navbar */
   width: 250px;
-  background-color: #f8f9fa;
-  padding: 20px;
+  background-color: #380d88; /* Primary background color */
+  padding: 5px 20px 0px 20px;
   overflow-y: auto;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   position: fixed;
-  top: 0;
+  margin-top: -5px;
   left: 0;
-  z-index: 1000;
+  z-index: 1000; /* Ensure it's above other elements */
+  transform: translateX(0); /* Default: visible */
+  transition: transform 0.3s ease-in-out;
+  color: #fff; /* White text color */
 }
 
-/* Task buttons */
-.task-button {
+/* When sidebar is closed */
+.sidenav.closed {
+  transform: translateX(-100%);
+}
+
+/* Sidebar links */
+.sidenav a {
   display: block;
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 10px;
-  border: none;
-  background-color: transparent;
-  text-align: left;
+  color: #fff; /* White text color */
+  padding: 10px 15px;
+  text-decoration: none;
   font-size: 16px;
-  color: black;
-  border-radius: 5px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 8px; /* Match the input border radius */
 }
 
-/* Active button */
-.task-button.active {
+.sidenav a:hover {
+  background-color: #35097d; /* Darker background on hover */
+  color: #fff; /* White text color on hover */
+}
+
+.sidenav button{
+  margin-top: 2px;
   background-color: #4c0cb5;
-  color: white;
+  color: #6937fe;
 }
 
-/* Hover effect */
-.task-button:hover {
-  background-color: #e9ecef;
+/* Sidebar header */
+.sidenav {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #fff; /* White text color */
 }
 
 /* Mobile Styles */
 @media (max-width: 992px) {
   .sidenav {
     position: fixed;
-    left: -250px;
-    transition: left 0.3s ease;
+    width: 250px;
+    left: -250px; /* Hidden by default */
+    background-color: #4c0cb5; /* Primary background color */
+    z-index: 1050; /* Ensure it's above everything else */
   }
 
   .sidenav.open {
     left: 0;
+    transform: translateX(0);
   }
 }
-
-.sidenav {
-  height: calc(100vh - 60px); /* Adjust height to account for navbar */
-  width: 250px;
-  background-color: #f8f9fa;
-  padding: 20px;
-  overflow-y: auto;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  top: 55px; /* Position below navbar */
-  left: 0;
-  z-index: 999; /* Ensure it's above other elements but below the navbar */
-}
-

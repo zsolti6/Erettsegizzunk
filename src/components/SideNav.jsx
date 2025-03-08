@@ -3,9 +3,7 @@ import "../css/Sidenav.css";
 
 export const Sidenav = ({ tasks, setActiveComponent, activeIndex, isOpen, setIsOpen }) => {
   return (
-    <div className={`sidenav ${isOpen ? "open" : ""}`}>
-      
-
+    <div className={`sidenav ${isOpen ? "open" : "closed"}`}>
       {/* Task Buttons */}
       {tasks.map((task, index) => (
         <button

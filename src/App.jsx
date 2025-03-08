@@ -104,7 +104,7 @@ export const App = () => {
   return (
     <Router>
       <div className="d-flex flex-column min-vh-100">
-        <Navbar user={user} googleLogged={googleLogged} />
+        <Navbar user={user} googleLogged={googleLogged} handleLogout={handleLogout} />
         <div className="flex-grow-1">
           <Routes>
             <Route path="/" element={<Home />} />

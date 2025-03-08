@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../css/SubPage.css";
 import axios from "axios";
-import { PieChart, Pie, Cell, Tooltip, Legend, LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, Legend, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
 import { BASE_URL } from '../config';
 
 const COLORS = ["#0088FE", "#FFBB28", "#FF0000"];
@@ -17,10 +17,38 @@ export const StatisticsComponent = ({ user }) => {
   }
 
   return (
-    <div>
-      <UserStatisticsChart id="pie" user={user} />
-      <FillingByDateChart id="graph" user={user} />
-      <ListDetailedStatistics id="list" user={user}/>
+    <div className="container mt-4 top-padding">
+      {/* Row for Pie Chart and Line Chart */}
+      <div className="row g-3 mb-4">
+        <div className="col-12 col-md-6">
+          <div className="card h-100">
+            <div className="card-body">
+              <h3 className="card-title text-center mb-0">Feladatok Statisztikája</h3>
+              <UserStatisticsChart id="pie" user={user} />
+            </div>
+          </div>
+        </div>
+        <div className="col-12 col-md-6">
+          <div className="card h-100">
+            <div className="card-body">
+              <h3 className="card-title text-center mb-5">Kitöltések Dátum Szerint</h3>
+              <FillingByDateChart id="graph" user={user} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Row for Detailed Statistics */}
+      <div className="row">
+        <div className="col-12">
+          <div className="card">
+            <div className="card-body">
+              <h3 className="card-title text-center">Részletes Statisztikák</h3>
+              <ListDetailedStatistics id="list" user={user} />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -96,7 +124,7 @@ const ListDetailedStatistics = ({ user }) => {
   };
 
   return (
-    <div className="container mt-4">
+    <div className="container-fluid">
       {data.map((item, index) => {
         const correct = item.joRossz[0];
         const incorrect = item.joRossz[1];
@@ -110,10 +138,10 @@ const ListDetailedStatistics = ({ user }) => {
               className="card-header d-flex justify-content-between align-items-center cursor-pointer"
               onClick={() => toggleExpand(index)}
             >
-              <div className="col-12 col-md-6 text-truncate">{item.task.description}</div>
-              <div className="col-6 col-md-2 text-center"><b>Sikeres:</b> {correct}</div>
-              <div className="col-6 col-md-2 text-center"><b>Sikertelen:</b> {incorrect}</div>
-              <div className="col-12 col-md-2 text-end">
+              <div className="col-6 ol-md-4 col-lg-4 text-truncate">{item.task.description}</div>
+              <div className="col-6 col-md-2 col-lg-4 text-center d-none d-md-block"><b>Sikeres:</b> {correct}</div>
+              <div className="col-6 col-md-2 col-lg-2 text-center d-none d-md-block"><b>Sikertelen:</b> {incorrect}</div>
+              <div className="col-2 col-md-2 text-end">
                 <span className="arrow">{expanded === index ? "▲" : "▼"}</span>
               </div>
             </div>
@@ -189,27 +217,35 @@ const ListDetailedStatistics = ({ user }) => {
 
 const StatisticsPieChart = ({ data }) => {
   return (
-    <PieChart width={400} height={400}>
-      <Pie data={data} dataKey="count" nameKey="name" cx="50%" cy="60%" outerRadius={100} label>
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-      <Legend />
-      <Tooltip />
-    </PieChart>
+    <ResponsiveContainer width="100%" height={400}>
+      <PieChart>
+        <Pie data={data} dataKey="count" nameKey="name" cx="50%" cy="50%" outerRadius={125} label>
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+        <Legend />
+        <Tooltip />
+      </PieChart>
+    </ResponsiveContainer>
   );
 };
 
 const LineGraph = ({ data }) => {
   return (
-    <LineChart width={600} height={300} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="date" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
-    </LineChart>
+    <ResponsiveContainer width="100%" height="75%">
+      <LineChart data={data}>
+        <CartesianGrid strokeDasharray="3 3"/>
+        <XAxis 
+          dataKey="date" 
+          label={{ value: "Dátum", position: "insideBottom", offset: 5, dy: 10 }} 
+        />
+        <YAxis 
+          label={{ value: "Kitöltött feladatlapok", angle: -90, position: "insideLeft", offset: 30, dy: 75,  dx: -10 }} 
+        />
+        <Tooltip />
+        <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
+      </LineChart>
+    </ResponsiveContainer>
   );
 };

@@ -14,13 +14,13 @@ export const Home = () => {
         </p>
         <div className="row w-100 g-3 gx-5 justify-content-center subject-row">
           <div className="col-lg-4 col-md-4 col-sm-8 col-10">
-            <SubjectComponent text={"Statisztika"} icon={<i class="bi bi-bar-chart-line"></i>} linkto={"/statisztika"} />
+            <SubjectComponent text={"Statisztika"} icon={<i className="bi bi-bar-chart-line"></i>} linkto={"/statisztika"} />
           </div>
           <div className="col-lg-4 col-md-4 col-sm-8 col-10">
-            <SubjectComponent text={"Új feladatlap"} icon={<i class="bi bi-pencil-square"></i>} linkto={"/feladat-valasztas"} />
+            <SubjectComponent text={"Új feladatlap"} icon={<i className="bi bi-pencil-square"></i>} linkto={"/feladat-valasztas"} />
           </div>
           <div className="col-lg-4 col-md-4 col-sm-8 col-10">
-            <SubjectComponent text={"Útmutató"} icon={<i class="bi bi-book"></i>} linkto={"/utmutato"} />
+            <SubjectComponent text={"Útmutató"} icon={<i className="bi bi-book"></i>} linkto={"/utmutato"} />
           </div>
         </div>
       </div>

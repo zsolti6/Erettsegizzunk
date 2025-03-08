@@ -102,37 +102,65 @@ export const ExerciseComponent = () => {
   };
 
   return (
-    <div className="d-flex flex-column" style={{ minHeight: "92vh", paddingTop: "60px" }}>
-      <button className="btn btn-primary d-lg-none m-2"
+    <div className="d-flex" style={{ minHeight: "92vh", paddingTop: "60px" }}>
+      {/* Toggle button - Always visible */}
+      <button
+        className="btn btn-primary m-2"
         onClick={() => setIsOpen(!isOpen)}
-        style={{ position: "fixed", top: "70px", right: "10px", zIndex: 1000 }}>
+        style={{
+          position: "fixed",
+          top: "70px",
+          left: isOpen ? "260px" : "10px",
+          zIndex: 1001, // Ensure it stays above content
+          transition: "left 0.3s",
+        }}
+      >
         <i className={`bi bi-${isOpen ? "x" : "list"}`}></i>
       </button>
 
-      <div className="d-flex flex-grow-1">
-        <div className={`sidenav bg-light ${isOpen ? "open" : "d-none d-lg-block"}`} style={{ width: "250px" }}>
-          <Sidenav tasks={exercises} isOpen={isOpen} setIsOpen={setIsOpen} setActiveComponent={setActiveIndex} activeIndex={activeIndex} />
-        </div>
+      {/* Sidebar - Pushes content on large screens, overlays on small screens */}
+      <div
+        className="sidenav bg-light"
+        style={{
+          width: "250px",
+          position: "fixed",
+          left: isOpen ? "0" : "-250px",
+          transition: "left 0.3s",
+          zIndex: 1000,
+          height: "100vh",
+        }}
+      >
+        <Sidenav tasks={exercises} isOpen={isOpen} setIsOpen={setIsOpen} setActiveComponent={setActiveIndex} activeIndex={activeIndex} />
+      </div>
 
-        <div className="flex-grow-1 p-3">
-          <div className="d-flex justify-content-center align-items-center flex-column">
-            {exercises.length > 0 && (
-              <ExerciseWindow tasks={exercises} activeTask={exercises[activeIndex]} taskValues={taskValues} updateTaskValues={updateTaskValues} />
-            )}
+      {/* Content Section - Moves right when sidenav is open on large screens */}
+      <div
+        className="flex-grow-1 p-3"
+        style={{
+          marginLeft: isOpen && window.innerWidth >= 992 ? "250px" : "0",
+          transition: "margin-left 0.3s",
+        }}
+      >
+        <div className="d-flex justify-content-center align-items-center flex-column">
+          {exercises.length > 0 && (
+            <ExerciseWindow tasks={exercises} activeTask={exercises[activeIndex]} taskValues={taskValues} updateTaskValues={updateTaskValues} />
+          )}
 
-            <div className="d-flex justify-content-center gap-2 flex-wrap mt-3">
-              {activeIndex > 0 && <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex - 1)}>Előző feladat</button>}
-              {activeIndex < exercises.length - 1 ? (
-                <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex + 1)}>Következő feladat</button>
-              ) : (
-                <button className="btn btn-success" onClick={async () => {
+          <div className="d-flex justify-content-center gap-2 flex-wrap mt-3">
+            {activeIndex > 0 && <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex - 1)}>Előző feladat</button>}
+            {activeIndex < exercises.length - 1 ? (
+              <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex + 1)}>Következő feladat</button>
+            ) : (
+              <button
+                className="btn btn-success"
+                onClick={async () => {
                   await sendStatistics();
                   navigate("/gyakorlas/statisztika", { state: { taskValues, exercises, subjectId } });
-                }}>
-                  Feladat leadása
-                </button>
-              )}
-            </div>
+                }}
+              >
+                Feladat leadása
+              </button>
+            )}
           </div>
         </div>
       </div>

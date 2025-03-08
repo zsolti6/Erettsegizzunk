@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import sha256 from "crypto-js/sha256";
 import { BASE_URL } from '../config';
+import "../css/Login.css"; // Import the CSS file
 
 export const GenerateSalt = (SaltLength) => {
   const karakterek = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -102,41 +103,39 @@ export const RegisterPage = () => {
   };
   
   return (
-    <div>
-      <div className="container d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
-        <div className="card p-4" style={{ width: "400px" }}>
-          <h2 className="text-center mb-4">Fiók létrehozása</h2>
-          {error && <div className="alert alert-danger">{error}</div>}
-          <form onSubmit={handleRegister}>
-            <div className="form-group mb-3">
-              <input placeholder="Felhasználónév" type="text" className="form-control" id="loginName" maxLength={10} value={formData.loginName} onChange={handleChange} />
+    <div className="login-container">
+      <div className="login-card">
+        <h2 className="text-center mb-4">Fiók létrehozása</h2>
+        {error && <div className="alert alert-danger">{error}</div>}
+        <form onSubmit={handleRegister}>
+          <div className="form-group mb-3">
+            <input placeholder="Felhasználónév" type="text" className="form-control" id="loginName" maxLength={10} value={formData.loginName} onChange={handleChange} />
+          </div>
+          <div className="form-group mb-3">
+            <input placeholder="Email cím" type="email" className="form-control" id="email" value={formData.email} onChange={handleChange} />
+          </div>
+          <div className="form-group mb-3">
+            <div className="input-group">
+              <input placeholder="Jelszó" type={passwordVisible ? "text" : "password"} className="form-control" id="password" value={formData.password} onChange={handleChange} />
+              <button type="button" className="btn btn-outline-secondary" onClick={togglePasswordVisibility}>{passwordVisible ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}</button>
+              <button type="button" className="btn btn-outline-secondary" onClick={handleGeneratePassword} title="Jelszó generálása"><i className="bi bi-shuffle"></i></button>
             </div>
-            <div className="form-group mb-3">
-              <input placeholder="Email cím" type="email" className="form-control" id="email" value={formData.email} onChange={handleChange} />
-            </div>
-            <div className="form-group mb-3">
-              <div className="input-group">
-                <input placeholder="Jelszó" type={passwordVisible ? "text" : "password"} className="form-control" id="password" value={formData.password} onChange={handleChange} />
-                <button type="button" className="btn btn-outline-secondary" onClick={togglePasswordVisibility}>{passwordVisible ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}</button>
-                <button type="button" className="btn btn-outline-secondary" onClick={handleGeneratePassword} title="Jelszó generálása"><i className="bi bi-shuffle"></i></button>
-              </div>
-            </div>
-            <div className="form-group mb-3">
-              <input placeholder="Jelszó megerősítése" type="password" className="form-control" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
-            </div>
-            <div className="form-group mb-3 d-flex justify-content-center">
-              <ReCAPTCHA
-                sitekey="6LeQqdkqAAAAABst5YpaC2RfBcOKWb6sShvYGBqO "
-                onChange={(token) => setCaptchaToken(token)}
-                onExpired={() => setCaptchaToken(null)}
-              />
-            </div>
-            <button type="submit" className="btn btn-primary w-100">Regisztrálás</button>
-            <div className="d-flex justify-content-center mt-2">
-              <a href="/belepes" className="text-muted">Van már fiókod? Jelentkezz be!</a>
-            </div>
-          </form>
-        </div>
+          </div>
+          <div className="form-group mb-3">
+            <input placeholder="Jelszó megerősítése" type="password" className="form-control" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
+          </div>
+          <div className="form-group mb-3 d-flex justify-content-center recaptcha-container">
+            <ReCAPTCHA
+              sitekey="6LeQqdkqAAAAABst5YpaC2RfBcOKWb6sShvYGBqO "
+              onChange={(token) => setCaptchaToken(token)}
+              onExpired={() => setCaptchaToken(null)}
+            />
+          </div>
+          <button type="submit" className="btn color-bg2 text-white w-100">Regisztrálás</button>
+          <div className="d-flex justify-content-center mt-2">
+            <a href="/belepes" className="text-muted">Van már fiókod? Jelentkezz be!</a>
+          </div>
+        </form>
       </div>
     </div>
   );
