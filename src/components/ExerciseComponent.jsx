@@ -12,44 +12,71 @@ export const ExerciseComponent = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [taskValues, setTaskValues] = useState({});
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(true); // New state for loading
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-  const { subject, difficulty, subjectId } = location.state || {};
+  const { subject, difficulty, subjectId, savedExercises, savedTaskValues } = location.state || {};
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axios.post(`${BASE_URL}/erettsegizzunk/Feladatok/get-random-feladatok`, {
-          tantargy: subject,
-          szint: difficulty,
-        });
+      if (savedExercises && savedTaskValues) {
+        setExercises(savedExercises);
+        setTaskValues(savedTaskValues);
+        setLoading(false);
+      } else {
+        try {
+          const response = await axios.post(`${BASE_URL}/erettsegizzunk/Feladatok/get-random-feladatok`, {
+            tantargy: subject,
+            szint: difficulty,
+          });
 
-        const tasksWithIds = response.data.map((task, index) => ({
-          ...task,
-          taskId: index + 1,
-        }));
-        setExercises(tasksWithIds);
+          const tasksWithIds = response.data.map((task, index) => ({
+            ...task,
+            taskId: index + 1,
+          }));
+          setExercises(tasksWithIds);
 
-        const initialValues = tasksWithIds.reduce((acc, task) => {
-          acc[task.id] = {
-            taskId: task.taskId,
-            isCorrect: task.isCorrect,
-            answers: task.answers,
-            values: task.type.name === "textbox" ? [""] : Array(task.isCorrect.split(";").length).fill("0"),
-          };
-          return acc;
-        }, {});
-        setTaskValues(initialValues);
-      } catch (error) {
-        console.error("Error fetching exercises:", error);
-      } finally {
-        setLoading(false); // Set loading to false after data is fetched
+          const initialValues = tasksWithIds.reduce((acc, task) => {
+            acc[task.id] = {
+              taskId: task.taskId,
+              isCorrect: task.isCorrect,
+              answers: task.answers,
+              values: task.type.name === "textbox" ? [""] : Array(task.isCorrect.split(";").length).fill("0"),
+            };
+            return acc;
+          }, {});
+          setTaskValues(initialValues);
+        } catch (error) {
+          console.error("Error fetching exercises:", error);
+        } finally {
+          setLoading(false);
+        }
       }
     };
 
     fetchData();
-  }, [subject, difficulty]);
+  }, [subject, difficulty, savedExercises, savedTaskValues]);
+
+  useEffect(() => {
+    const saveToLocalStorage = () => {
+      localStorage.setItem("exercises", JSON.stringify(exercises));
+      localStorage.setItem("taskValues", JSON.stringify(taskValues));
+    };
+
+    window.addEventListener("beforeunload", saveToLocalStorage);
+    return () => {
+      window.removeEventListener("beforeunload", saveToLocalStorage);
+    };
+  }, [exercises, taskValues]);
+
+  useEffect(() => {
+    const saveToLocalStorage = () => {
+      localStorage.setItem("exercises", JSON.stringify(exercises));
+      localStorage.setItem("taskValues", JSON.stringify(taskValues));
+    };
+
+    saveToLocalStorage();
+  }, [exercises, taskValues]);
 
   const updateTaskValues = (taskId, newValues) => {
     setTaskValues((prev) => ({
@@ -82,31 +109,37 @@ export const ExerciseComponent = () => {
 
   const sendStatistics = async () => {
     const user = getUser();
-    if (!user) return;
+    if (user) {
+      const taskCorrects = Object.values(taskValues).reduce((acc, task) => {
+        const exercise = exercises.find((ex) => ex.taskId === task.taskId);
+        if (!exercise) return acc;
 
-    const taskCorrects = Object.values(taskValues).reduce((acc, task) => {
-      const exercise = exercises.find((ex) => ex.taskId === task.taskId);
-      if (!exercise) return acc;
+        acc[exercise.id] = getCorrectAnswers(task) === getUserAnswers(task);
+        return acc;
+      }, {});
 
-      acc[exercise.id] = getCorrectAnswers(task) === getUserAnswers(task);
-      return acc;
-    }, {});
-
-    try {
-      await axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/post-user-statistics`, {
-        userId: user.id,
-        token: user.token,
-        taskIds: taskCorrects,
-      });
-      console.log("Statistics sent successfully");
-    } catch (error) {
-      console.error("Error sending statistics:", error);
+      try {
+        await axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/post-user-statistics`, {
+          userId: user.id,
+          token: user.token,
+          taskIds: taskCorrects,
+        });
+        console.log("Statistics sent successfully");
+      } catch (error) {
+        console.error("Error sending statistics:", error);
+      }
     }
+
+    // Clear local storage after sending statistics
+    localStorage.removeItem("exercises");
+    localStorage.removeItem("taskValues");
+
+    // Navigate to the statistics page
+    navigate("/gyakorlas/statisztika", { state: { taskValues, exercises, subjectId } });
   };
 
   return (
     <div className="d-flex" style={{ minHeight: "92vh", paddingTop: "60px" }}>
-      {/* Toggle button - Always visible */}
       <button
         className="btn btn-primary m-2"
         onClick={() => setIsOpen(!isOpen)}
@@ -114,14 +147,13 @@ export const ExerciseComponent = () => {
           position: "fixed",
           top: "70px",
           left: isOpen ? "260px" : "10px",
-          zIndex: 1001, // Ensure it stays above content
+          zIndex: 1001,
           transition: "left 0.3s",
         }}
       >
         <i className={`bi bi-${isOpen ? "x" : "list"}`}></i>
       </button>
 
-      {/* Sidebar - Pushes content on large screens, overlays on small screens */}
       <div
         className="sidenav bg-light"
         style={{
@@ -133,10 +165,9 @@ export const ExerciseComponent = () => {
           height: "100vh",
         }}
       >
-        <Sidenav tasks={exercises} isOpen={isOpen} setIsOpen={setIsOpen} setActiveComponent={setActiveIndex} activeIndex={activeIndex} />
+        <Sidenav tasks={exercises} isOpen={isOpen} setIsOpen={setIsOpen} setActiveComponent={setActiveIndex} activeIndex={activeIndex} taskValues={taskValues} />
       </div>
 
-      {/* Content Section - Moves right when sidenav is open on large screens */}
       <div
         className="flex-grow-1 p-3"
         style={{
@@ -164,10 +195,9 @@ export const ExerciseComponent = () => {
                     className="btn btn-success"
                     onClick={async () => {
                       await sendStatistics();
-                      navigate("/gyakorlas/statisztika", { state: { taskValues, exercises, subjectId } });
                     }}
                   >
-                    Feladat leadása
+                    Feladatok leadása
                   </button>
                 )}
               </div>

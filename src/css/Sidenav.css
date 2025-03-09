@@ -65,3 +65,19 @@
     transform: translateX(0);
   }
 }
+
+.answer-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-left: 10px;
+  border-radius: 50%;
+}
+
+.answered {
+  background-color: green;
+}
+
+.not-answered {
+  background-color: red;
+}

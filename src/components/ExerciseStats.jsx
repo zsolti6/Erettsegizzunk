@@ -18,7 +18,7 @@ export const ExerciseStats = () => {
 
   return (
     <div className="container col-md-8" style={{ height: "100vh", marginTop: "8vh" }}>
-      <h2 className="mb-4">Feladatok összegzése</h2>
+      <h2 className="mb-4 text-center">Feladatok összegzése</h2>
       <div className="table-responsive">
         <table className="table table-striped table-bordered">
           <thead className="thead-dark">

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Modal, Button } from "react-bootstrap";
 import "../css/Selector.css";
 import { BASE_URL } from '../config';
 
@@ -12,7 +13,8 @@ export const SelectorComponent = () => {
 
   const [subjectId, setSubjectId] = useState("");
   const [subjects, setSubjects] = useState([]);
-  const [loading, setLoading] = useState(true); // New state for loading
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,9 +41,36 @@ export const SelectorComponent = () => {
         console.error("Error fetching subjects:", error);
       })
       .finally(() => {
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    const savedExercises = localStorage.getItem("exercises");
+    const savedTaskValues = localStorage.getItem("taskValues");
+
+    if (savedExercises && savedTaskValues) {
+      setShowModal(true);
+    }
+  }, []);
+
+  const handleContinue = () => {
+    const savedExercises = JSON.parse(localStorage.getItem("exercises"));
+    const savedTaskValues = JSON.parse(localStorage.getItem("taskValues"));
+    navigate("/gyakorlas", {
+      state: {
+        subject: formData.subject,
+        difficulty: formData.difficulty,
+        subjectId,
+        savedExercises,
+        savedTaskValues,
+      },
+    });
+  };
+
+  const handleNewAttempt = () => {
+    setShowModal(false);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -122,6 +151,23 @@ export const SelectorComponent = () => {
           </>
         )}
       </div>
+
+      <Modal show={showModal} onHide={handleNewAttempt} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Folytatni szeretnéd?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Van egy korábbi próbálkozásod. Szeretnéd folytatni?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleNewAttempt}>
+            Új próbálkozás
+          </Button>
+          <Button variant="primary" onClick={handleContinue}>
+            Folytatás
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
-}
+};
