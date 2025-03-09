@@ -12,6 +12,7 @@ export const ExerciseComponent = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [taskValues, setTaskValues] = useState({});
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(true); // New state for loading
   const navigate = useNavigate();
   const location = useLocation();
   const { subject, difficulty, subjectId } = location.state || {};
@@ -42,6 +43,8 @@ export const ExerciseComponent = () => {
         setTaskValues(initialValues);
       } catch (error) {
         console.error("Error fetching exercises:", error);
+      } finally {
+        setLoading(false); // Set loading to false after data is fetched
       }
     };
 
@@ -142,26 +145,34 @@ export const ExerciseComponent = () => {
         }}
       >
         <div className="d-flex justify-content-center align-items-center flex-column">
-          {exercises.length > 0 && (
-            <ExerciseWindow tasks={exercises} activeTask={exercises[activeIndex]} taskValues={taskValues} updateTaskValues={updateTaskValues} />
-          )}
+          {loading ? (
+            <div className="spinner-container">
+              <div className="spinner"></div>
+            </div>
+          ) : (
+            <>
+              {exercises.length > 0 && (
+                <ExerciseWindow tasks={exercises} activeTask={exercises[activeIndex]} taskValues={taskValues} updateTaskValues={updateTaskValues} />
+              )}
 
-          <div className="d-flex justify-content-center gap-2 flex-wrap mt-3">
-            {activeIndex > 0 && <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex - 1)}>Előző feladat</button>}
-            {activeIndex < exercises.length - 1 ? (
-              <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex + 1)}>Következő feladat</button>
-            ) : (
-              <button
-                className="btn btn-success"
-                onClick={async () => {
-                  await sendStatistics();
-                  navigate("/gyakorlas/statisztika", { state: { taskValues, exercises, subjectId } });
-                }}
-              >
-                Feladat leadása
-              </button>
-            )}
-          </div>
+              <div className="d-flex justify-content-center gap-2 flex-wrap mt-3">
+                {activeIndex > 0 && <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex - 1)}>Előző feladat</button>}
+                {activeIndex < exercises.length - 1 ? (
+                  <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex + 1)}>Következő feladat</button>
+                ) : (
+                  <button
+                    className="btn btn-success"
+                    onClick={async () => {
+                      await sendStatistics();
+                      navigate("/gyakorlas/statisztika", { state: { taskValues, exercises, subjectId } });
+                    }}
+                  >
+                    Feladat leadása
+                  </button>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

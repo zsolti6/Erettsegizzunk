@@ -12,6 +12,7 @@ export const SelectorComponent = () => {
 
   const [subjectId, setSubjectId] = useState("");
   const [subjects, setSubjects] = useState([]);
+  const [loading, setLoading] = useState(true); // New state for loading
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,6 +37,9 @@ export const SelectorComponent = () => {
       })
       .catch((error) => {
         console.error("Error fetching subjects:", error);
+      })
+      .finally(() => {
+        setLoading(false); // Set loading to false after data is fetched
       });
   }, []);
 
@@ -63,52 +67,60 @@ export const SelectorComponent = () => {
   return (
     <div className="page-wrapper">
       <div className="content-container">
-        <h4>Válassz tantárgyat</h4>
-        <form className="exercise-form">
-          <div className="radio-group">
-            {subjects.map(({ id, name }) => (
-              <label className="radio-option" key={id}>
-                <input
-                  type="radio"
-                  name="subject"
-                  value={id}
-                  checked={subjectId === id}
-                  onChange={handleChange}
-                />
-                <span className="name">{name}</span>
-              </label>
-            ))}
+        {loading ? (
+          <div className="spinner-container">
+            <div className="spinner"></div>
           </div>
+        ) : (
+          <>
+            <h4>Válassz tantárgyat</h4>
+            <form className="exercise-form">
+              <div className="radio-group">
+                {subjects.map(({ id, name }) => (
+                  <label className="radio-option" key={id}>
+                    <input
+                      type="radio"
+                      name="subject"
+                      value={id}
+                      checked={subjectId === id}
+                      onChange={handleChange}
+                    />
+                    <span className="name">{name}</span>
+                  </label>
+                ))}
+              </div>
 
-          <p>Középszintű vagy emelt szintű érettségi feladatokat szeretnél gyakorolni?</p>
+              <p>Középszintű vagy emelt szintű érettségi feladatokat szeretnél gyakorolni?</p>
 
-          <div className="radio-group">
-            <label className="radio-option">
-              <input
-                type="radio"
-                name="difficulty"
-                value="közép"
-                checked={formData.difficulty === "közép"}
-                onChange={handleChange}
-              />
-              <span className="name">Közép szint</span>
-            </label>
-            <label className="radio-option">
-              <input
-                type="radio"
-                name="difficulty"
-                value="emelt"
-                checked={formData.difficulty === "emelt"}
-                onChange={handleChange}
-              />
-              <span className="name">Emelt szint</span>
-            </label>
-          </div>
+              <div className="radio-group">
+                <label className="radio-option">
+                  <input
+                    type="radio"
+                    name="difficulty"
+                    value="közép"
+                    checked={formData.difficulty === "közép"}
+                    onChange={handleChange}
+                  />
+                  <span className="name">Közép szint</span>
+                </label>
+                <label className="radio-option">
+                  <input
+                    type="radio"
+                    name="difficulty"
+                    value="emelt"
+                    checked={formData.difficulty === "emelt"}
+                    onChange={handleChange}
+                  />
+                  <span className="name">Emelt szint</span>
+                </label>
+              </div>
 
-          <button type="button" className="select-button" onClick={handleStartExercise}>
-            Feladatlap megkezdése
-          </button>
-        </form>
+              <button type="button" className="select-button" onClick={handleStartExercise}>
+                Feladatlap megkezdése
+              </button>
+            </form>
+          </>
+        )}
       </div>
     </div>
   );
