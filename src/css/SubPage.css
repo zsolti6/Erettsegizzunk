@@ -340,7 +340,7 @@ h2 i{
 #mainDiv {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 1500px;
   background-color: #DEE6EF;
 }
 
@@ -348,7 +348,7 @@ h2 i{
   background: linear-gradient(180deg, #868c9e, #cfd5e6);
   position: relative;
   flex-shrink: 0;
-  padding: 2rem;
+  height: 800px;
 }
 
 #bg-image {

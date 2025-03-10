@@ -12,7 +12,6 @@ export const Home = () => {
         <div id="textDiv">
           <div id="titleDiv">
             <img id="logo" className="img-fluid right" src={logo} alt="Logo" />
-            <img id="bg-image" src={pngegg} alt="Background" className="w-100" />
           </div>
           <div id="descriptionDiv" className="right">
             <p className="text-center">
@@ -20,6 +19,7 @@ export const Home = () => {
             </p>
           </div>
         </div>
+        <img id="bg-image" src={pngegg} alt="Background" className="w-100" />
       </div>
     </div>
   );
