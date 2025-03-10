@@ -6,7 +6,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /*background-color: burlywood !important;*/
-  background-image: url("background.png");
   background-size: cover;
   overflow: hidden;
 }
@@ -17,7 +16,7 @@ code {
 }
 
 .color-bg1{
-  background-color: #290661 !important;
+  background-color: #303D5C !important;
 }
 
 .color-bg2{
