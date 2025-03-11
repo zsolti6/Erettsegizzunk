@@ -5,6 +5,8 @@ import pngegg from "./pngegg.png";
 import logo from "./logo.png";
 import axios from "axios";
 import { HiChevronDoubleDown } from "react-icons/hi2";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 export const Home = () => {
   const [articles, setArticles] = useState([]);
@@ -35,6 +37,25 @@ export const Home = () => {
     fetchRSS();
   }, []);
 
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
+
   return (
     <div id="mainDiv" className="d-flex flex-column min-vh-100">
       <div id="subDiv" className="w-100 mt-5">
@@ -52,22 +73,20 @@ export const Home = () => {
         <img id="bg-image" src={pngegg} alt="Background" className="w-100" />
       </div>
       
-      <div className="container mt-4">
-        <div className="row">
+      <div className="container mb-5">
+        <Carousel responsive={responsive} infinite={true} autoPlay={true} autoPlaySpeed={3000}>
           {articles.map((article, index) => (
-            <div key={index} className="col-md-4 mb-4">
-              <div className="card">
-                <div className="card-body">
-                  <h5 className="card-title">{article.title}</h5>
-                  <p className="card-text">{article.description}</p>
-                  <a href={article.link} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-                    Read more
-                  </a>
-                </div>
+            <div key={index} className="card">
+              <div className="card-body">
+                <h5 className="card-title">{article.title}</h5>
+                <p className="card-text">{article.description}</p>
+                <a href={article.link} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                  Read more
+                </a>
               </div>
             </div>
           ))}
-        </div>
+        </Carousel>
       </div>
     </div>
   );
