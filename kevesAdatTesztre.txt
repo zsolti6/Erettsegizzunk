@@ -1,6 +1,0 @@
-Leiras	Megoldasok	Helyese	Tantargy	Tipus	Szint
-Adott az A = {1; 2; 3; 4} és a B = {1; 2; 4; 8} halmaz. Elemei felsorolásával adja meg az A ∩ B halmazt vesszővel elválasztva!	1,2,4;	1;	1	3	1
-Adott az A = {1; 2; 3; 4} és a B = {1; 2; 4; 8} halmaz. Elemei felsorolásával adja meg az A ∪ B halmazt vesszővel elválasztva!	1,2,3,4,8;	1;	1	3	1
-Adott az A = {1; 2; 3; 4} és a B = {1; 2; 4; 8} halmaz. Elemei felsorolásával adja meg az A \ B halmazt vesszővel elválasztva!	3;	1;	1	3	1
-Egy pékségben fehér kenyeret és rozskenyeret is árusítanak. Egyik reggel az első 30 vevő közül 22-en fehér kenyeret, 17-en pedig rozskenyeret vásároltak. Hányan vásároltak mindkét fajta kenyérből, ha mind a 30 vevő vett a két fajta kenyér valamelyikéből?	9;	1;	1	3	1
-Egy számtani sorozat első tagja 6, hetedik tagja pedig 36. Adja meg a sorozat negyedik tagját!	21;	1;	1	3	1
