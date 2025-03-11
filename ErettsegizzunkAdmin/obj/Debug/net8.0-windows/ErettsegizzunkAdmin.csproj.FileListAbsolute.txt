@@ -78,7 +78,6 @@ C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdm
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.pdb
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ErettsegizzunkAdmin.genruntimeconfig.cache
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\ref\ErettsegizzunkAdmin.dll
-C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\bin\Debug\net8.0-windows\BespokeFusion.pdb
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\TemaKezel.g.cs
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\TemaKezel.baml
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Erettsegizzunk\ErettsegizzunkAdmin\obj\Debug\net8.0-windows\Windows\AdatbazisHelyreallitas.g.cs

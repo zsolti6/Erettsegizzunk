@@ -81,8 +81,6 @@ namespace ErettsegizzunkApi
         {
             Env.Load();
 
-            /*var certPath = Environment.GetEnvironmentVariable("CERT_PATH"); // Your environment variable with the file path
-            var certPassword = Environment.GetEnvironmentVariable("CERT_PASSWORD");*/
             string dbConnection = Env.GetString("CONNECTION_STRING");
             string apiKey = Env.GetString("SECRET_KEY");
             ftpUrl = Env.GetString("FTP_URL");
@@ -128,7 +126,7 @@ namespace ErettsegizzunkApi
 
             builder.Services.AddHttpClient<RecaptchaService>();
             builder.Services.AddScoped<RecaptchaService>();
-
+            builder.Services.AddScoped<RegistryController>();
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -142,14 +140,13 @@ namespace ErettsegizzunkApi
                 options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddControllers();
-            builder.Services.AddScoped<RegistryController>(); //regisztráció miatt kell
 
             var app = builder.Build();
 
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || true)
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();

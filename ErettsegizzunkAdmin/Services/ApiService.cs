@@ -23,7 +23,7 @@ namespace ErettsegizzunkAdmin.Services
         public ApiService()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7066/");
+            _httpClient.BaseAddress = new Uri("https://erettsegizzunk.onrender.com/");
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 

@@ -28,7 +28,6 @@ public partial class User
 
     public bool GoogleUser { get; set; }
 
-    [JsonIgnore]
     public virtual Permission? Permission { get; set; } = null;
 
     [JsonIgnore]

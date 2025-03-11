@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <Reference Include="BespokeFusion">
-      <HintPath>..\..\..\messagebox\Material-Message-Box\BespokeFusion\bin\Release\net48\BespokeFusion.dll</HintPath>
+      <HintPath>CustomMessageBoxes\BespokeFusion.dll</HintPath>
     </Reference>
   </ItemGroup>
 
