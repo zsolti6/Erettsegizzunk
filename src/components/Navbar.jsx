@@ -47,10 +47,10 @@ export const Navbar = ({ user, googleLogged, handleLogout }) => {
                 className="rounded-circle" style={{ maxHeight: "35px", cursor: "pointer" }}
               />
               {dropdownOpen && (
-                <div className="dropdown-menu dropdown-menu-end color-bg2 show position-absolute" style={{ top: "100%", right: 0 }}>
-                  <Link to="/profil" className="dropdown-item">Profilom</Link>
-                  <Link to="/beallitasok" className="dropdown-item">Beállítások</Link>
-                  <button className="dropdown-item" onClick={handleLogout}>Kijelentkezés</button>
+                <div className="dropdown-menu dropdown-menu-end color-bg1 show position-absolute menuButton" style={{ top: "100%", right: 0 }}>
+                  <Link to="/profil" className="dropdown-item menuButton">Profilom</Link>
+                  <Link to="/beallitasok" className="dropdown-item menuButton">Beállítások</Link>
+                  <button className="dropdown-item menuButton" onClick={handleLogout}>Kijelentkezés</button>
                 </div>
               )}
             </div>

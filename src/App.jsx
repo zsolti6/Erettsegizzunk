@@ -83,6 +83,7 @@ export const App = () => {
       sessionStorage.removeItem("googleLogged");
     }
     localStorage.removeItem("rememberMe");
+    window.location.href = "/"; // Navigate back to home
   };
 
   const handleLogin = (userData, isGoogleLogged) => {

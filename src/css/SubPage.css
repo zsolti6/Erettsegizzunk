@@ -340,7 +340,7 @@ h2 i{
 #mainDiv {
   display: flex;
   flex-direction: column;
-  height: 1500px;
+  height: 100%;
   background-color: #DEE6EF;
 }
 
@@ -348,7 +348,7 @@ h2 i{
   background: linear-gradient(180deg, #868c9e, #cfd5e6);
   position: relative;
   flex-shrink: 0;
-  height: 800px;
+  height: 900px;
 }
 
 #bg-image {
@@ -413,4 +413,20 @@ h2 i{
     font-size: 0.9rem;
     width: 100%;
   }
+}
+
+.arrow{
+  margin-top: 5px;
+  font-size: 5rem;
+  transform: scaleX(1.5) translateX(-50%);
+  color: white;
+  z-index: 100;
+  position: absolute;
+  left: calc(50% + 20px);
+  cursor: pointer;
+  user-select: none;
+}
+
+.arrow:hover{
+  cursor: pointer;
 }
