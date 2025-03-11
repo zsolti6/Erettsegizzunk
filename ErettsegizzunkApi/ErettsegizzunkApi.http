@@ -1,6 +1,0 @@
-@ErettsegizzunkApi_HostAddress = http://localhost:5103
-
-GET {{ErettsegizzunkApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
