@@ -17,6 +17,7 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
+        //50 felhasználó lekérdezése adminak =====>>>>>>>>y LAPOZÁS HIÁNYZIK
         [HttpPost("get-sok-felhasznalo")]
         public async Task<IActionResult> GetFelhasznalok([FromBody] LoggedUserForCheckDTO logged)
         {
@@ -48,12 +49,13 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 66, Message = "Hiba történt az adatok lekérdezése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 66, Message = "Hiba történt az adatok lekérdezése közben" });
             }
 
             return Ok(users);
         }
 
+        //ez legit nem tom mi, átírni körlevél küldésére i guess
         [HttpPost("Korlevel")]
         public async Task<IActionResult> GetKorlevel([FromBody] string token)
         {
@@ -64,7 +66,7 @@ namespace ErettsegizzunkApi.Controllers
 
             try
             {
-                return Ok(await _context.Users.Include(x => x.Permission).Select(x => new KorlevelDTO { Email = x.Email, Name = x.LoginName, PermissionName = x.Permission.Name }).ToListAsync());
+                return Ok(await _context.Users.Include(x => x.Permission).Select(x => new KorlevelDTO { Email = x.Email, Name = x.LoginName, PermissionName = x.Permission.Name }).ToListAsync());// <<<<========7 fuck is this
             }
             catch (MySqlException)
             {
@@ -72,10 +74,11 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 69, Message = "Hiba történt az adatok lekérdezése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 69, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
 
+        //User saját felhasználó adatainak a módosítása
         [HttpPut("sajat-felhasznalo-modosit")]
         public async Task<IActionResult> PutFelhasznalo([FromBody] LoggedUserDTO modosit)
         {
@@ -126,12 +129,13 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return NotFound(new ErrorDTO() { Id = 87, Message = "Hiba történt az adatok mentése közben" });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return NotFound(new ErrorDTO() { Id = 88, Message = "Hiba történt az adatok mentése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 88, Message = "Hiba történt az adatok mentése közben" });
             }
         }
 
+        //Felhasználó(k) adatainak módosítása adminok számára
         [HttpPut("felhasznalok-modosit")]
         public async Task<IActionResult> PutFelhasznalok([FromBody] FelhasznaloModotsitDTO modosit)
         {
@@ -170,14 +174,15 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return NotFound(new ErrorDTO() { Id = 73, Message = "Hiba történt az adatok mentése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 73, Message = "Hiba történt az adatok mentése közben" });
             }
             catch (Exception)
             {
-                return NotFound(new ErrorDTO() { Id = 74, Message = "Hiba történt az adatok mentése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 74, Message = "Hiba történt az adatok mentése közben" });
             }
         }
 
+        //Felhasználó(k) törlése
         [HttpDelete("delete-felhasznalok")]
         public async Task<IActionResult> DeleteFelhasznalok([FromBody] FelhasznaloTorolDTO deleteDTO)
         {
@@ -213,7 +218,7 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 80, Message = "Hiba történt az adatok törlése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 80, Message = "Hiba történt az adatok törlése közben" });
             }
 
             return Ok("Felhasználó(k) törlése sikeresen megtörtént");

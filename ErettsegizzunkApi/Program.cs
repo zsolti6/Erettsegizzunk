@@ -76,11 +76,13 @@ namespace ErettsegizzunkApi
         }
 
 
-
         public static void Main(string[] args)
         {
             Env.Load();
 
+            string certBase64 = Env.GetString("CERT_PFX_BASE64");
+            string certPassword = Env.GetString("CERT_PASSWORD");
+            string port = Env.GetString("PORT") ?? "10000";
             string dbConnection = Env.GetString("CONNECTION_STRING");
             string apiKey = Env.GetString("SECRET_KEY");
             ftpUrl = Env.GetString("FTP_URL");
@@ -96,13 +98,9 @@ namespace ErettsegizzunkApi
                 Permission = new Permission { Level = 9 }
             };
 
-            var builder = WebApplication.CreateBuilder(args);//szépíteni
+            var builder = WebApplication.CreateBuilder(args);
 
-            string certBase64 = Env.GetString("CERT_PFX_BASE64");
-            string certPassword = Env.GetString("CERT_PASSWORD");
-            string port = Env.GetString("PORT") ?? "10000";
-
-            if (!string.IsNullOrEmpty(certBase64))
+            if (!string.IsNullOrEmpty(certBase64))//ha ez van nincs swagger
             {
                 var certBytes = Convert.FromBase64String(certBase64);
                 var certificate = new X509Certificate2(certBytes, certPassword, X509KeyStorageFlags.MachineKeySet);

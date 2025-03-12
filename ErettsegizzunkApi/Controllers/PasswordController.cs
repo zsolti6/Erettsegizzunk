@@ -1,11 +1,8 @@
 ﻿using ErettsegizzunkApi.DTOs;
 using ErettsegizzunkApi.Models;
-using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
-using System.Runtime.CompilerServices;
-using static System.Net.WebRequestMethods;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -19,8 +16,10 @@ namespace ErettsegizzunkApi.Controllers
         public PasswordController(ErettsegizzunkContext context)
         {
             _context = context;
+            Token = string.Empty;
         }
 
+        //Jelszó megváltoztatása, temphast kapunk, hogy biztonságosabb legyen
         [HttpPost("jelszo-modositas")]
         public async Task<IActionResult> JelszoModositas([FromBody] JelszoModositDTO jelszoModosit)
         {
@@ -29,14 +28,14 @@ namespace ErettsegizzunkApi.Controllers
                 User? user = _context.Users.FirstOrDefault(x => x.LoginName == jelszoModosit.LoginName && !x.GoogleUser);
                 if (user != null)
                 {
-                    if (!Program.LoggedInUsers.ContainsKey(jelszoModosit.Token) && Program.LoggedInUsers[jelszoModosit.Token].LoginName == jelszoModosit.LoginName)
+                    if (!Program.LoggedInUsers.ContainsKey(jelszoModosit.Token) || Program.LoggedInUsers[jelszoModosit.Token].LoginName != jelszoModosit.LoginName)
                     {
                         return Unauthorized(new ErrorDTO() { Id = 89, Message = "Hozzáférés megtagadva" });
                     }
 
-                    if (Program.CreateSHA256(jelszoModosit.OldPassword) == user.Hash) //jo??
+                    if (Program.CreateSHA256(jelszoModosit.OldPassword) == user.Hash)
                     {
-                        user.Hash = Program.CreateSHA256(jelszoModosit.NewPassword); //jo??
+                        user.Hash = Program.CreateSHA256(jelszoModosit.NewPassword);
                         _context.Users.Update(user);
                         await _context.SaveChangesAsync();
 
@@ -44,7 +43,7 @@ namespace ErettsegizzunkApi.Controllers
                     }
                     else
                     {
-                        return StatusCode(201, "Hibás a régi jelszó!");//ne bad request legyen
+                        return StatusCode(201, "Hibás a régi jelszó!");
                     }
                 }
                 else
@@ -67,16 +66,17 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
+        //Elfelejtett jelszó kérése egy sima linket külünk emailben
         [HttpPost("elfelejtett-jelszo-keres")]
         public async Task<IActionResult> ElfelejtettJelszoKeres([FromBody] string email)
         {
             GenerateToken();
             string body = $"A jelszava visszaállításáshoz kattintson a linkre. Amennyiben nem ön próbálta helyreállítani a jelszavát akkor hagyja figyelmen kívül ezt az üzenetet https://localhost:7066/erettsegizzunk/Password/elfelejtett-jelszo?email={Uri.EscapeDataString(email)}";
-            Program.SendEmail(email,"Jelszó helyreállítás",body);
+            Program.SendEmail(email, "Jelszó helyreállítás", body);
             return Ok();
         }
 
-
+        //Ha rákattint a fent említett linkre akkor fut le
         [HttpGet("elfelejtett-jelszo")]
         public async Task<IActionResult> ElfelejtettJelszo([FromQuery] string email, [FromQuery] string token)
         {
@@ -127,7 +127,6 @@ namespace ErettsegizzunkApi.Controllers
                         </html>";
 
                     return Content(htmlContent, "text/html");
-                    //return StatusCode(210, "Nincs ilyen e-mail cím!");
                 }
             }
             catch (MySqlException)
@@ -144,7 +143,7 @@ namespace ErettsegizzunkApi.Controllers
             }
             finally
             {
-                Token = Guid.NewGuid().ToString();
+                GenerateToken();
             }
         }
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ErettsegizzunkApi.Models;
 
@@ -33,7 +31,7 @@ public partial class ErettsegizzunkContext : DbContext
 
     public virtual DbSet<UserStatistic> UserStatistics { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)=> optionsBuilder.UseMySQL();
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

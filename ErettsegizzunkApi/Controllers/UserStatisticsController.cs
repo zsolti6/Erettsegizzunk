@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using ErettsegizzunkApi.DTOs;
+using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ErettsegizzunkApi.Models;
-using ErettsegizzunkApi.DTOs;
-using NuGet.Packaging;
 using MySql.Data.MySqlClient;
-using Microsoft.Extensions.Hosting;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -24,10 +17,10 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
+        //Felhasználó összes olyan feladat lekérérése amivel már valaha találkozott. !!!!!!!!!!!!!!Lapozós rendszert belerkani.!!!!!!!!!!
         [HttpPost("get-match-history")]
         public async Task<IActionResult> GetMatchHistory([FromBody] FilteredDeatiledDTO filteredDeatiled)
         {
-
             try
             {
                 if (!Program.LoggedInUsers.ContainsKey(filteredDeatiled.Token) || Program.LoggedInUsers[filteredDeatiled.Token].Id != filteredDeatiled.UserId)
@@ -46,9 +39,7 @@ namespace ErettsegizzunkApi.Controllers
                     .OrderByDescending(x => x.UtolsoKitoltesDatum)
                     .ToListAsync();
 
-
                 return Ok(filteredTasks);
-
             }
             catch (MySqlException)
             {
@@ -56,13 +47,11 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 118, Message = "Hiba történt az adatok lekérdezése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 118, Message = "Hiba történt az adatok lekérdezése közben" });
             }
-
-
         }
 
-
+        //Visszadja a DTO-nak megfelelően egyes feladatok statisztikáit. !!!!!!!!!lapozós rendszer!!!!!!!!!!!!!
         [HttpPost("get-statitstics-detailed")]
         public async Task<IActionResult> GetStatisticsDeatiled([FromBody] FilteredDeatiledDTO filteredDeatiled)
         {
@@ -80,8 +69,8 @@ namespace ErettsegizzunkApi.Controllers
                     .Include(x => x.Task.Subject)
                     .Include(x => x.Task.Level)
                     .Where(x => x.UserId == filteredDeatiled.UserId)
-                    .AsEnumerable() 
-                    .GroupBy(x => x.TaskId) 
+                    .AsEnumerable()
+                    .GroupBy(x => x.TaskId)
                     .Select(g =>
                     {
                         UserStatistic lastEntry = g.OrderBy(x => x.FilloutDate).Last();
@@ -104,11 +93,11 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 121, Message = "Hiba történt az adatok lekérdezése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 121, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
 
-
+        //Visszadaja tantárgyakra lebontva összesen mennyi feladatot oldott meg 
         [HttpPost("get-taskFilloutCount")]
         public async Task<IActionResult> GetTaskFilloutCount([FromBody] GetFillingCountDTO getFillingCount)
         {
@@ -134,11 +123,11 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 124, Message = "Hiba történt az adatok lekérdezése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 124, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
 
-
+        //Új statisztika feltöülrése, minden feladatlap kitöltése után lefut
         [HttpPost("post-user-statistics")]
         public async Task<ActionResult<UserStatistic>> PostUserStatistic([FromBody] PostStatisticsDTO postStatistics)
         {
@@ -175,12 +164,13 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return NotFound(new ErrorDTO() { Id = 128, Message = "Hiba történt az adatok mentése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 128, Message = "Hiba történt az adatok mentése közben" });
             }
 
             return Ok();
         }
 
+        //Napra lebontva visszaadja, hogy mennyi feladatott töltött ki a user
         [HttpPost("get-filling-byDate")]
         public async Task<ActionResult<UserStatistic>> GetFillingByDate([FromBody] GetFillingCountDTO fillingByDateCount)
         {
@@ -205,10 +195,11 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 131, Message = "Hiba történt az adatok lekérdezése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 131, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
 
+        //Adott user összes statisztika adatának törlése
         [HttpDelete("statisztika-reset")]
         public async Task<IActionResult> DeleteUserStatistic([FromBody] StatisticsResetDTO statisticsReset)
         {
@@ -245,11 +236,10 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return NotFound(new ErrorDTO() { Id = 136, Message = "Hiba történt az adatok mentése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 136, Message = "Hiba történt az adatok mentése közben" });
             }
 
-
-            return NoContent();
+            return Ok();
         }
     }
 }

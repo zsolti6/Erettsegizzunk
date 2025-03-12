@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace ErettsegizzunkApi.Models;
 
@@ -33,6 +31,6 @@ public partial class User
     [JsonIgnore]
     public virtual ICollection<SpacedRepetition> SpacedRepetitions { get; set; } = new List<SpacedRepetition>();
 
-    [JsonIgnore] //--> kell?
+    [JsonIgnore]
     public virtual ICollection<UserStatistic> UserStatistics { get; set; } = new List<UserStatistic>();
 }

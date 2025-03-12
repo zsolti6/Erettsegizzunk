@@ -1,6 +1,4 @@
-﻿using ErettsegizzunkApi.Models;
-
-namespace ErettsegizzunkApi.DTOs
+﻿namespace ErettsegizzunkApi.DTOs
 {
     public class FeladatokGetRandomDTO
     {
@@ -9,7 +7,7 @@ namespace ErettsegizzunkApi.DTOs
         public string? Szint { get; set; } = null;
     }
 
-    public class FeladatokGetSpecificDTO
+    public class FeladatokGetSpecificDTO //nem igazán használva átírni???
     {
         public int? Id { get; set; } = null;
 
@@ -21,6 +19,7 @@ namespace ErettsegizzunkApi.DTOs
     public class FeladatokPutPostDTO
     {
         public int? Id { get; set; }
+
         public string Token { get; set; }
 
         public string? KepNev { get; set; }

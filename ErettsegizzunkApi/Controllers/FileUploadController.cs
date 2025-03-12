@@ -11,7 +11,7 @@ namespace ErettsegizzunkApi.Controllers
 {
     [Route("erettsegizzunk/[controller]")]
     [ApiController]
-    public class FileUploadController : ControllerBase
+    public class FileUploadController : ControllerBase //EGÉSZ CONTROLERT ÁTÍRNI TELJESEN MÁSIK HELYRŐL SZEDJÜK LE A KÉPEKET!!!! ====>>> CLOUDINARY
     {
 
         IWebHostEnvironment _env;

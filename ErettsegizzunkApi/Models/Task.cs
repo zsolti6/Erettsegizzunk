@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace ErettsegizzunkApi.Models;
 
@@ -26,9 +24,6 @@ public partial class Task
 
     public virtual Level? Level { get; set; }
 
-    [JsonIgnore]
-    public virtual ICollection<SpacedRepetition> SpacedRepetitions { get; set; } = new List<SpacedRepetition>();
-
     public virtual Subject? Subject { get; set; }
 
     public virtual Type? Type { get; set; }
@@ -38,4 +33,7 @@ public partial class Task
 
     [JsonIgnore]
     public virtual ICollection<Theme> Themes { get; set; } = new List<Theme>();
+
+    [JsonIgnore]
+    public virtual ICollection<SpacedRepetition> SpacedRepetitions { get; set; } = new List<SpacedRepetition>();
 }

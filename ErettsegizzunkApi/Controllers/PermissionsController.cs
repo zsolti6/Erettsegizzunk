@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using ErettsegizzunkApi.DTOs;
+using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ErettsegizzunkApi.Models;
-using NuGet.Common;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -25,25 +20,17 @@ namespace ErettsegizzunkApi.Controllers
         [HttpPost("get-permissions")]
         public async Task<ActionResult<IEnumerable<Permission>>> GetPermissions([FromBody] string token)
         {
-            return await _context.Permissions.ToListAsync();
-        }
-
-        // GET: api/Permissions/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Permission>> GetPermission(int id)
-        {
-            var permission = await _context.Permissions.FindAsync(id);
-
-            if (permission == null)
+            try
             {
-                return NotFound();
+                return await _context.Permissions.ToListAsync();
             }
-
-            return permission;
+            catch (Exception)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 141, Message = "Hiba történt az adatok lekérdezése közben" });
+            }
         }
 
-        // PUT: api/Permissions/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //Permossion módosítása ========>>>>>>>>> megírni
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPermission(int id, Permission permission)
         {
@@ -60,21 +47,12 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PermissionExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
             }
 
             return NoContent();
         }
 
-        // POST: api/Permissions
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //Permission feltöltése ===========>>>>>>>>>>> megírni
         [HttpPost]
         public async Task<ActionResult<Permission>> PostPermission(Permission permission)
         {
@@ -84,7 +62,7 @@ namespace ErettsegizzunkApi.Controllers
             return CreatedAtAction("GetPermission", new { id = permission.Id }, permission);
         }
 
-        // DELETE: api/Permissions/5
+        //Permission törlése ====================>>>>>>>>>>>>>>> megírni
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePermission(int id)
         {
@@ -98,11 +76,6 @@ namespace ErettsegizzunkApi.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private bool PermissionExists(int id)
-        {
-            return _context.Permissions.Any(e => e.Id == id);
         }
     }
 }

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using ErettsegizzunkApi.DTOs;
+using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ErettsegizzunkApi.Models;
-using ErettsegizzunkApi.DTOs;
 using MySql.Data.MySqlClient;
 
 namespace ErettsegizzunkApi.Controllers
@@ -17,12 +12,12 @@ namespace ErettsegizzunkApi.Controllers
     {
         private readonly ErettsegizzunkContext _context;
 
-        public ThemesController(ErettsegizzunkContext context)
+        public ThemesController(ErettsegizzunkContext context)//=============>>>>>>>>>>>>>>>> Ha lesznek témák megírni!!!!!!!!
         {
             _context = context;
         }
 
-        // GET: api/Themes
+        //Témák lekérése
         [HttpGet("get-temak")]
         public async Task<ActionResult<IEnumerable<Theme>>> GetThemes()
         {
@@ -44,26 +39,11 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 96, Message = "Hiba történt az adatok lekérdezése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 96, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
 
-        // GET: api/Themes/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Theme>> GetTheme(int id)
-        {
-            var theme = await _context.Themes.FindAsync(id);
-
-            if (theme == null)
-            {
-                return NotFound();
-            }
-
-            return theme;
-        }
-
-        // PUT: api/Themes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //Téma módosítása
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTheme(int id, Theme theme)
         {
@@ -80,21 +60,12 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ThemeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
             }
 
             return NoContent();
         }
 
-        // POST: api/Themes
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //Téma feltöltése
         [HttpPost]
         public async Task<ActionResult<Theme>> PostTheme(Theme theme)
         {
@@ -104,7 +75,7 @@ namespace ErettsegizzunkApi.Controllers
             return CreatedAtAction("GetTheme", new { id = theme.Id }, theme);
         }
 
-        // DELETE: api/Themes/5
+        //Téma törlése
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTheme(int id)
         {
@@ -118,11 +89,6 @@ namespace ErettsegizzunkApi.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private bool ThemeExists(int id)
-        {
-            return _context.Themes.Any(e => e.Id == id);
         }
     }
 }

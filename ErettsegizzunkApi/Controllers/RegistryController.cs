@@ -17,6 +17,7 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
+        //Webes regisztráció
         [HttpPost("regisztracio")]
         public async Task<IActionResult> Registry([FromBody] User user)
         {
@@ -32,7 +33,7 @@ namespace ErettsegizzunkApi.Controllers
                     return Ok("Ezzel az e-mail címmel már regisztráltak!");
                 }
 
-                user.Active = true;//falsra kell rakni ha meg lesz az emailes cucc
+                user.Active = false;
                 user.Hash = Program.CreateSHA256(user.Hash);
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
@@ -47,12 +48,13 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 41, Message = "Hiba történt a regisztráció során" });
+                return StatusCode(500, new ErrorDTO() { Id = 41, Message = "Hiba történt a regisztráció során" });
             }
         }
 
+        //Emailben kapott link
         [HttpGet("regisztracio-megerosites")]
-        public async Task<IActionResult> EndOfTheRegistry([FromQuery] string felhasznaloNev, [FromQuery] string email)//frombody + kell dto
+        public async Task<IActionResult> EndOfTheRegistry([FromQuery] string felhasznaloNev, [FromQuery] string email)
         {
             try
             {
@@ -94,10 +96,11 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 43, Message = "Hiba történt a regisztráció során" });
+                return StatusCode(500, new ErrorDTO() { Id = 43, Message = "Hiba történt a regisztráció során" });
             }
         }
 
+        //Google login / regisztráció (ha nincs fiók)
         [HttpPost("googleLogin")]
         public async Task<IActionResult> LoginRegistryWithGoogle([FromBody] string email)
         {
@@ -121,7 +124,7 @@ namespace ErettsegizzunkApi.Controllers
                     };
 
                     await _context.Users.AddAsync(newUser);
-                    //AWAIT NEM VÁR MERT KAKI
+                    //AWAIT NEM VÁR MERT KAKI ======>>>>>>>>>>>>>> BUGOS JAVÍTANI
                     await _context.SaveChangesAsync();
 
                     Program.SendEmail(email, "Sikeres regisztráció", "Köszönjük a regisztrálást");
@@ -150,9 +153,8 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 83, Message = "Hiba történt a regisztráció során" });
+                return StatusCode(500, new ErrorDTO() { Id = 83, Message = "Hiba történt a regisztráció során" });
             }
-
         }
 
         private string GenetrateEmailLoginName()

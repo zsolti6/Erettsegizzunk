@@ -4,8 +4,9 @@ namespace ErettsegizzunkApi.Controllers
 {
     [Route("erettsegizzunk/[controller]")]
     [ApiController]
-    public class LogoutController : ControllerBase
+    public class LogoutController : ControllerBase //potenciálisan belerakni, ha új bejelentkezést észlel ne engedje / kijelentkeztesse máshonnan!
     {
+        //User kijelentkeztetése
         [HttpPost]
         public IActionResult Logout([FromBody] string token)
         {
@@ -18,6 +19,7 @@ namespace ErettsegizzunkApi.Controllers
             return Ok("Sikertelen kijelentkezés.");
         }
 
+        //Frontendek elküldeni h user be van- ejelentkezve annak érdekében, hogyha kell ki tudja jelentkeztetni
         [HttpPost("active")]
         public IActionResult Active([FromBody] string token)
         {

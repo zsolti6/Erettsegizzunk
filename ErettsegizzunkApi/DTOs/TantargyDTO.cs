@@ -21,6 +21,7 @@ namespace ErettsegizzunkApi.DTOs
     public class TantargyPutDTO
     {
         public string Token { get; set; } = null!;
+
         public List<Subject> subjects { get; set; }
     }
 }

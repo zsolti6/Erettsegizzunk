@@ -17,6 +17,7 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
+        //Salt lekérése
         [HttpPost("SaltRequest")]
         public async Task<IActionResult> SaltRequest([FromBody] string loginName)
         {
@@ -37,10 +38,12 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 36, Message = "Hiba történt a bejelentkezés során" });
+                return StatusCode(500, new ErrorDTO() { Id = 36, Message = "Hiba történt a bejelentkezés során" });
             }
         }
 
+        //Admin login???? =====>>>> nem vagyok benne biztos, hogy ez jelenleg használatban van-e vagy sem ELLENŐRIZNI ADMINBAN!!!!!!!!!!!!!
+        //potenciálisan logint regostryből átrakni ide (google)
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
         {
@@ -70,10 +73,8 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 39, Message = "Hiba történt a bejelentkezés során" });
+                return StatusCode(500, new ErrorDTO() { Id = 39, Message = "Hiba történt a bejelentkezés során" });
             }
         }
-
-
     }
 }

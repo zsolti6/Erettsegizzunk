@@ -3,6 +3,7 @@ using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
+using Task = System.Threading.Tasks.Task;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -19,6 +20,7 @@ namespace ErettsegizzunkApi.Controllers
             _context = new ErettsegizzunkContext();
         }
 
+        //Jelenlegi adatbázis lementése (Dockerben bugos javítani)
         [HttpPost("backup")]
         public async Task<IActionResult> SQLBackupAsync([FromBody] string token)
         {
@@ -34,38 +36,36 @@ namespace ErettsegizzunkApi.Controllers
                 string? sqlDataSource = _context.Database.GetConnectionString();
                 MySqlCommand command = new MySqlCommand();
                 MySqlBackup backup = new MySqlBackup(command);
-                using (MySqlConnection myConnection = new MySqlConnection(sqlDataSource))
+                MySqlConnection myConnection = new MySqlConnection(sqlDataSource);
+
+                command.Connection = myConnection;
+                await myConnection.OpenAsync();
+                string filePath = "SQLBackupRestore/backup " + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".sql";
+                await System.Threading.Tasks.Task.Run(() => backup.ExportToFile(filePath));
+                await myConnection.CloseAsync();
+
+                if (System.IO.File.Exists(filePath))
                 {
-
-                    command.Connection = myConnection;
-                    await myConnection.OpenAsync();
-                    string filePath = "SQLBackupRestore/backup " + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".sql";
-                    await System.Threading.Tasks.Task.Run(() => backup.ExportToFile(filePath));
-                    await myConnection.CloseAsync();
-
-                    if (System.IO.File.Exists(filePath))
-                    {
-                        var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
-                        //return File(bytes, "text/plain", Path.GetFileName(filePath));
-                        return Ok($"Biztonsági mentés \"{Path.GetFileName(filePath)}\" néven sikeresen megtörtént.");
-                    }
-
-                    hibaUzenet = "Nincs ilyen file!";
-                    byte[] a = System.Text.Encoding.UTF8.GetBytes(hibaUzenet);
-                    //return File(a, "text/plain", "Error.txt");
-                    return NotFound(new ErrorDTO() { Id = 105, Message = "Hiba történt az adatok mentése közben" });
+                    var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
+                    return Ok($"Biztonsági mentés \"{Path.GetFileName(filePath)}\" néven sikeresen megtörtént.");
                 }
+
+                hibaUzenet = "Nincs ilyen file!";
+                byte[] a = System.Text.Encoding.UTF8.GetBytes(hibaUzenet);
+                return NotFound(new ErrorDTO() { Id = 105, Message = "Hiba történt az adatok mentése közben" });
+
             }
             catch (MySqlException)
             {
                 return StatusCode(500, new ErrorDTO() { Id = 98, Message = "Kapcsolati hiba" });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest(new ErrorDTO() { Id = 99, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
 
+        //Mentett adatbázis visszaállítása (Dockerben bugos javítani)
         [HttpPost("restore")]
         public async Task<IActionResult> SQLRestoreAsync([FromBody] BackupRestoreDTO restoreDTO)
         {
@@ -86,21 +86,13 @@ namespace ErettsegizzunkApi.Controllers
 
                 MySqlCommand command = new MySqlCommand();
                 MySqlBackup restore = new MySqlBackup(command);
-                using (MySqlConnection mySqlConnection = new MySqlConnection(sqlDataSource))
-                {
-                    try
-                    {
-                        command.Connection = mySqlConnection;
-                        await mySqlConnection.OpenAsync();
-                        await System.Threading.Tasks.Task.Run(() => restore.ImportFromFile(filePath));
-                        System.IO.File.Delete(filePath);
-                        return Ok($"A visszaállítás sikeresen lefutott a visszaállított file:\n\"{Path.GetFileName(filePath)}\"");
-                    }
-                    catch (Exception ex)
-                    {
-                        return StatusCode(500, "Mentésfájl sikeresen feltöltve. Az SQL szerver nem érhető el!");//the fuck is this
-                    }
-                }
+                MySqlConnection mySqlConnection = new MySqlConnection(sqlDataSource);
+
+                command.Connection = mySqlConnection;
+                await mySqlConnection.OpenAsync();
+                await Task.Run(() => restore.ImportFromFile(filePath));
+                System.IO.File.Delete(filePath);
+                return Ok($"A visszaállítás sikeresen lefutott a visszaállított file:\n\"{Path.GetFileName(filePath)}\"");
             }
             catch (MySqlException)
             {
@@ -112,6 +104,7 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
+        //Jelenlegi lementett sql nevek megjelenítése (Dockerben bugos javítani)
         [HttpPost("get-backup-names")]
         public ActionResult<IEnumerable<List<string>>> GetBackedUpFiles([FromBody] string token)
         {
@@ -128,12 +121,16 @@ namespace ErettsegizzunkApi.Controllers
 
                 if (Directory.Exists(directoryPath))
                 {
-                    return Ok( Directory.GetFiles(directoryPath)
+                    return Ok(Directory.GetFiles(directoryPath)
                                          .Select(Path.GetFileName)
                                          .ToList());
                 }
 
                 return NotFound(new ErrorDTO() { Id = 106, Message = "A keresett adatok nem találhatóak" });
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 139, Message = "Kapcsolati hiba" });
             }
             catch (Exception)
             {

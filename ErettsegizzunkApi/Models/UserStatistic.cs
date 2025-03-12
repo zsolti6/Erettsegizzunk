@@ -18,6 +18,5 @@ public partial class UserStatistic
 
     public virtual Task Task { get; set; } = null!;
 
-    [JsonIgnore]
-    public virtual User User { get; set; } = null!;
+    public virtual User User { get; set; } = null!;// ha hiba merül fel jsonignore ide
 }

@@ -2,9 +2,7 @@
 using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using MySql.Data.MySqlClient;
-using Mysqlx;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -19,7 +17,7 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
-        // GET: api/Tantargyak
+        //Összes tantárgy lekérése
         [HttpGet("get-tantargyak")]
         public async Task<ActionResult<IEnumerable<Subject>>> GetTantargyak()
         {
@@ -41,16 +39,17 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 46, Message = "Hiba történt az adatok lekérdezése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 46, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
 
+        //Új tantárgy feltöltése
         [HttpPost("post-tantargy")]
         public async Task<ActionResult<Subject>> PostTantargyak([FromBody] TantargyDTO post)
         {
-            if (!Program.LoggedInUsers.ContainsKey(post.Token) && Program.LoggedInUsers[post.Token].Permission.Level != 9)
+            if (!Program.LoggedInUsers.ContainsKey(post.Token) || Program.LoggedInUsers[post.Token].Permission.Level != 9)
             {
-                return BadRequest(new ErrorDTO() { Id = 47, Message = "Hozzáférés megtagadva" });
+                return Unauthorized(new ErrorDTO() { Id = 47, Message = "Hozzáférés megtagadva" });
             }
 
             if (post is null)
@@ -74,24 +73,24 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return NotFound(new ErrorDTO() { Id = 50, Message = "Hiba történt az adatok mentése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 50, Message = "Hiba történt az adatok mentése közben" });
             }
             catch (Exception)
             {
-                return NotFound(new ErrorDTO() { Id = 51, Message = "Hiba történt az adatok mentése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 51, Message = "Hiba történt az adatok mentése közben" });
             }
 
             return Ok("Tantárgy felvitele sikeresen megtörént");
         }
 
+        //Tantárgyak módosítása
         [HttpPut("put-tantargy")]
         public async Task<IActionResult> PutTantargyak([FromBody] TantargyPutDTO put)
         {
-            if (!Program.LoggedInUsers.ContainsKey(put.Token) && Program.LoggedInUsers[put.Token].Permission.Level != 9)
+            if (!Program.LoggedInUsers.ContainsKey(put.Token) || Program.LoggedInUsers[put.Token].Permission.Level != 9)
             {
-                return BadRequest(new ErrorDTO() { Id = 52, Message = "Hozzáférés megtagadva" });
+                return Unauthorized(new ErrorDTO() { Id = 52, Message = "Hozzáférés megtagadva" });
             }
-
 
             try
             {
@@ -113,7 +112,7 @@ namespace ErettsegizzunkApi.Controllers
                     _context.Entry(tantargy).State = EntityState.Modified;
                 }
 
-                
+
                 await _context.SaveChangesAsync();
             }
             catch (MySqlException)
@@ -122,22 +121,23 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return NotFound(new ErrorDTO() { Id = 56, Message = "Hiba történt az adatok mentése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 56, Message = "Hiba történt az adatok mentése közben" });
             }
             catch (Exception)
             {
-                return NotFound(new ErrorDTO() { Id = 57, Message = "Hiba történt az adatok mentése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 57, Message = "Hiba történt az adatok mentése közben" });
             }
 
             return Ok("Tantárgy(ak) módosítása sikeresen megtörtént");
         }
 
+        //Tantárgyak törlése
         [HttpDelete("delete-tantargyak")]
-        public async Task<IActionResult> DeleteTantargyak([FromBody]TantargyDeleteDTO tantargyak)
+        public async Task<IActionResult> DeleteTantargyak([FromBody] TantargyDeleteDTO tantargyak)
         {
             if (!Program.LoggedInUsers.ContainsKey(tantargyak.Token) && Program.LoggedInUsers[tantargyak.Token].Permission.Level != 9)
             {
-                return BadRequest(new ErrorDTO() { Id = 58, Message = "Hozzáférés megtagadva" });
+                return Unauthorized(new ErrorDTO() { Id = 58, Message = "Hozzáférés megtagadva" });
             }
 
             try
@@ -159,7 +159,7 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 62, Message = "Hiba történt az adatok törlése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 62, Message = "Hiba történt az adatok törlése közben" });
             }
 
             return Ok("A tantárgyak(k) törlése sikeresen megtörtént");

@@ -3,6 +3,7 @@ using ErettsegizzunkApi.Models;
 using ErettsegizzunkApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -21,39 +22,51 @@ namespace ErettsegizzunkApi.Controllers
             _registryController = registryController;
         }
 
+        //Webes felületi login kezelése
         [HttpPost("login")]
         public async Task<IActionResult> CaptchaLogin([FromBody] LoginRegistryRequestDTO LoginRegistryRequest)
         {
-            await CheckCaptcha(LoginRegistryRequest);
-
-            User user = await _context.Users.FirstOrDefaultAsync(x => x.LoginName == LoginRegistryRequest.Username);
-            if (user == null)
+            try
             {
-                return Unauthorized(new ErrorDTO() { Id = 111, Message = "Hibás név, jelszó páros" });
-            }
+                await CheckCaptcha(LoginRegistryRequest);
 
-            string hash = Program.CreateSHA256(LoginRegistryRequest.Password);
-            if (user.Hash != hash)
+                User user = await _context.Users.FirstOrDefaultAsync(x => x.LoginName == LoginRegistryRequest.Username);
+                if (user == null)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 111, Message = "Hibás név, jelszó páros" });
+                }
+
+                string hash = Program.CreateSHA256(LoginRegistryRequest.Password);
+                if (user.Hash != hash)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 112, Message = "Hibás név, jelszó páros" });
+                }
+
+                string token = Guid.NewGuid().ToString();
+                lock (Program.LoggedInUsers)
+                {
+                    Program.LoggedInUsers.Add(token, user);
+                }
+
+                return Ok(new LoggedUserDTO { Id = user.Id, Name = user.LoginName, Email = user.Email, Permission = user.PermissionId, Newsletter = user.Newsletter, ProfilePicturePath = user.ProfilePicturePath, ProfilePicture = null, Token = token, GoogleUser = user.GoogleUser });
+            }
+            catch (MySqlException)
             {
-                return Unauthorized(new ErrorDTO() { Id = 112, Message = "Hibás név, jelszó páros" });
+                return StatusCode(500, new ErrorDTO() { Id = 137, Message = "Kapcsolati hiba" });
             }
-
-            string token = Guid.NewGuid().ToString();
-            lock (Program.LoggedInUsers)
+            catch (Exception)
             {
-                Program.LoggedInUsers.Add(token, user);
+                return BadRequest(new ErrorDTO() { Id = 138, Message = "Hiba történt a bejelentkezés során" });
             }
-
-            return Ok(new LoggedUserDTO { Id = user.Id, Name = user.LoginName, Email = user.Email, Permission = user.PermissionId, Newsletter = user.Newsletter, ProfilePicturePath = user.ProfilePicturePath, ProfilePicture = null, Token = token, GoogleUser = user.GoogleUser });
         }
 
+        //Webes felületi regisztrációhoz capcha
         [HttpPost("regisztracio")]
         public async Task<IActionResult> CaptchaRegistry([FromBody] LoginRegistryRequestDTO LoginRegistryRequest)//error kezelés
         {
             await CheckCaptcha(LoginRegistryRequest);
 
             return Ok(await _registryController.Registry(LoginRegistryRequest.User));
-
         }
 
         private async Task<IActionResult> CheckCaptcha(LoginRegistryRequestDTO LoginRegistryRequest)

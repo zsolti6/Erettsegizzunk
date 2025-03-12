@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
-
-namespace ErettsegizzunkApi.DTOs
+﻿namespace ErettsegizzunkApi.DTOs
 {
     public class BackupRestoreDTO
     {

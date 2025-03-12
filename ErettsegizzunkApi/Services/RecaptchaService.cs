@@ -16,10 +16,10 @@ namespace ErettsegizzunkApi.Services
         public async Task<bool> VerifyRecaptchaAsync(string token)
         {
             var values = new Dictionary<string, string>
-        {
-            { "secret", _recaptchaSecretKey },
-            { "response", token }
-        };
+            {
+                { "secret", _recaptchaSecretKey },
+                { "response", token }
+            };
 
             var content = new FormUrlEncodedContent(values);
             var response = await _httpClient.PostAsync("https://www.google.com/recaptcha/api/siteverify", content);

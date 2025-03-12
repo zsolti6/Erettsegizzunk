@@ -1,5 +1,4 @@
-﻿using ErettsegizzunkApi.Models;
-using Task = ErettsegizzunkApi.Models.Task;
+﻿using Task = ErettsegizzunkApi.Models.Task;
 
 namespace ErettsegizzunkApi.DTOs
 {

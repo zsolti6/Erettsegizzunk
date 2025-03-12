@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ErettsegizzunkApi.Models;
 using Type = ErettsegizzunkApi.Models.Type;
 
 namespace ErettsegizzunkApi.Controllers
@@ -16,34 +11,19 @@ namespace ErettsegizzunkApi.Controllers
     {
         private readonly ErettsegizzunkContext _context;
 
-        public TypesController(ErettsegizzunkContext context)
+        public TypesController(ErettsegizzunkContext context)//============>>>>>>>>>>>>>>>>>>> Megírni!!!!!!!!!!!
         {
             _context = context;
         }
 
-        // GET: api/Types
+        //Típusok lekérdezése
         [HttpGet("get-tipusok")]
         public async Task<ActionResult<IEnumerable<Type>>> GetTypes()
         {
             return await _context.Types.ToListAsync();
         }
 
-        // GET: api/Types/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Type>> GetType(int id)
-        {
-            var @type = await _context.Types.FindAsync(id);
-
-            if (@type == null)
-            {
-                return NotFound();
-            }
-
-            return @type;
-        }
-
-        // PUT: api/Types/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //Típus módosítása
         [HttpPut("{id}")]
         public async Task<IActionResult> PutType(int id, Type @type)
         {
@@ -73,8 +53,7 @@ namespace ErettsegizzunkApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Types
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //Új típus feltöltése
         [HttpPost]
         public async Task<ActionResult<Type>> PostType(Type @type)
         {
@@ -84,7 +63,7 @@ namespace ErettsegizzunkApi.Controllers
             return CreatedAtAction("GetType", new { id = @type.Id }, @type);
         }
 
-        // DELETE: api/Types/5
+        //Típus törlése
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteType(int id)
         {
