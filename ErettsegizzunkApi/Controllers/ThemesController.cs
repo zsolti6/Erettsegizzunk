@@ -21,17 +21,54 @@ namespace ErettsegizzunkApi.Controllers
         [HttpGet("get-temak")]
         public async Task<ActionResult<IEnumerable<Theme>>> GetThemes()
         {
-            List<Theme> subjects = new List<Theme>();
+            List<Theme> theme = new List<Theme>();
             try
             {
-                subjects = await _context.Themes.ToListAsync();
+                theme = await _context.Themes.ToListAsync();
 
-                if (subjects is null)
+                if (theme is null)
                 {
                     return NotFound(new ErrorDTO() { Id = 94, Message = "Az elem nem található" });
                 }
 
-                return Ok(subjects);
+                return Ok(theme);
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 95, Message = "Kapcsolati hiba" });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 96, Message = "Hiba történt az adatok lekérdezése közben" });
+            }
+        }
+
+        //Témák lekérése
+        [HttpGet("get-temak-feladatonkent")]
+        public async Task<ActionResult<IEnumerable<Theme>>> GetThemesBySubject()//hibvakezelés
+        {
+            Dictionary<string, Theme[]> temak = new Dictionary<string, Theme[]>();
+            try
+            {
+                string[] subjects = await _context.Subjects.Select(x => x.Name).ToArrayAsync();
+
+                temak = _context.Themes
+                    .Include(x => x.Tasks)
+                    .Select(x => new
+                    {
+                        SubjectName = x.Tasks.First().Subject.Name,
+                        Theme = x
+                    })
+                    .AsEnumerable()
+                    .GroupBy(x => x.SubjectName)
+                    .ToDictionary(g => g.Key!, g => g.Select(x => x.Theme).ToArray());
+
+                if (false)
+                {
+                    return NotFound(new ErrorDTO() { Id = 94, Message = "Az elem nem található" });
+                }
+
+                return Ok(temak);
             }
             catch (MySqlException)
             {

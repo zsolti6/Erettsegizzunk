@@ -25,7 +25,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 if (!Program.LoggedInUsers.ContainsKey(filteredDeatiled.Token) || Program.LoggedInUsers[filteredDeatiled.Token].Id != filteredDeatiled.UserId)
                 {
-//                    return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
+                    //return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
                 }
 
                 List<FilteredTaskLessDTO> filteredTasks = new List<FilteredTaskLessDTO>();
@@ -51,7 +51,7 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        //Visszadja a DTO-nak megfelelően egyes feladatok statisztikáit. !!!!!!!!!lapozós rendszer!!!!!!!!!!!!!
+        //Visszadja a DTO-nak megfelelően egyes feladatok statisztikáit. ======>>>>>>>> kiszervezni 2 külön functionba mint a feladatszűrésben
         [HttpPost("get-statitstics-detailed")]
         public async Task<IActionResult> GetStatisticsDeatiled([FromBody] FilteredDeatiledDTO filteredDeatiled)
         {
