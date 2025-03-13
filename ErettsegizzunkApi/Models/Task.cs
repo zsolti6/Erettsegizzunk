@@ -31,7 +31,6 @@ public partial class Task
     [JsonIgnore]
     public virtual ICollection<UserStatistic> UserStatistics { get; set; } = new List<UserStatistic>();
 
-    [JsonIgnore]
     public virtual ICollection<Theme> Themes { get; set; } = new List<Theme>();
 
     [JsonIgnore]

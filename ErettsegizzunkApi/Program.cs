@@ -99,7 +99,7 @@ namespace ErettsegizzunkApi
             };
 
             var builder = WebApplication.CreateBuilder(args);
-
+            
             if (!string.IsNullOrEmpty(certBase64))//ha ez van nincs swagger
             {
                 var certBytes = Convert.FromBase64String(certBase64);

@@ -25,7 +25,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 if (!Program.LoggedInUsers.ContainsKey(filteredDeatiled.Token) || Program.LoggedInUsers[filteredDeatiled.Token].Id != filteredDeatiled.UserId)
                 {
-                    return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
+//                    return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
                 }
 
                 List<FilteredTaskLessDTO> filteredTasks = new List<FilteredTaskLessDTO>();
@@ -69,6 +69,7 @@ namespace ErettsegizzunkApi.Controllers
                     .Include(x => x.Task.Subject)
                     .Include(x => x.Task.Level)
                     .Where(x => x.UserId == filteredDeatiled.UserId)
+                    .OrderBy(x => x.Id)
                     .AsEnumerable()
                     .GroupBy(x => x.TaskId)
                     .Select(g =>
@@ -83,6 +84,8 @@ namespace ErettsegizzunkApi.Controllers
                             JoRossz = new int[] { g.Count(x => x.IsSuccessful), g.Count(x => !x.IsSuccessful) }
                         };
                     })
+                    .Skip(filteredDeatiled.Oldal * 50)
+                    .Take(50)
                     .ToList();
 
                 return Ok(filteredTasks);

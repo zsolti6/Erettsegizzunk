@@ -15,7 +15,7 @@ namespace ErettsegizzunkApi.DTOs
 
         public int UserId { get; set; }
 
-        public int Mettol { get; set; }
+        public int Oldal { get; set; }
     }
 
     public class FilteredTaskDTO

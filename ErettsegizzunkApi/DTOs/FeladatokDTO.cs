@@ -7,13 +7,13 @@
         public string? Szint { get; set; } = null;
     }
 
-    public class FeladatokGetSpecificDTO //nem igazán használva átírni???
+    public class FeladatokGetRandomSzuresDTO //nem igazán használva átírni???
     {
-        public int? Id { get; set; } = null;
-
         public string? Tantargy { get; set; } = null;
 
         public string? Szint { get; set; } = null;
+
+        public int[] Themes { get; set; } 
     }
 
     public class FeladatokPutPostDTO

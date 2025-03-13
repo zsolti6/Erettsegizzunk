@@ -3,8 +3,9 @@ using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
+using System.Linq;
+using System.Text.Json;
 using Task = ErettsegizzunkApi.Models.Task;
-using Type = ErettsegizzunkApi.Models.Type;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -55,26 +56,36 @@ namespace ErettsegizzunkApi.Controllers
 
         //Random 15 feladat tantárgy és szint (közép felső) paraméter alapján
         [HttpPost("get-random-feladatok")]
-        public async Task<ActionResult<IEnumerable<Task>>> GetFeladatoksTipusSzint([FromBody] FeladatokGetRandomDTO get)
+        public async Task<ActionResult<IEnumerable<Task>>> GetFeladatoksTipusSzint()
         {
-            if (get.Tantargy is null || get.Szint is null)
-            {
-                return BadRequest(new ErrorDTO() { Id = 4, Message = "A keresési feltétel nem lehet üres" });
-            }
 
             List<Task>? randomFeladatok = new List<Task>();
 
             try
             {
-                randomFeladatok = await _context.Tasks
-                .Include(x => x.Level)
-                .Include(x => x.Subject)
-                .Include(x => x.Themes)
-                .Include(x => x.Type)
-                .Where(x => x.Subject.Name == get.Tantargy && x.Level.Name == get.Szint)
-                .OrderBy(x => EF.Functions.Random())
-                .Take(15)
-                .ToListAsync();
+                StreamReader reader = new StreamReader(Request.Body);
+                var bodyContent = await reader.ReadToEndAsync();
+
+
+                if (bodyContent.Contains("Themes"))
+                {
+                    FeladatokGetRandomSzuresDTO szuresTheme = JsonSerializer.Deserialize<FeladatokGetRandomSzuresDTO>(bodyContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    if (szuresTheme.Tantargy is null || szuresTheme.Szint is null || szuresTheme.Themes is null)
+                    {
+                        return BadRequest(new ErrorDTO() { Id = 4, Message = "A keresési feltétel nem lehet üres" });
+                    }
+                    randomFeladatok = await GetFeladatoksTipusSzintThemesRandom(szuresTheme);
+                }
+                else
+                {
+                    FeladatokGetRandomDTO randomFeladat = JsonSerializer.Deserialize<FeladatokGetRandomDTO>(bodyContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    if (randomFeladat.Tantargy is null || randomFeladat.Szint is null)
+                    {
+                        return BadRequest(new ErrorDTO() { Id = 4, Message = "A keresési feltétel nem lehet üres" });
+                    }
+                    randomFeladatok = await GetFeladatokTipusSzintRandom(randomFeladat);
+
+                }
 
                 if (randomFeladatok is null)
                 {
@@ -87,51 +98,46 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorDTO() { Id = 7, Message = "Hiba történt az adatok lekérdezése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 7, Message = "Hiba történt az adatok lekérdezése közben" });
             }
 
             return Ok(randomFeladatok);
         }
 
-        //Egy feladat lekérése id alapján ===> van értelme? nem igazán használjuk =======>>>>>> átírni szűrősre?
-        [HttpPost("get-egy-feladat")]
-        public async Task<ActionResult<Task>> GetFeladat([FromBody] FeladatokGetSpecificDTO get)
+        //Ha nem szűrünk külön témára
+        private async Task<List<Task>?> GetFeladatokTipusSzintRandom(FeladatokGetRandomDTO get)
         {
-            if (get.Id is null)
-            {
-                return BadRequest(new ErrorDTO() { Id = 8, Message = "A keresési feltétel nem lehet ütes" });
-            }
+            List<Task>? randomFeladatok = await _context.Tasks
+            .Include(x => x.Level)
+            .Include(x => x.Subject)
+            .Include(x => x.Themes)
+            .Include(x => x.Type)
+            .Where(x => x.Subject.Name == get.Tantargy && x.Level.Name == get.Szint)
+            .OrderBy(x => EF.Functions.Random())
+            .Take(15)
+            .ToListAsync();
 
-            Task? feladat = new Task();
-
-            try
-            {
-                feladat = await _context.Tasks
-                .Include<Task, Level>(x => x.Level)
-                .Include<Task, Subject>(x => x.Subject)
-                .Include(x => x.Themes)
-                .Include<Task, Type>(x => x.Type)
-                .Where(x => x.Id == get.Id)
-                .FirstOrDefaultAsync();
-
-                if (feladat == null)
-                {
-                    return NotFound(new ErrorDTO() { Id = 9, Message = "A keresett adat nem található" });
-                }
-            }
-            catch (MySqlException)
-            {
-                return StatusCode(500, new ErrorDTO() { Id = 10, Message = "Kapcsolati hiba" });
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, new ErrorDTO() { Id = 11, Message = "Hiba történt az adatok lekérdezése közben" });
-            }
-
-            return Ok(feladat);
+            return randomFeladatok;
         }
 
-        //-----------------Kell egy get get random feladat témára való szűrésre is------------------------------------
+        //Temára szűrés estén
+        private async Task<List<Task>> GetFeladatoksTipusSzintThemesRandom(FeladatokGetRandomSzuresDTO get)
+        {
+            List<Task>? randomFeladatok = await _context.Tasks
+            .Include(x => x.Level)
+            .Include(x => x.Subject)
+            .Include(x => x.Themes)
+            .Include(x => x.Type)
+            .Where(x => x.Subject.Name == get.Tantargy
+                     && x.Level.Name == get.Szint
+                     && x.Themes.Count >= get.Themes.Length
+                     && x.Themes.Any(t => get.Themes.Contains(t.Id)))
+            .OrderBy(x => EF.Functions.Random())
+            .Take(15)
+            .ToListAsync();
+
+            return randomFeladatok;
+        }
 
         //Egy feladat módosítása id alapján
         [HttpPut("put-egy-feladat")]
