@@ -44,6 +44,7 @@ export const RegisterPage = () => {
   const [error, setError] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
+  const [loading, setLoading] = useState(false); // Loading state
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -80,6 +81,7 @@ export const RegisterPage = () => {
       return;
     }
     setError("");
+    setLoading(true); // Show loading spinner
     try {
       const salt = GenerateSalt(64);
       const body = {
@@ -99,11 +101,18 @@ export const RegisterPage = () => {
       await axios.post(url, user);
     } catch (error) {
       setError('Hiba történt a regisztráció során: ' + (error.response ? error.response.data : error.message));
+    } finally {
+      setLoading(false); // Hide loading spinner
     }
   };
   
   return (
     <div className="login-container">
+      {loading && (
+        <div className="loading-overlay">
+          <div className="spinner"></div>
+        </div>
+      )}
       <div className="login-card">
         <h2 className="text-center mb-4">Fiók létrehozása</h2>
         {error && <div className="alert alert-danger">{error}</div>}
@@ -126,7 +135,7 @@ export const RegisterPage = () => {
           </div>
           <div className="form-group mb-3 d-flex justify-content-center recaptcha-container">
             <ReCAPTCHA
-              sitekey="6LeQqdkqAAAAABst5YpaC2RfBcOKWb6sShvYGBqO "
+              sitekey="6LeQqdkqAAAAABst5YpaC2RfBcOKWb6sShvYGBqO"
               onChange={(token) => setCaptchaToken(token)}
               onExpired={() => setCaptchaToken(null)}
             />

@@ -6,7 +6,6 @@ import { Home } from "./components/Home";
 import { ExerciseComponent } from "./components/ExerciseComponent";
 import { LoginPage } from "./components/Login";
 import { RegisterPage } from "./components/Register";
-import { FooterComponent } from "./components/Footer";
 import { StatisticsComponent } from "./components/StatisticsComponent";
 import { TutorialComponent } from "./components/TutorialComponent";
 import { SearchComponent } from "./components/SearchComponent";
@@ -25,7 +24,7 @@ export const App = () => {
   const [googleLogged, setGoogleLogged] = useState(false);
   const rememberMe = localStorage.getItem("rememberMe") === "true";
 
-  // Load user from storage on first render
+  // Load user and settings from storage on first render
   useEffect(() => {
     const storedUser = rememberMe
       ? localStorage.getItem("user")
@@ -44,6 +43,10 @@ export const App = () => {
     if (storedGoogleLogged) {
       setGoogleLogged(JSON.parse(storedGoogleLogged));
     }
+
+    // Load background color from localStorage
+    const storedBgColor = localStorage.getItem("bgColor") || "#303D5C";
+    document.documentElement.style.setProperty('--bg-color', storedBgColor);
   }, []);
 
   // Check if user is active after state updates
@@ -70,7 +73,16 @@ export const App = () => {
     }
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await axios.post(`${BASE_URL}/erettsegizzunk/Logout`, user.token, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      console.log("Logout response:", response.data);
+    }).catch((error) => {
+      console.error("Error logging out:", error);
+    });
     setUser(null);
     setGoogleLogged(false);
     if (rememberMe) {
@@ -121,7 +133,6 @@ export const App = () => {
             <Route path="/elfelejtett-jelszo" element={<PasswordReset />} />
           </Routes>
         </div>
-        <FooterComponent />
       </div>
     </Router>
   );

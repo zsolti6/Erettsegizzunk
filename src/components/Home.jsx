@@ -7,6 +7,7 @@ import axios from "axios";
 import { HiChevronDoubleDown } from "react-icons/hi2";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { FooterComponent } from "./Footer";
 
 export const Home = () => {
   const [articles, setArticles] = useState([]);
@@ -67,27 +68,28 @@ export const Home = () => {
             <p className="text-center">
               Szeretnél jó eredményt elérni az érettségin?<br />Jó helyen jársz!
             </p>
-            <HiChevronDoubleDown className="arrow" />
+            <HiChevronDoubleDown className="homeArrow" />
           </div>
         </div>
         <img id="bg-image" src={pngegg} alt="Background" className="w-100" />
       </div>
       
       <div className="container mb-5">
-        <Carousel responsive={responsive} infinite={true} autoPlay={true} autoPlaySpeed={3000}>
+        <Carousel responsive={responsive} className="h-100" infinite={true} autoPlay={true} autoPlaySpeed={4000}>
           {articles.map((article, index) => (
-            <div key={index} className="card">
+            <div key={index} className="card h-100 article-card">
               <div className="card-body">
                 <h5 className="card-title">{article.title}</h5>
-                <p className="card-text">{article.description}</p>
+                <p className="card-text">{article.description.substring(0, 50) + "..."}</p>
                 <a href={article.link} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-                  Read more
+                  Olvasd tovább
                 </a>
               </div>
             </div>
           ))}
         </Carousel>
       </div>
+      <FooterComponent />
     </div>
   );
 };

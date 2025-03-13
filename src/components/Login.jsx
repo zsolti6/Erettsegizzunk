@@ -13,6 +13,7 @@ export const LoginPage = ({ handleLogin }) => {
   const [password, setPassword] = useState("");
   const [captchaToken, setCaptchaToken] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state
   const navigator = useNavigate();
   
   const togglePasswordVisibility = () => {
@@ -20,6 +21,7 @@ export const LoginPage = ({ handleLogin }) => {
   };
 
   const handleGoogleLogin = async () => {
+    setLoading(true); // Show loading spinner
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
@@ -52,14 +54,18 @@ export const LoginPage = ({ handleLogin }) => {
       navigator("/");
     } catch (error) {
       console.error("Google login failed", error);
+    } finally {
+      setLoading(false); // Hide loading spinner
     }
   };
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Show loading spinner
     
     if (!captchaToken) {
       alert("Kérjük, igazolja, hogy nem robot!");
+      setLoading(false); // Hide loading spinner
       return;
     }
 
@@ -99,11 +105,18 @@ export const LoginPage = ({ handleLogin }) => {
       }
     } catch (error) {
       alert("Hiba történt a bejelentkezéskor!");
+    } finally {
+      setLoading(false); // Hide loading spinner
     }
   };
 
   return (
     <div className="login-container">
+      {loading && (
+        <div className="loading-overlay">
+          <div className="spinner"></div>
+        </div>
+      )}
       <div className="login-card">
         <h2 className="text-center mb-4">Bejelentkezés</h2>
         <form onSubmit={handleLoginSubmit}>
@@ -150,7 +163,7 @@ export const LoginPage = ({ handleLogin }) => {
 
           <div className="form-group mb-3 d-flex justify-content-center recaptcha-container">
             <ReCAPTCHA
-              sitekey="6LeQqdkqAAAAABst5YpaC2RfBcOKWb6sShvYGBqO "
+              sitekey="6LeQqdkqAAAAABst5YpaC2RfBcOKWb6sShvYGBqO"
               onChange={(token) => setCaptchaToken(token)}
               onExpired={() => setCaptchaToken(null)}
             />

@@ -119,3 +119,12 @@ img:hover {
         margin-top: 10px;
     }
 }
+
+.navLogo{
+    height: 35px;
+}
+
+.navLogo:hover{
+    transform: none;
+    border: none;
+}

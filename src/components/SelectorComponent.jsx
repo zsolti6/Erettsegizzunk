@@ -13,11 +13,13 @@ export const SelectorComponent = () => {
 
   const [subjectId, setSubjectId] = useState("");
   const [subjects, setSubjects] = useState([]);
+  const [themes, setThemes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
     axios.get(`${BASE_URL}/erettsegizzunk/Tantargyak/get-tantargyak`)
       .then((response) => {
         const formattedSubjects = response.data.map((subject) => ({
@@ -95,13 +97,13 @@ export const SelectorComponent = () => {
 
   return (
     <div className="page-wrapper">
-      <div className="content-container">
-        {loading ? (
-          <div className="spinner-container">
-            <div className="spinner"></div>
-          </div>
-        ) : (
-          <>
+      {loading ? (
+        <div className="spinner-container">
+          <div className="spinner"></div>
+        </div>
+      ) : (
+        <>
+          <div className="content-container">
             <h4>Válassz tantárgyat</h4>
             <form className="exercise-form">
               <div className="radio-group">
@@ -148,9 +150,9 @@ export const SelectorComponent = () => {
                 Feladatlap megkezdése
               </button>
             </form>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
 
       <Modal show={showModal} onHide={handleNewAttempt} centered>
         <Modal.Header closeButton>

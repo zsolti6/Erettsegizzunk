@@ -41,7 +41,7 @@ export const StatisticsComponent = ({ user }) => {
       {/* Row for Detailed Statistics */}
       <div className="row">
         <div className="col-12">
-          <div className="card">
+          <div className="card taskCard">
             <div className="card-body">
               <h3 className="card-title text-center">Részletes Statisztikák</h3>
               <ListDetailedStatistics id="list" user={user} />
@@ -152,9 +152,17 @@ const ListDetailedStatistics = ({ user }) => {
                 <div className="row">
                   {/* Column 1: Full Task Description */}
                   <div className="col-12 col-md-6 mb-3 mb-md-0">
-                    <div className="fw-bold">Feladat leírása:</div>
-                    <div>{item.task.description}</div>
+                    <div className="col-12 col-md-12 mb-3 mb-md-0">
+                      <div className="fw-bold">Feladat leírása:</div>
+                      <div>{item.task.description}</div>
+                    </div><br></br>
+                    <div className="col-12 col-md-12 mb-3 mb-md-0">
+                      <div className="fw-bold">Feladat szövege:</div>
+                      <div>{item.task.text}</div>
+                    </div>
                   </div>
+                  
+                  
 
                   {/* Column 2: Themes and Subject */}
                   <div className="col-12 col-md-2 mb-3 mb-md-0">

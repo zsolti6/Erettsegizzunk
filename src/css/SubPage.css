@@ -345,7 +345,7 @@ h2 i{
 }
 
 #subDiv {
-  background: linear-gradient(180deg, #868c9e, #cfd5e6);
+  background: linear-gradient(180deg, rgb(18, 18, 175), lightblue);
   position: relative;
   flex-shrink: 0;
   height: 900px;
@@ -415,7 +415,7 @@ h2 i{
   }
 }
 
-.arrow{
+.homeArrow{
   margin-top: 5px;
   font-size: 5rem;
   transform: scaleX(1.5) translateX(-50%);
@@ -429,4 +429,12 @@ h2 i{
 
 .arrow:hover{
   cursor: pointer;
+}
+
+.article-card{
+  
+}
+
+.taskCard:hover{
+  transform: none !important;
 }

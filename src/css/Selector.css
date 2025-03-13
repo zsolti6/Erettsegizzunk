@@ -7,21 +7,25 @@
   justify-content: center;
   text-align: center;
   padding: 5vh 2vw;
+  box-sizing: border-box; /* Ensure padding is included in height/width calculations */
 }
 
 .content-container {
-  margin-top: -3vh;
-  max-height: 75vh;
+  margin-top: 3vh;
+  max-height: 90vh; /* Adjusted to fit taller screens */
   width: 90%;
   max-width: 500px;
   background: white;
+  border: none;
   padding: 25px;
   border-radius: 15px;
+  border: 2px solid black;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease-in-out;
+  overflow-y: auto; /* Add scroll for taller screens */
 }
 
-h3 {
+h4 {
   font-size: 1.8rem;
   color: #0c7810;
   margin-bottom: 20px;
@@ -33,11 +37,12 @@ h3 {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  width: 100%;
 }
 
 /* Radio Group */
 .radio-group {
-  max-height: 320px;
+  max-height: 50vh; /* Adjusted for taller screens */
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -46,6 +51,7 @@ h3 {
   border-radius: 10px;
   padding: 5px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Add scroll for taller screens */
 }
 
 .radio-option {
@@ -75,16 +81,14 @@ h3 {
 }
 
 .radio-option input:checked + .name {
-  
-  background: linear-gradient(135deg, #4c0cb5, #651bdd);
+  background-color: var(--bg-color); /* Lightened background color */
   color: white;
   font-weight: bold;
   transform: scale(1.05);
 }
 
 .radio-option:hover .name {
-  background-color: #4d0cb512;
-  transform: scale(1.03);
+  background-color: rgb(from var(--bg-color) r g b / 0.2);
 }
 
 /* Button Styling */
@@ -93,17 +97,19 @@ h3 {
   padding: 14px 24px;
   font-size: 18px;
   font-weight: bold;
-  background: linear-gradient(135deg, #4c0cb5, #651bdd);
+  background-color: var(--bg-color);
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Full width for better responsiveness */
+  max-width: 320px; /* Limit width for larger screens */
 }
 
 .select-button:hover {
-  background: linear-gradient(135deg, #651bdd, #4c0cb5);
+  background-color: var(--bg-color);
   transform: scale(1.05);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
@@ -117,15 +123,16 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
+  border: none; /* Ensure no border is applied */
 }
 
 .spinner {
-  border: 8px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #000;
-  border-radius: 50%;
   width: 50px;
   height: 50px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-top: 5px solid #007bff;
+  border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
@@ -140,10 +147,11 @@ h3 {
   .content-container {
     width: 95%;
     padding: 20px;
+    max-height: 85vh; /* Adjusted for smaller screens */
   }
 
   .radio-group {
-    max-width: 100%;
+    max-height: 40vh; /* Adjusted for smaller screens */
   }
 
   .select-button {
@@ -152,7 +160,7 @@ h3 {
 }
 
 @media (max-width: 480px) {
-  h3 {
+  h4 {
     font-size: 1.5rem;
   }
 
@@ -164,5 +172,40 @@ h3 {
   .select-button {
     padding: 12px 18px;
     font-size: 16px;
+  }
+
+  .content-container {
+    max-height: 90vh; /* Adjusted for very small screens */
+  }
+}
+
+@media (max-height: 600px) {
+  /* Adjustments for shorter screens */
+  .content-container {
+    max-height: 80vh;
+    padding: 15px;
+  }
+
+  .radio-group {
+    max-height: 30vh;
+  }
+
+  .select-button {
+    margin-top: 10px;
+  }
+}
+
+@media (min-width: 1200px) {
+  /* Adjustments for wider screens */
+  .content-container {
+    max-width: 600px;
+  }
+
+  .radio-group {
+    max-width: 400px;
+  }
+
+  .select-button {
+    max-width: 400px;
   }
 }
