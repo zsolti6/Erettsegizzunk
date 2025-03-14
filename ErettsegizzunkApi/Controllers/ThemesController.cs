@@ -45,13 +45,11 @@ namespace ErettsegizzunkApi.Controllers
 
         //Témák lekérése
         [HttpGet("get-temak-feladatonkent")]
-        public async Task<ActionResult<IEnumerable<Theme>>> GetThemesBySubject()//hibvakezelés
+        public async Task<ActionResult<IEnumerable<Theme>>> GetThemesBySubject()
         {
             Dictionary<string, Theme[]> temak = new Dictionary<string, Theme[]>();
             try
             {
-                string[] subjects = await _context.Subjects.Select(x => x.Name).ToArrayAsync();
-
                 temak = _context.Themes
                     .Include(x => x.Tasks)
                     .Select(x => new
@@ -63,20 +61,15 @@ namespace ErettsegizzunkApi.Controllers
                     .GroupBy(x => x.SubjectName)
                     .ToDictionary(g => g.Key!, g => g.Select(x => x.Theme).ToArray());
 
-                if (false)
-                {
-                    return NotFound(new ErrorDTO() { Id = 94, Message = "Az elem nem található" });
-                }
-
                 return Ok(temak);
             }
             catch (MySqlException)
             {
-                return StatusCode(500, new ErrorDTO() { Id = 95, Message = "Kapcsolati hiba" });
+                return StatusCode(500, new ErrorDTO() { Id = 142, Message = "Kapcsolati hiba" });
             }
             catch (Exception)
             {
-                return StatusCode(500, new ErrorDTO() { Id = 96, Message = "Hiba történt az adatok lekérdezése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 143, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
 

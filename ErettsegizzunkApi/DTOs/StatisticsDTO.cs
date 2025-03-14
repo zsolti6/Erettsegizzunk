@@ -9,7 +9,7 @@ namespace ErettsegizzunkApi.DTOs
         public int UserId { get; set; }
     }
 
-    public class FilteredDeatiledDTO
+    public class DeatiledStatisticsDTO
     {
         public string Token { get; set; }
 
@@ -17,6 +17,24 @@ namespace ErettsegizzunkApi.DTOs
 
         public int Oldal { get; set; }
     }
+
+    public class FilteredDeatiledStatisticsDTO
+    {
+        public string Token { get; set; }
+
+        public int UserId { get; set; }
+
+        public int Oldal { get; set; }
+
+        public string Szoveg { get; set; }
+
+        public int ThemeId { get; set; }
+
+        public int LevelId { get; set; }
+
+        public int SubjectId { get; set; }
+    }
+
 
     public class FilteredTaskDTO
     {
@@ -27,8 +45,6 @@ namespace ErettsegizzunkApi.DTOs
         public bool UtolsoSikeres { get; set; }
 
         public int[] JoRossz { get; set; }
-
-        public string[] Temak { get; set; }
     }
 
     public class FilteredTaskLessDTO
