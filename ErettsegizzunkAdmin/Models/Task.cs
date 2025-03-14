@@ -1,4 +1,5 @@
 ﻿using ErettsegizzunkAdmin.Services;
+using Theme = ErettsegizzunkApi.Models.Theme;
 
 namespace ErettsegizzunkApi.Models;
 
@@ -30,7 +31,7 @@ public partial class Task
 
     public virtual Type? Type { get; set; }
 
-    public virtual ICollection<MaterialDesignThemes.Wpf.Theme> Themes { get; set; } = new List<MaterialDesignThemes.Wpf.Theme>();
+    public virtual ICollection<Theme> Themes { get; set; } = new List<Theme>();
 
     public virtual ICollection<SpacedRepetition> SpacedRepetitions { get; set; } = new List<SpacedRepetition>();
 
@@ -45,4 +46,6 @@ public partial class Task
     public List<string> LevelList { get; set; }
 
     public List<string> TypeList { get; set; }
+
+    public List<string> ThemeList { get; set; }
 }

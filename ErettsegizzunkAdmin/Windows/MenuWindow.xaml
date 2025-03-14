@@ -65,16 +65,6 @@
                                              Foreground="{DynamicResource MaterialDesignPaper}"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="kepFeltolt"
-                      Header="Kép feltöltése"
-                      Click="kepFeltolt_Click"
-                      Foreground="{DynamicResource MaterialDesignPaper}"
-                      DockPanel.Dock="Left">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="ChartLine"
-                                             Foreground="{DynamicResource MaterialDesignPaper}" />
-                        </MenuItem.Icon>
-                    </MenuItem>
                     <MenuItem x:Name="tantargyKezel"
                       Header="Tantárgy"
                       Click="tantargyKezel_Click"

@@ -56,12 +56,7 @@ namespace ErettsegizzunkAdmin.Windows
         {
             feladatok.Clear();
             List<Task> feladatoks = await _apiService.GetFeladatoksAsync(mettol);
-            /*if (feladatoks is null)
-            {
-                //MessageBoxes.CustomError(new ErrorDTO(513,"Hiba történt az adatok lekérdezése közben").ToString());
-                return new List<ErettsegizzunkApi.Models.Task>();
-            }*/
-            btnOldalKov.IsEnabled = feladatoks.Count == 50;//teszt
+            btnOldalKov.IsEnabled = feladatoks.Count == 50;
             return feladatoks;
         }
 
@@ -93,17 +88,17 @@ namespace ErettsegizzunkAdmin.Windows
                     StreamReader reader = new StreamReader(openFileDialog.FileName);
                     reader.ReadLine();
 
-                    while (!reader.EndOfStream)
+                    while (!reader.EndOfStream)//TÉMÁK HOZZÁADÁSA
                     {
                         string teszt = reader.ReadLine();
                         string[] sor = teszt.Split("\t");
-                        if (sor.Length == 8)
+                        if (sor.Length == 9)
                         {
-                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2], Helyese = sor[3], TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]), KepNev = sor[7] });
+                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2], Helyese = sor[3], TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]), KepNev = sor[7], Temak = sor[8].Split(',') });
                         }
                         else
                         {
-                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2], Helyese = sor[3], TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]) });
+                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2], Helyese = sor[3], TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]), Temak = sor[7].Split(',') });
                         }
 
                         if (feladatoks.Count == 1)
@@ -125,7 +120,7 @@ namespace ErettsegizzunkAdmin.Windows
                     MessageBoxes.CustomError(new ErrorDTO(514, "A megadott file nem található").ToString());
                     return;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     MessageBoxes.CustomError(new ErrorDTO(515, "Hiba történt az adatok mentése közben").ToString());
                     return;
@@ -260,6 +255,11 @@ namespace ErettsegizzunkAdmin.Windows
             var hwnd = new WindowInteropHelper(this).Handle;
             IntPtr hMenu = GetSystemMenu(hwnd, false);
             EnableMenuItem(hMenu, SC_CLOSE, MF_GRAYED);
+        }
+
+        private void btnFilter_Click(object sender, RoutedEventArgs e)
+        {
+            //új windowszűrésel #faszkivan
         }
     }
 }

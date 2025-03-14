@@ -19,9 +19,6 @@
     <Compile Update="Windows\FelhasznalokKezel.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Windows\KepFeltoltes.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Windows\MenuWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -49,9 +46,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\FeladatokKezel.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Windows\KepFeltoltes.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\MenuWindow.xaml">

@@ -142,12 +142,13 @@
                 Foreground="{DynamicResource MaterialDesignPaper}" 
                 Click="btnModosit_Click" />
 
-            <Button x:Name="btnAgain" 
-                Content="Újra lekérdezés" 
+            <Button x:Name="btnFilter" 
+                Content="Szűrés" 
                 Margin="8" 
                 Style="{DynamicResource MaterialDesignRaisedButton}" 
                 Background="{DynamicResource PrimaryHueMidBrush}" 
-                Foreground="{DynamicResource MaterialDesignPaper}" />
+                Foreground="{DynamicResource MaterialDesignPaper}"
+                Click="btnFilter_Click"/>
         </StackPanel>
     </Grid>
 

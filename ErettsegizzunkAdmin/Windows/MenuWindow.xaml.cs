@@ -92,13 +92,6 @@ namespace ErettsegizzunkAdmin.Windows
             Close();
         }
 
-        private void kepFeltolt_Click(object sender, RoutedEventArgs e)
-        {
-            KepFeltoltes kepFeltoltes = new KepFeltoltes(user);
-            kepFeltoltes.Show();
-            Close();
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var hwnd = new WindowInteropHelper(this).Handle;

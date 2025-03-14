@@ -1,7 +1,9 @@
 ﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
 using ErettsegizzunkAdmin.Services;
 using ErettsegizzunkApi.DTOs;
+using MaterialDesignThemes.Wpf;
 using System.Windows;
+using System.Windows.Controls;
 using Task = ErettsegizzunkApi.Models.Task;
 
 namespace ErettsegizzunkAdmin.Windows
@@ -25,6 +27,7 @@ namespace ErettsegizzunkAdmin.Windows
             feladat.SubjectList = (await _apiService.GetTantargyaksAsync()).Select(x => x.Name).ToList();
             feladat.LevelList = (await _apiService.GetLevelAsync()).Select(x => x.Name).ToList();
             feladat.TypeList = (await _apiService.GetTipusAsync()).Select(x => x.Name).ToList();
+            feladat.ThemeList = (await _apiService.GetTemakAsync()).Select(x => x.Name).ToList();
         }
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
@@ -63,6 +66,30 @@ namespace ErettsegizzunkAdmin.Windows
         private async void InitializeAsync()
         {
             await SetLists();
+
+            // Clear any existing children
+            spTemak.Children.Clear();
+
+            foreach (var item in feladat.ThemeList)
+            {
+                // Create the CheckBox
+                var checkBox = new CheckBox
+                {
+                    Content = item,
+                    IsChecked = feladat.Themes.Select(x => x.Name).Contains(item)
+                };
+
+                // Apply the Material Design style for CheckBox, if available.
+                // The key "MaterialDesignCheckBox" is used in MaterialDesignInXAML.
+                if (Application.Current.TryFindResource("MaterialDesignCheckBox") is Style materialCheckBoxStyle)
+                {
+                    checkBox.Style = materialCheckBoxStyle;
+                }
+
+                // Add the CheckBox to the StackPanel
+                spTemak.Children.Add(checkBox);
+            }
+
             DataContext = feladat;
         }
     }

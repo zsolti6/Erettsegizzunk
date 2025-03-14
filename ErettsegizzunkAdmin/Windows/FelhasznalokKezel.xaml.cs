@@ -66,7 +66,6 @@ namespace ErettsegizzunkAdmin.Windows
                 foreach (User item in felhasznalok)
                 {
                     item.JogosultsagList = jogosultsagok;
-                    item.PermissionName = jogosultsagok[0];
                 }
             }
 

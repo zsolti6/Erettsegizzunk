@@ -2,22 +2,6 @@
 
 namespace ErettsegizzunkApi.DTOs
 {
-    public class FeladatokGetRandomDTO
-    {
-        public string? Tantargy { get; set; } = null;
-
-        public string? Szint { get; set; } = null;
-    }
-
-    public class FeladatokGetSpecificDTO
-    {
-        public int? Id { get; set; } = null;
-
-        public string? Tantargy { get; set; } = null;
-
-        public string? Szint { get; set; } = null;
-    }
-
     public class FeladatokPutPostDTO
     {
         public int? Id { get; set; }
@@ -38,6 +22,8 @@ namespace ErettsegizzunkApi.DTOs
         public int TipusId { get; set; }
 
         public int SzintId { get; set; }
+
+        public string[] Temak { get; set; }
     }
 
     public class FeladatokDeleteDTO

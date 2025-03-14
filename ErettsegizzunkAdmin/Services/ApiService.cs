@@ -3,13 +3,11 @@ using ErettsegizzunkAdmin.DTOs;
 using ErettsegizzunkApi.DTOs;
 using ErettsegizzunkApi.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
-using System.Windows;
 using System.Windows.Media.Imaging;
 using Task = System.Threading.Tasks.Task;
 using Type = ErettsegizzunkApi.Models.Type;
@@ -23,7 +21,8 @@ namespace ErettsegizzunkAdmin.Services
         public ApiService()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://erettsegizzunk.onrender.com/");
+            //_httpClient.BaseAddress = new Uri("https://erettsegizzunk.onrender.com/");
+            _httpClient.BaseAddress = new Uri("https://localhost:7066/");
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
@@ -330,7 +329,7 @@ namespace ErettsegizzunkAdmin.Services
             {
                 string formatted = $"\"{token}\"";
                 StringContent content = new StringContent(formatted, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Permissions/get-permissions",content);
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Permissions/get-permissions", content);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -458,47 +457,8 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
         #endregion
-        
-        #region Kép letöltés, feltöltés
-        public async Task UploadImageAsync(string token, string filePath = "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Erettsegizzunk\\ErettsegizzunkAdmin\\Images\\hatter.jpg")//hibakezelés forntend üzenetek
-        {
-            try
-            {
-                // Read file bytes and get the file name.
-                string fileName = Path.GetFileName(filePath);
-                byte[] fileBytes = File.ReadAllBytes(filePath);
 
-                // Create a MultipartFormDataContent container.
-                using var multipartContent = new MultipartFormDataContent();
-
-                // Add the token as a form field.
-                multipartContent.Add(new StringContent(token), "Token");
-
-                // Add the file content.
-                var fileContent = new ByteArrayContent(fileBytes);
-                fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-                multipartContent.Add(fileContent, "File", fileName);
-
-                // Send the POST request.
-                HttpResponseMessage response = await _httpClient.PostAsync(App.ftpUrl, multipartContent);
-                if (response.IsSuccessStatusCode)
-                {
-                    // Handle success (optional)
-                    string result = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Upload successful: " + result);
-                }
-                else
-                {
-                    // Handle failure (optional)
-                    Console.WriteLine("Upload failed: " + response.ReasonPhrase);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Exception occurred: {ex.Message}");
-            }
-        }
-
+        #region Kép letöltés, feltöltés ====>>>> aboszolít nincs használva jelenleg
         public async Task<string> GetImage(string imageName)
         {
             try
