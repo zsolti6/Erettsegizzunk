@@ -19,7 +19,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Témák lekérése
         [HttpGet("get-temak")]
-        public async Task<ActionResult<IEnumerable<Theme>>> GetThemes()
+        public async Task<ActionResult<IEnumerable<List<Theme>>>> GetThemes()
         {
             List<Theme> theme = new List<Theme>();
             try
@@ -45,7 +45,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Témák lekérése
         [HttpGet("get-temak-feladatonkent")]
-        public async Task<ActionResult<IEnumerable<Theme>>> GetThemesBySubject()
+        public async Task<ActionResult<IEnumerable<Dictionary<string, SzurtTemaDTO[]>>>> GetThemesBySubject()
         {
             Dictionary<string, SzurtTemaDTO[]> temak = new Dictionary<string, SzurtTemaDTO[]>();
             try

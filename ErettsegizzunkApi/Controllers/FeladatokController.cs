@@ -14,10 +14,14 @@ namespace ErettsegizzunkApi.Controllers
     public class FeladatokController : ControllerBase
     {
         private readonly ErettsegizzunkContext _context;
+        private readonly ThemesController _themesController;
+        private readonly TantargyakController _tantargyakController;
 
-        public FeladatokController(ErettsegizzunkContext context)
+        public FeladatokController(ErettsegizzunkContext context, ThemesController themesController, TantargyakController tantargyakController)
         {
             _context = context;
+            _themesController = themesController;
+            _tantargyakController = tantargyakController;
         }
 
         //50 feladat kilistázása adminoknak, lapozási funkcióval, a lekért lista utolsó eleme alapjén kérjük le a következő adatokat
@@ -232,7 +236,7 @@ namespace ErettsegizzunkApi.Controllers
                 return StatusCode(500, new ErrorDTO() { Id = 22, Message = "Hiba történt az adatok mentése közben" });
             }
 
-            return Ok(); //Üzenet?
+            return Ok();
         }
 
         //Több feladat felvitele
@@ -251,6 +255,22 @@ namespace ErettsegizzunkApi.Controllers
 
             try
             {
+                Dictionary<string, SzurtTemaDTO[]> temak = new Dictionary<string, SzurtTemaDTO[]>();
+                List<Subject> subjects = new List<Subject>();
+
+                var actionResult = (await _themesController.GetThemesBySubject()).Result;
+                var tantargyResult = (await _tantargyakController.GetTantargyak()).Result;
+
+                if (actionResult is OkObjectResult asd)
+                {
+                     temak = (Dictionary<string, SzurtTemaDTO[]>)asd.Value;
+                }
+
+                if (tantargyResult is OkObjectResult asd2)
+                {
+                    subjects = (List<Subject>)asd2.Value;
+                }
+
                 foreach (FeladatokPutPostDTO feladatok in post)
                 {
                     Task feladat = new Task
@@ -262,7 +282,8 @@ namespace ErettsegizzunkApi.Controllers
                         SubjectId = feladatok.TantargyId,
                         TypeId = feladatok.TipusId,
                         LevelId = feladatok.SzintId,
-                        PicName = feladatok.KepNev
+                        PicName = feladatok.KepNev,
+                        Themes = temak.SelectMany(x => x.Value.Where(subjects.Select(x => x.Id).FirstOrDefault(feladatok.TantargyId)).Select(y => y.Theme)).ToList()//--> bugos
                     };
 
                     _context.Tasks.Add(feladat);
@@ -277,7 +298,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return StatusCode(500, new ErrorDTO() { Id = 26, Message = "Hiba történt az adatok mentése közben" });
             }
-            catch (Exception)
+            catch (Exception es)
             {
                 return StatusCode(500, new ErrorDTO() { Id = 27, Message = "Hiba történt az adatok mentése közben" });
             }
