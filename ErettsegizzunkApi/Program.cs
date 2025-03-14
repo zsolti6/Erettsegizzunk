@@ -99,7 +99,7 @@ namespace ErettsegizzunkApi
             };
 
             var builder = WebApplication.CreateBuilder(args);
-            /*
+            
             if (!string.IsNullOrEmpty(certBase64))//ha ez van nincs swagger
             {
                 var certBytes = Convert.FromBase64String(certBase64);
@@ -118,7 +118,7 @@ namespace ErettsegizzunkApi
                     serverOptions.ListenAnyIP(5000); // Fallback HTTP
                 });
             }
-            */
+            
             builder.Configuration["ConnectionStrings:DefaultConnection"] = dbConnection;
             builder.Configuration["ApiSettings:SecretKey"] = apiKey;
 
