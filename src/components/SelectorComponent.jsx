@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
+import { FaSearch } from "react-icons/fa";
 import "../css/Selector.css";
 import { BASE_URL } from '../config';
 
@@ -13,19 +14,30 @@ export const SelectorComponent = () => {
 
   const [subjectId, setSubjectId] = useState("");
   const [subjects, setSubjects] = useState([]);
-  const [themes, setThemes] = useState([]);
+  const [themes, setThemes] = useState({});
+  const [selectedThemes, setSelectedThemes] = useState([]);
+  const [themeFilter, setThemeFilter] = useState("");
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
+    axios.get(`${BASE_URL}/erettsegizzunk/Themes/get-temak-feladatonkent`)
+      .then((response) => {
+        const themesData = response.data;
+        setThemes(themesData);
+      })
+      .catch((error) => {
+        console.error("Error fetching themes:", error);
+      });
+
     axios.get(`${BASE_URL}/erettsegizzunk/Tantargyak/get-tantargyak`)
       .then((response) => {
         const formattedSubjects = response.data.map((subject) => ({
           id: subject.id,
           name: subject.name,
-          value: String(subject.name),
+          value: String(subject.id),
           label: subject.name,
         }));
 
@@ -85,15 +97,42 @@ export const SelectorComponent = () => {
           ...prev,
           subject: selectedSubject.name,
         }));
+        setSelectedThemes([]); // Clear selected themes when a new subject is selected
+
+        // Log the filtered themes for the selected subject
+        const filteredThemes = themes[selectedSubject.name.toLowerCase()];
+        if (filteredThemes) {
+          console.log(filteredThemes.map(theme => ({ name: theme.theme.name, count: theme.count })));
+        } else {
+          console.log([]);
+        }
       }
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  const handleStartExercise = () => {
-    navigate("/gyakorlas", { state: { ...formData, subjectId } });
+  const handleThemeFilterChange = (e) => {
+    setThemeFilter(e.target.value);
   };
+
+  const handleThemeSelect = (themeId) => {
+    if (!selectedThemes.includes(themeId)) {
+      setSelectedThemes([...selectedThemes, themeId]);
+    }
+  };
+
+  const handleThemeRemove = (themeId) => {
+    setSelectedThemes(selectedThemes.filter(t => t !== themeId));
+  };
+
+  const handleStartExercise = () => {
+    navigate("/gyakorlas", { state: { ...formData, subjectId, themeIds: selectedThemes } });
+  };
+
+  const filteredThemes = themes[formData.subject.toLowerCase()]?.filter(theme =>
+    theme.theme.name.toLowerCase().includes(themeFilter.toLowerCase())
+  ) || [];
 
   return (
     <div className="page-wrapper">
@@ -104,52 +143,96 @@ export const SelectorComponent = () => {
       ) : (
         <>
           <div className="content-container">
-            <h4>Válassz tantárgyat</h4>
-            <form className="exercise-form">
-              <div className="radio-group">
-                {subjects.map(({ id, name }) => (
-                  <label className="radio-option" key={id}>
-                    <input
-                      type="radio"
-                      name="subject"
-                      value={id}
-                      checked={subjectId === id}
-                      onChange={handleChange}
-                    />
-                    <span className="name">{name}</span>
-                  </label>
-                ))}
+            <div className="row">
+              <div className="col-lg-6">
+                <h4>Válassz tantárgyat</h4>
+                <form className="exercise-form">
+                  <div className="radio-group">
+                    {subjects.map(({ id, name }) => (
+                      <label className="radio-option" key={id}>
+                        <input
+                          type="radio"
+                          name="subject"
+                          value={id}
+                          checked={subjectId === id}
+                          onChange={handleChange}
+                        />
+                        <span className="name">{name}</span>
+                      </label>
+                    ))}
+                  </div>
+
+                  <p>Középszintű vagy emelt szintű érettségi feladatokat szeretnél gyakorolni?</p>
+
+                  <div className="radio-group">
+                    <label className="radio-option">
+                      <input
+                        type="radio"
+                        name="difficulty"
+                        value="közép"
+                        checked={formData.difficulty === "közép"}
+                        onChange={handleChange}
+                      />
+                      <span className="name">Közép szint</span>
+                    </label>
+                    <label className="radio-option">
+                      <input
+                        type="radio"
+                        name="difficulty"
+                        value="emelt"
+                        checked={formData.difficulty === "emelt"}
+                        onChange={handleChange}
+                      />
+                      <span className="name">Emelt szint</span>
+                    </label>
+                  </div>
+
+                  <button type="button" className="select-button" onClick={handleStartExercise}>
+                    Feladatlap megkezdése
+                  </button>
+                </form>
               </div>
-
-              <p>Középszintű vagy emelt szintű érettségi feladatokat szeretnél gyakorolni?</p>
-
-              <div className="radio-group">
-                <label className="radio-option">
+              <div className="col-lg-6">
+                <h4>Témák</h4>
+                <div className="theme-filter-container">
+                  <FaSearch className="search-icon" />
                   <input
-                    type="radio"
-                    name="difficulty"
-                    value="közép"
-                    checked={formData.difficulty === "közép"}
-                    onChange={handleChange}
+                    type="text"
+                    placeholder="Szűrés témák szerint"
+                    value={themeFilter}
+                    onChange={handleThemeFilterChange}
+                    className="theme-filter-input"
                   />
-                  <span className="name">Közép szint</span>
-                </label>
-                <label className="radio-option">
-                  <input
-                    type="radio"
-                    name="difficulty"
-                    value="emelt"
-                    checked={formData.difficulty === "emelt"}
-                    onChange={handleChange}
-                  />
-                  <span className="name">Emelt szint</span>
-                </label>
+                </div>
+                <div className="checkbox-group">
+                  {filteredThemes.map((theme, index) => (
+                    <label className="checkbox-option" key={index}>
+                      <input
+                        type="checkbox"
+                        checked={selectedThemes.includes(theme.theme.id)}
+                        onChange={() => handleThemeSelect(theme.theme.id)}
+                      />
+                      <span className="name">{theme.theme.name} ({theme.count})</span>
+                    </label>
+                  ))}
+                </div>
+                <div className="selected-themes">
+                  {selectedThemes.map((themeId, index) => {
+                    const theme = filteredThemes.find(t => t.theme.id === themeId);
+                    return (
+                      <button
+                        key={index}
+                        type="button"
+                        className="theme-button"
+                        onClick={() => handleThemeRemove(themeId)}
+                      >
+                        {theme?.theme.name} &times;
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-
-              <button type="button" className="select-button" onClick={handleStartExercise}>
-                Feladatlap megkezdése
-              </button>
-            </form>
+            </div>
           </div>
         </>
       )}

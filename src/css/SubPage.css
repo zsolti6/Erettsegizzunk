@@ -438,3 +438,79 @@ h2 i{
 .taskCard:hover{
   transform: none !important;
 }
+
+/* Hero Section */
+.hero-section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-section .btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.hero-section .btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Featured Section */
+.featured-section {
+  background-color: #f8f9fa;
+}
+
+.feature-item {
+  background-color: white;
+  border-radius: 10px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.feature-item i {
+  color: #007bff;
+}
+
+.feature-item h3 {
+  color: #333;
+}
+
+.feature-item p {
+  color: #666;
+}
+
+/* Call to Action Section */
+.cta-section {
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+
+.cta-section .btn-light {
+  background-color: #f8f9fa;
+  border-color: #f8f9fa;
+}
+
+.cta-section .btn-light:hover {
+  background-color: #e2e6ea;
+  border-color: #dae0e5;
+}
+
+.discord-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.discord-link:hover {
+  text-decoration: none;
+}

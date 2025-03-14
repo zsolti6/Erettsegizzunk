@@ -15,7 +15,7 @@ export const ExerciseComponent = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-  const { subject, difficulty, subjectId, savedExercises, savedTaskValues } = location.state || {};
+  const { subject, difficulty, subjectId, savedExercises, savedTaskValues, themeIds } = location.state || {};
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,10 +25,16 @@ export const ExerciseComponent = () => {
         setLoading(false);
       } else {
         try {
-          const response = await axios.post(`${BASE_URL}/erettsegizzunk/Feladatok/get-random-feladatok`, {
+          const requestData = {
             tantargy: subject,
             szint: difficulty,
-          });
+          };
+
+          if (themeIds && themeIds.length > 0) {
+            requestData.Themes = themeIds;
+          }
+
+          const response = await axios.post(`${BASE_URL}/erettsegizzunk/Feladatok/get-random-feladatok`, requestData);
 
           const tasksWithIds = response.data.map((task, index) => ({
             ...task,
@@ -55,7 +61,7 @@ export const ExerciseComponent = () => {
     };
 
     fetchData();
-  }, [subject, difficulty, savedExercises, savedTaskValues]);
+  }, [subject, difficulty, savedExercises, savedTaskValues, themeIds]);
 
   useEffect(() => {
     const saveToLocalStorage = () => {

@@ -60,10 +60,10 @@ export const Navbar = ({ user, googleLogged, handleLogout }) => {
           <div className={`collapse navbar-collapse ${navbarCollapsed ? "" : "show"}`} id="navbarNav">
             <ul className="navbar-nav me-auto">
               <li className="nav-item">
-                <Link to="/statisztika" className="nav-link">Statisztika</Link>
+                <Link to="/statisztika" className="nav-link fs-5">Statisztika</Link>
               </li>
               <li className="nav-item">
-                <Link to="/feladat-valasztas" className="nav-link">Új feladatlap</Link>
+                <Link to="/feladat-valasztas" className="nav-link fs-5">Új feladatlap</Link>
               </li>
             </ul>
             {user ? (

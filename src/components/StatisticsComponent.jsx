@@ -161,14 +161,12 @@ const ListDetailedStatistics = ({ user }) => {
                       <div>{item.task.text}</div>
                     </div>
                   </div>
-                  
-                  
 
                   {/* Column 2: Themes and Subject */}
                   <div className="col-12 col-md-2 mb-3 mb-md-0">
                     <div className="mb-2">
                       <div className="fw-bold text-center">Témák:</div>
-                      <div className="text-center">{item.task.subjectId}</div>
+                      <div className="text-center">{item.task.themes.map(x => x.name).join(", ") || "Nincs téma"}</div>
                     </div>
                     <div>
                       <div className="fw-bold text-center">Tantárgy:</div>

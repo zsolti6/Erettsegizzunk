@@ -27,7 +27,7 @@ const SettingsWindow = ({ onClose }) => {
   return (
     <div className="settings-window-overlay">
       <div className="settings-window">
-        <h2>Settings</h2>
+        <h2>Beállítások</h2>
         <div className="settings-option">
           <label htmlFor="bgColor">Felhasználói felület színe:</label>
           <input
@@ -38,8 +38,8 @@ const SettingsWindow = ({ onClose }) => {
           />
         </div>
         <div className="settings-buttons">
-          <button className="reset-button" onClick={handleReset}>Reset</button>
-          <button className="close-button" onClick={onClose}>Close</button>
+          <button className="reset-button" onClick={handleReset}>Visszaállítás</button>
+          <button className="close-button" onClick={onClose}>Bezár</button>
         </div>
       </div>
     </div>
