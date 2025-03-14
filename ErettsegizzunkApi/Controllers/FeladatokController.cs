@@ -130,7 +130,6 @@ namespace ErettsegizzunkApi.Controllers
             .Include(x => x.Type)
             .Where(x => x.Subject.Name == get.Tantargy
                      && x.Level.Name == get.Szint
-                     && x.Themes.Count >= get.Themes.Length
                      && x.Themes.Any(t => get.Themes.Contains(t.Id)))
             .OrderBy(x => EF.Functions.Random())
             .Take(15)

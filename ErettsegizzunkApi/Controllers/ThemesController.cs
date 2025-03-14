@@ -47,19 +47,20 @@ namespace ErettsegizzunkApi.Controllers
         [HttpGet("get-temak-feladatonkent")]
         public async Task<ActionResult<IEnumerable<Theme>>> GetThemesBySubject()
         {
-            Dictionary<string, Theme[]> temak = new Dictionary<string, Theme[]>();
+            Dictionary<string, SzurtTemaDTO[]> temak = new Dictionary<string, SzurtTemaDTO[]>();
             try
             {
                 temak = _context.Themes
                     .Include(x => x.Tasks)
-                    .Select(x => new
+                    .Select(x => new SzurtTemaDTO
                     {
                         SubjectName = x.Tasks.First().Subject.Name,
-                        Theme = x
+                        Theme = x,
+                        Count = x.Tasks.Count()
                     })
                     .AsEnumerable()
                     .GroupBy(x => x.SubjectName)
-                    .ToDictionary(g => g.Key!, g => g.Select(x => x.Theme).ToArray());
+                    .ToDictionary(g => g.Key!, g => g.Select(x => x as SzurtTemaDTO).ToArray());
 
                 return Ok(temak);
             }
