@@ -19,7 +19,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Összes tantárgy lekérése
         [HttpGet("get-tantargyak")]
-        public async Task<ActionResult<IEnumerable<Subject>>> GetTantargyak()
+        public async Task<ActionResult<IEnumerable<List<Subject>>>> GetTantargyak()
         {
             List<Subject> subjects = new List<Subject>();
             try
@@ -45,7 +45,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Új tantárgy feltöltése
         [HttpPost("post-tantargy")]
-        public async Task<ActionResult<Subject>> PostTantargyak([FromBody] TantargyDTO post)
+        public async Task<IActionResult> PostTantargyak([FromBody] SubjectDTO post)
         {
             if (!Program.LoggedInUsers.ContainsKey(post.Token) || Program.LoggedInUsers[post.Token].Permission.Level != 9)
             {
@@ -85,7 +85,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Tantárgyak módosítása
         [HttpPut("put-tantargy")]
-        public async Task<IActionResult> PutTantargyak([FromBody] TantargyPutDTO put)
+        public async Task<IActionResult> PutTantargyak([FromBody] SubjectPutDTO put)
         {
             if (!Program.LoggedInUsers.ContainsKey(put.Token) || Program.LoggedInUsers[put.Token].Permission.Level != 9)
             {
@@ -133,7 +133,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Tantárgyak törlése
         [HttpDelete("delete-tantargyak")]
-        public async Task<IActionResult> DeleteTantargyak([FromBody] TantargyDeleteDTO tantargyak)
+        public async Task<IActionResult> DeleteTantargyak([FromBody] ParentDeleteDTO tantargyak)
         {
             if (!Program.LoggedInUsers.ContainsKey(tantargyak.Token) && Program.LoggedInUsers[tantargyak.Token].Permission.Level != 9)
             {

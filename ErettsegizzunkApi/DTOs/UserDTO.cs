@@ -2,7 +2,7 @@
 
 namespace ErettsegizzunkApi.DTOs
 {
-    public class LoggedUserDTO
+    public class LoggedUserDTO : ParentDTO
     {
         public int Id { get; set; }
 
@@ -18,31 +18,18 @@ namespace ErettsegizzunkApi.DTOs
 
         public string? ProfilePicturePath { get; set; } = null!;
 
-        public string Token { get; set; }
-
         public bool GoogleUser { get; set; }
     }
 
-    public class LoggedUserForCheckDTO
+    public class LoggedUserForCheckDTO : ParentDTO//kell??
     {
         public int Id { get; set; }
 
         public int Permission { get; set; }
-
-        public string Token { get; set; }
     }
 
-    public class FelhasznaloTorolDTO
-    {
-        public string Token { get; set; }
-
-        public List<int> Ids { get; set; }
-    }
-
-    public class FelhasznaloModotsitDTO
+    public class UserPutTO : ParentDTO
     {
         public List<User> Users { get; set; } = null!;
-
-        public string? Token { get; set; }
     }
 }

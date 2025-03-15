@@ -19,7 +19,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Salt lekérése
         [HttpPost("SaltRequest")]
-        public async Task<IActionResult> SaltRequest([FromBody] string loginName)
+        public async Task<ActionResult<string>> SaltRequest([FromBody] string loginName)
         {
             try
             {

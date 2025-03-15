@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace ErettsegizzunkApi.DTOs
 {
-    public class SzurtTemaDTO
+    public class ThemeFilteredDTO
     {
         [JsonIgnore]
         public string SubjectName { get; set; }
@@ -11,5 +11,10 @@ namespace ErettsegizzunkApi.DTOs
         public Theme Theme { get; set; }
 
         public int Count { get; set; }
+    }
+
+    public class PutPostThemeDTO : ParentDTO
+    {
+        public Theme Theme { get; set; }
     }
 }

@@ -3,7 +3,6 @@ using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
-using System.Linq;
 using System.Text.Json;
 using Task = ErettsegizzunkApi.Models.Task;
 
@@ -15,20 +14,18 @@ namespace ErettsegizzunkApi.Controllers
     {
         private readonly ErettsegizzunkContext _context;
         private readonly ThemesController _themesController;
-        private readonly TantargyakController _tantargyakController;
 
-        public FeladatokController(ErettsegizzunkContext context, ThemesController themesController, TantargyakController tantargyakController)
+        public FeladatokController(ErettsegizzunkContext context, ThemesController themesController)
         {
             _context = context;
             _themesController = themesController;
-            _tantargyakController = tantargyakController;
         }
 
         //50 feladat kilistázása adminoknak, lapozási funkcióval, a lekért lista utolsó eleme alapjén kérjük le a következő adatokat
         [HttpPost("get-sok-feladat")]
-        public async Task<ActionResult<IEnumerable<Task>>> GetFeladatoks([FromBody] int mettol)
+        public async Task<ActionResult<IEnumerable<List<Task>>>> GetFeladatoks([FromBody] int mettol)
         {
-            List<Task>? feladatok = new List<Task>();
+            List<Task> feladatok = new List<Task>();
             try
             {
                 feladatok = await _context.Tasks
@@ -60,10 +57,9 @@ namespace ErettsegizzunkApi.Controllers
 
         //Random 15 feladat tantárgy és szint (közép felső) paraméter alapján
         [HttpPost("get-random-feladatok")]
-        public async Task<ActionResult<IEnumerable<Task>>> GetFeladatoksTipusSzint()
+        public async Task<ActionResult<IEnumerable<List<Task>>>> GetFeladatoksTipusSzint()
         {
-
-            List<Task>? randomFeladatok = new List<Task>();
+            List<Task> randomFeladatok = new List<Task>();
 
             try
             {
@@ -73,7 +69,7 @@ namespace ErettsegizzunkApi.Controllers
 
                 if (bodyContent.Contains("Themes"))
                 {
-                    FeladatokGetRandomSzuresDTO szuresTheme = JsonSerializer.Deserialize<FeladatokGetRandomSzuresDTO>(bodyContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    TaskGetRandomFilterDTO szuresTheme = JsonSerializer.Deserialize<TaskGetRandomFilterDTO>(bodyContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                     if (szuresTheme.Tantargy is null || szuresTheme.Szint is null || szuresTheme.Themes is null)
                     {
                         return BadRequest(new ErrorDTO() { Id = 4, Message = "A keresési feltétel nem lehet üres" });
@@ -82,7 +78,7 @@ namespace ErettsegizzunkApi.Controllers
                 }
                 else
                 {
-                    FeladatokGetRandomDTO randomFeladat = JsonSerializer.Deserialize<FeladatokGetRandomDTO>(bodyContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    TaskGetRandomDTO randomFeladat = JsonSerializer.Deserialize<TaskGetRandomDTO>(bodyContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                     if (randomFeladat.Tantargy is null || randomFeladat.Szint is null)
                     {
                         return BadRequest(new ErrorDTO() { Id = 4, Message = "A keresési feltétel nem lehet üres" });
@@ -109,7 +105,7 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         //Ha nem szűrünk külön témára
-        private async Task<List<Task>?> GetFeladatokTipusSzintRandom(FeladatokGetRandomDTO get)
+        private async Task<List<Task>?> GetFeladatokTipusSzintRandom(TaskGetRandomDTO get)
         {
             List<Task>? randomFeladatok = await _context.Tasks
             .Include(x => x.Level)
@@ -125,7 +121,7 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         //Temára szűrés estén
-        private async Task<List<Task>> GetFeladatoksTipusSzintThemesRandom(FeladatokGetRandomSzuresDTO get)
+        private async Task<List<Task>> GetFeladatoksTipusSzintThemesRandom(TaskGetRandomFilterDTO get)
         {
             List<Task>? randomFeladatok = await _context.Tasks
             .Include(x => x.Level)
@@ -144,7 +140,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Egy feladat módosítása id alapján
         [HttpPut("put-egy-feladat")]
-        public async Task<IActionResult> PutFeladatok([FromBody] FeladatokPutPostDTO put)
+        public async Task<IActionResult> PutFeladatok([FromBody] TaskPutPostDTO put)
         {
             if (!Program.LoggedInUsers.ContainsKey(put.Token) || Program.LoggedInUsers[put.Token].Permission.Level != 9)
             {
@@ -195,7 +191,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Egy feladat felvitele
         [HttpPost("post-egy-feladat")]
-        public async Task<ActionResult<Task>> PostFeladat([FromBody] FeladatokPutPostDTO post)
+        public async Task<IActionResult> PostFeladat([FromBody] TaskPutPostDTO post)
         {
             if (!Program.LoggedInUsers.ContainsKey(post.Token) || Program.LoggedInUsers[post.Token].Permission.Level != 9)
             {
@@ -241,7 +237,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Több feladat felvitele
         [HttpPost("post-tobb-feladat")]
-        public async Task<ActionResult<Task>> PostFeladatok([FromBody] List<FeladatokPutPostDTO> post)
+        public async Task<IActionResult> PostFeladatok([FromBody] List<TaskPutPostDTO> post)
         {
             if (!Program.LoggedInUsers.ContainsKey(post[0].Token) || Program.LoggedInUsers[post[0].Token].Permission.Level != 9)
             {
@@ -255,23 +251,15 @@ namespace ErettsegizzunkApi.Controllers
 
             try
             {
-                Dictionary<string, SzurtTemaDTO[]> temak = new Dictionary<string, SzurtTemaDTO[]>();
-                List<Subject> subjects = new List<Subject>();
+                List<Theme> temak = new List<Theme>();
+                ActionResult temakResult = (await _themesController.GetThemes()).Result;
 
-                var actionResult = (await _themesController.GetThemesBySubject()).Result;
-                var tantargyResult = (await _tantargyakController.GetTantargyak()).Result;
-
-                if (actionResult is OkObjectResult asd)
+                if (temakResult is OkObjectResult asd)
                 {
-                     temak = (Dictionary<string, SzurtTemaDTO[]>)asd.Value;
+                    temak = (List<Theme>)asd.Value;
                 }
 
-                if (tantargyResult is OkObjectResult asd2)
-                {
-                    subjects = (List<Subject>)asd2.Value;
-                }
-
-                foreach (FeladatokPutPostDTO feladatok in post)
+                foreach (TaskPutPostDTO feladatok in post)
                 {
                     Task feladat = new Task
                     {
@@ -283,7 +271,7 @@ namespace ErettsegizzunkApi.Controllers
                         TypeId = feladatok.TipusId,
                         LevelId = feladatok.SzintId,
                         PicName = feladatok.KepNev,
-                        Themes = temak.SelectMany(x => x.Value.Where(subjects.Select(x => x.Id).FirstOrDefault(feladatok.TantargyId)).Select(y => y.Theme)).ToList()//--> bugos
+                        Themes = temak.Where(x => feladatok.Temak.Contains(x.Id.ToString())).ToList()
                     };
 
                     _context.Tasks.Add(feladat);
@@ -298,7 +286,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return StatusCode(500, new ErrorDTO() { Id = 26, Message = "Hiba történt az adatok mentése közben" });
             }
-            catch (Exception es)
+            catch (Exception)
             {
                 return StatusCode(500, new ErrorDTO() { Id = 27, Message = "Hiba történt az adatok mentése közben" });
             }
@@ -308,7 +296,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Egy vagy több feladat törlése id alapján
         [HttpDelete("delete-feladatok")]
-        public async Task<IActionResult> DeleteFeladatok([FromBody] FeladatokDeleteDTO feladatokDeleteDTO)
+        public async Task<IActionResult> DeleteFeladatok([FromBody] ParentDeleteDTO feladatokDeleteDTO)
         {
             if (!Program.LoggedInUsers.ContainsKey(feladatokDeleteDTO.Token) || Program.LoggedInUsers[feladatokDeleteDTO.Token].Permission.Level != 9)
             {

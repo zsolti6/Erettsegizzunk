@@ -1,9 +1,7 @@
 ﻿namespace ErettsegizzunkApi.DTOs
 {
-    public class JelszoModositDTO
-    {
-        public string Token { get; set; }
-
+    public class PasswordChangeDTO : ParentDTO
+    { 
         public string LoginName { get; set; }
 
         public string OldPassword { get; set; }

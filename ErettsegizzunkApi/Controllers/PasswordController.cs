@@ -21,7 +21,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Jelszó megváltoztatása, temphast kapunk, hogy biztonságosabb legyen
         [HttpPost("jelszo-modositas")]
-        public async Task<IActionResult> JelszoModositas([FromBody] JelszoModositDTO jelszoModosit)
+        public async Task<IActionResult> JelszoModositas([FromBody] PasswordChangeDTO jelszoModosit)
         {
             try
             {

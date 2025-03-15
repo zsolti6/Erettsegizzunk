@@ -1,9 +1,7 @@
 ﻿namespace ErettsegizzunkApi.DTOs
 {
-    public class ImageUpload
+    public class ImageUpload : ParentDTO
     {
-        public string Token { get; set; }
-
         public IFormFile File { get; set; }
     }
 }

@@ -18,11 +18,11 @@ namespace ErettsegizzunkApi.Controllers
 
         // GET: api/Permissions
         [HttpPost("get-permissions")]
-        public async Task<ActionResult<IEnumerable<Permission>>> GetPermissions([FromBody] string token)
+        public async Task<ActionResult<IEnumerable<List<Permission>>>> GetPermissions([FromBody] string token)
         {
             try
             {
-                return await _context.Permissions.ToListAsync();
+                return Ok(await _context.Permissions.ToListAsync());
             }
             catch (Exception)
             {
@@ -30,52 +30,92 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        //Permossion módosítása ========>>>>>>>>> megírni
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPermission(int id, Permission permission)
+        //Permission módosítása
+        [HttpPut("put-permissions")]
+        public async Task<IActionResult> PutPermission([FromBody] PutPostPermissionDTO putPermission)//----> Hibakezelés
         {
-            if (id != permission.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(permission).State = EntityState.Modified;
-
             try
             {
+                if (!Program.LoggedInUsers.ContainsKey(putPermission.Token) || Program.LoggedInUsers[putPermission.Token].Permission.Level != 9)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 12, Message = "Hozzáférés megtagadva" });
+                }
+
+                Permission? permission = await _context.Permissions.FindAsync(putPermission.Permission.Id);
+
+                if (permission is null)
+                {
+                    return NotFound(new ErrorDTO() { Id = 14, Message = "A keresett adat nem található" });
+                }
+
+                permission.Name = putPermission.Permission.Name;
+                permission.Description = putPermission.Permission.Description;
+                permission.Level = putPermission.Permission.Level;
+
+                _context.Entry(permission).State = EntityState.Modified;
+
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
+                return StatusCode(500);
             }
 
-            return NoContent();
+            return Ok();
         }
 
-        //Permission feltöltése ===========>>>>>>>>>>> megírni
-        [HttpPost]
-        public async Task<ActionResult<Permission>> PostPermission(Permission permission)
+        //Permission feltöltése
+        [HttpPost("post-permissions")]
+        public async Task<IActionResult> PostPermission([FromBody] PutPostPermissionDTO postPermission)//---> hibakezelés
         {
-            _context.Permissions.Add(permission);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPermission", new { id = permission.Id }, permission);
-        }
-
-        //Permission törlése ====================>>>>>>>>>>>>>>> megírni
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePermission(int id)
-        {
-            var permission = await _context.Permissions.FindAsync(id);
-            if (permission == null)
+            try
             {
-                return NotFound();
+                if (!Program.LoggedInUsers.ContainsKey(postPermission.Token) || Program.LoggedInUsers[postPermission.Token].Permission.Level != 9)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 12, Message = "Hozzáférés megtagadva" });
+                }
+
+                _context.Permissions.Add(postPermission.Permission);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
             }
 
-            _context.Permissions.Remove(permission);
-            await _context.SaveChangesAsync();
+            return Ok();
+        }
 
-            return NoContent();
+        //Permission törlése
+        [HttpDelete("delete-permission")]
+        public async Task<IActionResult> DeletePermission([FromBody] ParentDeleteDTO deletePermission)//----> hibakezelés
+        {
+            try
+            {
+                if (!Program.LoggedInUsers.ContainsKey(deletePermission.Token) || Program.LoggedInUsers[deletePermission.Token].Permission.Level != 9)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 12, Message = "Hozzáférés megtagadva" });
+                }
+
+                foreach (int id in deletePermission.Ids)
+                {
+                    Permission permission = await _context.Permissions.FindAsync(id);
+                    if (permission == null)
+                    {
+                        return NotFound();
+                    }
+
+                    _context.Permissions.Remove(permission);
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                StatusCode(500);
+            }
+
+            return Ok();
         }
     }
 }

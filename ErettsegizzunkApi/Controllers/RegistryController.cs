@@ -102,7 +102,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Google login / regisztráció (ha nincs fiók)
         [HttpPost("googleLogin")]
-        public async Task<IActionResult> LoginRegistryWithGoogle([FromBody] string email)
+        public async Task<ActionResult<IEnumerable<LoggedUserDTO>>> LoginRegistryWithGoogle([FromBody] string email)
         {
             try
             {

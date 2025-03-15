@@ -10,7 +10,6 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace ErettsegizzunkApi
 {
-    //Scaffold-DbContext "SERVER=localhost;PORT=3306;DATABASE=erettsegizzunk;USER=root;PASSWORD=;SSL MODE=none;" mysql.entityframeworkcore -outputdir Models -f
     //Scaffold-DbContext "SERVER=erettsegizzunk2.mysql.database.azure.com;PORT=3306;DATABASE=erettsegizzunk;USER=ErettsegiAdmin;PASSWORD=3rettsegi-4dmin;SSL MODE=required;" mysql.entityframeworkcore -outputdir Models -f
     public static class Program
     {
@@ -73,6 +72,8 @@ namespace ErettsegizzunkApi
         {
             services.AddHttpClient<RecaptchaService>();
             services.AddScoped<RecaptchaService>();
+            services.AddScoped<RegistryController>();
+            services.AddScoped<ThemesController>();
         }
 
 
@@ -99,7 +100,7 @@ namespace ErettsegizzunkApi
             };
 
             var builder = WebApplication.CreateBuilder(args);
-            /*
+            
             if (!string.IsNullOrEmpty(certBase64))//ha ez van nincs swagger
             {
                 var certBytes = Convert.FromBase64String(certBase64);
@@ -117,16 +118,12 @@ namespace ErettsegizzunkApi
                 {
                     serverOptions.ListenAnyIP(5000); // Fallback HTTP
                 });
-            }*/
+            }
             
             builder.Configuration["ConnectionStrings:DefaultConnection"] = dbConnection;
             builder.Configuration["ApiSettings:SecretKey"] = apiKey;
 
-            builder.Services.AddHttpClient<RecaptchaService>();
-            builder.Services.AddScoped<RecaptchaService>();
-            builder.Services.AddScoped<RegistryController>();
-            builder.Services.AddScoped<ThemesController>();
-            builder.Services.AddScoped<TantargyakController>();
+            ConfigureServices(builder.Services);
 
             // Add services to the container.
             builder.Services.AddControllers();

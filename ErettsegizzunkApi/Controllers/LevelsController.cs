@@ -2,7 +2,6 @@
 using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Mysqlx;
 
 namespace ErettsegizzunkApi.Controllers
 {
@@ -19,39 +18,16 @@ namespace ErettsegizzunkApi.Controllers
 
         //Összes szint lekérése
         [HttpGet("get-szintek")]
-        public async Task<ActionResult<IEnumerable<Level>>> GetLevels()
+        public async Task<ActionResult<IEnumerable<List<Level>>>> GetLevels()
         {
             try
             {
-                return await _context.Levels.ToListAsync();
+                return Ok(await _context.Levels.ToListAsync()); //---> kiszervezni ne egyből az adat menjen
             }
             catch (Exception)
             {
                 return StatusCode(500, new ErrorDTO() { Id = 140, Message = "Hiba történt az adatok lekérdezése közben" });
             }
-            
-        }
-
-        //Szint módosítása név alapján ====>>> nincs rendesen megírva auto generált
-        [HttpPut("put-egy-szint")]
-        public async Task<IActionResult> PutLevel(int id, Level level)//DTO + frombody
-        {
-            if (id != level.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(level).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-            }
-
-            return NoContent();
         }
     }
 }

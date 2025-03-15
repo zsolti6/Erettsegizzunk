@@ -45,14 +45,14 @@ namespace ErettsegizzunkApi.Controllers
 
         //Témák lekérése
         [HttpGet("get-temak-feladatonkent")]
-        public async Task<ActionResult<IEnumerable<Dictionary<string, SzurtTemaDTO[]>>>> GetThemesBySubject()
+        public async Task<ActionResult<IEnumerable<Dictionary<string, ThemeFilteredDTO[]>>>> GetThemesBySubject()
         {
-            Dictionary<string, SzurtTemaDTO[]> temak = new Dictionary<string, SzurtTemaDTO[]>();
+            Dictionary<string, ThemeFilteredDTO[]> temak = new Dictionary<string, ThemeFilteredDTO[]>();
             try
             {
                 temak = _context.Themes
                     .Include(x => x.Tasks)
-                    .Select(x => new SzurtTemaDTO
+                    .Select(x => new ThemeFilteredDTO
                     {
                         SubjectName = x.Tasks.First().Subject.Name,
                         Theme = x,
@@ -60,7 +60,7 @@ namespace ErettsegizzunkApi.Controllers
                     })
                     .AsEnumerable()
                     .GroupBy(x => x.SubjectName)
-                    .ToDictionary(g => g.Key!, g => g.Select(x => x as SzurtTemaDTO).ToArray());
+                    .ToDictionary(g => g.Key!, g => g.Select(x => x).ToArray());
 
                 return Ok(temak);
             }
@@ -75,51 +75,62 @@ namespace ErettsegizzunkApi.Controllers
         }
 
         //Téma módosítása
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTheme(int id, Theme theme)
+        [HttpPut("put-tema")]
+        public async Task<IActionResult> PutTheme([FromBody] PutPostThemeDTO putTheme)//---> hibakezelés és tesztelés
         {
-            if (id != theme.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(theme).State = EntityState.Modified;
-
             try
             {
+                if (!Program.LoggedInUsers.ContainsKey(putTheme.Token) || Program.LoggedInUsers[putTheme.Token].Permission.Level != 9)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 12, Message = "Hozzáférés megtagadva" });
+                }
+
+                if (putTheme.Theme.Id < 1)
+                {
+                    return BadRequest(new ErrorDTO() { Id = 13, Message = "Helytelen azonosító" });
+                }
+
+                Theme? theme = await _context.Themes.FindAsync(putTheme.Theme.Id);
+
+                if (theme is null)
+                {
+                    return NotFound(new ErrorDTO() { Id = 14, Message = "A keresett adat nem található" });
+                }
+
+                theme.Name = putTheme.Theme.Name;
+
+                _context.Entry(theme).State = EntityState.Modified;
+
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception)
             {
+                return StatusCode(500);
             }
 
-            return NoContent();
+            return Ok();
         }
 
         //Téma feltöltése
-        [HttpPost]
-        public async Task<ActionResult<Theme>> PostTheme(Theme theme)
+        [HttpPost("post-tema")]
+        public async Task<ActionResult<Theme>> PostTheme([FromBody] PutPostThemeDTO postThemeDTO)//---> hibakezelés és tesztelés
         {
-            _context.Themes.Add(theme);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTheme", new { id = theme.Id }, theme);
-        }
-
-        //Téma törlése
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTheme(int id)
-        {
-            var theme = await _context.Themes.FindAsync(id);
-            if (theme == null)
+            try
             {
-                return NotFound();
+                if (!Program.LoggedInUsers.ContainsKey(postThemeDTO.Token) || Program.LoggedInUsers[postThemeDTO.Token].Permission.Level != 9)
+                {
+                    return Unauthorized(new ErrorDTO() { Id = 12, Message = "Hozzáférés megtagadva" });
+                }
+
+                _context.Themes.Add(postThemeDTO.Theme);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
             }
 
-            _context.Themes.Remove(theme);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok();
         }
     }
 }

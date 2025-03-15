@@ -1,9 +1,7 @@
 ﻿namespace ErettsegizzunkApi.DTOs
 {
-    public class BackupRestoreDTO
+    public class BackupRestoreDTO : ParentDTO
     {
-        public string Token { get; set; }
-
         public string FileName { get; set; }
     }
 }

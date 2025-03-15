@@ -20,7 +20,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Felhasználó összes olyan feladat lekérérése amivel már valaha találkozott. !!!!!!!!!!!!!!Lapozós rendszert belerkani.!!!!!!!!!!
         [HttpPost("get-match-history")]
-        public async Task<IActionResult> GetMatchHistory([FromBody] DeatiledStatisticsDTO filteredDeatiled)
+        public async Task<ActionResult<IEnumerable<List<FilteredTaskLessDTO>>>> GetMatchHistory([FromBody] DeatiledStatisticsDTO filteredDeatiled)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Visszadja a DTO-nak megfelelően egyes feladatok statisztikáit. ======>>>>>>>> kiszervezni 2 külön functionba mint a feladatszűrésben
         [HttpPost("get-statitstics-detailed")]
-        public async Task<ActionResult<IEnumerable<List<FilteredTaskDTO>>>> GetStatisticsDeatiled()//hibakezelés
+        public async Task<ActionResult<IEnumerable<List<FilteredTaskDTO>>>> GetStatisticsDeatiled()
         {
             try
             {
@@ -160,7 +160,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Visszadaja tantárgyakra lebontva összesen mennyi feladatot oldott meg 
         [HttpPost("get-taskFilloutCount")]
-        public async Task<IActionResult> GetTaskFilloutCount([FromBody] GetFillingCountDTO getFillingCount)
+        public async Task<ActionResult<IEnumerable<Dictionary<string, int>>>> GetTaskFilloutCount([FromBody] GetFillingCountDTO getFillingCount)
         {
             try
             {
@@ -190,7 +190,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Új statisztika feltöülrése, minden feladatlap kitöltése után lefut
         [HttpPost("post-user-statistics")]
-        public async Task<ActionResult<UserStatistic>> PostUserStatistic([FromBody] PostStatisticsDTO postStatistics)
+        public async Task<IActionResult> PostUserStatistic([FromBody] PostStatisticsDTO postStatistics)
         {
             try
             {
@@ -233,7 +233,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Napra lebontva visszaadja, hogy mennyi feladatott töltött ki a user
         [HttpPost("get-filling-byDate")]
-        public async Task<ActionResult<UserStatistic>> GetFillingByDate([FromBody] GetFillingCountDTO fillingByDateCount)
+        public async Task<ActionResult<IEnumerable<Dictionary<string, int>>>> GetFillingByDate([FromBody] GetFillingCountDTO fillingByDateCount)
         {
             try
             {

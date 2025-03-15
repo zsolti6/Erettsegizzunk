@@ -19,7 +19,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //50 felhasználó lekérdezése adminak =====>>>>>>>>y LAPOZÁS HIÁNYZIK
         [HttpPost("get-sok-felhasznalo")]
-        public async Task<IActionResult> GetFelhasznalok([FromBody] LoggedUserForCheckDTO logged)
+        public async Task<ActionResult<IEnumerable<List<User>>>> GetFelhasznalok([FromBody] LoggedUserForCheckDTO logged)//--> dtonak nincs értelme?
         {
             if (!Program.LoggedInUsers.ContainsKey(logged.Token) || Program.LoggedInUsers[logged.Token].Permission.Level != 9)
             {
@@ -137,7 +137,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Felhasználó(k) adatainak módosítása adminok számára
         [HttpPut("felhasznalok-modosit")]
-        public async Task<IActionResult> PutFelhasznalok([FromBody] FelhasznaloModotsitDTO modosit)
+        public async Task<IActionResult> PutFelhasznalok([FromBody] UserPutTO modosit)
         {
             if (!Program.LoggedInUsers.ContainsKey(modosit.Token) || Program.LoggedInUsers[modosit.Token].Permission.Level != 9)
             {
@@ -184,7 +184,7 @@ namespace ErettsegizzunkApi.Controllers
 
         //Felhasználó(k) törlése
         [HttpDelete("delete-felhasznalok")]
-        public async Task<IActionResult> DeleteFelhasznalok([FromBody] FelhasznaloTorolDTO deleteDTO)
+        public async Task<IActionResult> DeleteFelhasznalok([FromBody] ParentDeleteDTO deleteDTO)
         {
             if (!Program.LoggedInUsers.ContainsKey(deleteDTO.Token) || Program.LoggedInUsers[deleteDTO.Token].Permission.Level != 9)
             {
@@ -193,7 +193,6 @@ namespace ErettsegizzunkApi.Controllers
 
             try
             {
-
                 List<User> users = await _context.Users.Where(x => deleteDTO.Ids.Contains(x.Id)).ToListAsync();
 
                 if (users == null)
