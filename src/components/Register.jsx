@@ -107,44 +107,53 @@ export const RegisterPage = () => {
   };
   
   return (
-    <div className="login-container">
+    <div className="login-container bg-image">
       {loading && (
         <div className="loading-overlay">
           <div className="spinner"></div>
         </div>
       )}
-      <div className="login-card">
-        <h2 className="text-center mb-4">Fiók létrehozása</h2>
-        {error && <div className="alert alert-danger">{error}</div>}
-        <form onSubmit={handleRegister}>
-          <div className="form-group mb-3">
-            <input placeholder="Felhasználónév" type="text" className="form-control" id="loginName" maxLength={10} value={formData.loginName} onChange={handleChange} />
-          </div>
-          <div className="form-group mb-3">
-            <input placeholder="Email cím" type="email" className="form-control" id="email" value={formData.email} onChange={handleChange} />
-          </div>
-          <div className="form-group mb-3">
-            <div className="input-group">
-              <input placeholder="Jelszó" type={passwordVisible ? "text" : "password"} className="form-control" id="password" value={formData.password} onChange={handleChange} />
-              <button type="button" className="btn btn-outline-secondary" onClick={togglePasswordVisibility}>{passwordVisible ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}</button>
-              <button type="button" className="btn btn-outline-secondary" onClick={handleGeneratePassword} title="Jelszó generálása"><i className="bi bi-shuffle"></i></button>
+      <div className="login-content">
+        <div className="login-image">
+          <img
+            src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Modern Clean Background"
+            className="login-image"
+          />
+        </div>
+        <div className="login-card">
+          <h2 className="text-center mb-4">Fiók létrehozása</h2>
+          {error && <div className="alert alert-danger">{error}</div>}
+          <form onSubmit={handleRegister}>
+            <div className="form-group mb-3">
+              <input placeholder="Felhasználónév" type="text" className="form-control" id="loginName" maxLength={10} value={formData.loginName} onChange={handleChange} />
             </div>
-          </div>
-          <div className="form-group mb-3">
-            <input placeholder="Jelszó megerősítése" type="password" className="form-control" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
-          </div>
-          <div className="form-group mb-3 d-flex justify-content-center recaptcha-container">
-            <ReCAPTCHA
-              sitekey="6LeQqdkqAAAAABst5YpaC2RfBcOKWb6sShvYGBqO"
-              onChange={(token) => setCaptchaToken(token)}
-              onExpired={() => setCaptchaToken(null)}
-            />
-          </div>
-          <button type="submit" className="btn color-bg2 text-white w-100">Regisztrálás</button>
-          <div className="d-flex justify-content-center mt-2">
-            <a href="/belepes" className="text-muted">Van már fiókod? Jelentkezz be!</a>
-          </div>
-        </form>
+            <div className="form-group mb-3">
+              <input placeholder="Email cím" type="email" className="form-control" id="email" value={formData.email} onChange={handleChange} />
+            </div>
+            <div className="form-group mb-3">
+              <div className="input-group">
+                <input placeholder="Jelszó" type={passwordVisible ? "text" : "password"} className="form-control" id="password" value={formData.password} onChange={handleChange} />
+                <button type="button" className="btn btn-outline-secondary" onClick={togglePasswordVisibility}>{passwordVisible ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}</button>
+                <button type="button" className="btn btn-outline-secondary" onClick={handleGeneratePassword} title="Jelszó generálása"><i className="bi bi-shuffle"></i></button>
+              </div>
+            </div>
+            <div className="form-group mb-3">
+              <input placeholder="Jelszó megerősítése" type="password" className="form-control" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
+            </div>
+            <div className="form-group mb-3 d-flex justify-content-center recaptcha-container">
+              <ReCAPTCHA
+                sitekey="6LeQqdkqAAAAABst5YpaC2RfBcOKWb6sShvYGBqO"
+                onChange={(token) => setCaptchaToken(token)}
+                onExpired={() => setCaptchaToken(null)}
+              />
+            </div>
+            <button type="submit" className="btn color-bg2 text-white w-100">Regisztrálás</button>
+            <div className="d-flex justify-content-center mt-2">
+              <a href="/belepes" className="text-muted">Van már fiókod? Jelentkezz be!</a>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

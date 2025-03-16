@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../css/SubPage.css";
+import "../css/SubPage.css";  
 import axios from "axios";
 import { PieChart, Pie, Cell, Tooltip, Legend, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
 import { BASE_URL } from '../config';
@@ -17,21 +17,21 @@ export const StatisticsComponent = ({ user }) => {
   }
 
   return (
-    <div className="container mt-4 top-padding">
+    <div className="mt-4 top-padding bg-image w-100 p-5">
       {/* Row for Pie Chart and Line Chart */}
       <div className="row g-3 mb-4">
         <div className="col-12 col-md-6">
-          <div className="card h-100">
+          <div className="card h-100 color-bg2">
             <div className="card-body">
-              <h3 className="card-title text-center mb-0">Feladatok Statisztikája</h3>
+              <h3 className="card-title text-center mb-0 text-white">Feladatok Statisztikája</h3>
               <UserStatisticsChart id="pie" user={user} />
             </div>
           </div>
         </div>
         <div className="col-12 col-md-6">
-          <div className="card h-100">
+          <div className="card h-100 color-bg2">
             <div className="card-body">
-              <h3 className="card-title text-center mb-5">Kitöltések Dátum Szerint</h3>
+              <h3 className="card-title text-center mb-5 text-white">Kitöltések Dátum Szerint</h3>
               <FillingByDateChart id="graph" user={user} />
             </div>
           </div>
@@ -41,7 +41,7 @@ export const StatisticsComponent = ({ user }) => {
       {/* Row for Detailed Statistics */}
       <div className="row">
         <div className="col-12">
-          <div className="card taskCard">
+          <div className="card taskCard color-bg2">
             <div className="card-body">
               <h3 className="card-title text-center">Részletes Statisztikák</h3>
               <ListDetailedStatistics id="list" user={user} />
@@ -74,7 +74,7 @@ const UserStatisticsChart = ({ user }) => {
     fetchUserStatistics();
   }, [user]);
 
-  return <StatisticsPieChart data={data} />;
+  return <StatisticsPieChart data={data}/>;
 };
 
 const FillingByDateChart = ({ user }) => {
@@ -132,7 +132,7 @@ const ListDetailedStatistics = ({ user }) => {
         const percentage = total > 0 ? ((correct / total) * 100).toFixed(1) : 0;
 
         return (
-          <div key={index} className="card mb-3">
+          <div key={index} className="card mb-3 color-bg3">
             {/* Header Row */}
             <div
               className="card-header d-flex justify-content-between align-items-center cursor-pointer"
@@ -201,6 +201,7 @@ const ListDetailedStatistics = ({ user }) => {
                         cy="50%"
                         outerRadius={40}
                         label={false}
+                        isAnimationActive={false}
                       >
                         {[...Array(2)].map((_, i) => (
                           <Cell key={i} fill={COLORSsmall[i]} />
@@ -243,11 +244,13 @@ const LineGraph = ({ data }) => {
       <LineChart data={data}>
         <CartesianGrid strokeDasharray="3 3"/>
         <XAxis 
-          dataKey="date" 
-          label={{ value: "Dátum", position: "insideBottom", offset: 5, dy: 10 }} 
+          dataKey="date"
+          label={{ value: "Dátum", position: "insideBottom", offset: 5, dy: 10, style: { fill: 'white' } }} 
+          tick={{ fill: "white"}}
         />
         <YAxis 
-          label={{ value: "Kitöltött feladatlapok", angle: -90, position: "insideLeft", offset: 30, dy: 75,  dx: -10 }} 
+          label={{ value: "Kitöltött feladatlapok", angle: -90, position: "insideLeft", offset: 30, dy: 75, dx: -10, style: { fill: 'white' } }} 
+          tick={{ fill: "white"}}
         />
         <Tooltip />
         <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />

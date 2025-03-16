@@ -11,7 +11,7 @@ export const ExerciseComponent = () => {
   const [exercises, setExercises] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [taskValues, setTaskValues] = useState({});
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
@@ -145,9 +145,9 @@ export const ExerciseComponent = () => {
   };
 
   return (
-    <div className="d-flex" style={{ minHeight: "92vh", paddingTop: "60px" }}>
+    <div className="d-flex bg-image" style={{ minHeight: "100vh", paddingTop: "60px" }}>
       <button
-        className="btn btn-primary m-2"
+        className="btn btn-primary m-2 color-bg1 border-0"
         onClick={() => setIsOpen(!isOpen)}
         style={{
           position: "fixed",
@@ -161,7 +161,7 @@ export const ExerciseComponent = () => {
       </button>
 
       <div
-        className="sidenav bg-light"
+        className="sidenav p-0"
         style={{
           width: "250px",
           position: "fixed",
@@ -181,35 +181,35 @@ export const ExerciseComponent = () => {
           transition: "margin-left 0.3s",
         }}
       >
-        <div className="d-flex justify-content-center align-items-center flex-column">
-          {loading ? (
-            <div className="spinner-container">
-              <div className="spinner"></div>
-            </div>
-          ) : (
-            <>
-              {exercises.length > 0 && (
-                <ExerciseWindow tasks={exercises} activeTask={exercises[activeIndex]} taskValues={taskValues} updateTaskValues={updateTaskValues} />
-              )}
+        <div className="d-flex justify-content-center align-items-center flex-column" style={{ minHeight: "100vh" }}>
+  {loading ? (
+    <div className="spinner-container">
+      <div className="spinner"></div>
+    </div>
+  ) : (
+    <>
+      {exercises.length > 0 && (
+        <ExerciseWindow tasks={exercises} activeTask={exercises[activeIndex]} taskValues={taskValues} updateTaskValues={updateTaskValues} />
+      )}
 
-              <div className="d-flex justify-content-center gap-2 flex-wrap mt-3">
-                {activeIndex > 0 && <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex - 1)}>Előző feladat</button>}
-                {activeIndex < exercises.length - 1 ? (
-                  <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex + 1)}>Következő feladat</button>
-                ) : (
-                  <button
-                    className="btn btn-success"
-                    onClick={async () => {
-                      await sendStatistics();
-                    }}
-                  >
-                    Feladatok leadása
-                  </button>
-                )}
-              </div>
-            </>
-          )}
-        </div>
+      <div className="d-flex justify-content-center align-items-center gap-2 flex-wrap mt-3">
+        {activeIndex > 0 && <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex - 1)}>Előző feladat</button>}
+        {activeIndex < exercises.length - 1 ? (
+          <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex + 1)}>Következő feladat</button>
+        ) : (
+          <button
+            className="btn btn-success"
+            onClick={async () => {
+              await sendStatistics();
+            }}
+          >
+            Feladatok leadása
+          </button>
+        )}
+      </div>
+    </>
+  )}
+</div>
       </div>
     </div>
   );

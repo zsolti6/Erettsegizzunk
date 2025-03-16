@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/SubPage.css";
-import pngegg from "./pngegg.png";
-import logo from "./logo.png";
 import axios from "axios";
-import { HiChevronDoubleDown } from "react-icons/hi2";
 import { FaDiscord } from "react-icons/fa";
-import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { FooterComponent } from "./Footer";
 
@@ -39,25 +35,6 @@ export const Home = () => {
     fetchRSS();
   }, []);
 
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-  };
-
   return (
     <div id="mainDiv" className="d-flex flex-column min-vh-100">
       {/* Hero Section */}
@@ -75,7 +52,7 @@ export const Home = () => {
           <p className="lead text-white">
             Készülj fel az érettségire hatékonyan és szórakoztatóan. Kezdd el a gyakorlást még ma!
           </p>
-          <a href="#featured" className="btn btn-primary btn-lg">
+          <a href="#featured" className="btn btn-primary btn-lg color-bg2 border-0">
             Kezdjük!
           </a>
         </div>
@@ -125,7 +102,7 @@ export const Home = () => {
           <p className="lead mb-4 text-white">
             Regisztrálj most, és kezdd el a gyakorlást azonnal!
           </p>
-          <a href="/regisztracio" className="btn btn-light btn-lg">
+          <a href="/regisztracio" className="btn btn-light btn-lg color-bg3 border-0">
             Regisztráció
           </a>
         </div>

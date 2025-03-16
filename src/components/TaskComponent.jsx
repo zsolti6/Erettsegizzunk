@@ -46,7 +46,7 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
 
   return (
     <div>
-      <Card id="taskCard" className="shadow-sm p-3 mb-4 bg-white rounded w-100 mx-auto">
+      <Card id="taskCard" className="shadow-sm p-3 mb-4 color-bg2 rounded w-100 mx-auto">
         <Card.Body>
           <Card.Title className="text-center">
             {elem.taskId}. feladat<br></br> {elem.description}

@@ -2,12 +2,11 @@
 .sidenav {
   height: calc(100vh - 50px); /* Adjust height to account for navbar */
   width: 250px;
-  background-color: #380d88; /* Primary background color */
-  padding: 5px 20px 0px 20px;
+  background-color: var(--bg-color); /* Primary background color */
+  padding: 20px;
   overflow-y: auto;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   position: fixed;
-  margin-top: -5px;
   left: 0;
   z-index: 1000; /* Ensure it's above other elements */
   transform: translateX(0); /* Default: visible */
@@ -20,34 +19,46 @@
   transform: translateX(-100%);
 }
 
-/* Sidebar links */
-.sidenav a {
-  display: block;
-  color: #fff; /* White text color */
+/* Task buttons */
+.sidenav .task-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   padding: 10px 15px;
-  text-decoration: none;
+  margin-bottom: 10px;
+  background-color: color-mix(in srgb, var(--bg-color), white 20%); /* 20% white mixed with --bg-color */
+  border: none;
+  border-radius: 8px;
+  color: #fff;
   font-size: 16px;
+  text-align: left;
   transition: background-color 0.3s, color 0.3s;
-  border-radius: 8px; /* Match the input border radius */
 }
 
-.sidenav a:hover {
-  background-color: #35097d; /* Darker background on hover */
-  color: #fff; /* White text color on hover */
+.sidenav .task-button:hover {
+  background-color: color-mix(in srgb, var(--bg-color), white 10%); /* Slightly less bright on hover */
 }
 
-.sidenav button{
-  margin-top: 2px;
-  background-color: #4c0cb5;
-  color: #6937fe;
+.sidenav .task-button.active {
+  background-color: color-mix(in srgb, var(--bg-color), white 30%); /* Even brighter for active state */
 }
 
-/* Sidebar header */
-.sidenav {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #fff; /* White text color */
+/* Answer indicator */
+.answer-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px; /* Square shape */
+  margin-left: 10px;
+}
+
+.answered {
+  background-color: #28a745; /* Green for answered */
+}
+
+.not-answered {
+  background-color: #dc3545; /* Red for not answered */
 }
 
 /* Mobile Styles */
@@ -64,20 +75,4 @@
     left: 0;
     transform: translateX(0);
   }
-}
-
-.answer-indicator {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin-left: 10px;
-  border-radius: 50%;
-}
-
-.answered {
-  background-color: green;
-}
-
-.not-answered {
-  background-color: red;
 }

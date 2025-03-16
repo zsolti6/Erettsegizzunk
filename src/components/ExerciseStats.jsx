@@ -17,12 +17,17 @@ export const ExerciseStats = () => {
   }, []);
 
   return (
-    <div className="container col-md-8" style={{ height: "100vh", marginTop: "8vh" }}>
+    <div className="page-wrapper bg-image">
+    <div className="container col-md-8 exercise-stats-container color-bg2">
       <h2 className="mb-4 text-center">Feladatok összegzése</h2>
       <div className="table-responsive">
-        <table className="table table-striped table-bordered">
+        <table className="table table-bordered color-bg2">
           <thead className="thead-dark">
-            <tr>{["Feladat", "Megoldás", "Válaszaid", "Értékelés"].map((h, i) => <th key={i} className="text-center">{h}</th>)}</tr>
+            <tr>
+              {["Feladat", "Megoldás", "Válaszaid", "Értékelés"].map((h, i) => (
+                <th key={i} className="text-center">{h}</th>
+              ))}
+            </tr>
           </thead>
           <tbody>
             {sortedTaskValues.map((task, i) => (
@@ -30,12 +35,19 @@ export const ExerciseStats = () => {
                 <td>{task.taskId}</td>
                 <td>{getCorrectAnswers(task)}</td>
                 <td>{getUserAnswers(task)}</td>
-                <td>{getCorrectAnswers(task) === getUserAnswers(task) ? "✅" : "❌"}</td>
+                <td className="text-center">
+                  {getCorrectAnswers(task) === getUserAnswers(task) ? (
+                    <span className="text-success">✅</span>
+                  ) : (
+                    <span className="text-danger">❌</span>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 };

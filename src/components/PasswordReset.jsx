@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from '../config';
+import "../css/Login.css"; // Import the CSS file
 
 export const PasswordReset = () => {
   const [email, setEmail] = useState("");
@@ -38,7 +39,7 @@ export const PasswordReset = () => {
 
   return (
     <div>
-      <div className="container d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+      <div className="login-container d-flex justify-content-center align-items-center bg-image" style={{ height: "100vh" }}>
         <div className="card p-4" style={{ width: "400px" }}>
           <h2 className="text-center mb-4">Jelszó visszaállítása</h2>
           <form onSubmit={handlePasswordReset}>

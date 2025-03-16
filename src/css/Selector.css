@@ -11,7 +11,7 @@
 }
 
 .content-container {
-  margin-top: 3vh;
+  margin-top: 6vh;
   max-height: 90vh; /* Adjusted to fit taller screens */
   width: 90%;
   max-width: 500px;
@@ -265,6 +265,7 @@ h4 {
 
   .select-button {
     width: 100%;
+    margin-top: 10px; /* Adjusted margin for better placement */
   }
 }
 
@@ -281,6 +282,7 @@ h4 {
   .select-button {
     padding: 12px 18px;
     font-size: 16px;
+    margin-top: 10px; /* Adjusted margin for better placement */
   }
 
   .content-container {
@@ -317,4 +319,16 @@ h4 {
   .select-button {
     max-width: 400px;
   }
+}
+
+/* Start Button Container */
+.start-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.select-button {
+  margin-top: 0; /* Reset margin-top for the button */
 }

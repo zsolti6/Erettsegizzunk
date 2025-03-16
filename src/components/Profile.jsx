@@ -104,7 +104,7 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
   };
 
   return (
-    <div className="profile-container d-flex flex-column min-vh-100">
+    <div className="profile-container d-flex flex-column min-vh-100 bg-image">
       <div className="container mt-5 mb-5">
         <h1 className="text-center mb-4 mt-3">Adataim</h1>
         <form onSubmit={handleSubmit} className="profile-card bg-light p-4 rounded shadow mx-auto mt-4">

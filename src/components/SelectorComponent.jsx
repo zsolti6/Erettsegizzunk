@@ -135,124 +135,135 @@ export const SelectorComponent = () => {
   ) || [];
 
   return (
-    <div className="page-wrapper">
-      {loading ? (
-        <div className="spinner-container">
-          <div className="spinner"></div>
-        </div>
-      ) : (
-        <>
-          <div className="content-container">
-            <div className="row">
-              <div className="col-lg-6">
-                <h4>Válassz tantárgyat</h4>
-                <form className="exercise-form">
-                  <div className="radio-group">
-                    {subjects.map(({ id, name }) => (
-                      <label className="radio-option" key={id}>
-                        <input
-                          type="radio"
-                          name="subject"
-                          value={id}
-                          checked={subjectId === id}
-                          onChange={handleChange}
-                        />
-                        <span className="name">{name}</span>
-                      </label>
-                    ))}
-                  </div>
-
-                  <p>Középszintű vagy emelt szintű érettségi feladatokat szeretnél gyakorolni?</p>
-
-                  <div className="radio-group">
-                    <label className="radio-option">
+    <div className="page-wrapper bg-image">
+    {loading ? (
+      <div className="spinner-container">
+        <div className="spinner"></div>
+      </div>
+    ) : (
+      <>
+        <div className="content-container">
+          <div className="row">
+            {/* Left Column: Subject and Difficulty Selection */}
+            <div className="col-lg-6 col-12">
+              <h4>Válassz tantárgyat</h4>
+              <form className="exercise-form">
+                <div className="radio-group">
+                  {subjects.map(({ id, name }) => (
+                    <label className="radio-option" key={id}>
                       <input
                         type="radio"
-                        name="difficulty"
-                        value="közép"
-                        checked={formData.difficulty === "közép"}
+                        name="subject"
+                        value={id}
+                        checked={subjectId === id}
                         onChange={handleChange}
                       />
-                      <span className="name">Közép szint</span>
-                    </label>
-                    <label className="radio-option">
-                      <input
-                        type="radio"
-                        name="difficulty"
-                        value="emelt"
-                        checked={formData.difficulty === "emelt"}
-                        onChange={handleChange}
-                      />
-                      <span className="name">Emelt szint</span>
-                    </label>
-                  </div>
-
-                  <button type="button" className="select-button" onClick={handleStartExercise}>
-                    Feladatlap megkezdése
-                  </button>
-                </form>
-              </div>
-              <div className="col-lg-6">
-                <h4>Témák</h4>
-                <div className="theme-filter-container">
-                  <FaSearch className="search-icon" />
-                  <input
-                    type="text"
-                    placeholder="Szűrés témák szerint"
-                    value={themeFilter}
-                    onChange={handleThemeFilterChange}
-                    className="theme-filter-input"
-                  />
-                </div>
-                <div className="checkbox-group">
-                  {filteredThemes.map((theme, index) => (
-                    <label className="checkbox-option" key={index}>
-                      <input
-                        type="checkbox"
-                        checked={selectedThemes.includes(theme.theme.id)}
-                        onChange={() => handleThemeSelect(theme.theme.id)}
-                      />
-                      <span className="name">{theme.theme.name} ({theme.count})</span>
+                      <span className="name">{name}</span>
                     </label>
                   ))}
                 </div>
-                <div className="selected-themes">
-                  {selectedThemes.map((themeId, index) => {
-                    const theme = filteredThemes.find(t => t.theme.id === themeId);
-                    return (
-                      <button
-                        key={index}
-                        type="button"
-                        className="theme-button"
-                        onClick={() => handleThemeRemove(themeId)}
-                      >
-                        {theme?.theme.name} &times;
-                      </button>
-                    );
-                  })}
+
+                <p>Középszintű vagy emelt szintű érettségi feladatokat szeretnél gyakorolni?</p>
+
+                <div className="radio-group">
+                  <label className="radio-option">
+                    <input
+                      type="radio"
+                      name="difficulty"
+                      value="közép"
+                      checked={formData.difficulty === "közép"}
+                      onChange={handleChange}
+                    />
+                    <span className="name">Közép szint</span>
+                  </label>
+                  <label className="radio-option">
+                    <input
+                      type="radio"
+                      name="difficulty"
+                      value="emelt"
+                      checked={formData.difficulty === "emelt"}
+                      onChange={handleChange}
+                    />
+                    <span className="name">Emelt szint</span>
+                  </label>
                 </div>
+              </form>
+            </div>
+
+            {/* Right Column: Theme Selection */}
+            <div className="col-lg-6 col-12">
+              <h4>Témák</h4>
+              <div className="theme-filter-container">
+                <FaSearch className="search-icon" />
+                <input
+                  type="text"
+                  placeholder="Szűrés témák szerint"
+                  value={themeFilter}
+                  onChange={handleThemeFilterChange}
+                  className="theme-filter-input"
+                />
+              </div>
+              <div className="checkbox-group">
+                {filteredThemes.map((theme, index) => (
+                  <label className="checkbox-option" key={index}>
+                    <input
+                      type="checkbox"
+                      checked={selectedThemes.includes(theme.theme.id)}
+                      onChange={() => handleThemeSelect(theme.theme.id)}
+                    />
+                    <span className="name">{theme.theme.name} ({theme.count})</span>
+                  </label>
+                ))}
+              </div>
+              <div className="selected-themes">
+                {selectedThemes.map((themeId, index) => {
+                  const theme = filteredThemes.find(t => t.theme.id === themeId);
+                  return (
+                    <button
+                      key={index}
+                      type="button"
+                      className="theme-button"
+                      onClick={() => handleThemeRemove(themeId)}
+                    >
+                      {theme?.theme.name} &times;
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
-        </>
-      )}
 
-      <Modal show={showModal} onHide={handleNewAttempt} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Folytatni szeretnéd?</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Van egy korábbi próbálkozásod. Szeretnéd folytatni?</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleNewAttempt}>
-            Új próbálkozás
-          </Button>
-          <Button variant="primary" onClick={handleContinue}>
-            Folytatás
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
+          {/* Start Exercise Button - Moved Outside the Columns */}
+          <div className="start-button-container">
+            <button
+              type="button"
+              className="select-button"
+              onClick={handleStartExercise}
+            >
+              Feladatlap megkezdése
+            </button>
+          </div>
+        </div>
+      </>
+    )}
+
+    {/* Modal for Continuing Previous Attempt */}
+    <Modal show={showModal} onHide={handleNewAttempt} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>Folytatni szeretnéd?</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>Van egy korábbi próbálkozásod. Szeretnéd folytatni?</p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleNewAttempt}>
+          Új próbálkozás
+        </Button>
+        <Button variant="primary" onClick={handleContinue}>
+          Folytatás
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  </div>
   );
 };

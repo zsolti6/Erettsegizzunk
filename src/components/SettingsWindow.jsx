@@ -3,6 +3,7 @@ import "../css/SettingsWindow.css";
 
 const SettingsWindow = ({ onClose }) => {
   const [bgColor, setBgColor] = useState(localStorage.getItem("bgColor") || "#303D5C");
+  const presetColors = ["#303D5C", "#FF5733"]; // Add more colors as needed
 
   useEffect(() => {
     document.documentElement.style.setProperty('--bg-color', bgColor);
@@ -12,9 +13,10 @@ const SettingsWindow = ({ onClose }) => {
     localStorage.setItem("bgColor", bgColor);
   }, [bgColor]);
 
-  const handleBgColorChange = (e) => {
-    setBgColor(e.target.value);
-    document.documentElement.style.setProperty('--bg-color', e.target.value);
+  const handleColorSelect = (color) => {
+    setBgColor(color);
+    document.documentElement.style.setProperty('--bg-color', color);
+    localStorage.setItem("bgColor", color);
   };
 
   const handleReset = () => {
@@ -29,13 +31,16 @@ const SettingsWindow = ({ onClose }) => {
       <div className="settings-window">
         <h2>Beállítások</h2>
         <div className="settings-option">
-          <label htmlFor="bgColor">Felhasználói felület színe:</label>
-          <input
-            type="color"
-            id="bgColor"
-            value={bgColor}
-            onChange={handleBgColorChange}
-          />
+          <label>Felhasználói felület színe:</label>
+          <div className="color-selector">
+            {presetColors.map((color) => (
+              <button
+                key={color}
+                style={{ backgroundColor: color, width: "30px", height: "30px", margin: "5px", border: "none", cursor: "pointer" }}
+                onClick={() => handleColorSelect(color)}
+              />
+            ))}
+          </div>
         </div>
         <div className="settings-buttons">
           <button className="reset-button" onClick={handleReset}>Visszaállítás</button>

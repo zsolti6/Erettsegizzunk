@@ -128,3 +128,7 @@ img:hover {
     transform: none;
     border: none;
 }
+
+#settings:hover{
+    color: black !important;
+}

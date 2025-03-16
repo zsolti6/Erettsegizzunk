@@ -97,9 +97,12 @@ export const Navbar = ({ user, googleLogged, handleLogout }) => {
                 )}
               </div>
             ) : (
-              <div className="d-flex">
+              <div className="d-flex align-items-center">
                 <Link to="/belepes" className="btn btn-outline-light me-2">Bejelentkezés</Link>
-                <Link to="/regisztracio" className="btn btn-light color-text2">Regisztráció</Link>
+                <Link to="/regisztracio" className="btn btn-light color-text2 me-2">Regisztráció</Link>
+                <button onClick={openSettings} id="settings" className="fs-3 mb-2 bg-transparent border-0 text-white">
+                  <FaCog className="me-2" />
+                </button>
               </div>
             )}
           </div>

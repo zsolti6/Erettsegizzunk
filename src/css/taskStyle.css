@@ -307,3 +307,133 @@ input[type="radio"]:checked + .radio-label {
     transform: rotate(360deg);
   }
 }
+
+/* ExerciseStats Container */
+.exercise-stats-container {
+  margin-top: 8vh;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Table Styles */
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 1rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table thead th {
+  background-color: var(--bg-color);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 12px;
+  text-align: center;
+  border-bottom: 2px solid #35097d;
+}
+
+.table tbody td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  .table thead th,
+  .table tbody td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Success and Error Icons */
+.text-success {
+  color: #28a745;
+}
+
+.text-danger {
+  color: #dc3545;
+}
+
+/* General Typography */
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+/* Button Styles */
+.btn {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 12px 20px;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-primary {
+  background-color: #4c0cb5;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #35097d;
+}
+
+/* Tooltip Styles */
+.tooltip-inner {
+  background-color: #4c0cb5;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.tooltip.bs-tooltip-top .tooltip-arrow::before,
+.tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+  border-top-color: var(--bg-color);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+  .exercise-stats-container {
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .table thead th,
+  .table tbody td {
+    padding: 6px;
+    font-size: 0.8rem;
+  }
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column; 
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5vh 2vw;
+  box-sizing: border-box;
+}
