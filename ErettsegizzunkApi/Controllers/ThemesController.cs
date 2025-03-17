@@ -76,61 +76,67 @@ namespace ErettsegizzunkApi.Controllers
 
         //Téma módosítása
         [HttpPut("put-tema")]
-        public async Task<IActionResult> PutTheme([FromBody] PutPostThemeDTO putTheme)//---> hibakezelés és tesztelés
+        public async Task<IActionResult> PutTheme([FromBody] PutThemeDTO putTheme)
         {
             try
             {
                 if (!Program.LoggedInUsers.ContainsKey(putTheme.Token) || Program.LoggedInUsers[putTheme.Token].Permission.Level != 9)
                 {
-                    return Unauthorized(new ErrorDTO() { Id = 12, Message = "Hozzáférés megtagadva" });
+                    return Unauthorized(new ErrorDTO() { Id = 144, Message = "Hozzáférés megtagadva" });
                 }
 
-                if (putTheme.Theme.Id < 1)
+                foreach (Theme item in putTheme.Themes)
                 {
-                    return BadRequest(new ErrorDTO() { Id = 13, Message = "Helytelen azonosító" });
+                    Theme? theme = await _context.Themes.FindAsync(item.Id);
+
+                    if (theme is null)
+                    {
+                        return NotFound(new ErrorDTO() { Id = 145, Message = "A keresett adat nem található" });
+                    }
+
+                    theme.Name = item.Name;
+
+                    _context.Entry(theme).State = EntityState.Modified;
                 }
-
-                Theme? theme = await _context.Themes.FindAsync(putTheme.Theme.Id);
-
-                if (theme is null)
-                {
-                    return NotFound(new ErrorDTO() { Id = 14, Message = "A keresett adat nem található" });
-                }
-
-                theme.Name = putTheme.Theme.Name;
-
-                _context.Entry(theme).State = EntityState.Modified;
 
                 await _context.SaveChangesAsync();
             }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 146, Message = "Kapcsolati hiba" });
+            }
             catch (Exception)
             {
-                return StatusCode(500);
+                return StatusCode(500, new ErrorDTO() { Id = 147, Message = "Hiba történt az adatok mentése közben" });
             }
 
-            return Ok();
+            return Ok("Téma módosítás sikeresen megtötént!");
         }
 
         //Téma feltöltése
         [HttpPost("post-tema")]
-        public async Task<ActionResult<Theme>> PostTheme([FromBody] PutPostThemeDTO postThemeDTO)//---> hibakezelés és tesztelés
+        public async Task<ActionResult<Theme>> PostTheme([FromBody] PostThemeDTO postThemeDTO)
         {
             try
             {
                 if (!Program.LoggedInUsers.ContainsKey(postThemeDTO.Token) || Program.LoggedInUsers[postThemeDTO.Token].Permission.Level != 9)
                 {
-                    return Unauthorized(new ErrorDTO() { Id = 12, Message = "Hozzáférés megtagadva" });
+                    return Unauthorized(new ErrorDTO() { Id = 148, Message = "Hozzáférés megtagadva" });
                 }
 
                 _context.Themes.Add(postThemeDTO.Theme);
                 await _context.SaveChangesAsync();
             }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 149, Message = "Kapcsolati hiba" });
+            }
             catch (Exception)
             {
-                return StatusCode(500);
+                return StatusCode(500, new ErrorDTO() { Id = 150, Message = "Hiba történt az adatok törlése közben" });
             }
 
-            return Ok();
+            return Ok("Téma felvitele sikeresen megtörtént");
         }
     }
 }

@@ -25,12 +25,12 @@ namespace ErettsegizzunkApi.Controllers
             {
                 if (_context.Users.FirstOrDefault(x => x.LoginName == user.LoginName) != null)
                 {
-                    return Ok("Már létezik ilyen felhasználónév!");
+                    return BadRequest(new ErrorDTO { Id = 161, Message = "Már létezik ilyen felhasználónév!" });
                 }
 
                 if (_context.Users.FirstOrDefault(x => x.Email == user.Email) != null)
                 {
-                    return Ok("Ezzel az e-mail címmel már regisztráltak!");
+                    return BadRequest(new ErrorDTO { Id = 162, Message = "Email cím foglalt" });
                 }
 
                 user.Active = false;
@@ -129,7 +129,7 @@ namespace ErettsegizzunkApi.Controllers
 
                     Program.SendEmail(email, "Sikeres regisztráció", "Köszönjük a regisztrálást");
 
-                    //KELL ID VAGYMI AZ ADATBÁZISBÓL --> JÓ????
+                    //BUGOS LEHET
                     newUser.Id = (await _context.Users.FirstOrDefaultAsync(x => x.Email == email)).Id;
 
                     lock (Program.LoggedInUsers)

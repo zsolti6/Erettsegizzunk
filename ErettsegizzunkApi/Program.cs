@@ -13,7 +13,6 @@ namespace ErettsegizzunkApi
     //Scaffold-DbContext "SERVER=erettsegizzunk2.mysql.database.azure.com;PORT=3306;DATABASE=erettsegizzunk;USER=ErettsegiAdmin;PASSWORD=3rettsegi-4dmin;SSL MODE=required;" mysql.entityframeworkcore -outputdir Models -f
     public static class Program
     {
-        //public static int SaltLength = 64;
         public static Dictionary<string, User> LoggedInUsers = new Dictionary<string, User>();
         public static string ftpUrl = "";
         public static string ftpUserName = "";
@@ -101,7 +100,7 @@ namespace ErettsegizzunkApi
 
             var builder = WebApplication.CreateBuilder(args);
             
-            if (!string.IsNullOrEmpty(certBase64))//ha ez van nincs swagger
+            if (!string.IsNullOrEmpty(certBase64))//Ki venni ha kell swagger
             {
                 var certBytes = Convert.FromBase64String(certBase64);
                 var certificate = new X509Certificate2(certBytes, certPassword, X509KeyStorageFlags.MachineKeySet);
@@ -113,7 +112,6 @@ namespace ErettsegizzunkApi
             }
             else
             {
-                // Optionally log a warning or configure HTTP-only mode if the certificate is not provided.
                 builder.WebHost.ConfigureKestrel(serverOptions =>
                 {
                     serverOptions.ListenAnyIP(5000); // Fallback HTTP

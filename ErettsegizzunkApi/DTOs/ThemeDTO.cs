@@ -13,7 +13,12 @@ namespace ErettsegizzunkApi.DTOs
         public int Count { get; set; }
     }
 
-    public class PutPostThemeDTO : ParentDTO
+    public class PutThemeDTO : ParentDTO
+    {
+        public List<Theme> Themes { get; set; }
+    }
+
+    public class PostThemeDTO : ParentDTO
     {
         public Theme Theme { get; set; }
     }
