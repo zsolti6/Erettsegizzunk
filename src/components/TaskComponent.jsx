@@ -48,11 +48,11 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
     <div>
       <Card id="taskCard" className="shadow-sm p-3 mb-4 color-bg2 rounded w-100 mx-auto">
         <Card.Body>
-          <Card.Title className="text-center">
+          <Card.Title className="text-center text-white">
             {elem.taskId}. feladat<br></br> {elem.description}
           </Card.Title>
-          <Card.Text className="text-center">{elem.text}</Card.Text>
-
+          <Card.Text className="text-center text-white">{elem.text}</Card.Text>
+          
           {elem.picName && (
             <div className="d-flex justify-content-center">
               <img
@@ -66,13 +66,13 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
             </div>
           )}
 
-          <div className="mt-3">
+          <div className="mt-auto color-bg2" id="taskInputs">
             {/* Modern Styled Textbox */}
             {elem.type.name === "textbox" &&
               elem.isCorrect.split(";").map((_, index) => (
                 <input
                   key={index}
-                  className="textbox-style mb-3 w-50 ml-3"
+                  className="textbox-style mb-3 w-50 ml-3 color-bg3"
                   type="text"
                   value={taskValues[index] || ""}
                   onChange={(e) => handleTextboxChange(index, e.target.value)}
@@ -83,7 +83,7 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
             {elem.type.name === "radio" && (
               <div className="radio-container">
                 {elem.isCorrect.split(";").map((_, index) => (
-                  <div key={index} className="form-check">
+                  <div key={index} className="form-check color-bg2">
                     <input
                       className="form-check-input"
                       type="radio"
@@ -92,7 +92,7 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
                       checked={taskValues[index] === "1"}
                       onChange={() => handleRadioChange(index)}
                     />
-                    <label htmlFor={`radio-${elem.id}-${index}`} className="radio-label">
+                    <label htmlFor={`radio-${elem.id}-${index}`} className="radio-label color-bg3">
                       {elem.answers.split(";")[index]}
                     </label>
                   </div>
@@ -102,9 +102,9 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
 
             {/* Modern Checkboxes (Toggle Style) */}
             {elem.type.name === "checkbox" && (
-              <div className="checkbox-container justify-content-center">
+              <div className="checkbox-container justify-content-center color-bg2">
                 {elem.isCorrect.split(";").map((_, index) => (
-                  <div key={index} className="form-check">
+                  <div key={index} className="form-check color-bg2">
                     <input
                       className="form-check-input"
                       type="checkbox"
@@ -112,7 +112,7 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
                       checked={taskValues[index] === "1"}
                       onChange={() => handleCheckboxChange(index)}
                     />
-                    <label htmlFor={`checkbox-${elem.id}-${index}`} className="checkbox-label">
+                    <label htmlFor={`checkbox-${elem.id}-${index}`} className="checkbox-label color-bg3">
                       {elem.answers.split(";")[index]}
                     </label>
                   </div>

@@ -10,8 +10,58 @@ const COLORSsmall = ["#00FF00", "#FF0000"];
 export const StatisticsComponent = ({ user }) => {
   if (!user) {
     return (
-      <div className="text-center mt-5">
-        <h1 style={{ marginTop: "5rem" }}>Bejelentkezés szükséges ennek a funkciónak a használatához</h1>
+      <div className="page-wrapper bg-image">
+        <div className="text-center mt-5">
+          <h1 style={{ marginTop: "5rem" }}>Bejelentkezés szükséges ennek a funkciónak a használatához</h1>
+          <p className="lead text-white mt-3">
+            Jelentkezz be, hogy hozzáférj a részletes statisztikákhoz, feladatokhoz, és egyéb funkciókhoz.
+          </p>
+          <div className="mt-4">
+            <button 
+              className="btn color-bg3 btn-lg border-0" 
+              onClick={() => window.location.href = "/belepes"} // Redirect to login page
+            >
+              Bejelentkezés
+            </button>
+          </div>
+          <div className="mt-5">
+            <div className="row justify-content-center">
+              <div className="col-md-4 mb-4">
+                <div className="card color-bg2 h-100">
+                  <div className="card-body text-center">
+                    <i className="fas fa-chart-pie fa-3x text-white mb-3"></i>
+                    <h4 className="card-title text-white">Statisztikák</h4>
+                    <p className="card-text text-white">
+                      Kövesd a feladatok megoldásának eredményeit, és lásd a részletes statisztikákat.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4 mb-4">
+                <div className="card color-bg2 h-100">
+                  <div className="card-body text-center">
+                    <i className="fas fa-tasks fa-3x text-white mb-3"></i>
+                    <h4 className="card-title text-white">Feladatok</h4>
+                    <p className="card-text text-white">
+                      Gyakorolj különböző témakörökben, és készülj fel az érettségire.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4 mb-4">
+                <div className="card color-bg2 h-100">
+                  <div className="card-body text-center">
+                    <i className="fas fa-calendar-alt fa-3x text-white mb-3"></i>
+                    <h4 className="card-title text-white">Idővonal</h4>
+                    <p className="card-text text-white">
+                      Nézd meg, mikor és milyen gyakran oldottál meg feladatokat.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

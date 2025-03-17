@@ -145,7 +145,7 @@ export const ExerciseComponent = () => {
   };
 
   return (
-    <div className="d-flex bg-image" style={{ minHeight: "100vh", paddingTop: "60px" }}>
+    <div className="d-flex bg-image" style={{ minHeight: "100vh", paddingTop: "30px" }}>
       <button
         className="btn btn-primary m-2 color-bg1 border-0"
         onClick={() => setIsOpen(!isOpen)}
@@ -168,6 +168,7 @@ export const ExerciseComponent = () => {
           left: isOpen ? "0" : "-250px",
           transition: "left 0.3s",
           zIndex: 1000,
+          marginTop: "32px",
           height: "100vh",
         }}
       >
@@ -187,18 +188,18 @@ export const ExerciseComponent = () => {
       <div className="spinner"></div>
     </div>
   ) : (
-    <>
+    <div className="h-25">
       {exercises.length > 0 && (
         <ExerciseWindow tasks={exercises} activeTask={exercises[activeIndex]} taskValues={taskValues} updateTaskValues={updateTaskValues} />
       )}
 
-      <div className="d-flex justify-content-center align-items-center gap-2 flex-wrap mt-3">
-        {activeIndex > 0 && <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex - 1)}>Előző feladat</button>}
+      <div className="d-flex justify-content-center align-items-center gap-2 flex-wrap mt-0">
+        {activeIndex > 0 && <button className="btn color-bg1 text-white" onClick={() => setActiveIndex(activeIndex - 1)}>Előző feladat</button>}
         {activeIndex < exercises.length - 1 ? (
-          <button className="btn btn-primary" onClick={() => setActiveIndex(activeIndex + 1)}>Következő feladat</button>
+          <button className="btn color-bg1 text-white" onClick={() => setActiveIndex(activeIndex + 1)}>Következő feladat</button>
         ) : (
           <button
-            className="btn btn-success"
+            className="btn color-bg1 text-white"
             onClick={async () => {
               await sendStatistics();
             }}
@@ -207,7 +208,7 @@ export const ExerciseComponent = () => {
           </button>
         )}
       </div>
-    </>
+    </div>
   )}
 </div>
       </div>

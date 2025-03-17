@@ -507,3 +507,7 @@ h2 i{
 .discord-link:hover {
   text-decoration: none;
 }
+
+.exercise{
+  min-height: 55vh;
+}

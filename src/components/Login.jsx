@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";  // Import reCAPTCHA
 import sha256 from "crypto-js/sha256";
@@ -7,14 +7,21 @@ import { auth, provider, signInWithPopup } from "../firebaseConfig";
 import { BASE_URL } from '../config';
 import "../css/Login.css"; // Import the CSS file
 
-export const LoginPage = ({ handleLogin }) => {
+export const LoginPage = ({ user, handleLogin }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [captchaToken, setCaptchaToken] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false); // Loading state
+  const [errorMessage, setErrorMessage] = useState(""); // New state variable for error message
   const navigator = useNavigate();
+
+  useEffect(() => {
+      if (user != null) {
+        navigator("/profil");
+      }
+    }, [navigator, user]);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -22,6 +29,7 @@ export const LoginPage = ({ handleLogin }) => {
 
   const handleGoogleLogin = async () => {
     setLoading(true); // Show loading spinner
+    setErrorMessage(""); // Clear previous error message
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
@@ -53,7 +61,7 @@ export const LoginPage = ({ handleLogin }) => {
       localStorage.setItem("rememberMe", rememberMe);
       navigator("/");
     } catch (error) {
-      console.error("Google login failed", error);
+      setErrorMessage("Google login failed: " + error.message);
     } finally {
       setLoading(false); // Hide loading spinner
     }
@@ -62,9 +70,10 @@ export const LoginPage = ({ handleLogin }) => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setLoading(true); // Show loading spinner
+    setErrorMessage(""); // Clear previous error message
     
     if (!captchaToken) {
-      alert("Kérjük, igazolja, hogy nem robot!");
+      setErrorMessage("Kérjük, igazolja, hogy nem robot!");
       setLoading(false); // Hide loading spinner
       return;
     }
@@ -101,10 +110,10 @@ export const LoginPage = ({ handleLogin }) => {
         handleLogin(userData, false); // Update the App state
         navigator("/");
       } else {
-        alert("Hiba történt a bejelentkezéskor!");
+        setErrorMessage("Hiba történt a bejelentkezéskor!");
       }
     } catch (error) {
-      alert("Hiba történt a bejelentkezéskor!");
+      setErrorMessage(error.response.data.message);
     } finally {
       setLoading(false); // Hide loading spinner
     }
@@ -118,15 +127,16 @@ export const LoginPage = ({ handleLogin }) => {
         </div>
       )}
       <div className="login-content">
-      <div className="login-image">
-        <img
-          src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="Modern Clean Background"
-          className="login-image"
-        />
-      </div>
-        <div className="login-card">
+        <div className="login-image">
+          <img
+            src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Modern Clean Background"
+            className="login-image"
+          />
+        </div>
+        <div className="login-card overflow-scroll">
           <h2 className="text-center mb-4">Bejelentkezés</h2>
+          {errorMessage && <div className="alert alert-danger">{errorMessage}</div>} {/* Conditionally render error message */}
           <form onSubmit={handleLoginSubmit}>
             <div className="form-group mb-3">
               <input

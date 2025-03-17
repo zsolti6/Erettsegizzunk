@@ -3,7 +3,7 @@ import "../css/SettingsWindow.css";
 
 const SettingsWindow = ({ onClose }) => {
   const [bgColor, setBgColor] = useState(localStorage.getItem("bgColor") || "#303D5C");
-  const presetColors = ["#303D5C", "#FF5733"]; // Add more colors as needed
+  const presetColors = ["#303D5C","#FF0000", "#00FF00", "#0000FF", "#2DAA9E", "#006400", "#00668A", "#0091A2", "#00BA9C", "#89DE84", "#F9f871", "#9A77A5", "#C28BB9", "#EB9FC9", "#D6A419", "#FFEECA"]; // Add more colors as needed
 
   useEffect(() => {
     document.documentElement.style.setProperty('--bg-color', bgColor);

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import sha256 from "crypto-js/sha256";
 import { BASE_URL } from '../config';
-import "../css/Login.css"; // Import the CSS file
+import "../css/Login.css";
+import { useNavigate } from "react-router-dom";
 
 export const GenerateSalt = (SaltLength) => {
   const karakterek = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -34,7 +35,7 @@ function GenerateRandomPassword(length = 16) {
   return password;
 }
 
-export const RegisterPage = () => {
+export const RegisterPage = ({ user }) => {
   const [formData, setFormData] = useState({
     loginName: "",
     password: "",
@@ -45,6 +46,13 @@ export const RegisterPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
   const [loading, setLoading] = useState(false); // Loading state
+  const navigator = useNavigate();
+  
+    useEffect(() => {
+        if (user != null) {
+          navigator("/profil");
+        }
+      }, [navigator, user]);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -71,7 +79,7 @@ export const RegisterPage = () => {
     e.preventDefault();
 
     if (!captchaToken) {
-      alert("Kérjük, igazolja, hogy nem robot!");
+      setError("Kérjük, igazolja, hogy nem robot!");
       return;
     }
 
@@ -123,7 +131,7 @@ export const RegisterPage = () => {
         </div>
         <div className="login-card">
           <h2 className="text-center mb-4">Fiók létrehozása</h2>
-          {error && <div className="alert alert-danger">{error}</div>}
+          {error && <div className="alert alert-danger">{error}</div>} {/* Conditionally render error message */}
           <form onSubmit={handleRegister}>
             <div className="form-group mb-3">
               <input placeholder="Felhasználónév" type="text" className="form-control" id="loginName" maxLength={10} value={formData.loginName} onChange={handleChange} />

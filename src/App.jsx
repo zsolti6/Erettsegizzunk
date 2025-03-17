@@ -127,8 +127,8 @@ export const App = () => {
             <Route path="/gyakorlas" element={<ExerciseComponent />} />
             <Route path="/feladat-valasztas" element={<SelectorComponent />} />
             <Route path="/gyakorlas/statisztika" element={<ExerciseStats />} />
-            <Route path="/belepes" element={<LoginPage handleLogin={handleLogin} />} />
-            <Route path="/regisztracio" element={<RegisterPage />} />
+            <Route path="/belepes" element={<LoginPage user={user} handleLogin={handleLogin} />} />
+            <Route path="/regisztracio" element={<RegisterPage user={user} />} />
             <Route path="/profil" element={<Profile user={user} setUser={setUser} googleLogged={googleLogged} handleLogout={handleLogout} />} />
             <Route path="/elfelejtett-jelszo" element={<PasswordReset />} />
           </Routes>
