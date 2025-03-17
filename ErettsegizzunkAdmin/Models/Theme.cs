@@ -1,4 +1,4 @@
-﻿namespace ErettsegizzunkApi.Models;
+﻿namespace ErettsegizzunkAdmin.Models;
 
 public partial class Theme
 {

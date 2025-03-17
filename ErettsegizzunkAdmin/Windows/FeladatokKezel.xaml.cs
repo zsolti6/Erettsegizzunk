@@ -1,13 +1,13 @@
 ﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
+using ErettsegizzunkAdmin.DTOs;
 using ErettsegizzunkAdmin.Services;
-using ErettsegizzunkApi.DTOs;
 using Microsoft.Win32;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
-using Task = ErettsegizzunkApi.Models.Task;
+using Task = ErettsegizzunkAdmin.Models.Task;
 
 namespace ErettsegizzunkAdmin.Windows
 {

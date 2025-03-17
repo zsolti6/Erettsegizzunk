@@ -1,16 +1,13 @@
-﻿using ErettsegizzunkApi.Models;
-
-namespace ErettsegizzunkApi.DTOs
+﻿namespace ErettsegizzunkAdmin.DTOs
 {
-    public class FeladatokPutPostDTO
+    public class FeladatokPutPostDTO : ParentDTO
     {
         public int? Id { get; set; }
-        public string Token { get; set; } = "";
 
         public string? KepNev { get; set; }
 
         public string? Leiras { get; set; }
-        
+
         public string? Szoveg { get; set; }
 
         public string? Megoldasok { get; set; }
@@ -26,10 +23,8 @@ namespace ErettsegizzunkApi.DTOs
         public string[] Temak { get; set; }
     }
 
-    public class FeladatokDeleteDTO
+    public class FeladatokDeleteDTO : ParentDTO
     {
-        public string Token { get; set; } = "";
-
         public List<int> Ids { get; set; }
     }
 

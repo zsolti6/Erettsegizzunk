@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\Bernát Olivér\Desktop\projektFeladat\Admin\ErettsegizzunkAdmin\App.xaml
-10500076645
+13-921685173
 
-32-1589905390
+381022840936
 212-173123355
-MainWindow.xaml;Windows\AdatbazisHelyreallitas.xaml;Windows\FeladatModosit.xaml;Windows\FeladatokKezel.xaml;Windows\FelhasznalokKezel.xaml;Windows\MenuWindow.xaml;Windows\TantargyKezel.xaml;Windows\TemaKezel.xaml;Windows\UjFelhasznalo.xaml;Windows\UjTantargy.xaml;
+MainWindow.xaml;Windows\AdatbazisHelyreallitas.xaml;Windows\EngedelyKezel.xaml;Windows\FeladatModosit.xaml;Windows\FeladatokKezel.xaml;Windows\FelhasznalokKezel.xaml;Windows\MenuWindow.xaml;Windows\TantargyKezel.xaml;Windows\TemaKezel.xaml;Windows\UjFelhasznalo.xaml;Windows\UjPermission.xaml;Windows\UjTantargy.xaml;Windows\UjTema.xaml;
 
 False
 

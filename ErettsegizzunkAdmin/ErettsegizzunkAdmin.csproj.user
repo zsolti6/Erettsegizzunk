@@ -10,6 +10,9 @@
     <Compile Update="Windows\AdatbazisHelyreallitas.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\EngedelyKezel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\FeladatModosit.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -31,7 +34,13 @@
     <Compile Update="Windows\UjFelhasznalo.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\UjPermission.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\UjTantargy.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\UjTema.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -40,6 +49,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\AdatbazisHelyreallitas.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\EngedelyKezel.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\FeladatModosit.xaml">
@@ -60,7 +72,13 @@
     <Page Update="Windows\UjFelhasznalo.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Windows\UjPermission.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\UjTantargy.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\UjTema.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

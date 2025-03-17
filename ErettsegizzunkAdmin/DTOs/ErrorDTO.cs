@@ -1,4 +1,4 @@
-﻿namespace ErettsegizzunkApi.DTOs
+﻿namespace ErettsegizzunkAdmin.DTOs
 {
     public class ErrorDTO : Exception
     {

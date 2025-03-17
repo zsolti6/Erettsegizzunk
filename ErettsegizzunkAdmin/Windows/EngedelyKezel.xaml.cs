@@ -9,9 +9,9 @@ using System.Windows.Interop;
 namespace ErettsegizzunkAdmin.Windows
 {
     /// <summary>
-    /// Interaction logic for TantargyKezel.xaml
+    /// Interaction logic for TemaKezel.xaml
     /// </summary>
-    public partial class TantargyKezel : Window
+    public partial class EngedelyKezel : Window
     {
         #region Bezaras gomb eltüntetése
         [DllImport("user32.dll")]
@@ -25,9 +25,9 @@ namespace ErettsegizzunkAdmin.Windows
         #endregion
 
         private LoggedUserDTO user = new LoggedUserDTO();
-        private List<Subject> subjects = new List<Subject>();
+        private List<Permission> permissions = new List<Permission>();
         private readonly ApiService _apiService;
-        public TantargyKezel(LoggedUserDTO user)
+        public EngedelyKezel(LoggedUserDTO user)
         {
             InitializeComponent();
             this.user = user;
@@ -37,27 +37,27 @@ namespace ErettsegizzunkAdmin.Windows
 
         private async void RefreshUi()
         {
-            subjects = await _apiService.GetTantargyaksAsync();
-            dgTantargyAdatok.ItemsSource = subjects;
+            permissions = await _apiService.GetPermessionskAsync(user.Token);
+            dgEngedelyekAdatok.ItemsSource = permissions;
             cbSelectAll.IsChecked = false;
         }
 
         private void cbSelectAll_Checked(object sender, RoutedEventArgs e)
         {
-            foreach (Subject subject in subjects)
+            foreach (Permission permission in permissions)
             {
-                subject.IsSelected = true;
+                permission.IsSelected = true;
             }
-            dgTantargyAdatok.Items.Refresh();
+            dgEngedelyekAdatok.Items.Refresh();
         }
 
         private void cbSelectAll_Unchecked(object sender, RoutedEventArgs e)
         {
-            foreach (Subject subject in subjects)
+            foreach (Permission permission in permissions)
             {
-                subject.IsSelected = false;
+                permission.IsSelected = false;
             }
-            dgTantargyAdatok.Items.Refresh();
+            dgEngedelyekAdatok.Items.Refresh();
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -71,11 +71,11 @@ namespace ErettsegizzunkAdmin.Windows
         {
             List<int> ids = new List<int>();
 
-            foreach (Subject subject in subjects)
+            foreach (Permission permission in permissions)
             {
-                if (subject.IsSelected)
+                if (permission.IsSelected)
                 {
-                    ids.Add(subject.Id);
+                    ids.Add(permission.Id);
                 }
             }
 
@@ -85,25 +85,33 @@ namespace ErettsegizzunkAdmin.Windows
                 return;
             }
 
-            await _apiService.DeletTantargy(new ParentDeleteDTO() { Ids = ids, Token = user.Token });
+            MessageBoxResult result = MessageBoxes.CustomQuestion("Biztosan törölni akarja a kijelölt eleme(ke)t?");
+
+            if (result == MessageBoxResult.Cancel)
+            {
+                MessageBoxes.CustomMessageOk("Törlés megszakítva");
+                return;
+            }
+
+            await _apiService.DeletPermission(new ParentDeleteDTO() { Ids = ids, Token = user.Token });
             RefreshUi();
         }
 
-        private void btnUjTantagyFelvitele_Click(object sender, RoutedEventArgs e)
+        private void btnUjEngedelyFelvitele_Click(object sender, RoutedEventArgs e)
         {
-            UjTantargy ujTantargy = new UjTantargy(user);
-            ujTantargy.ShowDialog();
+            UjPermission ujPermission = new UjPermission(user);
+            ujPermission.ShowDialog();
             RefreshUi();
+        }
+
+        private async void btnModosit_Click(object sender, RoutedEventArgs e)
+        {
+            await _apiService.PutPermssion(new PutPermissionDTO() { Permissions = permissions, Token = user.Token });
         }
 
         private void btnQuestion_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private async void btnModosit_Click(object sender, RoutedEventArgs e)
-        {
-            await _apiService.PutTantargyak(new TantargyPutDTO() { subjects = subjects, Token = user.Token });
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

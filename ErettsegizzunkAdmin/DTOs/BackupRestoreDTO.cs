@@ -1,11 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ErettsegizzunkApi.DTOs
+﻿namespace ErettsegizzunkAdmin.DTOs
 {
-    public class BackupRestoreDTO
+    public class BackupRestoreDTO : ParentDTO
     {
-        public string Token { get; set; }
-
         public string FileName { get; set; }
     }
 

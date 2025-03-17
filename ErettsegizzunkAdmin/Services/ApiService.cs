@@ -1,7 +1,6 @@
 ﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
 using ErettsegizzunkAdmin.DTOs;
-using ErettsegizzunkApi.DTOs;
-using ErettsegizzunkApi.Models;
+using ErettsegizzunkAdmin.Models;
 using Newtonsoft.Json;
 using System.IO;
 using System.Net.Http;
@@ -10,7 +9,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Windows.Media.Imaging;
 using Task = System.Threading.Tasks.Task;
-using Type = ErettsegizzunkApi.Models.Type;
+using Type = ErettsegizzunkAdmin.Models.Type;
 
 namespace ErettsegizzunkAdmin.Services
 {
@@ -27,7 +26,7 @@ namespace ErettsegizzunkAdmin.Services
         }
 
         #region Feladatok
-        public async Task<List<ErettsegizzunkApi.Models.Task>> GetFeladatoksAsync(int mettol)
+        public async Task<List<ErettsegizzunkAdmin.Models.Task>> GetFeladatoksAsync(int mettol)
         {
             try
             {
@@ -41,18 +40,18 @@ namespace ErettsegizzunkAdmin.Services
                 }
 
                 string responseContent = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<ErettsegizzunkApi.Models.Task>>(responseContent);
+                return JsonConvert.DeserializeObject<List<ErettsegizzunkAdmin.Models.Task>>(responseContent);
             }
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return new List<ErettsegizzunkApi.Models.Task>();
+                return new List<ErettsegizzunkAdmin.Models.Task>();
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(502, "Kapcsolati hiba").ToString());
-                return new List<ErettsegizzunkApi.Models.Task>();
+                return new List<ErettsegizzunkAdmin.Models.Task>();
             }
         }
 
@@ -177,7 +176,7 @@ namespace ErettsegizzunkAdmin.Services
             try
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(tantargy), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await _httpClient.PutAsync("erettsegizzunk/Tantargyak/put-tantargy", content);
+                HttpResponseMessage response = await _httpClient.PutAsync("erettsegizzunk/Tantargyak/put-putPermission", content);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -203,7 +202,7 @@ namespace ErettsegizzunkAdmin.Services
             try
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(tantargy), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Tantargyak/post-tantargy", content);
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Tantargyak/post-putPermission", content);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -224,7 +223,7 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
-        public async Task DeletTantargy(TantargyDeleteDTO tantargy)
+        public async Task DeletTantargy(ParentDeleteDTO tantargy)
         {
             try
             {
@@ -287,6 +286,57 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
+        public async Task PutTemak(PutThemeDTO themePut)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(themePut), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PutAsync("erettsegizzunk/Themes/put-tema", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
+            }
+            catch (ErrorDTO er)
+            {
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError(error.ToString());
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
+            }
+        }
+
+        public async Task PostTema(PostThemeDTO themePost)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(themePost), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Themes/post-tema", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
+            }
+            catch (ErrorDTO er)
+            {
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError(error.ToString());
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
+            }
+        }
         #endregion
 
         #region Szint
@@ -353,6 +403,90 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
+        public async Task PutPermssion(PutPermissionDTO putPermission)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(putPermission), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PutAsync("erettsegizzunk/Permissions/put-permissions", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
+            }
+            catch (ErrorDTO er)
+            {
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError(error.ToString());
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
+            }
+        }
+
+        public async Task PostPermission(PostPermissionDTO postPermission)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(postPermission), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync("erettsegizzunk/Permissions/post-permissions", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
+            }
+            catch (ErrorDTO er)
+            {
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError(error.ToString());
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
+            }
+        }
+
+        public async Task DeletPermission(ParentDeleteDTO permission)
+        {
+            try
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(permission), Encoding.UTF8, "application/json");
+                HttpRequestMessage request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Delete,
+                    RequestUri = new Uri(_httpClient.BaseAddress, "erettsegizzunk/Permissions/delete-permission"),
+                    Content = content
+                };
+                HttpResponseMessage response = await _httpClient.SendAsync(request);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    throw new ErrorDTO(error);
+                }
+
+                MessageBoxes.CustomMessageOk(JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync()));
+
+            }
+            catch (ErrorDTO er)
+            {
+                ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
+                MessageBoxes.CustomError(error.ToString());
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError(new ErrorDTO(501, "Kapcsolati hiba").ToString());
+            }
+        }
         #endregion
 
         #region Tipus
@@ -573,7 +707,7 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
-        public async Task DeletFelhasznalok(FelhasznaloTorolDTO felhasznalokDelete)
+        public async Task DeletFelhasznalok(ParentDeleteDTO felhasznalokDelete)
         {
             try
             {

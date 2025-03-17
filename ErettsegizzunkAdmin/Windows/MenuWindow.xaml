@@ -85,16 +85,6 @@
                                              Foreground="{DynamicResource MaterialDesignPaper}" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="tipusKezel"
-                      Header="Típus"
-                      Click="segedKezelese_Click"
-                      Foreground="{DynamicResource MaterialDesignPaper}"
-                      DockPanel.Dock="Left">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="FileDocumentOutline"
-                                             Foreground="{DynamicResource MaterialDesignPaper}" />
-                        </MenuItem.Icon>
-                    </MenuItem>
                     <MenuItem x:Name="felhasznalokKezel"
                       Header="Felhasználók"
                       Click="felhasznalokKezel_Click"
@@ -102,6 +92,16 @@
                       DockPanel.Dock="Left">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="Account"
+                                             Foreground="{DynamicResource MaterialDesignPaper}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="engedelyekKezel"
+                      Header="Engedélyek"
+                      Click="engedelyekkezel_Click"
+                      Foreground="{DynamicResource MaterialDesignPaper}"
+                      DockPanel.Dock="Left">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="ShieldLock"
                                              Foreground="{DynamicResource MaterialDesignPaper}" />
                         </MenuItem.Icon>
                     </MenuItem>

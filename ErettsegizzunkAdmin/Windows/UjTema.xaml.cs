@@ -1,17 +1,18 @@
 ﻿using ErettsegizzunkAdmin.DTOs;
+using ErettsegizzunkAdmin.Models;
 using ErettsegizzunkAdmin.Services;
 using System.Windows;
 
 namespace ErettsegizzunkAdmin.Windows
 {
     /// <summary>
-    /// Interaction logic for UjTantargy.xaml
+    /// Interaction logic for UjTema.xaml
     /// </summary>
-    public partial class UjTantargy : Window
+    public partial class UjTema : Window
     {
         private LoggedUserDTO user;
         private readonly ApiService _apiService;
-        public UjTantargy(LoggedUserDTO user)
+        public UjTema(LoggedUserDTO user)
         {
             InitializeComponent();
             this.user = user;
@@ -20,7 +21,7 @@ namespace ErettsegizzunkAdmin.Windows
 
         private async void btnTantargy_Letrehoz_Click(object sender, RoutedEventArgs e)
         {
-            await _apiService.PostTantargy(new TantargyDTO() { Name = tbTantargyNev.Text, Token = user.Token });
+            await _apiService.PostTema(new PostThemeDTO() { Theme = new Theme { Name = tbTemaNev.Text }, Token = user.Token });
             Close();
         }
 

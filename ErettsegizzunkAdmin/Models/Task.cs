@@ -1,7 +1,4 @@
-﻿using ErettsegizzunkAdmin.Services;
-using Theme = ErettsegizzunkApi.Models.Theme;
-
-namespace ErettsegizzunkApi.Models;
+﻿namespace ErettsegizzunkAdmin.Models;
 
 public partial class Task
 {

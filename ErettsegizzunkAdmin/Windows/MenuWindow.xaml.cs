@@ -1,7 +1,5 @@
-﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
+﻿using ErettsegizzunkAdmin.DTOs;
 using ErettsegizzunkAdmin.Services;
-using ErettsegizzunkApi.DTOs;
-using MaterialDesignThemes.Wpf;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -61,10 +59,12 @@ namespace ErettsegizzunkAdmin.Windows
             Close();
         }
 
-        //Minden egyéb kezelése
-        private void segedKezelese_Click(object sender, RoutedEventArgs e)
+        //Engedélyek kezelése
+        private void engedelyekkezel_Click(object sender, RoutedEventArgs e)
         {
-
+            EngedelyKezel engedely = new EngedelyKezel(user);
+            engedely.Show();
+            Close();
         }
 
         //Felhasználók kezelésére

@@ -1,14 +1,16 @@
 ﻿using ErettsegizzunkAdmin.Services;
-using ErettsegizzunkApi.Models;
 
-namespace ErettsegizzunkAdmin.Models
+namespace ErettsegizzunkAdmin.Models//-----> nem tom mie
 {
     internal class DatasForComboboxes
     {
         public List<Level> szintek { get; set; }
+
         public List<Subject> tantargyak { get; set; }
+
         public List<Theme> temak { get; set; }
-        public List<ErettsegizzunkApi.Models.Type> tipusok { get; set; }
+
+        public List<Type> tipusok { get; set; }
 
         public DatasForComboboxes(ApiService apiService)
         {

@@ -1,22 +1,11 @@
 ﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
+using ErettsegizzunkAdmin.DTOs;
+using ErettsegizzunkAdmin.Models;
 using ErettsegizzunkAdmin.Services;
-using ErettsegizzunkApi.DTOs;
-using ErettsegizzunkApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ErettsegizzunkAdmin.Windows
 {
@@ -78,7 +67,7 @@ namespace ErettsegizzunkAdmin.Windows
         private async Task<List<User>> LoadDatasAsync(int mettol)
         {
             felhasznalok.Clear();
-            List<User> users = await _apiService.GetFelhasznalokAsync(new LoggedUserForCheckDTO() { Id = user.Id, Permission = user.Permission, Token = user.Token});
+            List<User> users = await _apiService.GetFelhasznalokAsync(new LoggedUserForCheckDTO() { Id = user.Id, Permission = user.Permission, Token = user.Token });
             if (users is null)
             {
                 //MessageBoxes.CustomError("Hiba az adatok lekérdezése közben", "Error");
@@ -159,15 +148,13 @@ namespace ErettsegizzunkAdmin.Windows
                 return;
             }
 
-            await _apiService.DeletFelhasznalok(new FelhasznaloTorolDTO() { Ids = ids, Token = user.Token });
+            await _apiService.DeletFelhasznalok(new ParentDeleteDTO() { Ids = ids, Token = user.Token });
             RefreshUi();
         }
 
         private async void btnModosit_Click(object sender, RoutedEventArgs e)
         {
-            //###############################
-            await _apiService.PutFelhasznalok(new FelhasznaloModotsitDTO() { users = felhasznalok, Token = user.Token });//NEM A LEGHATÉKONYABB
-            //###############################
+            await _apiService.PutFelhasznalok(new FelhasznaloModotsitDTO() { users = felhasznalok, Token = user.Token });
         }
 
         private async void btnVissza_Click(object sender, RoutedEventArgs e)

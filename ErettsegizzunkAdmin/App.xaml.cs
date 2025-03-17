@@ -1,6 +1,5 @@
 ﻿using DotNetEnv;
 using ErettsegizzunkAdmin.Services;
-using ErettsegizzunkApi.DTOs;
 using System.Windows;
 
 namespace ErettsegizzunkAdmin

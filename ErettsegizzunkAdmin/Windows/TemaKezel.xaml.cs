@@ -1,8 +1,6 @@
-﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
-using ErettsegizzunkAdmin.DTOs;
+﻿using ErettsegizzunkAdmin.DTOs;
+using ErettsegizzunkAdmin.Models;
 using ErettsegizzunkAdmin.Services;
-using ErettsegizzunkApi.DTOs;
-using ErettsegizzunkApi.Models;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -40,25 +38,6 @@ namespace ErettsegizzunkAdmin.Windows
         {
             themes = await _apiService.GetTemakAsync();
             dgTemaAdatok.ItemsSource = themes;
-            cbSelectAll.IsChecked = false;
-        }
-
-        private void cbSelectAll_Checked(object sender, RoutedEventArgs e)
-        {
-            foreach (Theme theme in themes)
-            {
-                theme.IsSelected = true;
-            }
-            dgTemaAdatok.Items.Refresh();
-        }
-
-        private void cbSelectAll_Unchecked(object sender, RoutedEventArgs e)
-        {
-            foreach (Theme theme in themes)
-            {
-                theme.IsSelected = false;
-            }
-            dgTemaAdatok.Items.Refresh();
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -68,39 +47,16 @@ namespace ErettsegizzunkAdmin.Windows
             Close();
         }
 
-        private async void btnDelet_Click(object sender, RoutedEventArgs e)
+        private void btnUjTemaFelvitele_Click(object sender, RoutedEventArgs e)
         {
-            List<int> ids = new List<int>();
-
-            foreach (Theme theme in themes)
-            {
-                if (theme.IsSelected)
-                {
-                    ids.Add(theme.Id);
-                }
-            }
-
-            if (ids.Count < 1)
-            {
-                MessageBoxes.CustomMessageOk("Kérem jelöljön ki legalább egy törlésre szánt elemet!");
-                return;
-            }
-
-            await _apiService.DeletTantargy(new TantargyDeleteDTO() { Ids = ids, Token = user.Token });
-            RefreshUi();
-        }
-
-        private void btnUjTantagyFelvitele_Click(object sender, RoutedEventArgs e)
-        {
-            UjTantargy ujTantargy = new UjTantargy(user);
-            ujTantargy.ShowDialog();
+            UjTema ujTema = new UjTema(user);
+            ujTema.ShowDialog();
             RefreshUi();
         }
 
         private async void btnModosit_Click(object sender, RoutedEventArgs e)
         {
-            //string message = await _apiService.PutTantargyak(new TantargyPutDTO() { subjects = subjects, Token = user.Token });
-            //MessageBoxes.CustomMessageOk(message);
+            await _apiService.PutTemak(new PutThemeDTO() { Themes = themes, Token = user.Token });
         }
 
         private void btnQuestion_Click(object sender, RoutedEventArgs e)

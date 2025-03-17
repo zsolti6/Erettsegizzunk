@@ -1,4 +1,4 @@
 header
-Állapítsa meg, hogy az alábbi információ, állítás melyik adott korstílusra, stílusirányzatra jellemző!	Minta- és szabálykövetés: pl. a drámákban a hármas egység szabálya.	impresszionizmus;klasszicizmus;naturalizmus;romantika	0;1;0;0	1	1	1	asd.png	1,2
+Állapítsa meg, hogy az alábbi információ, állítás melyik adott korstílusra, stílusirányzatra jellemző!	Minta- és szabálykövetés: pl. a drámákban a hármas egység szabálya.	impresszionizmus;klasszicizmus;naturalizmus;romantika	0;1;0;0	1	1	1	asd.png	1,2,7
 Állapítsa meg, hogy az alábbi információ, állítás melyik adott korstílusra, stílusirányzatra jellemző!	A természettudományokra jellemző megfigyelési mód, dokumentatív hitelesség, biológiailag és társadalmilag determinált szereplők.	impresszionizmus;klasszicizmus;naturalizmus;romantika	0;0;1;0	1	1	1	1,2
 Állapítsa meg, hogy az alábbi információ, állítás melyik adott korstílusra, stílusirányzatra jellemző!	A műnemek, műfajok keveredése, erős lirizálódás, eredetiség.	impresszionizmus;klasszicizmus;naturalizmus;romantika	0;0;0;1	1	1	1	asd.png	1,2

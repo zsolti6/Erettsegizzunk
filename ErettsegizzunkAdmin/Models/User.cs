@@ -1,7 +1,4 @@
-﻿using ErettsegizzunkAdmin.Services;
-using System.ComponentModel;
-
-namespace ErettsegizzunkApi.Models;
+﻿namespace ErettsegizzunkAdmin.Models;
 
 public partial class User
 {

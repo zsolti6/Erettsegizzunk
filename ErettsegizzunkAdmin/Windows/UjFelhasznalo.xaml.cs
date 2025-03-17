@@ -1,19 +1,7 @@
 ﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
+using ErettsegizzunkAdmin.Models;
 using ErettsegizzunkAdmin.Services;
-using ErettsegizzunkApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ErettsegizzunkAdmin.Windows
 {
@@ -69,13 +57,13 @@ namespace ErettsegizzunkAdmin.Windows
         {
             if (tbFelhasznev.Text == string.Empty || tbEmail.Text == string.Empty || tbJelszo.Password == string.Empty || tbJelszoMegint.Password == string.Empty)
             {
-                MessageBoxes.CustomError("Minden mező kitöltése kötelező","Figyelem");
+                MessageBoxes.CustomError("Minden mező kitöltése kötelező", "Figyelem");
                 return false;
             }
 
             if (tbJelszo.Password != tbJelszoMegint.Password)
             {
-                MessageBoxes.CustomError("A két jelszó nem egyezik!","Figyelem");
+                MessageBoxes.CustomError("A két jelszó nem egyezik!", "Figyelem");
                 return false;
             }
 

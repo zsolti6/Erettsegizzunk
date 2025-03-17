@@ -1,10 +1,9 @@
 ﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
+using ErettsegizzunkAdmin.DTOs;
 using ErettsegizzunkAdmin.Services;
-using ErettsegizzunkApi.DTOs;
-using MaterialDesignThemes.Wpf;
 using System.Windows;
 using System.Windows.Controls;
-using Task = ErettsegizzunkApi.Models.Task;
+using Task = ErettsegizzunkAdmin.Models.Task;
 
 namespace ErettsegizzunkAdmin.Windows
 {
@@ -67,26 +66,21 @@ namespace ErettsegizzunkAdmin.Windows
         {
             await SetLists();
 
-            // Clear any existing children
             spTemak.Children.Clear();
 
             foreach (var item in feladat.ThemeList)
             {
-                // Create the CheckBox
                 var checkBox = new CheckBox
                 {
                     Content = item,
                     IsChecked = feladat.Themes.Select(x => x.Name).Contains(item)
                 };
 
-                // Apply the Material Design style for CheckBox, if available.
-                // The key "MaterialDesignCheckBox" is used in MaterialDesignInXAML.
                 if (Application.Current.TryFindResource("MaterialDesignCheckBox") is Style materialCheckBoxStyle)
                 {
                     checkBox.Style = materialCheckBoxStyle;
                 }
 
-                // Add the CheckBox to the StackPanel
                 spTemak.Children.Add(checkBox);
             }
 

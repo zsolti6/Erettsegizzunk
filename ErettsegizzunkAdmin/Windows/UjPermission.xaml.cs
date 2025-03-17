@@ -1,17 +1,19 @@
 ﻿using ErettsegizzunkAdmin.DTOs;
+using ErettsegizzunkAdmin.Models;
 using ErettsegizzunkAdmin.Services;
 using System.Windows;
 
 namespace ErettsegizzunkAdmin.Windows
 {
     /// <summary>
-    /// Interaction logic for UjTantargy.xaml
+    /// Interaction logic for UjPermission.xaml
     /// </summary>
-    public partial class UjTantargy : Window
+    public partial class UjPermission : Window
     {
         private LoggedUserDTO user;
         private readonly ApiService _apiService;
-        public UjTantargy(LoggedUserDTO user)
+        private int[] Kizarva;
+        public UjPermission(LoggedUserDTO user)
         {
             InitializeComponent();
             this.user = user;
@@ -20,7 +22,7 @@ namespace ErettsegizzunkAdmin.Windows
 
         private async void btnTantargy_Letrehoz_Click(object sender, RoutedEventArgs e)
         {
-            await _apiService.PostTantargy(new TantargyDTO() { Name = tbTantargyNev.Text, Token = user.Token });
+            await _apiService.PostPermission(new PostPermissionDTO() { Permission = new Permission { Name = tbPermissionName.Text, Description = tbPermissionDescription.Text, Level = int.Parse(tbPermissionLevel.Text.ToString()) }, Token = user.Token });
             Close();
         }
 

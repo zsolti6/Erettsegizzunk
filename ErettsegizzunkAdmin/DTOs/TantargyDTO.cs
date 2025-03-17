@@ -1,4 +1,4 @@
-﻿using ErettsegizzunkApi.Models;
+﻿using ErettsegizzunkAdmin.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,25 +7,15 @@ using System.Threading.Tasks;
 
 namespace ErettsegizzunkAdmin.DTOs
 {
-    public class TantargyDTO
+    public class TantargyDTO : ParentDTO
     {
         public int Id { get; set; } = -1;
 
         public string Name { get; set; } = null!;
-
-        public string Token { get; set; } = null!;
     }
 
-    public class TantargyDeleteDTO
+    public class TantargyPutDTO : ParentDTO
     {
-        public string Token { get; set; } = null!;
-
-        public List<int> Ids { get; set; }
-    }
-
-    public class TantargyPutDTO
-    {
-        public string Token { get; set; } = null!;
         public List<Subject> subjects { get; set; }
     }
 }
