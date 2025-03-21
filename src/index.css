@@ -64,3 +64,23 @@ html, body, #root {
   background-image: url("./components/bg.avif");
   background-size: cover;
 }
+
+:root {
+  --primary-shade-1: var(--bg-color);
+  --primary-shade-2: color-mix(in srgb, var(--bg-color), white 20%);
+  --primary-shade-3: color-mix(in srgb, var(--bg-color), white 40%);
+  --primary-shade-4: color-mix(in srgb, var(--bg-color), white 60%);
+  --primary-shade-4: color-mix(in srgb, var(--bg-color), white 80%);
+}
+
+.polygon-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -10;
+  overflow: visible;
+  margin: 0;
+  padding: 0;
+}

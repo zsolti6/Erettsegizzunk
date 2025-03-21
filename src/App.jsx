@@ -19,7 +19,6 @@ import axios from "axios";
 
 export const App = () => {
   usePreventZoom();
-  
   const [user, setUser] = useState(null);
   const [googleLogged, setGoogleLogged] = useState(false);
   const rememberMe = localStorage.getItem("rememberMe") === "true";

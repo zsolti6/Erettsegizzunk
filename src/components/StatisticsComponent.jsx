@@ -8,6 +8,7 @@ const COLORS = ["#0088FE", "#FFBB28", "#FF0000"];
 const COLORSsmall = ["#00FF00", "#FF0000"];
 
 export const StatisticsComponent = ({ user }) => {
+
   if (!user) {
     return (
       <div className="page-wrapper bg-image">
@@ -151,11 +152,34 @@ const FillingByDateChart = ({ user }) => {
 const ListDetailedStatistics = ({ user }) => {
   const [data, setData] = useState([]);
   const [expanded, setExpanded] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1); // Track the current page
+  const [pageCount, setPageCount] = useState(1); // Total number of pages
+  const [loading, setLoading] = useState(true); // Track loading state for pageCount
+
+  useEffect(() => {
+    const fetchPageCount = async () => {
+      try {
+        setLoading(true);
+        const body = { userId: user.id, token: user.token, permission: 1 };
+        const response = await axios.post(
+          `${BASE_URL}/erettsegizzunk/UserStatistics/get-statisztika-oldalDarab`,
+          body
+        );
+        setPageCount(response.data || 1); // Set total page count
+      } catch (error) {
+        console.error("Error fetching page count:", error);
+      } finally {
+        setLoading(false); // Stop loading
+      }
+    };
+
+    fetchPageCount();
+  }, [user]);
 
   useEffect(() => {
     const fetchDetailedStatistics = async () => {
       try {
-        const body = { userId: user.id, token: user.token, mettol: 0 };
+        const body = { userId: user.id, token: user.token, oldal: currentPage - 1 };
         const response = await axios.post(
           `${BASE_URL}/erettsegizzunk/UserStatistics/get-statitstics-detailed`,
           body
@@ -167,14 +191,58 @@ const ListDetailedStatistics = ({ user }) => {
     };
 
     fetchDetailedStatistics();
-  }, [user]);
+  }, [user, currentPage]); // Re-fetch data when currentPage changes
 
   const toggleExpand = (index) => {
     setExpanded(expanded === index ? null : index);
   };
 
+  const handlePageChange = (direction) => {
+    setCurrentPage((prevPage) => {
+      const newPage = prevPage + direction;
+      if (newPage < 1 || newPage > pageCount) return prevPage; // Prevent invalid page numbers
+      return newPage;
+    });
+  };
+
   return (
     <div className="container-fluid">
+      {/* Render Pagination Buttons */}
+      <div className="d-flex justify-content-center align-items-center mb-3">
+        {/* Left Directional Button */}
+        <button
+          className="btn btn-secondary mx-2"
+          onClick={() => handlePageChange(-1)}
+          disabled={currentPage === 1} // Disable if on the first page
+        >
+          &lt; Előző
+        </button>
+
+        {loading ? (
+          <div>Betöltés...</div> // Show loading indicator while fetching pageCount
+        ) : (
+          Array.from({ length: pageCount }, (_, i) => (
+            <button
+              key={i + 1}
+              className={`btn ${currentPage === i + 1 ? "btn-primary" : "btn-secondary"} mx-1`}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))
+        )}
+
+        {/* Right Directional Button */}
+        <button
+          className="btn btn-secondary mx-2"
+          onClick={() => handlePageChange(1)}
+          disabled={currentPage === pageCount} // Disable if on the last page
+        >
+          Következő &gt;
+        </button>
+      </div>
+
+      {/* Render Detailed Statistics */}
       {data.map((item, index) => {
         const correct = item.joRossz[0];
         const incorrect = item.joRossz[1];
@@ -182,10 +250,10 @@ const ListDetailedStatistics = ({ user }) => {
         const percentage = total > 0 ? ((correct / total) * 100).toFixed(1) : 0;
 
         return (
-          <div key={index} className="card mb-3 color-bg3">
+          <div key={index} className="statisticsCard mb-3 color-bg3">
             {/* Header Row */}
             <div
-              className="card-header d-flex justify-content-between align-items-center cursor-pointer"
+              className="card-header d-flex justify-content-between align-items-center cursor-pointer color-bg3 detailedTaskCardHeader"
               onClick={() => toggleExpand(index)}
             >
               <div className="col-6 ol-md-4 col-lg-4 text-truncate">{item.task.description}</div>

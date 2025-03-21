@@ -511,3 +511,12 @@ h2 i{
 .exercise{
   min-height: 55vh;
 }
+
+.statisticsCard {
+  border-radius: 25px;
+}
+
+.statisticsCard:hover {
+  transform: scale(1.005) !important;
+  transition-duration: 200ms;
+}
