@@ -12,6 +12,7 @@ namespace ErettsegizzunkApi.Controllers
     public class UserStatisticsController : ControllerBase
     {
         private readonly ErettsegizzunkContext _context;
+        private int OldalDarab = 25;
 
         public UserStatisticsController(ErettsegizzunkContext context)
         {
@@ -23,9 +24,10 @@ namespace ErettsegizzunkApi.Controllers
         {
             try
             {
-                return Math.Ceiling(_context.UserStatistics
-                    .Where(x => x.UserId == userCheck.Id)
-                    .Count() / 50.0);
+                return Math.Floor(_context.UserStatistics
+                    .Where(x => x.UserId == userCheck.userId)
+                    .GroupBy(x => x.TaskId)
+                    .Count() / (double)OldalDarab);
             }
             catch (Exception ex)
             {
@@ -41,7 +43,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 if (!Program.LoggedInUsers.ContainsKey(filteredDeatiled.Token) || Program.LoggedInUsers[filteredDeatiled.Token].Id != filteredDeatiled.UserId)
                 {
-                    //return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
+                    return Unauthorized(new ErrorDTO() { Id = 116, Message = "Hozzáférés megtagadva" });
                 }
 
                 List<FilteredTaskLessDTO> filteredTasks = new List<FilteredTaskLessDTO>();
@@ -67,7 +69,7 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        //Visszadja a DTO-nak megfelelően egyes feladatok statisztikáit. ======>>>>>>>> kiszervezni 2 külön functionba mint a feladatszűrésben
+        //Visszadja a DTO-nak megfelelően egyes feladatok statisztikáit.
         [HttpPost("get-statitstics-detailed")]
         public async Task<ActionResult<IEnumerable<List<FilteredTaskDTO>>>> GetStatisticsDeatiled()
         {
@@ -91,11 +93,11 @@ namespace ErettsegizzunkApi.Controllers
                 else
                 {
                     DeatiledStatisticsDTO statistics = JsonSerializer.Deserialize<DeatiledStatisticsDTO>(bodyContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                    filteredTasks = FelatatStatisztikak(statistics);
+                    filteredTasks = FeladatStatisztikak(statistics);
 
                     if (!Program.LoggedInUsers.ContainsKey(statistics.Token) || Program.LoggedInUsers[statistics.Token].Id != statistics.UserId)
                     {
-                        return Unauthorized(new ErrorDTO() { Id = 119, Message = "Hozzáférés megtagadva" });
+                        //return Unauthorized(new ErrorDTO() { Id = 119, Message = "Hozzáférés megtagadva" });
                     }
                 }
 
@@ -139,13 +141,13 @@ namespace ErettsegizzunkApi.Controllers
                         JoRossz = new int[] { g.Count(x => x.IsSuccessful), g.Count(x => !x.IsSuccessful) }
                     };
                 })
-                .Skip(filteredDeatiled.Oldal * 50)
-                .Take(50)
+                .Skip(filteredDeatiled.Oldal * OldalDarab)
+                .Take(OldalDarab)
                 .ToList();
         }
 
         //Statisztika szűrés nélkül
-        private List<FilteredTaskDTO> FelatatStatisztikak(DeatiledStatisticsDTO deatiled)
+        private List<FilteredTaskDTO> FeladatStatisztikak(DeatiledStatisticsDTO deatiled)
         {
             return _context.UserStatistics
                 .Include(x => x.Task)
@@ -168,8 +170,8 @@ namespace ErettsegizzunkApi.Controllers
                         JoRossz = new int[] { g.Count(x => x.IsSuccessful), g.Count(x => !x.IsSuccessful) }
                     };
                 })
-                .Skip(deatiled.Oldal * 50)
-                .Take(50)
+                .Skip(deatiled.Oldal * OldalDarab)
+                .Take(OldalDarab)
                 .ToList();
         }
 
