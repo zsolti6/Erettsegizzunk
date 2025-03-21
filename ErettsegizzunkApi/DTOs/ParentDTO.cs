@@ -9,4 +9,9 @@
     {
         public List<int> Ids { get; set; } = null!;
     }
+
+    public class ParentUserCheckDTO : ParentDTO
+    {
+        public string Name { get; set; }
+    }
 }

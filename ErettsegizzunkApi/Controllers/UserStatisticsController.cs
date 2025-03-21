@@ -18,6 +18,21 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
+        [HttpPost("get-statisztika-oldalDarab")]
+        public async Task<ActionResult<double>> GetOldalDarab([FromBody] LoggedUserForCheckDTO userCheck)
+        {
+            try
+            {
+                return Math.Ceiling(_context.UserStatistics
+                    .Where(x => x.UserId == userCheck.Id)
+                    .Count() / 50.0);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ErrorDTO { Id = -1, Message = "Hiba" });
+            }
+        }
+
         //Felhasználó összes olyan feladat lekérérése amivel már valaha találkozott. !!!!!!!!!!!!!!Lapozós rendszert belerkani.!!!!!!!!!!
         [HttpPost("get-match-history")]
         public async Task<ActionResult<IEnumerable<List<FilteredTaskLessDTO>>>> GetMatchHistory([FromBody] DeatiledStatisticsDTO filteredDeatiled)
