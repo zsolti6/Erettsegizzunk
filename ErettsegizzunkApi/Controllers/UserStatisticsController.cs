@@ -24,7 +24,7 @@ namespace ErettsegizzunkApi.Controllers
         {
             try
             {
-                return Math.Floor(_context.UserStatistics
+                return Math.Ceiling(_context.UserStatistics
                     .Where(x => x.UserId == userCheck.userId)
                     .GroupBy(x => x.TaskId)
                     .Count() / (double)OldalDarab);
