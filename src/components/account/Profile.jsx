@@ -3,8 +3,8 @@ import sha256 from "crypto-js/sha256";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BASE_URL } from "../config";
-import "../css/Profile.css";
+import { BASE_URL } from "../../config";
+import "../../css/Profile.css";
 
 export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
   const [userData, setUserData] = useState({

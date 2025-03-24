@@ -1,6 +1,6 @@
 import React from "react";
-import { TaskComponent } from "./TaskComponent";
-import "../css/SubPage.css";
+import { TaskComponent } from "../TaskComponent";
+import "../../css/SubPage.css";
 
 export const ExerciseWindow = ({ activeTask, taskValues, updateTaskValues }) =>  {
   return (

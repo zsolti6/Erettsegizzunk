@@ -3,8 +3,8 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import sha256 from "crypto-js/sha256";
-import { BASE_URL } from '../config';
-import "../css/Login.css";
+import { BASE_URL } from '../../config';
+import "../../css/Login.css";
 import { useNavigate } from "react-router-dom";
 
 export const GenerateSalt = (SaltLength) => {

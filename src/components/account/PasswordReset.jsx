@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { BASE_URL } from '../config';
-import "../css/Login.css"; // Import the CSS file
+import { BASE_URL } from '../../config';
+import "../../css/Login.css"; // Import the CSS file
 
 export const PasswordReset = () => {
   const [email, setEmail] = useState("");

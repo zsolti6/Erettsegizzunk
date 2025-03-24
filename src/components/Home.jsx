@@ -1,40 +1,10 @@
-import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/SubPage.css";
-import axios from "axios";
 import { FaDiscord } from "react-icons/fa";
 import "react-multi-carousel/lib/styles.css";
 import { FooterComponent } from "./Footer";
 
 export const Home = () => {
-  const [articles, setArticles] = useState([]);
-
-  useEffect(() => {
-    const fetchRSS = async () => {
-      try {
-        const response = await axios.get(
-          "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://eduline.hu/rss")
-        );
-
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(response.data, "application/xml");
-        const items = xml.querySelectorAll("item");
-
-        const articleList = Array.from(items).map((item) => ({
-          title: item.querySelector("title")?.textContent || "No title",
-          link: item.querySelector("link")?.textContent || "#",
-          description: item.querySelector("description")?.textContent || "No description available.",
-        }));
-
-        setArticles(articleList);
-      } catch (error) {
-        console.error("Error fetching RSS feed:", error);
-      }
-    };
-
-    fetchRSS();
-  }, []);
-
   return (
     <div id="mainDiv" className="d-flex flex-column min-vh-100">
       {/* Hero Section */}

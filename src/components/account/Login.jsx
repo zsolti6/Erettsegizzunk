@@ -3,9 +3,9 @@ import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";  // Import reCAPTCHA
 import sha256 from "crypto-js/sha256";
 import { useNavigate } from "react-router-dom";
-import { auth, provider, signInWithPopup } from "../firebaseConfig";
-import { BASE_URL } from '../config';
-import "../css/Login.css"; // Import the CSS file
+import { auth, provider, signInWithPopup } from "../../firebaseConfig";
+import { BASE_URL } from '../../config';
+import "../../css/Login.css"; // Import the CSS file
 
 export const LoginPage = ({ user, handleLogin }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
