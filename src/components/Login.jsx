@@ -120,7 +120,7 @@ export const LoginPage = ({ user, handleLogin }) => {
   };
 
   return (
-    <div className="login-container bg-image">
+    <div className="login-container">
       {loading && (
         <div className="loading-overlay">
           <div className="spinner"></div>

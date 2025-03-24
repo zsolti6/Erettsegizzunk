@@ -17,14 +17,14 @@ export const ExerciseStats = () => {
   }, []);
 
   return (
-    <div className="page-wrapper bg-image">
-    <div className="container col-md-8 exercise-stats-container mt-3">
+    <div className="page-wrapper">
+    <div className="container col-md-8 mt-3">
       <h2 className="mb-4 text-center text-white">Feladatok összegzése</h2>
       <div className="table-responsive">
         <table className="table color-bg2  ">
           <thead className="thead-dark">
             <tr>
-              {["Feladat", "Megoldás", "Válaszaid", "Értékelés"].map((h, i) => (
+              {["Feladat", "Leírás", "Megoldás", "Válaszaid", "Értékelés"].map((h, i) => (
                 <th key={i} className="text-center">{h}</th>
               ))}
             </tr>
@@ -32,8 +32,9 @@ export const ExerciseStats = () => {
           <tbody>
             {sortedTaskValues.map((task, i) => (
               <tr key={i}>
-                <td className="color-bg3">{task.taskId}</td>
-                <td className="color-bg3">{getCorrectAnswers(task)}</td>
+                <td className="color-bg3 fs-1">{task.taskId}</td>
+                <td className="color-bg3"><b>{exercises[i].description}</b><br></br>{exercises[i].text}</td>
+                <td className="color-bg3" title="asd">{getCorrectAnswers(task)}</td>
                 <td className="color-bg3">{getUserAnswers(task)}</td>
                 <td className="text-center color-bg3">
                   {getCorrectAnswers(task) === getUserAnswers(task) ? (

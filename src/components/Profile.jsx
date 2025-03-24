@@ -20,6 +20,8 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState(""); // New state variable for error message
+  const [successMessage, setSuccessMessage] = useState(""); // New state variable for success message
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -72,6 +74,8 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage(""); // Clear previous error message
+    setSuccessMessage(""); // Clear previous success message
+    setLoading(true); // Start loading
 
     if (changePassword) {
       try {
@@ -104,8 +108,11 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
           `${BASE_URL}/erettsegizzunk/Password/jelszo-modositas`,
           updatedFormData
         );
+
+        setSuccessMessage("Jelszó sikeresen megváltoztatva!"); // Set success message
       } catch (error) {
-        setErrorMessage(error.response.data.message);
+        setErrorMessage(error.response?.data?.message || "Hiba történt a jelszó módosítása során.");
+        setLoading(false); // Stop loading
         return;
       }
     }
@@ -118,21 +125,26 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
         if (response.status === 200) {
           setChangePassword(false);
           setUser(userData);
+          setSuccessMessage("Felhasználói adatok sikeresen frissítve!"); // Set success message
         }
       });
     } catch (error) {
-      setErrorMessage(error.response.data.message);
+      setErrorMessage(error.response?.data?.message || "Hiba történt az adatok frissítése során.");
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
   return (
-    <div className="profile-container d-flex flex-column min-vh-100 bg-image">
+    <div className="profile-container d-flex flex-column min-vh-100">
       <div className="container mt-5 mb-5">
         <h1 className="text-center mb-3 mt-5 text-white">Adataim</h1>
         {errorMessage && (
           <div className="alert alert-danger">{errorMessage}</div>
-        )}{" "}
-        {/* Conditionally render error message */}
+        )} {/* Conditionally render error message */}
+        {successMessage && (
+          <div className="alert alert-success">{successMessage}</div>
+        )} {/* Conditionally render success message */}
         <form
           onSubmit={handleSubmit}
           className="profile-card bg-light p-4 rounded shadow mx-auto mt-4"
@@ -249,8 +261,8 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
               Feliratkozom a hírlevélre
             </label>
           </div>
-          <button type="submit" className="btn color-bg1 text-white w-100 mb-2">
-            Mentés
+          <button type="submit" className="btn color-bg1 text-white w-100 mb-2" disabled={loading}>
+            {loading ? "Mentés folyamatban..." : "Mentés"}
           </button>
         </form>
       </div>

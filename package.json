@@ -21,6 +21,7 @@
     "react-responsive-container": "^0.0.0",
     "react-router-dom": "^6.28.0",
     "react-scripts": "5.0.1",
+    "react-select": "^5.10.1",
     "recharts": "^2.15.1",
     "xml2js": "^0.6.2"
   },

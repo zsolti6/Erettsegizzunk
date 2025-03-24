@@ -60,11 +60,6 @@ html, body, #root {
   flex: 1; /* Allows the content to grow and push the footer down */
 }
 
-.bg-image{
-  background-image: url("./components/bg.avif");
-  background-size: cover;
-}
-
 :root {
   --primary-shade-1: var(--bg-color);
   --primary-shade-2: color-mix(in srgb, var(--bg-color), white 20%);

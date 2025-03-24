@@ -145,7 +145,7 @@ export const ExerciseComponent = () => {
   };
 
   return (
-    <div className="d-flex bg-image" style={{ minHeight: "100vh", paddingTop: "30px" }}>
+    <div className="d-flex" style={{ minHeight: "100vh", paddingTop: "30px" }}>
       <button
         className="btn btn-primary m-2 color-bg1 border-0"
         onClick={() => setIsOpen(!isOpen)}

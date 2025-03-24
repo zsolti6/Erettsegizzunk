@@ -6,9 +6,8 @@ import { Home } from "./components/Home";
 import { ExerciseComponent } from "./components/ExerciseComponent";
 import { LoginPage } from "./components/Login";
 import { RegisterPage } from "./components/Register";
-import { StatisticsComponent } from "./components/StatisticsComponent";
+import { StatisticsComponent } from "./components/statistics/StatisticsComponent.jsx";
 import { TutorialComponent } from "./components/TutorialComponent";
-import { SearchComponent } from "./components/SearchComponent";
 import { SelectorComponent } from "./components/SelectorComponent";
 import { ExerciseStats } from "./components/ExerciseStats";
 import { Profile } from "./components/Profile";
@@ -16,6 +15,7 @@ import { PasswordReset } from "./components/PasswordReset";
 import { Navbar } from "./components/Navbar";
 import { BASE_URL } from "./config";
 import axios from "axios";
+import { PolygonBackground } from "./components/Poly.tsx";
 
 export const App = () => {
   usePreventZoom();
@@ -116,13 +116,13 @@ export const App = () => {
   return (
     <Router>
       <div className="d-flex flex-column min-vh-100">
+        <PolygonBackground className="polygon-background" />
         <Navbar user={user} googleLogged={googleLogged} handleLogout={handleLogout} />
         <div className="flex-grow-1">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/statisztika" element={<StatisticsComponent user={user} />} />
             <Route path="/utmutato" element={<TutorialComponent />} />
-            <Route path="/feladat-kereses" element={<SearchComponent />} />
             <Route path="/gyakorlas" element={<ExerciseComponent />} />
             <Route path="/feladat-valasztas" element={<SelectorComponent />} />
             <Route path="/gyakorlas/statisztika" element={<ExerciseStats />} />

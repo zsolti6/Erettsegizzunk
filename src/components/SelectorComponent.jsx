@@ -5,7 +5,6 @@ import { Modal, Button } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
 import "../css/Selector.css";
 import { BASE_URL } from '../config';
-import { PolygonBackground } from "./Poly.tsx";
 
 export const SelectorComponent = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +19,7 @@ export const SelectorComponent = () => {
   const [themeFilter, setThemeFilter] = useState("");
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // New state variable for error message
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +31,7 @@ export const SelectorComponent = () => {
       })
       .catch((error) => {
         console.error("Error fetching themes:", error);
+        setErrorMessage("Hiba történt a témák betöltése során."); // Set error message
       });
 
     axios.get(`${BASE_URL}/erettsegizzunk/Tantargyak/get-tantargyak`)
@@ -54,6 +55,7 @@ export const SelectorComponent = () => {
       })
       .catch((error) => {
         console.error("Error fetching subjects:", error);
+        setErrorMessage("Hiba történt a tantárgyak betöltése során."); // Set error message
       })
       .finally(() => {
         setLoading(false);
@@ -137,8 +139,11 @@ export const SelectorComponent = () => {
 
   return (
     <div className="page-wrapper">
-      {/* Render PolygonBackground once */}
-      <PolygonBackground className="polygon-background" />
+      {/* Error Message */}
+      {errorMessage && (
+        <div className="alert alert-danger">{errorMessage}</div>
+      )}
+
       {loading ? (
         <div className="spinner-container">
           <div className="spinner"></div>

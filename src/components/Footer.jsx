@@ -4,10 +4,10 @@ export const FooterComponent = () => {
   return (
     <footer className="mt-auto py-3 bg-purple-800 text-white text-center color-bg1">
       <div className="container">
-        <p className="mb-0">
-          Elérhetőség: @
-          <a href="https://github.com/pixel-pirates" className="text-white hover:text-gray-300">
-            Pixel Pirates
+        <p className="mb-0 text-white">
+          Github: @
+          <a target="_blank" href="https://github.com/zsolti6/Erettsegizzunk" className="text-white hover:text-gray-300">
+            Érettségizzünk
           </a>
         </p>
       </div>

@@ -6,12 +6,14 @@ import "../css/Login.css"; // Import the CSS file
 export const PasswordReset = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // New state for error message
   const [loading, setLoading] = useState(false);
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
+    setErrorMessage(""); // Clear previous error message
 
     try {
       const response = await axios.post(
@@ -27,11 +29,11 @@ export const PasswordReset = () => {
       if (response.status === 200) {
         setMessage("Sikeres jelszó visszaállítási kérelem. Ellenőrizze az email fiókját!");
       } else {
-        setMessage("Hiba történt a kérés feldolgozásakor. Próbálja újra később.");
+        setErrorMessage("Hiba történt a kérés feldolgozásakor. Próbálja újra később.");
       }
     } catch (error) {
       console.error("Password reset request failed", error);
-      setMessage("Nem sikerült elküldeni a kérést. Ellenőrizze az email címet és próbálja újra.");
+      setErrorMessage("Nem sikerült elküldeni a kérést. Ellenőrizze az email címet és próbálja újra.");
     } finally {
       setLoading(false);
     }
@@ -39,7 +41,7 @@ export const PasswordReset = () => {
 
   return (
     <div>
-      <div className="login-container d-flex justify-content-center align-items-center bg-image" style={{ height: "100vh" }}>
+      <div className="login-container d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
         <div className="card p-4" style={{ width: "400px" }}>
           <h2 className="text-center mb-4">Jelszó visszaállítása</h2>
           <form onSubmit={handlePasswordReset}>
@@ -58,9 +60,17 @@ export const PasswordReset = () => {
               {loading ? "Küldés..." : "Jelszó visszaállítási link küldése"}
             </button>
 
+            {/* Success Message */}
             {message && (
               <div className="alert alert-info text-center mt-3" role="alert">
                 {message}
+              </div>
+            )}
+
+            {/* Error Message */}
+            {errorMessage && (
+              <div className="alert alert-danger text-center mt-3" role="alert">
+                {errorMessage}
               </div>
             )}
 
@@ -73,4 +83,4 @@ export const PasswordReset = () => {
       </div>
     </div>
   );
-}
+};
