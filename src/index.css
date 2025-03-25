@@ -61,11 +61,11 @@ html, body, #root {
 }
 
 :root {
-  --primary-shade-1: var(--bg-color);
+  --primary-shade-1:  color-mix(in srgb, var(--bg-color), white 10%);
   --primary-shade-2: color-mix(in srgb, var(--bg-color), white 20%);
   --primary-shade-3: color-mix(in srgb, var(--bg-color), white 40%);
   --primary-shade-4: color-mix(in srgb, var(--bg-color), white 60%);
-  --primary-shade-4: color-mix(in srgb, var(--bg-color), white 80%);
+  --primary-shade-5: color-mix(in srgb, var(--bg-color), white 80%);
 }
 
 .polygon-background {

@@ -1,62 +1,99 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { FaFilter, FaSearch, FaTimes } from 'react-icons/fa';
+import axios from 'axios';
+import { BASE_URL } from '../../../config';
 
-const subjectOptions = [
-  { value: 'matematika', label: 'Matematika' },
-  { value: 'magyar', label: 'Magyar nyelv és irodalom' },
-  { value: 'tortenelem', label: 'Történelem' },
-  { value: 'angol', label: 'Angol nyelv' },
-  { value: 'informatika', label: 'Informatika' }
-];
+export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFilters, setShowFilters, isMobile }) => {
+  const [subjectOptions, setSubjectOptions] = useState([]);
+  const [difficultyOptions, setDifficultyOptions] = useState([]);
+  const [themeOptions, setThemeOptions] = useState([]);
 
-const difficultyOptions = [
-  { value: 'kozp', label: 'Középszint' },
-  { value: 'emelt', label: 'Emelt szint' }
-];
+  // Fetch subject options from the API
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/erettsegizzunk/Tantargyak/get-tantargyak`);
+        const options = response.data.map(subject => ({
+          value: subject.id, // Assuming the API returns an `id` field
+          label: subject.name // Assuming the API returns a `name` field
+        }));
+        setSubjectOptions(options);
+      } catch (error) {
+        console.error('Error fetching subjects:', error);
+      }
+    };
 
-const yearOptions = [
-  { value: '2023', label: '2023' },
-  { value: '2022', label: '2022' },
-  { value: '2021', label: '2021' },
-  { value: '2020', label: '2020' }
-];
+    fetchSubjects();
+  }, []);
 
-export const FilterControls = ({ filters, onFilterChange }) => {
-  const [showFilters, setShowFilters] = React.useState(false);
+  // Fetch difficulty options from the API
+  useEffect(() => {
+    const fetchDifficulties = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/erettsegizzunk/Levels/get-szintek`);
+        const options = response.data.map(level => ({
+          value: level.id, // Assuming the API returns an `id` field
+          label: level.name // Assuming the API returns a `name` field
+        }));
+        setDifficultyOptions(options);
+      } catch (error) {
+        console.error('Error fetching difficulty levels:', error);
+      }
+    };
+
+    fetchDifficulties();
+  }, []);
 
   const handleSearchTextChange = (e) => {
     onFilterChange({ ...filters, searchText: e.target.value });
   };
 
-  const handleSubjectsChange = (selected) => {
+  const handleSubjectsChange = async (selected) => {
     onFilterChange({ ...filters, subjects: selected });
+
+    if (selected) {
+      try {
+        // Fetch themes grouped by subject
+        const response = await axios.get(`${BASE_URL}/erettsegizzunk/Themes/get-temak-feladatonkent`);
+        const themesForSubject = response.data[selected.label]; // Use the subject name as the key
+
+        if (themesForSubject) {
+          const options = themesForSubject.map((themeObj) => ({
+            value: themeObj.theme.id, // Extract theme ID
+            label: themeObj.theme.name, // Extract theme name
+          }));
+          setThemeOptions(options);
+        } else {
+          setThemeOptions([]); // Clear options if no themes exist for the subject
+        }
+      } catch (error) {
+        console.error('Error fetching themes:', error);
+        setThemeOptions([]); // Clear theme options on error
+      }
+    } else {
+      // Clear theme options if no subject is selected
+      setThemeOptions([]);
+      onFilterChange({ ...filters, theme: null });
+    }
   };
 
   const handleDifficultyChange = (selected) => {
     onFilterChange({ ...filters, difficulty: selected });
   };
 
-  const handleYearChange = (selected) => {
-    onFilterChange({ ...filters, year: selected });
+  const handleThemeChange = (selected) => {
+    onFilterChange({ ...filters, themes: selected });
   };
 
   const clearFilters = () => {
     onFilterChange({
       searchText: '',
-      subjects: [],
+      subjects: null,
       difficulty: null,
-      year: null
+      themes: null
     });
-  };
-
-  const removeSubject = (subjectToRemove) => {
-    onFilterChange({
-      ...filters,
-      subjects: filters.subjects.filter(
-        subject => subject.value !== subjectToRemove.value
-      )
-    });
+    setThemeOptions([]); // Clear theme options
   };
 
   return (
@@ -97,13 +134,10 @@ export const FilterControls = ({ filters, onFilterChange }) => {
               <label className="form-label">Tantárgy</label>
               <Select
                 options={subjectOptions}
-                isMulti
-                value={filters.subjects}
+                value={filters.subject}
                 onChange={handleSubjectsChange}
                 placeholder="Válassz tantárgyat..."
-                className="basic-multi-select"
-                classNamePrefix="select"
-                noOptionsMessage={() => "Nincs találat"}
+                isClearable
               />
             </div>
 
@@ -119,12 +153,12 @@ export const FilterControls = ({ filters, onFilterChange }) => {
             </div>
 
             <div className="col-md-4">
-              <label className="form-label">Év</label>
+              <label className="form-label">Téma</label>
               <Select
-                options={yearOptions}
-                value={filters.year}
-                onChange={handleYearChange}
-                placeholder="Válassz évet..."
+                options={themeOptions}
+                value={filters.themes}
+                onChange={handleThemeChange}
+                placeholder="Válassz témát..."
                 isClearable
               />
             </div>
@@ -132,7 +166,10 @@ export const FilterControls = ({ filters, onFilterChange }) => {
             <div className="col-md-6">
               <button 
                 className="btn btn-success w-100"
-                onClick={() => setShowFilters(false)}
+                onClick={() => {
+                  setShowFilters(false);
+                  onApplyFilters(); // Trigger the apply filters callback
+                }}
               >
                 <FaSearch className="me-2" />
                 Szűrés alkalmazása
@@ -148,47 +185,6 @@ export const FilterControls = ({ filters, onFilterChange }) => {
               </button>
             </div>
           </div>
-
-          {(filters.subjects.length > 0 || filters.difficulty || filters.year) && (
-            <div className="selected-filters mt-3">
-              <h6>Aktív szűrők:</h6>
-              <div className="d-flex flex-wrap gap-2">
-                {filters.subjects.map(subject => (
-                  <span key={subject.value} className="badge bg-primary">
-                    {subject.label}
-                    <button 
-                      type="button" 
-                      className="btn-close btn-close-white ms-2"
-                      onClick={() => removeSubject(subject)}
-                      aria-label="Remove"
-                    />
-                  </span>
-                ))}
-                {filters.difficulty && (
-                  <span className="badge bg-secondary">
-                    {filters.difficulty.label}
-                    <button 
-                      type="button" 
-                      className="btn-close btn-close-white ms-2"
-                      onClick={() => handleDifficultyChange(null)}
-                      aria-label="Remove"
-                    />
-                  </span>
-                )}
-                {filters.year && (
-                  <span className="badge bg-info">
-                    {filters.year.label}
-                    <button 
-                      type="button" 
-                      className="btn-close btn-close-white ms-2"
-                      onClick={() => handleYearChange(null)}
-                      aria-label="Remove"
-                    />
-                  </span>
-                )}
-              </div>
-            </div>
-          )}
         </div>
       )}
     </>

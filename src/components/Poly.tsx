@@ -6,15 +6,19 @@ type Polygon = Point[];
 const generatePolygons = (width: number, height: number, rows: number, cols: number): Polygon[] => {
   const points: Point[] = [];
 
+  // Define fixed polygon size
+  const polygonWidth = 200; // Fixed width for each polygon
+  const polygonHeight = 150; // Fixed height for each polygon
+
   // Extend the area for both width and height
-  const extendedWidth = width * 1.5;  // Extending width beyond the screen
-  const extendedHeight = height * 1.5; // Extending height beyond the screen
+  const extendedWidth = width + polygonWidth * cols; // Extend beyond the screen
+  const extendedHeight = height + polygonHeight * rows; // Extend beyond the screen
 
   // Generate grid points with randomness and extended width/height
   for (let i = 0; i <= rows; i++) {
     for (let j = 0; j <= cols; j++) {
-      const x = (j * extendedWidth) / cols + (Math.random() * width) / cols * 0.5 - 100;
-      const y = (i * extendedHeight) / rows + (Math.random() * height) / rows * 0.5 - 50;
+      const x = j * polygonWidth + (Math.random() * polygonWidth * 0.5 - polygonWidth * 0.25);
+      const y = i * polygonHeight + (Math.random() * polygonHeight * 0.5 - polygonHeight * 0.25);
       points.push([x, y]);
     }
   }
@@ -47,7 +51,14 @@ export const PolygonBackground: React.FC<{ rows?: number; cols?: number }> = ({ 
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowDimensions({ width: window.innerWidth, height: window.innerHeight });
+      const { innerWidth, innerHeight } = window;
+      setWindowDimensions((prevDimensions) => {
+        // Only update state if dimensions have actually changed
+        if (prevDimensions.width !== innerWidth || prevDimensions.height !== innerHeight) {
+          return { width: innerWidth, height: innerHeight };
+        }
+        return prevDimensions;
+      });
     };
 
     window.addEventListener("resize", handleResize);
@@ -58,7 +69,7 @@ export const PolygonBackground: React.FC<{ rows?: number; cols?: number }> = ({ 
     setPolygons(generatePolygons(windowDimensions.width, windowDimensions.height, rows, cols));
   }, [windowDimensions, rows, cols]);
 
-  const themeColors = ["var(--primary-shade-1)", "var(--primary-shade-2)", "var(--primary-shade-3)", "var(--primary-shade-4)"];
+  const themeColors = ["var(--primary-shade-1)", "var(--primary-shade-2)", "var(--primary-shade-3)", "var(--primary-shade-4)", "var(--primary-shade-5)"];
 
   return (
     <>
@@ -75,7 +86,6 @@ export const PolygonBackground: React.FC<{ rows?: number; cols?: number }> = ({ 
           />
         ))}
       </svg>
-
     </>
   );
 };

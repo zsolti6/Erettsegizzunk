@@ -1,97 +1,151 @@
 import React from 'react';
-import { PieChart, Pie, Cell, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
-const COLORSsmall = ["#00FF00", "#FF0000"];
+const COLORS = ["#00FF00", "#FF0000"]; // Green (correct), Red (incorrect)
 
-export const StatisticsCard = ({ item, isExpanded, onToggleExpand }) => {
+export const StatisticsCard = React.memo(({ 
+  item, 
+  isExpanded, 
+  onToggleExpand 
+}) => {
+  // Calculate statistics
   const correct = item.joRossz[0];
   const incorrect = item.joRossz[1];
   const total = correct + incorrect;
   const percentage = total > 0 ? ((correct / total) * 100).toFixed(1) : 0;
 
+  // Memoize chart data to prevent re-renders when data hasn't changed
+  const chartData = React.useMemo(() => [
+    { name: "Helyes", value: correct },
+    { name: "Helytelen", value: incorrect }
+  ], [correct, incorrect]);
+
+  // Format date only once
+  const formattedDate = React.useMemo(() => (
+    new Date(item.utolsoKitoltesDatum).toLocaleDateString("hu-HU")
+  ), [item.utolsoKitoltesDatum]);
+
+  // Combine themes only once
+  const themesList = React.useMemo(() => (
+    item.task.themes.map(x => x.name).join(", ") || "Nincs téma"
+  ), [item.task.themes]);
+
   return (
     <div className="statisticsCard mb-3 color-bg3">
+      {/* Collapsible Header */}
       <div
         className="card-header d-flex justify-content-between align-items-center cursor-pointer color-bg3 detailedTaskCardHeader"
         onClick={onToggleExpand}
+        aria-expanded={isExpanded}
       >
-        <div className="col-6 col-md-4 col-lg-4 text-truncate">{item.task.description}</div>
+        <div className="col-6 col-md-4 col-lg-4 text-truncate">
+          {item.task.description}
+        </div>
+        
         <div className="col-6 col-md-2 col-lg-4 text-center d-none d-md-block">
           <b>Sikeres:</b> {correct}
         </div>
+        
         <div className="col-6 col-md-2 col-lg-2 text-center d-none d-md-block">
           <b>Sikertelen:</b> {incorrect}
         </div>
+        
         <div className="col-2 col-md-2 text-end">
           <span className="arrow">{isExpanded ? "▲" : "▼"}</span>
         </div>
       </div>
 
+      {/* Expandable Content */}
       {isExpanded && (
         <div className="card-body">
           <div className="row">
+            {/* Task Description Column */}
             <div className="col-12 col-md-6 mb-3 mb-md-0">
-              <div className="col-12 col-md-12 mb-3 mb-md-0">
+              <div className="mb-3">
                 <div className="fw-bold">Feladat leírása:</div>
                 <div>{item.task.description}</div>
               </div>
-              <br />
-              <div className="col-12 col-md-12 mb-3 mb-md-0">
+              
+              <div>
                 <div className="fw-bold">Feladat szövege:</div>
                 <div>{item.task.text}</div>
               </div>
             </div>
 
+            {/* Metadata Column */}
             <div className="col-12 col-md-2 mb-3 mb-md-0">
               <div className="mb-2">
                 <div className="fw-bold text-center">Témák:</div>
-                <div className="text-center">
-                  {item.task.themes.map(x => x.name).join(", ") || "Nincs téma"}
-                </div>
+                <div className="text-center">{themesList}</div>
               </div>
+              
               <div>
                 <div className="fw-bold text-center">Tantárgy:</div>
                 <div className="text-center">{item.task.subject.name}</div>
               </div>
             </div>
 
+            {/* Date/Result Column */}
             <div className="col-12 col-md-2 mb-3 mb-md-0">
               <div className="mb-2">
-                <div className="fw-bold text-center">Utolsó kitöltés dátuma:</div>
-                <div className="text-center">
-                  {new Date(item.utolsoKitoltesDatum).toLocaleDateString("hu-HU")}
-                </div>
+                <div className="fw-bold text-center">Utolsó kitöltés:</div>
+                <div className="text-center">{formattedDate}</div>
               </div>
+              
               <div>
-                <div className="fw-bold text-center">Utolsó eredmény:</div>
-                <div className="text-center">{item.utolsoSikeres ? "✅" : "❌"}</div>
+                <div className="fw-bold text-center">Eredmény:</div>
+                <div className="text-center">
+                  {item.utolsoSikeres ? (
+                    <span className="text-success">✅</span>
+                  ) : (
+                    <span className="text-danger">❌</span>
+                  )}
+                </div>
               </div>
             </div>
 
+            {/* Chart Column */}
             <div className="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
-              <PieChart width={100} height={100}>
-                <Pie
-                  data={[
-                    { name: "Helyes", value: correct },
-                    { name: "Helytelen", value: incorrect },
-                  ]}
-                  dataKey="value"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={40}
-                  label={false}
-                >
-                  {[...Array(2)].map((_, i) => (
-                    <Cell key={i} fill={COLORSsmall[i]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-              <div className="mt-2">{percentage}%</div>
+              <div style={{ width: '100%', height: 100 }}>
+                <ResponsiveContainer>
+                  <PieChart>
+                    <Pie
+                      data={chartData}
+                      dataKey="value"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={40}
+                      innerRadius={30}
+                      labelLine={false}
+                    >
+                      {chartData.map((entry, index) => (
+                        <Cell 
+                          key={`cell-${index}`} 
+                          fill={COLORS[index % COLORS.length]} 
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip 
+                      formatter={(value) => [`${value} válasz`, value === 1 ? 'Helyes' : 'Helytelen']}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="mt-2">
+                <strong>{percentage}%</strong>
+              </div>
             </div>
           </div>
         </div>
       )}
     </div>
   );
-};
+}, (prevProps, nextProps) => {
+  // Custom comparison function for React.memo
+  return (
+    prevProps.item.id === nextProps.item.id &&
+    prevProps.isExpanded === nextProps.isExpanded
+  );
+});
+
+StatisticsCard.displayName = 'StatisticsCard'; // For better debugging

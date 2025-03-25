@@ -6,12 +6,15 @@ import { LineGraph } from './LineGraph';
 import { DetailedStatistics } from './DetailedStatistics';
 import { FeatureCards } from './FeatureCards';
 import '../../css/SubPage.css';
+import { useMediaQuery } from 'react-responsive';
 
 export const StatisticsComponent = ({ user }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [userStats, setUserStats] = useState([]);
   const [fillingByDate, setFillingByDate] = useState([]);
+  
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
   useEffect(() => {
     if (user) {
@@ -89,21 +92,21 @@ export const StatisticsComponent = ({ user }) => {
   }
 
   return (
-    <div className="mt-4 top-padding w-100 p-5">
+    <div className={`mt-4 top-padding w-100 ${isMobile ? 'p-2' : 'p-5'}`}>
       <div className="row g-3 mb-4">
         <div className="col-12 col-md-6">
           <div className="card h-100 color-bg2">
             <div className="card-body">
               <h3 className="card-title text-center mb-0 text-white">Feladatok Statisztikája</h3>
-              <StatisticsPieChart data={userStats} />
+              <StatisticsPieChart data={userStats} isMobile={isMobile} />
             </div>
           </div>
         </div>
         <div className="col-12 col-md-6">
           <div className="card h-100 color-bg2">
             <div className="card-body">
-              <h3 className="card-title text-center mb-5 text-white">Kitöltések Dátum Szerint</h3>
-              <LineGraph data={fillingByDate} />
+              <h3 className="card-title text-center mb-3 text-white">Kitöltések Dátum Szerint</h3>
+              <LineGraph data={fillingByDate} isMobile={isMobile} />
             </div>
           </div>
         </div>
@@ -113,7 +116,7 @@ export const StatisticsComponent = ({ user }) => {
         <div className="col-12">
           <div className="card taskCard color-bg2">
             <div className="card-body">
-              <DetailedStatistics user={user} />
+              <DetailedStatistics user={user} isMobile={isMobile} />
             </div>
           </div>
         </div>

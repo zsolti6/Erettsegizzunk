@@ -4,109 +4,85 @@ import { StatisticsCard } from './StatisticsCard';
 import { PaginationControls } from './PaginationControls';
 import axios from 'axios';
 import { BASE_URL } from '../../../config';
+import { useMediaQuery } from 'react-responsive';
 
 export const DetailedStatistics = ({ user }) => {
   const [data, setData] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [expanded, setExpanded] = useState(null);
-  const [loadingDetails, setLoadingDetails] = useState(true);
+  const [expandedCardId, setExpandedCardId] = useState(null);
+  const [showFilters, setShowFilters] = useState(false);
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
   const [filters, setFilters] = useState({
     searchText: '',
-    subjects: [],
+    subjects: null,
     difficulty: null,
-    year: null
+    themes: null
   });
 
-  useEffect(() => {
-    const fetchDetailedData = async () => {
-      try {
-        setLoadingDetails(true);
-        
-        const body = {
-          userId: user.id,
-          token: user.token,
-          oldal: currentPage - 1
-        };
+  const fetchData = async (appliedFilters) => {
+    try {
+      // Base body with required fields
+      const body = {
+        userId: user.id,
+        token: user.token,
+        oldal: currentPage - 1
+      };
 
-        // Add filters if they exist
-        if (filters.searchText) body.searchText = filters.searchText;
-        if (filters.subjects.length > 0) body.subjects = filters.subjects.map(s => s.value);
-        if (filters.difficulty) body.difficulty = filters.difficulty.value;
-        if (filters.year) body.year = filters.year.value;
-
-        const [pageCountResponse, detailedResponse] = await Promise.all([
-          axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/get-statisztika-oldalDarab`, {
-            userId: user.id,
-            token: user.token,
-            permission: 1
-          }),
-          axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/get-statitstics-detailed`, body)
-        ]);
-
-        setPageCount(pageCountResponse.data || 1);
-        setData(detailedResponse.data);
-      } catch (error) {
-        console.error("Error fetching detailed statistics:", error);
-      } finally {
-        setLoadingDetails(false);
+      // Add filter fields only if at least one filter is applied
+      if (appliedFilters.searchText || appliedFilters.subjects || appliedFilters.difficulty || appliedFilters.themes) {
+        body.themeId = appliedFilters?.themes.value || 0;
+        body.Szoveg = appliedFilters.searchText || "";
+        body.subjectId = appliedFilters?.subjects.value || 0;
+        body.levelId = appliedFilters?.difficulty.value || 0;
       }
-    };
 
-    fetchDetailedData();
-  }, [user, currentPage, filters]);
-
-  const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= pageCount) {
-      setCurrentPage(newPage);
+      const response = await axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/get-statitstics-detailed`, body);
+      setData(response.data);
+    } catch (error) {
+      console.log("Error fetching data:", error);
     }
   };
 
-  const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
-    setCurrentPage(1); // Reset to first page when filters change
+  useEffect(() => {
+    fetchData(filters);
+  }, [currentPage, user]);
+
+  const handleApplyFilters = () => {
+    setCurrentPage(1); // Reset to the first page
+    fetchData(filters); // Fetch data with the applied filters
   };
 
-  if (loadingDetails) {
-    return (
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '200px' }}>
-        <div className="spinner-container">
-          <div className="spinner"></div>
-        </div>
-      </div>
-    );
-  }
+  const paginationProps = { currentPage, pageCount, onPageChange: setCurrentPage };
 
   return (
-    <div className="container-fluid">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h3 className="card-title text-center">Részletes Statisztikák</h3>
-        <FilterControls 
-          filters={filters}
-          onFilterChange={handleFilterChange}
-        />
+    <div className={`container-fluid ${isMobile ? 'px-2' : 'px-3'}`}>
+      <FilterControls
+        filters={filters}
+        onFilterChange={setFilters}
+        onApplyFilters={handleApplyFilters} // Pass the apply filters handler
+        showFilters={showFilters}
+        setShowFilters={setShowFilters}
+        isMobile={isMobile}
+      />
+
+      <PaginationControls {...paginationProps} />
+
+      <div className={`row ${isMobile ? 'g-2' : 'g-0'}`}>
+        {data.map(item => (
+          <div key={item.task.id} className="col-12">
+            <StatisticsCard 
+              item={item}
+              isExpanded={expandedCardId === item.task.id}
+              onToggleExpand={() => setExpandedCardId(prev => (prev === item.task.id ? null : item.task.id))}
+              isMobile={isMobile}
+            />
+          </div>
+        ))}
       </div>
 
-      <PaginationControls 
-        currentPage={currentPage}
-        pageCount={pageCount}
-        onPageChange={handlePageChange}
-      />
-
-      {data.map((item, index) => (
-        <StatisticsCard 
-          key={index}
-          item={item}
-          isExpanded={expanded === index}
-          onToggleExpand={() => setExpanded(expanded === index ? null : index)}
-        />
-      ))}
-
-      <PaginationControls 
-        currentPage={currentPage}
-        pageCount={pageCount}
-        onPageChange={handlePageChange}
-      />
+      <PaginationControls {...paginationProps} />
     </div>
   );
 };
