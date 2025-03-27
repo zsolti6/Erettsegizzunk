@@ -21,6 +21,17 @@ export const DetailedStatistics = ({ user }) => {
     themes: null
   });
 
+  useEffect(() => {
+    const body = {
+      userId: user.id,
+      token: user.token,
+      permission: 1
+    }
+    axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/get-statisztika-oldalDarab`, body).then((response) => {
+      setPageCount(response.data);
+    });
+  }, []);
+
   const fetchData = async (appliedFilters) => {
     try {
       // Base body with required fields

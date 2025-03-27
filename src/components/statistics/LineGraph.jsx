@@ -1,6 +1,17 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
+const CustomTooltip = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="custom-tooltip" style={{ backgroundColor: '#333', padding: '5px 10px', borderRadius: '5px', color: 'white' }}>
+        <p className='text-white'>{`Kitöltések: ${payload[0].value}`}</p>
+      </div>
+    );
+  }
+  return null;
+};
+
 export const LineGraph = ({ data, isMobile }) => {
   return (
     <ResponsiveContainer width="100%" height={isMobile ? 300 : 350}>
@@ -36,7 +47,7 @@ export const LineGraph = ({ data, isMobile }) => {
           }} 
           tick={{ fill: "white", fontSize: isMobile ? 10 : 14 }}
         />
-        <Tooltip />
+        <Tooltip content={<CustomTooltip />} />
         <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
       </LineChart>
     </ResponsiveContainer>
