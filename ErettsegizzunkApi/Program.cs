@@ -136,6 +136,14 @@ namespace ErettsegizzunkApi
 
             builder.Services.AddControllers();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    policy => policy.AllowAnyOrigin()
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+            });
+
             var app = builder.Build();
 
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -153,7 +161,9 @@ namespace ErettsegizzunkApi
 
             app.MapControllers();
 
-            app.UseCors("AllowReactApp");
+            app.UseCors("AllowAllOrigins");
+
+            //app.UseCors("AllowReactApp");
 
             app.Run();
         }
