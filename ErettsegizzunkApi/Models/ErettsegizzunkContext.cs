@@ -75,7 +75,7 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.HasIndex(e => e.TaskId, "taskId");
 
-            entity.HasIndex(e => e.UserId, "userId");
+            entity.HasIndex(e => e.UserId, "UserId");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.IntervalDays)
@@ -90,7 +90,7 @@ public partial class ErettsegizzunkContext : DbContext
                 .HasColumnType("timestamp")
                 .HasColumnName("nextDueTime");
             entity.Property(e => e.TaskId).HasColumnName("taskId");
-            entity.Property(e => e.UserId).HasColumnName("userId");
+            entity.Property(e => e.UserId).HasColumnName("UserId");
 
             entity.HasOne(d => d.Task).WithMany(p => p.SpacedRepetitions)
                 .HasForeignKey(d => d.TaskId)
@@ -254,7 +254,7 @@ public partial class ErettsegizzunkContext : DbContext
 
             entity.ToTable("user_statistics");
 
-            entity.HasIndex(e => e.UserId, "userId");
+            entity.HasIndex(e => e.UserId, "UserId");
 
             entity.HasIndex(e => e.TaskId, "user_statistics_ibfk_2");
 
@@ -264,7 +264,7 @@ public partial class ErettsegizzunkContext : DbContext
                 .HasColumnName("filloutDate");
             entity.Property(e => e.IsSuccessful).HasColumnName("isSuccessful");
             entity.Property(e => e.TaskId).HasColumnName("taskId");
-            entity.Property(e => e.UserId).HasColumnName("userId");
+            entity.Property(e => e.UserId).HasColumnName("UserId");
 
             entity.HasOne(d => d.Task).WithMany(p => p.UserStatistics)
                 .HasForeignKey(d => d.TaskId)

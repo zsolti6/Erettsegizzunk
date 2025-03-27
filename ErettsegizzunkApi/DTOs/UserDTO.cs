@@ -23,7 +23,7 @@ namespace ErettsegizzunkApi.DTOs
 
     public class LoggedUserForCheckDTO : ParentDTO
     {
-        public int userId { get; set; }
+        public int UserId { get; set; }
 
         public int Permission { get; set; }
     }

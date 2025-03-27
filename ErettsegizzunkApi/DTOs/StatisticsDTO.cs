@@ -2,7 +2,7 @@
 
 namespace ErettsegizzunkApi.DTOs
 {
-    public class StatisticsResetDTO : ParentDTO //delete
+    public class StatisticsResetDTO : ParentDTO //delete statistics
     {
         public int UserId { get; set; }
     }
@@ -29,7 +29,6 @@ namespace ErettsegizzunkApi.DTOs
         public int SubjectId { get; set; }
     }
 
-
     public class FilteredTaskDTO
     {
         public Task Task { get; set; }
@@ -39,6 +38,13 @@ namespace ErettsegizzunkApi.DTOs
         public bool UtolsoSikeres { get; set; }
 
         public int[] JoRossz { get; set; }
+    }
+
+    public class FilteredTaskCountDTO
+    {
+        public List<FilteredTaskDTO> FilteredTasks { get; set; }
+
+        public double OldalDarab { get; set; }
     }
 
     public class FilteredTaskLessDTO
