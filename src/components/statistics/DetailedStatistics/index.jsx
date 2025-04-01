@@ -34,14 +34,12 @@ export const DetailedStatistics = ({ user }) => {
 
   const fetchData = async (appliedFilters) => {
     try {
-      // Base body with required fields
       const body = {
         userId: user.id,
         token: user.token,
         oldal: currentPage - 1
       };
 
-      // Add filter fields only if at least one filter is applied
       if (appliedFilters.searchText || appliedFilters.subjects || appliedFilters.difficulty || appliedFilters.themes) {
         body.themeId = appliedFilters?.themes.value || 0;
         body.Szoveg = appliedFilters.searchText || "";
@@ -50,7 +48,8 @@ export const DetailedStatistics = ({ user }) => {
       }
 
       const response = await axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/get-statitstics-detailed`, body);
-      setData(response.data);
+      setData(response.data.filteredTasks);
+      setPageCount(response.data.oldalDarab);
     } catch (error) {
       console.log("Error fetching data:", error);
     }
