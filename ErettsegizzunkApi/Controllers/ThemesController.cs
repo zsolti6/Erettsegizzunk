@@ -50,7 +50,7 @@ namespace ErettsegizzunkApi.Controllers
             Dictionary<string, ThemeFilteredDTO[]> temak = new Dictionary<string, ThemeFilteredDTO[]>();
             try
             {
-                temak = _context.Themes
+                 temak = _context.Themes
                     .Include(x => x.Tasks)
                     .Select(x => new ThemeFilteredDTO
                     {

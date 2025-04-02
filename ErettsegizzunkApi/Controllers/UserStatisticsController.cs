@@ -19,23 +19,6 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
-        //Statisztika oldalszámának lekérése szűrés nélkül
-        [HttpPost("get-statisztika-oldalDarab")]
-        public async Task<ActionResult<double>> GetOldalDarab([FromBody] LoggedUserForCheckDTO userCheck)
-        {
-            try
-            {
-                return Math.Ceiling(_context.UserStatistics
-                    .Where(x => x.UserId == userCheck.UserId)
-                    .GroupBy(x => x.TaskId)
-                    .Count() / (double)OldalDarab);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new ErrorDTO { Id = -1, Message = "Hiba" });
-            }
-        }
-
         //Felhasználó összes olyan feladat lekérérése amivel már valaha találkozott. !!!!!!!!!!!!!!Lapozós rendszert belerkani.!!!!!!!!!!
         [HttpPost("get-match-history")]
         public async Task<ActionResult<IEnumerable<List<FilteredTaskLessDTO>>>> GetMatchHistory([FromBody] DeatiledStatisticsDTO filteredDeatiled)
@@ -152,35 +135,6 @@ namespace ErettsegizzunkApi.Controllers
                 .ToList();
 
             return new FilteredTaskCountDTO() { FilteredTasks = filteredTasks , OldalDarab =  Math.Ceiling(data.Count() / (double)OldalDarab) };
-
-            /*return _context.UserStatistics
-                .Include(x => x.Task)
-                .Include(x => x.Task.Subject)
-                .Include(x => x.Task.Level)
-                .Include(x => x.Task.Themes)
-                .Where(x => x.UserId == filteredDeatiled.UserId
-                         && x.Task.SubjectId == filteredDeatiled.SubjectId
-                         && x.Task.Themes.Select(y => y.Id).Contains(filteredDeatiled.ThemeId)
-                         && (x.Task.Description.Contains(filteredDeatiled.Szoveg)
-                         || x.Task.Text.Contains(filteredDeatiled.Szoveg)))
-                .OrderBy(x => x.Id)
-                .AsEnumerable()
-                .GroupBy(x => x.TaskId)
-                .Select(g =>
-                {
-                    UserStatistic lastEntry = g.OrderBy(x => x.FilloutDate).Last();
-
-                    return new FilteredTaskDTO
-                    {
-                        Task = lastEntry.Task,
-                        UtolsoKitoltesDatum = lastEntry.FilloutDate,
-                        UtolsoSikeres = lastEntry.IsSuccessful,
-                        JoRossz = new int[] { g.Count(x => x.IsSuccessful), g.Count(x => !x.IsSuccessful) }
-                    };
-                })
-                .Skip(filteredDeatiled.Oldal * OldalDarab)
-                .Take(OldalDarab)
-                .ToList();*/
         }
 
         //Statisztika szűrés nélkül
@@ -214,31 +168,6 @@ namespace ErettsegizzunkApi.Controllers
                 .ToList();
 
             return new FilteredTaskCountDTO() { FilteredTasks = filteredTasks, OldalDarab = Math.Ceiling(data.Count() / (double)OldalDarab) };
-
-            /*return _context.UserStatistics
-                .Include(x => x.Task)
-                .Include(x => x.Task.Subject)
-                .Include(x => x.Task.Level)
-                .Include(x => x.Task.Themes)
-                .Where(x => x.UserId == deatiled.UserId)
-                .OrderBy(x => x.Id)
-                .AsEnumerable()
-                .GroupBy(x => x.TaskId)
-                .Select(g =>
-                {
-                    UserStatistic lastEntry = g.OrderBy(x => x.FilloutDate).Last();
-
-                    return new FilteredTaskDTO
-                    {
-                        Task = lastEntry.Task,
-                        UtolsoKitoltesDatum = lastEntry.FilloutDate,
-                        UtolsoSikeres = lastEntry.IsSuccessful,
-                        JoRossz = new int[] { g.Count(x => x.IsSuccessful), g.Count(x => !x.IsSuccessful) }
-                    };
-                })
-                .Skip(deatiled.Oldal * OldalDarab)
-                .Take(OldalDarab)
-                .ToList();*/
         }
 
         //Visszadaja tantárgyakra lebontva összesen mennyi feladatot oldott meg 

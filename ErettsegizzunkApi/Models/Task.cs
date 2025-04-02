@@ -31,7 +31,7 @@ public partial class Task
     [JsonIgnore]
     public virtual ICollection<UserStatistic> UserStatistics { get; set; } = new List<UserStatistic>();
 
-    public virtual ICollection<Theme> Themes { get; set; } = new List<Theme>();
+    public virtual ICollection<Theme>? Themes { get; set; } = new List<Theme>();
 
     [JsonIgnore]
     public virtual ICollection<SpacedRepetition> SpacedRepetitions { get; set; } = new List<SpacedRepetition>();

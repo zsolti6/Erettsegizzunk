@@ -2,7 +2,7 @@
 {
     public class ParentDTO
     {
-        public string Token { get; set; } = null!;
+        public string Token { get; set; } = "";
     }
 
     public class ParentDeleteDTO : ParentDTO

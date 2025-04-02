@@ -16,7 +16,7 @@ namespace ErettsegizzunkApi.Controllers
                 return Ok("Sikeres kijelentkezés.");
             }
 
-            return Ok("Sikertelen kijelentkezés.");
+            return StatusCode(500, "Sikertelen kijelentkezés.");
         }
 
         //Frontendek elküldeni h user be van- ejelentkezve annak érdekében, hogyha kell ki tudja jelentkeztetni

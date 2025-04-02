@@ -17,7 +17,7 @@ namespace ErettsegizzunkApi.Controllers
             _context = context;
         }
 
-        //Webes regisztráció
+        //Nincs captcha regisztráció (admin - mobil)
         [HttpPost("regisztracio")]
         public async Task<IActionResult> Registry([FromBody] User user)
         {
@@ -38,7 +38,7 @@ namespace ErettsegizzunkApi.Controllers
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
 
-                Program.SendEmail(user.Email, "Regisztráció", $"https://localhost:7066/erettsegizzunk/Registry/regisztracio-megerosites?felhasznaloNev={user.LoginName}&email={user.Email}");
+                Program.SendEmail(user.Email, "Regisztráció", $"https://erettsegizzunk.onrender.com/erettsegizzunk/Registry/regisztracio-megerosites?felhasznaloNev={user.LoginName}&email={user.Email}");
 
                 return Ok("Sikeres regisztráció. Fejezze be a regisztrációját az e-mail címére küldött link segítségével!");
             }

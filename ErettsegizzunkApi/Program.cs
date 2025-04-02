@@ -73,6 +73,7 @@ namespace ErettsegizzunkApi
             services.AddScoped<RecaptchaService>();
             services.AddScoped<RegistryController>();
             services.AddScoped<ThemesController>();
+            services.AddHostedService<TimerService>();
         }
 
 
@@ -149,7 +150,7 @@ namespace ErettsegizzunkApi
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment() || true)
+            if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
@@ -163,7 +164,7 @@ namespace ErettsegizzunkApi
 
             app.UseCors("AllowAllOrigins");
 
-            //app.UseCors("AllowReactApp");
+            app.UseCors("AllowReactApp");
 
             app.Run();
         }

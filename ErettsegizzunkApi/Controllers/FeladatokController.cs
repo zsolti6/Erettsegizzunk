@@ -327,7 +327,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return NotFound(new ErrorDTO() { Id = 32, Message = "Törlendő adat nem található" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return BadRequest(new ErrorDTO() { Id = 33, Message = "Hiba történt az adatok törlése közben" });
             }
