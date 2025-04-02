@@ -24,13 +24,13 @@ export const LineGraph = ({ data, isMobile }) => {
             position: "insideBottom", 
             offset: isMobile ? 0   : 5, 
             dy: isMobile ? 0 : 10, 
-            style: { fill: 'white', fontSize: isMobile ? 12 : 18 } 
+            style: { fill: 'white', fontSize: isMobile ? 12 : 18 }
           }} 
           height={isMobile ? 65 : 50}
           tick={{ 
             fill: "white",
             fontSize: isMobile ? 10 : 12,
-            angle: isMobile ? -45 : 0,
+            angle: isMobile ? -45 : -25,
             textAnchor: isMobile ? 'end' : 'middle',
             dy: isMobile ? 0 : 10
           }}

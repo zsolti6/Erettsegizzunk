@@ -54,25 +54,23 @@ export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFi
 
     if (selected) {
       try {
-        // Fetch themes grouped by subject
         const response = await axios.get(`${BASE_URL}/erettsegizzunk/Themes/get-temak-feladatonkent`);
-        const themesForSubject = response.data[selected.label]; // Use the subject name as the key
+        const themesForSubject = response.data[selected.label];
 
         if (themesForSubject) {
           const options = themesForSubject.map((themeObj) => ({
-            value: themeObj.theme.id, // Extract theme ID
-            label: themeObj.theme.name, // Extract theme name
+            value: themeObj.theme.id,
+            label: themeObj.theme.name,
           }));
           setThemeOptions(options);
         } else {
-          setThemeOptions([]); // Clear options if no themes exist for the subject
+          setThemeOptions([]);
         }
       } catch (error) {
         console.error('Error fetching themes:', error);
-        setThemeOptions([]); // Clear theme options on error
+        setThemeOptions([]);
       }
     } else {
-      // Clear theme options if no subject is selected
       setThemeOptions([]);
       onFilterChange({ ...filters, theme: null });
     }
@@ -107,7 +105,7 @@ export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFi
       </button>
 
       {showFilters && (
-        <div className="filter-controls mb-4 p-3 border rounded bg-light">
+        <div className="filter-controls mb-4 p-3 color-bg2 text-white">
           <div className="row g-3">
             <div className="col-md-12">
               <label className="form-label">Keresés szöveg alapján</label>
@@ -133,8 +131,9 @@ export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFi
             <div className="col-md-4">
               <label className="form-label">Tantárgy</label>
               <Select
+                className="text-black"
                 options={subjectOptions}
-                value={filters.subject}
+                value={filters.subjects}
                 onChange={handleSubjectsChange}
                 placeholder="Válassz tantárgyat..."
                 isClearable
@@ -144,6 +143,7 @@ export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFi
             <div className="col-md-4">
               <label className="form-label">Nehézség</label>
               <Select
+                className="text-black"
                 options={difficultyOptions}
                 value={filters.difficulty}
                 onChange={handleDifficultyChange}
@@ -155,6 +155,7 @@ export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFi
             <div className="col-md-4">
               <label className="form-label">Téma</label>
               <Select
+                className="text-black"
                 options={themeOptions}
                 value={filters.themes}
                 onChange={handleThemeChange}
@@ -178,7 +179,7 @@ export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFi
 
             <div className="col-md-6">
               <button 
-                className="btn btn-outline-secondary w-100"
+                className="btn btn-danger w-100"
                 onClick={clearFilters}
               >
                 Szűrők törlése

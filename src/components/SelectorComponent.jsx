@@ -20,6 +20,7 @@ export const SelectorComponent = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState(""); // New state variable for error message
+  const [dropdownOpen, setDropdownOpen] = useState(false); // New state variable for dropdown
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -201,27 +202,41 @@ export const SelectorComponent = () => {
               {/* Right Column: Theme Selection */}
               <div className="col-lg-6 col-12">
                 <h4>Témák</h4>
-                <div className="theme-filter-container">
-                  <FaSearch className="search-icon" />
-                  <input
-                    type="text"
-                    placeholder="Szűrés témák szerint"
-                    value={themeFilter}
-                    onChange={handleThemeFilterChange}
-                    className="theme-filter-input"
-                  />
-                </div>
-                <div className="checkbox-group">
-                  {filteredThemes.map((theme, index) => (
-                    <label className="checkbox-option" key={index}>
+                <div className="theme-dropdown-container">
+                  <div
+                    className="theme-dropdown-header"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                  >
+                    <span>
+                      {selectedThemes.length > 0
+                        ? `${selectedThemes.length} téma kiválasztva`
+                        : "Válassz témákat"}
+                    </span>
+                    <FaSearch className="dropdown-icon" />
+                  </div>
+                  {dropdownOpen && (
+                    <div className="theme-dropdown-menu">
                       <input
-                        type="checkbox"
-                        checked={selectedThemes.includes(theme.theme.id)}
-                        onChange={() => handleThemeSelect(theme.theme.id)}
+                        type="text"
+                        placeholder="Szűrés témák szerint"
+                        value={themeFilter}
+                        onChange={handleThemeFilterChange}
+                        className="theme-dropdown-search"
                       />
-                      <span className="name">{theme.theme.name} ({theme.count})</span>
-                    </label>
-                  ))}
+                      <div className="theme-checkbox-group">
+                        {filteredThemes.map((theme, index) => (
+                          <label className="checkbox-option" key={index}>
+                            <input
+                              type="checkbox"
+                              checked={selectedThemes.includes(theme.theme.id)}
+                              onChange={() => handleThemeSelect(theme.theme.id)}
+                            />
+                            <span className="name">{theme.theme.name} ({theme.count})</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="selected-themes">
                   {selectedThemes.map((themeId, index) => {
@@ -230,7 +245,7 @@ export const SelectorComponent = () => {
                       <button
                         key={index}
                         type="button"
-                        className="theme-button"
+                        className="theme-tag"
                         onClick={() => handleThemeRemove(themeId)}
                       >
                         {theme?.theme.name} &times;

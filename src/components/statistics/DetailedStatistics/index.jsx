@@ -21,17 +21,6 @@ export const DetailedStatistics = ({ user }) => {
     themes: null
   });
 
-  useEffect(() => {
-    const body = {
-      userId: user.id,
-      token: user.token,
-      permission: 1
-    }
-    axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/get-statisztika-oldalDarab`, body).then((response) => {
-      setPageCount(response.data);
-    });
-  }, []);
-
   const fetchData = async (appliedFilters) => {
     try {
       const body = {
@@ -42,7 +31,7 @@ export const DetailedStatistics = ({ user }) => {
 
       if (appliedFilters.searchText || appliedFilters.subjects || appliedFilters.difficulty || appliedFilters.themes) {
         body.themeId = appliedFilters?.themes.value || 0;
-        body.Szoveg = appliedFilters.searchText || "";
+        body.szoveg = appliedFilters.searchText || "";
         body.subjectId = appliedFilters?.subjects.value || 0;
         body.levelId = appliedFilters?.difficulty.value || 0;
       }
