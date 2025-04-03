@@ -2,22 +2,17 @@
 
 namespace ErettsegizzunkApi.DTOs
 {
-    public class StatisticsResetDTO : ParentDTO //delete statistics
+    public class StatisticsResetDTO : ParentUserCheckDTO //delete statistics
     {
-        public int UserId { get; set; }
     }
 
-    public class DeatiledStatisticsDTO : ParentDTO
+    public class DeatiledStatisticsDTO : ParentUserCheckDTO
     {
-        public int UserId { get; set; }
-
         public int Oldal { get; set; }
     }
 
-    public class FilteredDeatiledStatisticsDTO : ParentDTO
+    public class FilteredDeatiledStatisticsDTO : ParentUserCheckDTO
     {
-        public int UserId { get; set; }
-
         public int Oldal { get; set; }
 
         public string Szoveg { get; set; }
@@ -56,15 +51,12 @@ namespace ErettsegizzunkApi.DTOs
         public bool UtolsoSikeres { get; set; }
     }
 
-    public class PostStatisticsDTO : ParentDTO
+    public class PostStatisticsDTO : ParentUserCheckDTO
     {
-        public int UserId { get; set; }
-
         public Dictionary<int, bool> TaskIds { get; set; }
     }
 
-    public class GetFillingCountDTO : ParentDTO
+    public class GetFillingCountDTO : ParentUserCheckDTO
     {
-        public int UserId { get; set; }
     }
 }

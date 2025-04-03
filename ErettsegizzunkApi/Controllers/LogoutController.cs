@@ -4,7 +4,7 @@ namespace ErettsegizzunkApi.Controllers
 {
     [Route("erettsegizzunk/[controller]")]
     [ApiController]
-    public class LogoutController : ControllerBase //potenciálisan belerakni, ha új bejelentkezést észlel ne engedje / kijelentkeztesse máshonnan!
+    public class LogoutController : ControllerBase
     {
         //User kijelentkeztetése
         [HttpPost]

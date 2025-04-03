@@ -31,7 +31,7 @@ public partial class ErettsegizzunkContext : DbContext
 
     public virtual DbSet<UserStatistic> UserStatistics { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL();
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL();//Connection
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

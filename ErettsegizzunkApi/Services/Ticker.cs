@@ -1,11 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
-namespace ErettsegizzunkApi
+﻿namespace ErettsegizzunkApi
 {
     public class TimerService : IHostedService, IDisposable
     {
@@ -22,6 +15,7 @@ namespace ErettsegizzunkApi
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("TimerService started.");
+
             // Set the timer to trigger every 840,000 milliseconds (14 minutes)
             _timer = new Timer(PerformRequest, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(840000));
             return Task.CompletedTask;
@@ -34,16 +28,16 @@ namespace ErettsegizzunkApi
                 var response = await _httpClient.GetAsync("https://erettsegizzunk.onrender.com/erettsegizzunk/Levels/get-szintek");
                 if (response.IsSuccessStatusCode)
                 {
-                    _logger.LogInformation($"Request succeeded: {response.StatusCode} -- {DateTime.Now}");
+                    _logger.LogInformation($"Request succeeded: {response.StatusCode}");
                 }
                 else
                 {
-                    _logger.LogWarning($"Request failed: {response.StatusCode}  -- {DateTime.Now}");
+                    _logger.LogWarning($"Request failed: {response.StatusCode}");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exception during GET request: {ex.Message}  -- {DateTime.Now}");
+                _logger.LogError($"Exception during GET request: {ex.Message}");
             }
         }
 

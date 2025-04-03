@@ -21,10 +21,8 @@ namespace ErettsegizzunkApi.DTOs
         public bool GoogleUser { get; set; }
     }
 
-    public class LoggedUserForCheckDTO : ParentDTO
+    public class LoggedUserForCheckDTO : ParentUserCheckDTO//kell?
     {
-        public int UserId { get; set; }
-
         public int Permission { get; set; }
     }
 

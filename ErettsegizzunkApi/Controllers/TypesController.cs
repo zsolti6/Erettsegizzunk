@@ -1,6 +1,8 @@
-﻿using ErettsegizzunkApi.Models;
+﻿using ErettsegizzunkApi.DTOs;
+using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using Type = ErettsegizzunkApi.Models.Type;
 
 namespace ErettsegizzunkApi.Controllers
@@ -20,7 +22,18 @@ namespace ErettsegizzunkApi.Controllers
         [HttpGet("get-tipusok")]
         public async Task<ActionResult<IEnumerable<List<Type>>>> GetTypes()
         {
-            return Ok(await _context.Types.ToListAsync());
+            try
+            {
+                return Ok(await _context.Types.ToListAsync());
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 162, Message = "Kapcsolati hiba" });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 163, Message = "Hiba történt az adatok lekérdezése közben" });
+            }
         }
     }
 }

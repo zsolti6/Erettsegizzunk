@@ -8,6 +8,9 @@
 /bin
 /obj
 
+#certification
+/Certs
+
 # testing
 /coverage
 

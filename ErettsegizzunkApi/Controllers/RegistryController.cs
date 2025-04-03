@@ -124,6 +124,7 @@ namespace ErettsegizzunkApi.Controllers
                     };
 
                     await _context.Users.AddAsync(newUser);
+
                     //AWAIT NEM VÁR MERT KAKI ======>>>>>>>>>>>>>> BUGOS JAVÍTANI
                     await _context.SaveChangesAsync();
 

@@ -43,7 +43,7 @@ namespace ErettsegizzunkApi.Controllers
                     }
                     else
                     {
-                        return BadRequest(new ErrorDTO() { Id = -1, Message = "Hibás régi jelszó!" });
+                        return BadRequest(new ErrorDTO() { Id = 161, Message = "Hibás régi jelszó!" });
                     }
                 }
                 else

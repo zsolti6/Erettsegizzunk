@@ -28,7 +28,12 @@ namespace ErettsegizzunkApi.Controllers
         {
             try
             {
-                await CheckCaptcha(LoginRegistryRequest);
+                IActionResult result = await CheckCaptcha(LoginRegistryRequest);
+
+                if (result == BadRequest())
+                {
+                    return result;
+                }
 
                 User user = await _context.Users.FirstOrDefaultAsync(x => x.LoginName == LoginRegistryRequest.Username);
                 if (user == null)
@@ -64,7 +69,12 @@ namespace ErettsegizzunkApi.Controllers
         [HttpPost("regisztracio")]
         public async Task<IActionResult> CaptchaRegistry([FromBody] LoginRegistryRequestDTO LoginRegistryRequest)//error kezelés
         {
-            await CheckCaptcha(LoginRegistryRequest);
+            IActionResult result = await CheckCaptcha(LoginRegistryRequest);
+
+            if (result == BadRequest())
+            {
+                return result;
+            }
 
             return Ok(await _registryController.Registry(LoginRegistryRequest.User));
         }

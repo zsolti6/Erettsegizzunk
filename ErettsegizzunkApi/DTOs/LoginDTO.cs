@@ -15,7 +15,7 @@ namespace ErettsegizzunkApi.DTOs
 
         public string? Password { get; set; } = null;
 
-        public string? CaptchaToken { get; set; }
+        public string CaptchaToken { get; set; }
 
         public User? User { get; set; } = null;
     }

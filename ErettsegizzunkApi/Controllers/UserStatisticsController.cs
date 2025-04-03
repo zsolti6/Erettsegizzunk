@@ -62,7 +62,7 @@ namespace ErettsegizzunkApi.Controllers
                 StreamReader reader = new StreamReader(Request.Body);
                 var bodyContent = await reader.ReadToEndAsync();
 
-                //List<FilteredTaskDTO> filteredTasks = new List<FilteredTaskDTO>();
+                List<FilteredTaskDTO> filteredTasks = new List<FilteredTaskDTO>();
 
                 FilteredTaskCountDTO filteredTaskCount = new FilteredTaskCountDTO();
 
@@ -70,11 +70,11 @@ namespace ErettsegizzunkApi.Controllers
                 {
                     FilteredDeatiledStatisticsDTO filteredDeatiled = JsonSerializer.Deserialize<FilteredDeatiledStatisticsDTO>(bodyContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                    if (!Program.LoggedInUsers.ContainsKey(filteredDeatiled.Token) || Program.LoggedInUsers[filteredDeatiled.Token].Id != filteredDeatiled.UserId)
+                   if (!Program.LoggedInUsers.ContainsKey(filteredDeatiled.Token) || Program.LoggedInUsers[filteredDeatiled.Token].Id != filteredDeatiled.UserId)
                     {
                         return Unauthorized(new ErrorDTO() { Id = 119, Message = "Hozzáférés megtagadva" });
                     }
-
+                  
                     filteredTaskCount = FelatatStatisztikakSzurt(filteredDeatiled);
                 }
                 else
@@ -94,7 +94,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return StatusCode(500, new ErrorDTO() { Id = 120, Message = "Kapcsolati hiba" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return StatusCode(500, new ErrorDTO() { Id = 121, Message = "Hiba történt az adatok lekérdezése közben" });
             }
@@ -110,9 +110,9 @@ namespace ErettsegizzunkApi.Controllers
                 .Include(x => x.Task.Themes)
                 .Where(x => x.UserId == filteredDeatiled.UserId
                          && x.Task.SubjectId == filteredDeatiled.SubjectId
-                         && x.Task.Themes.Select(y => y.Id).Contains(filteredDeatiled.ThemeId)
                          && (x.Task.Description.Contains(filteredDeatiled.Szoveg)
-                         || x.Task.Text.Contains(filteredDeatiled.Szoveg)))
+                         || x.Task.Text.Contains(filteredDeatiled.Szoveg))
+                         || x.Task.Themes.Select(y => y.Id).Contains(filteredDeatiled.ThemeId))
                 .OrderBy(x => x.Id)
                 .AsEnumerable()
                 .GroupBy(x => x.TaskId);
