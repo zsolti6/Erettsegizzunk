@@ -55,37 +55,37 @@ namespace ErettsegizzunkApi.Controllers
 
         //Visszadja a DTO-nak megfelelően egyes feladatok statisztikáit.
         [HttpPost("get-statitstics-detailed")]
-        public async Task<ActionResult<IEnumerable<FilteredTaskCountDTO>>> GetStatisticsDeatiled()
+        public async Task<ActionResult<IEnumerable<FilteredTaskCountDTO>>> GetStatisticsDeatiled(FilteredDeatiledStatisticsDTO filteredDeatiled)
         {
             try
             {
-                StreamReader reader = new StreamReader(Request.Body);
-                var bodyContent = await reader.ReadToEndAsync();
+               // StreamReader reader = new StreamReader(Request.Body);
+               // var bodyContent = await reader.ReadToEndAsync();
 
                 List<FilteredTaskDTO> filteredTasks = new List<FilteredTaskDTO>();
 
                 FilteredTaskCountDTO filteredTaskCount = new FilteredTaskCountDTO();
 
-                if (bodyContent.Contains("szoveg"))
+                if (/*bodyContent.Contains("szoveg")*/ true)
                 {
-                    FilteredDeatiledStatisticsDTO filteredDeatiled = JsonSerializer.Deserialize<FilteredDeatiledStatisticsDTO>(bodyContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                   /* FilteredDeatiledStatisticsDTO filteredDeatiled = JsonSerializer.Deserialize<FilteredDeatiledStatisticsDTO>(bodyContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
                    if (!Program.LoggedInUsers.ContainsKey(filteredDeatiled.Token) || Program.LoggedInUsers[filteredDeatiled.Token].Id != filteredDeatiled.UserId)
                     {
                         return Unauthorized(new ErrorDTO() { Id = 119, Message = "Hozzáférés megtagadva" });
-                    }
+                    }*/
                   
                     filteredTaskCount = FelatatStatisztikakSzurt(filteredDeatiled);
                 }
                 else
                 {
-                    DeatiledStatisticsDTO statistics = JsonSerializer.Deserialize<DeatiledStatisticsDTO>(bodyContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    /*DeatiledStatisticsDTO statistics = JsonSerializer.Deserialize<DeatiledStatisticsDTO>(bodyContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                     filteredTaskCount = FeladatStatisztikak(statistics);
 
                     if (!Program.LoggedInUsers.ContainsKey(statistics.Token) || Program.LoggedInUsers[statistics.Token].Id != statistics.UserId)
                     {
                         return Unauthorized(new ErrorDTO() { Id = 119, Message = "Hozzáférés megtagadva" });
-                    }
+                    }*/
                 }
 
                 return Ok(filteredTaskCount);
@@ -103,19 +103,18 @@ namespace ErettsegizzunkApi.Controllers
         //Statisztika szűrés
         private FilteredTaskCountDTO FelatatStatisztikakSzurt(FilteredDeatiledStatisticsDTO filteredDeatiled)
         {
-            var data = _context.UserStatistics
-                .Include(x => x.Task)
-                .Include(x => x.Task.Subject)
-                .Include(x => x.Task.Level)
-                .Include(x => x.Task.Themes)
-                .Where(x => x.UserId == filteredDeatiled.UserId
-                         && x.Task.SubjectId == filteredDeatiled.SubjectId
-                         && (x.Task.Description.Contains(filteredDeatiled.Szoveg)
-                         || x.Task.Text.Contains(filteredDeatiled.Szoveg))
-                         || x.Task.Themes.Select(y => y.Id).Contains(filteredDeatiled.ThemeId))
-                .OrderBy(x => x.Id)
-                .AsEnumerable()
-                .GroupBy(x => x.TaskId);
+             var data = _context.UserStatistics
+                 .Include(x => x.Task)
+                 .Include(x => x.Task.Subject)
+                 .Include(x => x.Task.Level)
+                 .Include(x => x.Task.Themes)
+                 .Where(x => x.UserId == filteredDeatiled.UserId && (filteredDeatiled.SubjectId == 0 || x.Task.SubjectId == filteredDeatiled.SubjectId)
+                          && (x.Task.Description.Contains(filteredDeatiled.Szoveg)
+                          || x.Task.Text.Contains(filteredDeatiled.Szoveg))
+                          || x.Task.Themes.Select(y => y.Id).Contains(filteredDeatiled.ThemeId))
+                 .OrderBy(x => x.Id)
+                 .AsEnumerable()
+                 .GroupBy(x => x.TaskId);
 
             List<FilteredTaskDTO> filteredTasks = data
                 .Select(g =>
