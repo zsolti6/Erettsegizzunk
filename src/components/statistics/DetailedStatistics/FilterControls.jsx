@@ -1,26 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
-import { FaFilter, FaSearch, FaTimes } from 'react-icons/fa';
-import axios from 'axios';
-import { BASE_URL } from '../../../config';
+import React, { useEffect, useState } from "react";
+import Select from "react-select";
+import { FaFilter, FaSearch, FaTimes } from "react-icons/fa";
+import axios from "axios";
+import { BASE_URL } from "../../../config";
+import { MessageModal } from "../../common/MessageModal"; // Import the reusable MessageModal component
 
-export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFilters, setShowFilters, isMobile }) => {
+export const FilterControls = ({
+  filters,
+  onFilterChange,
+  onApplyFilters,
+  showFilters,
+  setShowFilters,
+  isMobile,
+}) => {
   const [subjectOptions, setSubjectOptions] = useState([]);
   const [difficultyOptions, setDifficultyOptions] = useState([]);
   const [themeOptions, setThemeOptions] = useState([]);
+  const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for modal
 
   // Fetch subject options from the API
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/erettsegizzunk/Tantargyak/get-tantargyak`);
-        const options = response.data.map(subject => ({
+        const options = response.data.map((subject) => ({
           value: subject.id, // Assuming the API returns an `id` field
-          label: subject.name // Assuming the API returns a `name` field
+          label: subject.name, // Assuming the API returns a `name` field
         }));
         setSubjectOptions(options);
       } catch (error) {
-        console.error('Error fetching subjects:', error);
+        setMessageModal({
+          show: true,
+          type: "error",
+          message: "Hiba történt a tantárgyak betöltése során.",
+        });
       }
     };
 
@@ -32,13 +45,17 @@ export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFi
     const fetchDifficulties = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/erettsegizzunk/Levels/get-szintek`);
-        const options = response.data.map(level => ({
+        const options = response.data.map((level) => ({
           value: level.id, // Assuming the API returns an `id` field
-          label: level.name // Assuming the API returns a `name` field
+          label: level.name, // Assuming the API returns a `name` field
         }));
         setDifficultyOptions(options);
       } catch (error) {
-        console.error('Error fetching difficulty levels:', error);
+        setMessageModal({
+          show: true,
+          type: "error",
+          message: "Hiba történt a nehézségi szintek betöltése során.",
+        });
       }
     };
 
@@ -50,8 +67,8 @@ export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFi
   };
 
   const handleSubjectsChange = async (selected) => {
+    filters.themes = null;
     onFilterChange({ ...filters, subjects: selected });
-
     if (selected) {
       try {
         const response = await axios.get(`${BASE_URL}/erettsegizzunk/Themes/get-temak-feladatonkent`);
@@ -67,11 +84,17 @@ export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFi
           setThemeOptions([]);
         }
       } catch (error) {
-        console.error('Error fetching themes:', error);
+        setMessageModal({
+          show: true,
+          type: "error",
+          message: "Hiba történt a témák betöltése során.",
+        });
         setThemeOptions([]);
       }
     } else {
+      // Clear the theme options and reset the theme filter
       setThemeOptions([]);
+      filters.subjects = null;
       onFilterChange({ ...filters, theme: null });
     }
   };
@@ -86,22 +109,19 @@ export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFi
 
   const clearFilters = () => {
     onFilterChange({
-      searchText: '',
+      searchText: "",
       subjects: null,
       difficulty: null,
-      themes: null
+      themes: null,
     });
     setThemeOptions([]); // Clear theme options
   };
 
   return (
     <>
-      <button 
-        className="btn btn-primary"
-        onClick={() => setShowFilters(!showFilters)}
-      >
+      <button className="btn btn-primary" onClick={() => setShowFilters(!showFilters)}>
         <FaFilter className="me-2" />
-        {showFilters ? 'Szűrők elrejtése' : 'Szűrők megjelenítése'}
+        {showFilters ? "Szűrők elrejtése" : "Szűrők megjelenítése"}
       </button>
 
       {showFilters && (
@@ -118,9 +138,9 @@ export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFi
                   placeholder="Keresés feladatleírásban..."
                 />
                 {filters.searchText && (
-                  <button 
-                    className="btn btn-outline-secondary" 
-                    onClick={() => handleSearchTextChange({ target: { value: '' } })}
+                  <button
+                    className="btn btn-outline-secondary"
+                    onClick={() => handleSearchTextChange({ target: { value: "" } })}
                   >
                     <FaTimes />
                   </button>
@@ -137,18 +157,20 @@ export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFi
                 onChange={handleSubjectsChange}
                 placeholder="Válassz tantárgyat..."
                 isClearable
+                noOptionsMessage={() => "Nincs elérhető tantárgy"}
               />
             </div>
 
             <div className="col-md-4">
               <label className="form-label">Nehézség</label>
               <Select
-                className="text-black"
+                className="text-black bg-white"
                 options={difficultyOptions}
                 value={filters.difficulty}
                 onChange={handleDifficultyChange}
                 placeholder="Válassz nehézséget..."
                 isClearable
+                noOptionsMessage={() => "Nincs elérhető nehézség"}
               />
             </div>
 
@@ -161,14 +183,14 @@ export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFi
                 onChange={handleThemeChange}
                 placeholder="Válassz témát..."
                 isClearable
+                noOptionsMessage={() => "Nincs elérhető téma"}
               />
             </div>
 
             <div className="col-md-6">
-              <button 
+              <button
                 className="btn btn-success w-100"
                 onClick={() => {
-                  setShowFilters(false);
                   onApplyFilters(); // Trigger the apply filters callback
                 }}
               >
@@ -178,16 +200,21 @@ export const FilterControls = ({ filters, onFilterChange, onApplyFilters, showFi
             </div>
 
             <div className="col-md-6">
-              <button 
-                className="btn btn-danger w-100"
-                onClick={clearFilters}
-              >
+              <button className="btn btn-danger w-100" onClick={clearFilters}>
                 Szűrők törlése
               </button>
             </div>
           </div>
         </div>
       )}
+
+      {/* Reusable Message Modal */}
+      <MessageModal
+        show={messageModal.show}
+        type={messageModal.type}
+        message={messageModal.message}
+        onClose={() => setMessageModal({ ...messageModal, show: false })}
+      />
     </>
   );
 };

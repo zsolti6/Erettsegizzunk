@@ -30,7 +30,7 @@ export const LineGraph = ({ data, isMobile }) => {
           tick={{ 
             fill: "white",
             fontSize: isMobile ? 10 : 12,
-            angle: isMobile ? -45 : -25,
+            angle: isMobile ? -45 : -20,
             textAnchor: isMobile ? 'end' : 'middle',
             dy: isMobile ? 0 : 10
           }}
@@ -42,7 +42,7 @@ export const LineGraph = ({ data, isMobile }) => {
             position: "insideLeft", 
             offset: isMobile ? 15 : 30, 
             dy: isMobile ? 50 : 75, 
-            dx: isMobile ? -5 : -10, 
+            dx: isMobile ? -5 : -15, 
             style: { fill: 'white', fontSize: isMobile ? 12 : 18 } 
           }} 
           tick={{ fill: "white", fontSize: isMobile ? 10 : 14 }}

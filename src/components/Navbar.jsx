@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/Navbar.css";
 import { FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
 import SettingsWindow from "./SettingsWindow";
-import logo from "./logo.png";
+import logo from "../img/logo.png";
 
 export const Navbar = ({ user, googleLogged, handleLogout }) => {
   const navigate = useNavigate();

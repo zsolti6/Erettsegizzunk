@@ -1,10 +1,12 @@
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import sha256 from "crypto-js/sha256";
-import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BASE_URL } from "../../config";
 import "../../css/Profile.css";
+import { MessageModal } from "../common/MessageModal"; // Import the reusable MessageModal component
+import { Modal, Button } from "react-bootstrap"; // Import Bootstrap Modal
 
 export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
   const [userData, setUserData] = useState({
@@ -19,9 +21,9 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
   });
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); // New state variable for error message
-  const [successMessage, setSuccessMessage] = useState(""); // New state variable for success message
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false); // State to control confirmation modal visibility
+  const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for error/success modal
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -63,6 +65,33 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
     }
   }, [user, changePassword]);
 
+  const resetStatistics = async () => {
+    const body = {
+      userId: user.id,
+      token: user.token,
+    };
+
+    try {
+      await axios.request({
+        method: "DELETE",
+        url: `${BASE_URL}/erettsegizzunk/UserStatistics/statisztika-reset`,
+        data: body,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setMessageModal({ show: true, type: "success", message: "A statisztika sikeresen visszaállítva." });
+    } catch (error) {
+      setMessageModal({
+        show: true,
+        type: "error",
+        message: error.response?.data?.message || "Hiba történt a statisztika visszaállítása során.",
+      });
+    } finally {
+      setShowModal(false); // Close the confirmation modal
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setUserData({
@@ -73,9 +102,7 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(""); // Clear previous error message
-    setSuccessMessage(""); // Clear previous success message
-    setLoading(true); // Start loading
+    setLoading(true);
 
     if (changePassword) {
       try {
@@ -109,29 +136,36 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
           updatedFormData
         );
 
-        setSuccessMessage("Jelszó sikeresen megváltoztatva!"); // Set success message
+        setMessageModal({ show: true, type: "success", message: "Jelszó sikeresen megváltoztatva!" });
       } catch (error) {
-        setErrorMessage(error.response?.data?.message || "Hiba történt a jelszó módosítása során.");
-        setLoading(false); // Stop loading
+        setMessageModal({
+          show: true,
+          type: "error",
+          message: error.response?.data?.message || "Hiba történt a jelszó módosítása során.",
+        });
+        setLoading(false);
         return;
       }
     }
 
     try {
-      await axios.put(
-        `${BASE_URL}/erettsegizzunk/User/sajat-felhasznalo-modosit`,
-        userData
-      ).then((response) => {
-        if (response.status === 200) {
-          setChangePassword(false);
-          setUser(userData);
-          setSuccessMessage("Felhasználói adatok sikeresen frissítve!"); // Set success message
-        }
-      });
+      await axios
+        .put(`${BASE_URL}/erettsegizzunk/User/sajat-felhasznalo-modosit`, userData)
+        .then((response) => {
+          if (response.status === 200) {
+            setChangePassword(false);
+            setUser(userData);
+            setMessageModal({ show: true, type: "success", message: "Felhasználói adatok sikeresen frissítve!" });
+          }
+        });
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || "Hiba történt az adatok frissítése során.");
+      setMessageModal({
+        show: true,
+        type: "error",
+        message: error.response?.data?.message || "Hiba történt az adatok frissítése során.",
+      });
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -139,12 +173,6 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
     <div className="profile-container d-flex flex-column min-vh-100">
       <div className="container mt-5 mb-5">
         <h1 className="text-center mb-3 mt-5 text-white">Adataim</h1>
-        {errorMessage && (
-          <div className="alert alert-danger">{errorMessage}</div>
-        )} {/* Conditionally render error message */}
-        {successMessage && (
-          <div className="alert alert-success">{successMessage}</div>
-        )} {/* Conditionally render success message */}
         <form
           onSubmit={handleSubmit}
           className="profile-card bg-light p-4 rounded shadow mx-auto mt-4"
@@ -261,11 +289,49 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
               Feliratkozom a hírlevélre
             </label>
           </div>
-          <button type="submit" className="btn color-bg1 text-white w-100 mb-2" disabled={loading}>
+          <button
+            type="submit"
+            className="btn color-bg1 text-white w-100 mb-2"
+            disabled={loading}
+          >
             {loading ? "Mentés folyamatban..." : "Mentés"}
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowModal(true)} // Show the confirmation modal
+            className="btn btn-danger text-white w-100 mb-2"
+          >
+            Statisztika visszaállítása
           </button>
         </form>
       </div>
+
+      {/* Confirmation Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Statisztika visszaállítása</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Biztosan vissza szeretnéd állítani a statisztikádat? Ez a művelet nem
+          vonható vissza.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Mégse
+          </Button>
+          <Button variant="danger" onClick={resetStatistics}>
+            Visszaállítás
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Reusable Message Modal */}
+      <MessageModal
+        show={messageModal.show}
+        type={messageModal.type}
+        message={messageModal.message}
+        onClose={() => setMessageModal({ ...messageModal, show: false })}
+      />
     </div>
   );
 };

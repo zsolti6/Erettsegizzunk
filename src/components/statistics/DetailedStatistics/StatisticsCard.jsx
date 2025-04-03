@@ -1,5 +1,6 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import the icons
 
 const COLORS = ["#00FF00", "#FF0000"]; // Green (correct), Red (incorrect)
 
@@ -38,11 +39,11 @@ export const StatisticsCard = React.memo(({
         onClick={onToggleExpand}
         aria-expanded={isExpanded}
       >
-        <div className="col-6 col-md-4 col-lg-4 text-truncate">
+        <div className="col-6 col-md-6 col-lg-6 col-10 text-truncate">
           {item.task.description}
         </div>
         
-        <div className="col-6 col-md-2 col-lg-4 text-center d-none d-md-block">
+        <div className="col-6 col-md-2 col-lg-2 text-center d-none d-md-block">
           <b>Sikeres:</b> {correct}
         </div>
         
@@ -51,7 +52,10 @@ export const StatisticsCard = React.memo(({
         </div>
         
         <div className="col-2 col-md-2 text-end">
-          <span className="arrow">{isExpanded ? "▲" : "▼"}</span>
+          {/* Replace plain text arrows with React Icons */}
+          <span className="arrow">
+            {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
+          </span>
         </div>
       </div>
 

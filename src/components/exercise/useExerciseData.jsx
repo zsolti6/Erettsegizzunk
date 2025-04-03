@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from '../../config';
 import { useLocalStorage } from './useLocalStorage';
+import { Modal, Button } from 'react-bootstrap'; // Import Bootstrap Modal
+import { MessageModal } from "../common/MessageModal"; // Adjust the path as needed
 
 export const useExerciseData = () => {
   const [exercises, setExercises] = useState([]);
@@ -10,6 +12,7 @@ export const useExerciseData = () => {
   const [taskValues, setTaskValues] = useState({});
   const [isOpen, setIsOpen] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for modal
   const navigate = useNavigate();
   const location = useLocation();
   const { subject, difficulty, subjectId, savedExercises, savedTaskValues, themeIds } = location.state || {};
@@ -51,7 +54,11 @@ export const useExerciseData = () => {
           }, {});
           setTaskValues(initialValues);
         } catch (error) {
-          console.error("Error fetching exercises:", error);
+          setMessageModal({
+            show: true,
+            type: "error",
+            message: "Hiba történt a feladatok betöltése során.",
+          });
         } finally {
           setLoading(false);
         }
@@ -101,8 +108,17 @@ export const useExerciseData = () => {
           token: user.token,
           taskIds: taskCorrects,
         });
+        setMessageModal({
+          show: true,
+          type: "success",
+          message: "Statisztikák sikeresen mentve!",
+        });
       } catch (error) {
-        console.error("Error sending statistics:", error);
+        setMessageModal({
+          show: true,
+          type: "error",
+          message: "Hiba történt a statisztikák mentése során.",
+        });
       }
     }
 
@@ -110,6 +126,10 @@ export const useExerciseData = () => {
     localStorage.removeItem("taskValues");
 
     navigate("/gyakorlas/statisztika", { state: { taskValues, exercises, subjectId } });
+  };
+
+  const closeModal = () => {
+    setMessageModal({ ...messageModal, show: false });
   };
 
   return {
@@ -121,6 +141,9 @@ export const useExerciseData = () => {
     setActiveIndex,
     setIsOpen,
     updateTaskValues,
-    sendStatistics
+    sendStatistics,
+    messageModal,
+    setMessageModal,
+    closeModal,
   };
 };

@@ -3,6 +3,7 @@ import "./App.css";
 import usePreventZoom from "./usePreventZoom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Home } from "./components/Home";
+import { HomeLoggedIn } from "./components/HomeLoggedIn";
 import { ExerciseComponent } from "./components/exercise/ExerciseComponent.jsx";
 import { LoginPage } from "./components/account/Login";
 import { RegisterPage } from "./components/account/Register";
@@ -120,7 +121,7 @@ export const App = () => {
         <Navbar user={user} googleLogged={googleLogged} handleLogout={handleLogout} />
         <div className="flex-grow-1">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={user ? <HomeLoggedIn user={user} /> : <Home />} />
             <Route path="/statisztika" element={<StatisticsComponent user={user} />} />
             <Route path="/utmutato" element={<TutorialComponent />} />
             <Route path="/gyakorlas" element={<ExerciseComponent />} />

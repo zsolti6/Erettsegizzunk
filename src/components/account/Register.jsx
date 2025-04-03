@@ -3,9 +3,10 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import sha256 from "crypto-js/sha256";
-import { BASE_URL } from '../../config';
+import { BASE_URL } from "../../config";
 import "../../css/Login.css";
 import { useNavigate } from "react-router-dom";
+import { MessageModal } from "../common/MessageModal"; // Import the reusable MessageModal component
 
 export const GenerateSalt = (SaltLength) => {
   const karakterek = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -15,7 +16,7 @@ export const GenerateSalt = (SaltLength) => {
     salt += karakterek[randomIndex];
   }
   return salt;
-}
+};
 
 function GenerateRandomPassword(length = 16) {
   const lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
@@ -31,7 +32,7 @@ function GenerateRandomPassword(length = 16) {
   for (let i = password.length; i < length; i++) {
     password += allChars[Math.floor(Math.random() * allChars.length)];
   }
-  password = password.split('').sort(() => Math.random() - 0.5).join('');
+  password = password.split("").sort(() => Math.random() - 0.5).join("");
   return password;
 }
 
@@ -40,19 +41,19 @@ export const RegisterPage = ({ user }) => {
     loginName: "",
     password: "",
     confirmPassword: "",
-    email: ""
+    email: "",
   });
-  const [error, setError] = useState("");
+  const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for modal
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
   const [loading, setLoading] = useState(false); // Loading state
   const navigator = useNavigate();
-  
-    useEffect(() => {
-        if (user != null) {
-          navigator("/profil");
-        }
-      }, [navigator, user]);
+
+  useEffect(() => {
+    if (user != null) {
+      navigator("/profil");
+    }
+  }, [navigator, user]);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -79,16 +80,24 @@ export const RegisterPage = ({ user }) => {
     e.preventDefault();
 
     if (!captchaToken) {
-      setError("Kérjük, igazolja, hogy nem robot!");
+      setMessageModal({
+        show: true,
+        type: "error",
+        message: "Kérjük, igazolja, hogy nem robot!",
+      });
       return;
     }
 
     const validationError = validateForm();
     if (validationError) {
-      setError(validationError);
+      setMessageModal({
+        show: true,
+        type: "error",
+        message: validationError,
+      });
       return;
     }
-    setError("");
+
     setLoading(true); // Show loading spinner
     try {
       const salt = GenerateSalt(64);
@@ -99,21 +108,31 @@ export const RegisterPage = ({ user }) => {
         permissionId: 1,
         active: true,
         email: formData.email,
-        profilePicturePath: "default.jpg"
+        profilePicturePath: "default.jpg",
       };
       const user = {
         User: body,
-        CaptchaToken: captchaToken
-      }
+        CaptchaToken: captchaToken,
+      };
       const url = `${BASE_URL}/erettsegizzunk/Auth/regisztracio`;
       await axios.post(url, user);
+
+      setMessageModal({
+        show: true,
+        type: "success",
+        message: "Sikeres regisztráció! Most már bejelentkezhet.",
+      });
     } catch (error) {
-      setError('Hiba történt a regisztráció során: ' + (error.response ? error.response.data : error.message));
+      setMessageModal({
+        show: true,
+        type: "error",
+        message: "Hiba történt a regisztráció során: " + (error.response ? error.response.data : error.message),
+      });
     } finally {
       setLoading(false); // Hide loading spinner
     }
   };
-  
+
   return (
     <div className="login-container">
       {loading && (
@@ -131,23 +150,64 @@ export const RegisterPage = ({ user }) => {
         </div>
         <div className="login-card">
           <h2 className="text-center mb-4">Fiók létrehozása</h2>
-          {error && <div className="alert alert-danger">{error}</div>} {/* Conditionally render error message */}
           <form onSubmit={handleRegister}>
             <div className="form-group mb-3">
-              <input placeholder="Felhasználónév" type="text" className="form-control" id="loginName" maxLength={10} value={formData.loginName} onChange={handleChange} />
+              <input
+                placeholder="Felhasználónév"
+                type="text"
+                className="form-control"
+                id="loginName"
+                maxLength={10}
+                value={formData.loginName}
+                onChange={handleChange}
+              />
             </div>
             <div className="form-group mb-3">
-              <input placeholder="Email cím" type="email" className="form-control" id="email" value={formData.email} onChange={handleChange} />
+              <input
+                placeholder="Email cím"
+                type="email"
+                className="form-control"
+                id="email"
+                value={formData.email}
+                onChange={handleChange}
+              />
             </div>
             <div className="form-group mb-3">
               <div className="input-group">
-                <input placeholder="Jelszó" type={passwordVisible ? "text" : "password"} className="form-control" id="password" value={formData.password} onChange={handleChange} />
-                <button type="button" className="btn btn-outline-secondary" onClick={togglePasswordVisibility}>{passwordVisible ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}</button>
-                <button type="button" className="btn btn-outline-secondary" onClick={handleGeneratePassword} title="Jelszó generálása"><i className="bi bi-shuffle"></i></button>
+                <input
+                  placeholder="Jelszó"
+                  type={passwordVisible ? "text" : "password"}
+                  className="form-control"
+                  id="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={togglePasswordVisibility}
+                >
+                  {passwordVisible ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={handleGeneratePassword}
+                  title="Jelszó generálása"
+                >
+                  <i className="bi bi-shuffle"></i>
+                </button>
               </div>
             </div>
             <div className="form-group mb-3">
-              <input placeholder="Jelszó megerősítése" type="password" className="form-control" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
+              <input
+                placeholder="Jelszó megerősítése"
+                type="password"
+                className="form-control"
+                id="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+              />
             </div>
             <div className="form-group mb-3 d-flex justify-content-center recaptcha-container">
               <ReCAPTCHA
@@ -156,13 +216,25 @@ export const RegisterPage = ({ user }) => {
                 onExpired={() => setCaptchaToken(null)}
               />
             </div>
-            <button type="submit" className="btn color-bg2 text-white w-100">Regisztrálás</button>
+            <button type="submit" className="btn color-bg2 text-white w-100">
+              Regisztrálás
+            </button>
             <div className="d-flex justify-content-center mt-2">
-              <a href="/belepes" className="text-muted">Van már fiókod? Jelentkezz be!</a>
+              <a href="/belepes" className="text-muted">
+                Van már fiókod? Jelentkezz be!
+              </a>
             </div>
           </form>
         </div>
       </div>
+
+      {/* Reusable Message Modal */}
+      <MessageModal
+        show={messageModal.show}
+        type={messageModal.type}
+        message={messageModal.message}
+        onClose={() => setMessageModal({ ...messageModal, show: false })}
+      />
     </div>
   );
-}
+};

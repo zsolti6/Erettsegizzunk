@@ -67,7 +67,6 @@
     position: fixed;
     width: 250px;
     left: -250px; /* Hidden by default */
-    background-color: #4c0cb5; /* Primary background color */
     z-index: 1050; /* Ensure it's above everything else */
   }
 

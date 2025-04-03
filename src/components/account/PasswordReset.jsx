@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { BASE_URL } from '../../config';
+import { BASE_URL } from "../../config";
 import "../../css/Login.css"; // Import the CSS file
+import { MessageModal } from "../common/MessageModal"; // Import the reusable MessageModal component
 
 export const PasswordReset = () => {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); // New state for error message
+  const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for modal
   const [loading, setLoading] = useState(false);
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage("");
-    setErrorMessage(""); // Clear previous error message
 
     try {
       const response = await axios.post(
@@ -27,13 +25,25 @@ export const PasswordReset = () => {
       );
 
       if (response.status === 200) {
-        setMessage("Sikeres jelszó visszaállítási kérelem. Ellenőrizze az email fiókját!");
+        setMessageModal({
+          show: true,
+          type: "success",
+          message: "Sikeres jelszó visszaállítási kérelem. Ellenőrizze az email fiókját!",
+        });
       } else {
-        setErrorMessage("Hiba történt a kérés feldolgozásakor. Próbálja újra később.");
+        setMessageModal({
+          show: true,
+          type: "error",
+          message: "Hiba történt a kérés feldolgozásakor. Próbálja újra később.",
+        });
       }
     } catch (error) {
       console.error("Password reset request failed", error);
-      setErrorMessage("Nem sikerült elküldeni a kérést. Ellenőrizze az email címet és próbálja újra.");
+      setMessageModal({
+        show: true,
+        type: "error",
+        message: "Nem sikerült elküldeni a kérést. Ellenőrizze az email címet és próbálja újra.",
+      });
     } finally {
       setLoading(false);
     }
@@ -41,7 +51,10 @@ export const PasswordReset = () => {
 
   return (
     <div>
-      <div className="login-container d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+      <div
+        className="login-container d-flex justify-content-center align-items-center"
+        style={{ height: "100vh" }}
+      >
         <div className="card p-4" style={{ width: "400px" }}>
           <h2 className="text-center mb-4">Jelszó visszaállítása</h2>
           <form onSubmit={handlePasswordReset}>
@@ -56,31 +69,33 @@ export const PasswordReset = () => {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+            <button
+              type="submit"
+              className="btn btn-primary w-100"
+              disabled={loading}
+            >
               {loading ? "Küldés..." : "Jelszó visszaállítási link küldése"}
             </button>
 
-            {/* Success Message */}
-            {message && (
-              <div className="alert alert-info text-center mt-3" role="alert">
-                {message}
-              </div>
-            )}
-
-            {/* Error Message */}
-            {errorMessage && (
-              <div className="alert alert-danger text-center mt-3" role="alert">
-                {errorMessage}
-              </div>
-            )}
-
             <div className="d-flex justify-content-between mt-3">
-              <a href="/belepes" className="text-muted">Vissza a bejelentkezéshez</a>
-              <a href="/regisztracio" className="text-muted">Még nincs fiókod?</a>
+              <a href="/belepes" className="text-muted">
+                Vissza a bejelentkezéshez
+              </a>
+              <a href="/regisztracio" className="text-muted">
+                Még nincs fiókod?
+              </a>
             </div>
           </form>
         </div>
       </div>
+
+      {/* Reusable Message Modal */}
+      <MessageModal
+        show={messageModal.show}
+        type={messageModal.type}
+        message={messageModal.message}
+        onClose={() => setMessageModal({ ...messageModal, show: false })}
+      />
     </div>
   );
 };

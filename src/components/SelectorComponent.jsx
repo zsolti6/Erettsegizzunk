@@ -4,7 +4,8 @@ import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
 import "../css/Selector.css";
-import { BASE_URL } from '../config';
+import { BASE_URL } from "../config";
+import { MessageModal } from "./common/MessageModal"; // Import the reusable MessageModal component
 
 export const SelectorComponent = () => {
   const [formData, setFormData] = useState({
@@ -19,23 +20,28 @@ export const SelectorComponent = () => {
   const [themeFilter, setThemeFilter] = useState("");
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); // New state variable for error message
+  const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for modal
   const [dropdownOpen, setDropdownOpen] = useState(false); // New state variable for dropdown
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`${BASE_URL}/erettsegizzunk/Themes/get-temak-feladatonkent`)
+    axios
+      .get(`${BASE_URL}/erettsegizzunk/Themes/get-temak-feladatonkent`)
       .then((response) => {
         const themesData = response.data;
         setThemes(themesData);
       })
       .catch((error) => {
-        console.error("Error fetching themes:", error);
-        setErrorMessage("Hiba történt a témák betöltése során."); // Set error message
+        setMessageModal({
+          show: true,
+          type: "error",
+          message: "Hiba történt a témák betöltése során.",
+        });
       });
 
-    axios.get(`${BASE_URL}/erettsegizzunk/Tantargyak/get-tantargyak`)
+    axios
+      .get(`${BASE_URL}/erettsegizzunk/Tantargyak/get-tantargyak`)
       .then((response) => {
         const formattedSubjects = response.data.map((subject) => ({
           id: subject.id,
@@ -55,8 +61,11 @@ export const SelectorComponent = () => {
         }
       })
       .catch((error) => {
-        console.error("Error fetching subjects:", error);
-        setErrorMessage("Hiba történt a tantárgyak betöltése során."); // Set error message
+        setMessageModal({
+          show: true,
+          type: "error",
+          message: "Hiba történt a tantárgyak betöltése során.",
+        });
       })
       .finally(() => {
         setLoading(false);
@@ -101,15 +110,7 @@ export const SelectorComponent = () => {
           ...prev,
           subject: selectedSubject.name,
         }));
-        setSelectedThemes([]); // Clear selected themes when a new subject is selected
-
-        // Log the filtered themes for the selected subject
-        const filteredThemes = themes[selectedSubject.name.toLowerCase()];
-        if (filteredThemes) {
-          console.log(filteredThemes.map(theme => ({ name: theme.theme.name, count: theme.count })));
-        } else {
-          console.log([]);
-        }
+        setSelectedThemes([]);
       }
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
@@ -127,24 +128,20 @@ export const SelectorComponent = () => {
   };
 
   const handleThemeRemove = (themeId) => {
-    setSelectedThemes(selectedThemes.filter(t => t !== themeId));
+    setSelectedThemes(selectedThemes.filter((t) => t !== themeId));
   };
 
   const handleStartExercise = () => {
     navigate("/gyakorlas", { state: { ...formData, subjectId, themeIds: selectedThemes } });
   };
 
-  const filteredThemes = themes[formData.subject.toLowerCase()]?.filter(theme =>
-    theme.theme.name.toLowerCase().includes(themeFilter.toLowerCase())
-  ) || [];
+  const filteredThemes =
+    themes[formData.subject.toLowerCase()]?.filter((theme) =>
+      theme.theme.name.toLowerCase().includes(themeFilter.toLowerCase())
+    ) || [];
 
   return (
     <div className="page-wrapper">
-      {/* Error Message */}
-      {errorMessage && (
-        <div className="alert alert-danger">{errorMessage}</div>
-      )}
-
       {loading ? (
         <div className="spinner-container">
           <div className="spinner"></div>
@@ -240,12 +237,12 @@ export const SelectorComponent = () => {
                 </div>
                 <div className="selected-themes">
                   {selectedThemes.map((themeId, index) => {
-                    const theme = filteredThemes.find(t => t.theme.id === themeId);
+                    const theme = filteredThemes.find((t) => t.theme.id === themeId);
                     return (
                       <button
                         key={index}
                         type="button"
-                        className="theme-tag"
+                        className="theme-tag color-bg2"
                         onClick={() => handleThemeRemove(themeId)}
                       >
                         {theme?.theme.name} &times;
@@ -287,6 +284,14 @@ export const SelectorComponent = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* Reusable Message Modal */}
+      <MessageModal
+        show={messageModal.show}
+        type={messageModal.type}
+        message={messageModal.message}
+        onClose={() => setMessageModal({ ...messageModal, show: false })}
+      />
     </div>
   );
 };

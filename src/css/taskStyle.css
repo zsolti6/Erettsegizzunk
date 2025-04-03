@@ -44,7 +44,7 @@ p {
 .card-title {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #4c0cb5;
+  color: var(--bg-color);
   margin-bottom: 10px;
 }
 
@@ -76,7 +76,7 @@ input.form-control,
 
 input.form-control:focus,
 .textbox-style:focus {
-  border-color: #4c0cb5;
+  border-color: var(--bg-color);
   box-shadow: 0 0 8px rgba(76, 12, 181, 0.2);
   outline: none;
 }
@@ -105,8 +105,8 @@ input.form-control:focus,
 }
 
 .form-check-input:checked {
-  background-color: #4c0cb5;
-  border-color: #4c0cb5;
+  background-color: var(--bg-color);
+  border-color: var(--bg-color);
 }
 
 /* Radio & Checkbox Labels */
