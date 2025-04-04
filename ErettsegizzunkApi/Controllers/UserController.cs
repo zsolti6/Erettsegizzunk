@@ -118,6 +118,8 @@ namespace ErettsegizzunkApi.Controllers
                 _context.Entry(userSearch).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
+                Program.LoggedInUsers[modosit.Token] = userSearch;
+
                 return Ok("Módosítás végrehajtva");
 
             }

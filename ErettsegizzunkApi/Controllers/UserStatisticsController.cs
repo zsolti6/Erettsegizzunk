@@ -12,7 +12,7 @@ namespace ErettsegizzunkApi.Controllers
     public class UserStatisticsController : ControllerBase
     {
         private readonly ErettsegizzunkContext _context;
-        private int OldalDarab = 25;
+        private const int OLDAL_DARAB = 25;
 
         public UserStatisticsController(ErettsegizzunkContext context)
         {
@@ -62,8 +62,6 @@ namespace ErettsegizzunkApi.Controllers
                 StreamReader reader = new StreamReader(Request.Body);
                 var bodyContent = await reader.ReadToEndAsync();
 
-                List<FilteredTaskDTO> filteredTasks = new List<FilteredTaskDTO>();
-
                 FilteredTaskCountDTO filteredTaskCount = new FilteredTaskCountDTO();
 
                 if (bodyContent.Contains("szoveg"))
@@ -94,7 +92,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return StatusCode(500, new ErrorDTO() { Id = 120, Message = "Kapcsolati hiba" });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(500, new ErrorDTO() { Id = 121, Message = "Hiba történt az adatok lekérdezése közben" });
             }
@@ -129,11 +127,11 @@ namespace ErettsegizzunkApi.Controllers
                         JoRossz = new int[] { g.Count(x => x.IsSuccessful), g.Count(x => !x.IsSuccessful) }
                     };
                 })
-                .Skip(filteredDeatiled.Oldal * OldalDarab)
-                .Take(OldalDarab)
+                .Skip(filteredDeatiled.Oldal * OLDAL_DARAB)
+                .Take(OLDAL_DARAB)
                 .ToList();
 
-            return new FilteredTaskCountDTO() { FilteredTasks = filteredTasks , OldalDarab =  Math.Ceiling(data.Count() / (double)OldalDarab) };
+            return new FilteredTaskCountDTO() { FilteredTasks = filteredTasks , OldalDarab =  Math.Ceiling(data.Count() / (double)OLDAL_DARAB) };
         }
 
         //Statisztika szűrés nélkül
@@ -162,11 +160,11 @@ namespace ErettsegizzunkApi.Controllers
                         JoRossz = new int[] { g.Count(x => x.IsSuccessful), g.Count(x => !x.IsSuccessful) }
                     };
                 })
-                .Skip(deatiled.Oldal * OldalDarab)
-                .Take(OldalDarab)
+                .Skip(deatiled.Oldal * OLDAL_DARAB)
+                .Take(OLDAL_DARAB)
                 .ToList();
 
-            return new FilteredTaskCountDTO() { FilteredTasks = filteredTasks, OldalDarab = Math.Ceiling(data.Count() / (double)OldalDarab) };
+            return new FilteredTaskCountDTO() { FilteredTasks = filteredTasks, OldalDarab = Math.Ceiling(data.Count() / (double)OLDAL_DARAB) };
         }
 
         //Visszadaja tantárgyakra lebontva összesen mennyi feladatot oldott meg 

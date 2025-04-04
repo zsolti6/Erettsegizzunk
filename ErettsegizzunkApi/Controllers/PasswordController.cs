@@ -71,7 +71,7 @@ namespace ErettsegizzunkApi.Controllers
         public async Task<IActionResult> ElfelejtettJelszoKeres([FromBody] string email)
         {
             GenerateToken();
-            string body = $"A jelszava visszaállításáshoz kattintson a linkre. Amennyiben nem ön próbálta helyreállítani a jelszavát akkor hagyja figyelmen kívül ezt az üzenetet https://localhost:7066/erettsegizzunk/Password/elfelejtett-jelszo?email={Uri.EscapeDataString(email)}";
+            string body = $"A jelszava visszaállításáshoz kattintson a linkre. Amennyiben nem ön próbálta helyreállítani a jelszavát akkor hagyja figyelmen kívül ezt az üzenetet https://erettsegizzunk.onrender.com/erettsegizzunk/Password/elfelejtett-jelszo?email={Uri.EscapeDataString(email)}token={Token}";
             Program.SendEmail(email, "Jelszó helyreállítás", body);
             return Ok();
         }
