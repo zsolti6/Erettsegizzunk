@@ -30,6 +30,7 @@ namespace ErettsegizzunkAdmin.Windows
         private List<FelhasznaloModotsitDTO> modositando = new List<FelhasznaloModotsitDTO>();
         private readonly ApiService _apiService;
         private int pageNumber = 0;
+        HowToUseWindow help;
 
         public FelhasznalokKezel(LoggedUserDTO user)
         {
@@ -70,7 +71,6 @@ namespace ErettsegizzunkAdmin.Windows
             List<User> users = await _apiService.GetFelhasznalokAsync(new LoggedUserForCheckDTO() { Id = user.Id, Permission = user.Permission, Token = user.Token });
             if (users is null)
             {
-                //MessageBoxes.CustomError("Hiba az adatok lekérdezése közben", "Error");
                 return new List<User>();
             }
             //btnOldalKov.IsEnabled = feladatoks.Count == 50;//teszt
@@ -174,6 +174,10 @@ namespace ErettsegizzunkAdmin.Windows
                     MessageBoxes.CustomMessageOk("Módosítások elvetve");
                 }
             }
+            if (help != null)
+            {
+                help.Close();
+            }
             Close();
         }
 
@@ -204,7 +208,8 @@ namespace ErettsegizzunkAdmin.Windows
 
         private void btnQuestion_Click(object sender, RoutedEventArgs e)
         {
-
+            help = new HowToUseWindow("FelhasznalokKezel");
+            help.Show();
         }
     }
 }

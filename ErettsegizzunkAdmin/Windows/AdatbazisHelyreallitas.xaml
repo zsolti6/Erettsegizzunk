@@ -17,7 +17,8 @@
         MinHeight="400" MinWidth="600"
         WindowStyle="ThreeDBorderWindow"
         ResizeMode="CanMinimize"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        Icon="../Images/app.ico">
     <Grid Background="{DynamicResource MaterialDesignPaper}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*" />
@@ -30,7 +31,9 @@
         </Grid.RowDefinitions>
 
         <!-- DataGrid -->
-        <DataGrid x:Name="dgAdatok" AutoGenerateColumns="False" Margin="16" Grid.Row="0" Grid.RowSpan="2"
+        <DataGrid x:Name="dgAdatok" AutoGenerateColumns="False" Margin="16" Grid.Row="0"
+          ColumnWidth="*"
+          Grid.RowSpan="2"
           CanUserAddRows="False" 
           CanUserDeleteRows="False"
           CanUserResizeColumns="False"

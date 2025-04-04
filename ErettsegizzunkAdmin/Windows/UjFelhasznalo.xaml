@@ -13,7 +13,8 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Normal"
         Title="Érettségizzünk"
-        Height="450" Width="600">
+        Height="450" Width="600"
+        Icon="../Images/app.ico">
 
     <Grid>
         <Grid.RowDefinitions>

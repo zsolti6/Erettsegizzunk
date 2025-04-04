@@ -6,17 +6,13 @@
   StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            
             <ResourceDictionary.MergedDictionaries>
-
-
-                    <!-- Material Design Defaults -->
-                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
-                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
-                
-                
+                <!-- Material Design Defaults -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
             <!-- 🎨 Primary Color (Swapped to #440FB5) -->
             <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#440FB5"/>
             <!-- Main Primary -->
@@ -45,8 +41,11 @@
             <Style TargetType="CheckBox">
                 <Setter Property="Cursor" Value="Hand" />
             </Style>
+            <!-- Global Window Icon Style -->
+            <Style TargetType="Window">
+                <Setter Property="Icon" Value="pack://application:,,,/Images/app.ico" />
+            </Style>
 
         </ResourceDictionary>
-        
     </Application.Resources>
 </Application>

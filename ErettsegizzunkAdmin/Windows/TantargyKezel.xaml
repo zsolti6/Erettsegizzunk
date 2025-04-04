@@ -17,7 +17,8 @@
         MinHeight="400" MinWidth="600"
         WindowStyle="ThreeDBorderWindow"
         ResizeMode="CanMinimize"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        Icon="../Images/app.ico">
     <Grid Background="{DynamicResource MaterialDesignPaper}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*" />
@@ -30,7 +31,8 @@
         </Grid.RowDefinitions>
 
         <!-- DataGrid -->
-        <DataGrid x:Name="dgTantargyAdatok" 
+        <DataGrid x:Name="dgTantargyAdatok"
+           ColumnWidth="*"
            Grid.Row="0" Grid.RowSpan="2"
            AutoGenerateColumns="False" Margin="16" 
            CanUserAddRows="False" 
@@ -48,8 +50,8 @@
            SelectionMode="Extended" 
            Style="{DynamicResource MaterialDesignDataGrid}">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Kijelölés" Binding="{Binding IsSelected}" />
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
+                <DataGridCheckBoxColumn Width="90" Header="Kijelölés" Binding="{Binding IsSelected}" />
+                <DataGridTextColumn Width="50" Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
                 <DataGridTextColumn Width="300" Header="Név" Binding="{Binding Name}"/>
             </DataGrid.Columns>
         </DataGrid>
@@ -115,13 +117,6 @@
              Background="{DynamicResource PrimaryHueMidBrush}" 
              Foreground="{DynamicResource MaterialDesignPaper}" 
              Click="btnModosit_Click" />
-
-            <Button x:Name="btnAgain" 
-             Content="Újra lekérdezés" 
-             Margin="8" 
-             Style="{DynamicResource MaterialDesignRaisedButton}" 
-             Background="{DynamicResource PrimaryHueMidBrush}" 
-             Foreground="{DynamicResource MaterialDesignPaper}" />
         </StackPanel>
     </Grid>
 </Window>

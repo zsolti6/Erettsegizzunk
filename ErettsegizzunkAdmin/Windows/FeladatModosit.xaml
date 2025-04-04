@@ -13,7 +13,8 @@
         Title="Feladat Szerkesztése" Height="600" Width="750"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
-        ResizeMode="CanMinimize">
+        ResizeMode="CanMinimize"
+        Icon="../Images/app.ico">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <Grid Margin="24" Background="{DynamicResource MaterialDesignPaper}">

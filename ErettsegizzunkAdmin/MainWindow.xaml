@@ -13,7 +13,7 @@
         Title="Érettségizzünk" Height="450" Width="800"
         WindowStartupLocation="CenterScreen"
         WindowStyle="ToolWindow"
-        >
+        Icon="Images/app.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

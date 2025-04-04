@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup />
+  <PropertyGroup>
+    <_LastSelectedProfileId>C:\Users\Bernát Olivér\Desktop\projektFeladat\Admin\ErettsegizzunkAdmin\Properties\PublishProfiles\ClickOnceProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
   <ItemGroup>
     <ApplicationDefinition Update="App.xaml">
       <SubType>Designer</SubType>
@@ -20,6 +22,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\FelhasznalokKezel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\HowToUseWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\MenuWindow.xaml.cs">
@@ -58,6 +63,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\FeladatokKezel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\HowToUseWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\MenuWindow.xaml">

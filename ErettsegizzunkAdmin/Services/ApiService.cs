@@ -20,13 +20,13 @@ namespace ErettsegizzunkAdmin.Services
         public ApiService()
         {
             _httpClient = new HttpClient();
-            //_httpClient.BaseAddress = new Uri("https://erettsegizzunk.onrender.com/");
-            _httpClient.BaseAddress = new Uri("https://localhost:7066/");
+            _httpClient.BaseAddress = new Uri("https://erettsegizzunk.onrender.com/");
+            //_httpClient.BaseAddress = new Uri("https://localhost:7066/");
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         #region Feladatok
-        public async Task<List<ErettsegizzunkAdmin.Models.Task>> GetFeladatoksAsync(int mettol)
+        public async Task<List<Models.Task>> GetFeladatoksAsync(int mettol)
         {
             try
             {
@@ -40,18 +40,18 @@ namespace ErettsegizzunkAdmin.Services
                 }
 
                 string responseContent = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<ErettsegizzunkAdmin.Models.Task>>(responseContent);
+                return JsonConvert.DeserializeObject<List<Models.Task>>(responseContent);
             }
             catch (ErrorDTO er)
             {
                 ErrorDTO error = JsonConvert.DeserializeObject<ErrorDTO>(er.Message);
                 MessageBoxes.CustomError(error.ToString());
-                return new List<ErettsegizzunkAdmin.Models.Task>();
+                return new List<Models.Task>();
             }
             catch (Exception)
             {
                 MessageBoxes.CustomError(new ErrorDTO(502, "Kapcsolati hiba").ToString());
-                return new List<ErettsegizzunkAdmin.Models.Task>();
+                return new List<Models.Task>();
             }
         }
 
@@ -81,7 +81,7 @@ namespace ErettsegizzunkAdmin.Services
             }
         }
 
-        public async Task DeletFeladatok(FeladatokDeleteDTO feladatokDeleteDTO)
+        public async Task DeletFeladatok(ParentDeleteDTO feladatokDeleteDTO)
         {
             try
             {

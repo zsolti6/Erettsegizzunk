@@ -27,6 +27,7 @@ namespace ErettsegizzunkAdmin.Windows
         private LoggedUserDTO user = new LoggedUserDTO();
         private List<Subject> subjects = new List<Subject>();
         private readonly ApiService _apiService;
+        HowToUseWindow help;
         public TantargyKezel(LoggedUserDTO user)
         {
             InitializeComponent();
@@ -64,6 +65,10 @@ namespace ErettsegizzunkAdmin.Windows
         {
             MenuWindow menu = new MenuWindow(user);
             menu.Show();
+            if (help != null)
+            {
+                help.Close();
+            }
             Close();
         }
 
@@ -98,7 +103,8 @@ namespace ErettsegizzunkAdmin.Windows
 
         private void btnQuestion_Click(object sender, RoutedEventArgs e)
         {
-
+            help = new HowToUseWindow("TantargyKezel");
+            help.Show();
         }
 
         private async void btnModosit_Click(object sender, RoutedEventArgs e)

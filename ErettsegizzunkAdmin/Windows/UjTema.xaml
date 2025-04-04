@@ -12,7 +12,8 @@
         TextElement.FontSize="14"
         WindowStartupLocation="CenterScreen"
         WindowState="Normal"
-        Height="300" Width="350">
+        Height="300" Width="350"
+        Icon="../Images/app.ico">
 
     <Grid>
         <Grid.RowDefinitions>

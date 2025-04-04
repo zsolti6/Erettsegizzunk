@@ -4,6 +4,7 @@ using ErettsegizzunkAdmin.Services;
 using Microsoft.Win32;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
@@ -31,6 +32,7 @@ namespace ErettsegizzunkAdmin.Windows
         private int pageNumber = 0;
         private List<Task> feladatok = new List<Task>();
         private LoggedUserDTO user;
+        HowToUseWindow help;
 
         public FeladatokKezel(LoggedUserDTO user)
         {
@@ -67,6 +69,8 @@ namespace ErettsegizzunkAdmin.Windows
         /// <param name="e"></param>
         private async void btnUjAdatokTxtbol_Click(object sender, RoutedEventArgs e)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 DefaultExt = "*txt",
@@ -85,20 +89,20 @@ namespace ErettsegizzunkAdmin.Windows
                 try
                 {
                     List<FeladatokPutPostDTO> feladatoks = new List<FeladatokPutPostDTO>();
-                    StreamReader reader = new StreamReader(openFileDialog.FileName);
+                    StreamReader reader = new StreamReader(openFileDialog.FileName, Encoding.GetEncoding(1252));
                     reader.ReadLine();
 
                     while (!reader.EndOfStream)//TÉMÁK HOZZÁADÁSA
                     {
                         string teszt = reader.ReadLine();
-                        string[] sor = teszt.Split("\t");
+                        string[] sor = teszt.Split("\t",StringSplitOptions.RemoveEmptyEntries);
                         if (sor.Length == 9)
                         {
-                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2], Helyese = sor[3], TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]), KepNev = sor[7], Temak = sor[8].Split(',') });
+                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2].Replace("\"", ""), Helyese = sor[3].Replace("\"",""), TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]), Temak = sor[7].Split(','), KepNev = sor[8] });
                         }
                         else
                         {
-                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2], Helyese = sor[3], TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]), Temak = sor[7].Split(',') });
+                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2].Replace("\"", ""), Helyese = sor[3].Replace("\"", ""), TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]), Temak = sor[7].Split(',') });
                         }
 
                         if (feladatoks.Count == 1)
@@ -120,7 +124,7 @@ namespace ErettsegizzunkAdmin.Windows
                     MessageBoxes.CustomError(new ErrorDTO(514, "A megadott file nem található").ToString());
                     return;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     MessageBoxes.CustomError(new ErrorDTO(515, "Hiba történt az adatok mentése közben").ToString());
                     return;
@@ -204,7 +208,7 @@ namespace ErettsegizzunkAdmin.Windows
                 return;
             }
 
-            await _apiService.DeletFeladatok(new FeladatokDeleteDTO() { Ids = ids, Token = user.Token });
+            await _apiService.DeletFeladatok(new ParentDeleteDTO() { Ids = ids, Token = user.Token });
             RefreshUi();
         }
 
@@ -212,6 +216,10 @@ namespace ErettsegizzunkAdmin.Windows
         {
             MenuWindow menu = new MenuWindow(user);
             menu.Show();
+            if (help != null)
+            {
+                help.Close();
+            }
             Close();
         }
 
@@ -247,7 +255,8 @@ namespace ErettsegizzunkAdmin.Windows
 
         private void btnQuestion_Click(object sender, RoutedEventArgs e)
         {
-
+            help = new HowToUseWindow("FeladatokKezel");
+            help.Show();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -255,11 +264,6 @@ namespace ErettsegizzunkAdmin.Windows
             var hwnd = new WindowInteropHelper(this).Handle;
             IntPtr hMenu = GetSystemMenu(hwnd, false);
             EnableMenuItem(hMenu, SC_CLOSE, MF_GRAYED);
-        }
-
-        private void btnFilter_Click(object sender, RoutedEventArgs e)
-        {
-            //új windowszűrésel #faszkivan
         }
     }
 }

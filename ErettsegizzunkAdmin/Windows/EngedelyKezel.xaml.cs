@@ -27,6 +27,7 @@ namespace ErettsegizzunkAdmin.Windows
         private LoggedUserDTO user = new LoggedUserDTO();
         private List<Permission> permissions = new List<Permission>();
         private readonly ApiService _apiService;
+        HowToUseWindow help;
         public EngedelyKezel(LoggedUserDTO user)
         {
             InitializeComponent();
@@ -64,6 +65,10 @@ namespace ErettsegizzunkAdmin.Windows
         {
             MenuWindow menu = new MenuWindow(user);
             menu.Show();
+            if (help != null)
+            {
+                help.Close();
+            }
             Close();
         }
 
@@ -109,16 +114,17 @@ namespace ErettsegizzunkAdmin.Windows
             await _apiService.PutPermssion(new PutPermissionDTO() { Permissions = permissions, Token = user.Token });
         }
 
-        private void btnQuestion_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var hwnd = new WindowInteropHelper(this).Handle;
             IntPtr hMenu = GetSystemMenu(hwnd, false);
             EnableMenuItem(hMenu, SC_CLOSE, MF_GRAYED);
+        }
+
+        private void btnQuestion_Click(object sender, RoutedEventArgs e)
+        {
+            help = new HowToUseWindow("EngedelyKezel");
+            help.Show();
         }
     }
 }

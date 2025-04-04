@@ -18,7 +18,8 @@
         MinHeight="400" MinWidth="600"
         WindowStyle="ThreeDBorderWindow"
         ResizeMode="CanMinimize"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        Icon="../Images/app.ico">
 
     <Grid Background="{DynamicResource MaterialDesignPaper}">
         <Grid.ColumnDefinitions>
@@ -141,14 +142,6 @@
                 Background="{DynamicResource PrimaryHueMidBrush}" 
                 Foreground="{DynamicResource MaterialDesignPaper}" 
                 Click="btnModosit_Click" />
-
-            <Button x:Name="btnFilter" 
-                Content="Szűrés" 
-                Margin="8" 
-                Style="{DynamicResource MaterialDesignRaisedButton}" 
-                Background="{DynamicResource PrimaryHueMidBrush}" 
-                Foreground="{DynamicResource MaterialDesignPaper}"
-                Click="btnFilter_Click"/>
         </StackPanel>
     </Grid>
 

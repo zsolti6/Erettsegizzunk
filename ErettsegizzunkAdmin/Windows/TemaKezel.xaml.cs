@@ -26,6 +26,7 @@ namespace ErettsegizzunkAdmin.Windows
         private LoggedUserDTO user = new LoggedUserDTO();
         private List<Theme> themes = new List<Theme>();
         private readonly ApiService _apiService;
+        HowToUseWindow help;
         public TemaKezel(LoggedUserDTO user)
         {
             InitializeComponent();
@@ -44,6 +45,10 @@ namespace ErettsegizzunkAdmin.Windows
         {
             MenuWindow menu = new MenuWindow(user);
             menu.Show();
+            if (help != null)
+            {
+                help.Close();
+            }
             Close();
         }
 
@@ -61,7 +66,8 @@ namespace ErettsegizzunkAdmin.Windows
 
         private void btnQuestion_Click(object sender, RoutedEventArgs e)
         {
-
+            help = new HowToUseWindow("TemaKezel");
+            help.Show();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
