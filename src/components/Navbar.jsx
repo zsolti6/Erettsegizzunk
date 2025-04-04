@@ -5,6 +5,7 @@ import "../css/Navbar.css";
 import { FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
 import SettingsWindow from "./SettingsWindow";
 import logo from "../img/logo.png";
+import { IMG_URL } from "../config";
 
 export const Navbar = ({ user, googleLogged, handleLogout }) => {
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ export const Navbar = ({ user, googleLogged, handleLogout }) => {
                   src={
                     googleLogged
                       ? user.photoURL
-                      : `https://res.cloudinary.com/drpkpopsq/image/upload/v1741078235/${user.profilePicturePath}`
+                      : `${IMG_URL}${user.profilePicturePath}`
                   }
                   alt="kep"
                   className="rounded-circle" style={{ maxHeight: "35px", cursor: "pointer" }}

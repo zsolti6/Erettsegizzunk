@@ -265,10 +265,6 @@ input[type="radio"]:checked + .radio-label {
   transition: transform 0.3s ease;
 }
 
-.clickable-img:hover {
-  transform: scale(1.05);
-}
-
 /* Style for the Modal's image */
 .modal-content {
   border-radius: 10px;
@@ -456,4 +452,12 @@ h2 {
 
 td{
   border: 1px solid black;
+}
+
+.clickable-icon{
+  cursor: pointer;
+}
+
+#statsImg:hover{
+  border: none;
 }

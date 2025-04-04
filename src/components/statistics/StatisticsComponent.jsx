@@ -58,7 +58,7 @@ export const StatisticsComponent = ({ user }) => {
         <div className="text-center mt-5">
           <h1 style={{ marginTop: "5rem" }}>Bejelentkezés szükséges</h1>
           <p className="lead text-white mt-3">
-            Jelentkezz be a statisztikák megtekintéséhez.
+            Jelentkezz be a statisztika funkció használatához.
           </p>
           <div className="mt-4">
             <button

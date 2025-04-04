@@ -10,8 +10,7 @@ export const FilterControls = ({
   onFilterChange,
   onApplyFilters,
   showFilters,
-  setShowFilters,
-  isMobile,
+  setShowFilters
 }) => {
   const [subjectOptions, setSubjectOptions] = useState([]);
   const [difficultyOptions, setDifficultyOptions] = useState([]);
@@ -24,8 +23,8 @@ export const FilterControls = ({
       try {
         const response = await axios.get(`${BASE_URL}/erettsegizzunk/Tantargyak/get-tantargyak`);
         const options = response.data.map((subject) => ({
-          value: subject.id, // Assuming the API returns an `id` field
-          label: subject.name, // Assuming the API returns a `name` field
+          value: subject.id,
+          label: subject.name
         }));
         setSubjectOptions(options);
       } catch (error) {
@@ -114,12 +113,12 @@ export const FilterControls = ({
       difficulty: null,
       themes: null,
     });
-    setThemeOptions([]); // Clear theme options
+    setThemeOptions([]);
   };
 
   return (
     <>
-      <button className="btn btn-primary" onClick={() => setShowFilters(!showFilters)}>
+      <button className="btn btn-primary mb-2" onClick={() => setShowFilters(!showFilters)}>
         <FaFilter className="me-2" />
         {showFilters ? "Szűrők elrejtése" : "Szűrők megjelenítése"}
       </button>
