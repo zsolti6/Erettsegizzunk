@@ -17,6 +17,7 @@ namespace ErettsegizzunkApi
         public static string ftpUrl = "";
         public static string ftpUserName = "";
         public static string ftpPassword = "";
+        public static string Token = string.Empty;
         private static string email = "";
         private static string emailPassword = "";
         private static string smtp = "";

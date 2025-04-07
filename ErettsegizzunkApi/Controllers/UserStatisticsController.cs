@@ -208,7 +208,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 if (!Program.LoggedInUsers.ContainsKey(userCheck.Token) || Program.LoggedInUsers[userCheck.Token].Id != userCheck.UserId)
                 {
-                    //return Unauthorized(new ErrorDTO() { Id = 122, Message = "Hozzáférés megtagadva" });
+                    return Unauthorized(new ErrorDTO() { Id = 164, Message = "Hozzáférés megtagadva" });
                 }
 
                 List<DateTime> datumok = await _context.UserStatistics
@@ -228,11 +228,11 @@ namespace ErettsegizzunkApi.Controllers
             }
             catch (MySqlException)
             {
-                return StatusCode(500, new ErrorDTO() { Id = 123, Message = "Kapcsolati hiba" });
+                return StatusCode(500, new ErrorDTO() { Id = 165, Message = "Kapcsolati hiba" });
             }
             catch (Exception)
             {
-                return StatusCode(500, new ErrorDTO() { Id = 124, Message = "Hiba történt az adatok lekérdezése közben" });
+                return StatusCode(500, new ErrorDTO() { Id = 166, Message = "Hiba történt az adatok lekérdezése közben" });
             }
         }
 

@@ -11,12 +11,11 @@ namespace ErettsegizzunkApi.Controllers
     public class PasswordController : ControllerBase
     {
         private readonly ErettsegizzunkContext _context;
-        private string Token;
+        
 
         public PasswordController(ErettsegizzunkContext context)
         {
             _context = context;
-            Token = string.Empty;
         }
 
         //Jelszó megváltoztatása, temphast kapunk, hogy biztonságosabb legyen
@@ -71,7 +70,7 @@ namespace ErettsegizzunkApi.Controllers
         public async Task<IActionResult> ElfelejtettJelszoKeres([FromBody] string email)
         {
             await GenerateToken();
-            string body = $"A jelszava visszaállításáshoz kattintson a linkre. Amennyiben nem ön próbálta helyreállítani a jelszavát akkor hagyja figyelmen kívül ezt az üzenetet https://erettsegizzunk.onrender.com/erettsegizzunk/Password/elfelejtett-jelszo?email={Uri.EscapeDataString(email)}&token={Token}";
+            string body = $"A jelszava visszaállításáshoz kattintson a linkre. Amennyiben nem ön próbálta helyreállítani a jelszavát akkor hagyja figyelmen kívül ezt az üzenetet https://erettsegizzunk.onrender.com/erettsegizzunk/Password/elfelejtett-jelszo?email={Uri.EscapeDataString(email)}&token={Program.Token}";
             Program.SendEmail(email, "Jelszó helyreállítás", body);
             return Ok();
         }
@@ -84,7 +83,7 @@ namespace ErettsegizzunkApi.Controllers
 
             try
             {
-                if (token != Token)
+                if (token != Program.Token)
                 {
                     return Unauthorized(new ErrorDTO() { Id = 133, Message = "Hozzáférés megtagadva" });
                 }
@@ -149,7 +148,7 @@ namespace ErettsegizzunkApi.Controllers
 
         private async System.Threading.Tasks.Task GenerateToken()
         {
-            Token = Guid.NewGuid().ToString();
+            Program.Token = Guid.NewGuid().ToString();
         }
     }
 }
