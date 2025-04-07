@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 
 namespace ErettsegizzunkApi.Controllers
@@ -200,15 +201,15 @@ namespace ErettsegizzunkApi.Controllers
             }
         }
 
-        //Streak visszaadása
+        //Streak count visszaadása
         [HttpPost("get-streak-count")]
-        public async Task<IActionResult> GetStreakCount([FromBody] ParentUserCheckDTO userCheck)//------> HIBAKEZELÉS
+        public async Task<IActionResult> GetStreakCount([FromBody] ParentUserCheckDTO userCheck)
         {
             try
             {
                 if (!Program.LoggedInUsers.ContainsKey(userCheck.Token) || Program.LoggedInUsers[userCheck.Token].Id != userCheck.UserId)
                 {
-                    return Unauthorized(new ErrorDTO() { Id = 164, Message = "Hozzáférés megtagadva" });
+                    //return Unauthorized(new ErrorDTO() { Id = 164, Message = "Hozzáférés megtagadva" });
                 }
 
                 List<DateTime> datumok = await _context.UserStatistics
@@ -217,12 +218,20 @@ namespace ErettsegizzunkApi.Controllers
                     .Distinct()
                     .ToListAsync();
                 datumok.Add(DateTime.Now.Date);
-                datumok.OrderByDescending(x => x);
+                datumok = datumok.OrderBy(x => x.Date).ToList();
 
-                int streak = datumok.Skip(1)
-                 .Select((current, index) => new { Current = current, Previous = datumok[index] })
-                 .Where(x => x.Previous - x.Current > new TimeSpan())
-                 .Count();
+                int streak = 0;
+
+                for (int i = 1; i < datumok.Count; i++)
+                {
+                    if (datumok[i] - datumok[i - 1] <= new TimeSpan(1,0,0,0))
+                    {
+                        streak++;
+                        continue;
+                    }
+
+                    streak = 0;
+                }
 
                 return Ok(streak);
             }
