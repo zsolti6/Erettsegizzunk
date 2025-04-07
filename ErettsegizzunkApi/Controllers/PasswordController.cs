@@ -70,7 +70,7 @@ namespace ErettsegizzunkApi.Controllers
         [HttpPost("elfelejtett-jelszo-keres")]
         public async Task<IActionResult> ElfelejtettJelszoKeres([FromBody] string email)
         {
-            GenerateToken();
+            await GenerateToken();
             string body = $"A jelszava visszaállításáshoz kattintson a linkre. Amennyiben nem ön próbálta helyreállítani a jelszavát akkor hagyja figyelmen kívül ezt az üzenetet https://erettsegizzunk.onrender.com/erettsegizzunk/Password/elfelejtett-jelszo?email={Uri.EscapeDataString(email)}&token={Token}";
             Program.SendEmail(email, "Jelszó helyreállítás", body);
             return Ok();
@@ -143,11 +143,11 @@ namespace ErettsegizzunkApi.Controllers
             }
             finally
             {
-                GenerateToken();
+                await GenerateToken();
             }
         }
 
-        private void GenerateToken()
+        private async System.Threading.Tasks.Task GenerateToken()
         {
             Token = Guid.NewGuid().ToString();
         }
