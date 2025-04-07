@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Tooltip } from "bootstrap";
-import { IMG_URL } from "../config";
+import { IMG_URL } from "../../config";
 import { FaImage } from "react-icons/fa";
-import "../css/taskStyle.css";
+import "../../css/taskStyle.css";
 
 export const ExerciseStats = () => {
   const { state } = useLocation();

@@ -10,7 +10,7 @@ import { RegisterPage } from "./components/account/Register";
 import { StatisticsComponent } from "./components/statistics/StatisticsComponent.jsx";
 import { TutorialComponent } from "./components/TutorialComponent";
 import { SelectorComponent } from "./components/SelectorComponent";
-import { ExerciseStats } from "./components/ExerciseStats.jsx";
+import { ExerciseStats } from "./components/exercise/ExerciseStats.jsx";
 import { Profile } from "./components/account/Profile";
 import { PasswordReset } from "./components/account/PasswordReset";
 import { Navbar } from "./components/Navbar";
@@ -32,7 +32,8 @@ export const App = () => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-
+    console.log(storedUser);
+    
     const storedGoogleLogged = rememberMe
       ? localStorage.getItem("googleLogged")
       : sessionStorage.getItem("googleLogged");
