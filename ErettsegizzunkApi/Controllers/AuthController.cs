@@ -76,7 +76,7 @@ namespace ErettsegizzunkApi.Controllers
                 return result;
             }
 
-            return Ok(await _registryController.Registry(LoginRegistryRequest.User));
+            return await _registryController.Registry(LoginRegistryRequest.User);
         }
 
         private async Task<IActionResult> CheckCaptcha(LoginRegistryRequestDTO LoginRegistryRequest)

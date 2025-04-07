@@ -3,6 +3,7 @@ using ErettsegizzunkApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 using System.Text.Json;
 
 namespace ErettsegizzunkApi.Controllers
@@ -129,6 +130,7 @@ namespace ErettsegizzunkApi.Controllers
                 })
                 .Skip(filteredDeatiled.Oldal * OLDAL_DARAB)
                 .Take(OLDAL_DARAB)
+                .OrderByDescending(x => x.UtolsoKitoltesDatum)//---> teszt
                 .ToList();
 
             return new FilteredTaskCountDTO() { FilteredTasks = filteredTasks , OldalDarab =  Math.Ceiling(data.Count() / (double)OLDAL_DARAB) };
@@ -162,6 +164,7 @@ namespace ErettsegizzunkApi.Controllers
                 })
                 .Skip(deatiled.Oldal * OLDAL_DARAB)
                 .Take(OLDAL_DARAB)
+                .OrderByDescending(x => x.UtolsoKitoltesDatum)//--> teszt
                 .ToList();
 
             return new FilteredTaskCountDTO() { FilteredTasks = filteredTasks, OldalDarab = Math.Ceiling(data.Count() / (double)OLDAL_DARAB) };
@@ -186,6 +189,42 @@ namespace ErettsegizzunkApi.Controllers
                     .ToDictionaryAsync(g => g.Key!, g => g.Select(x => x.TaskId).Count());
 
                 return Ok(taskFilloutCount);
+            }
+            catch (MySqlException)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 123, Message = "Kapcsolati hiba" });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new ErrorDTO() { Id = 124, Message = "Hiba történt az adatok lekérdezése közben" });
+            }
+        }
+
+        //Streak visszaadása
+        [HttpPost("get-streak-count")]
+        public async Task<IActionResult> GetStreakCount([FromBody] ParentUserCheckDTO userCheck)//------> HIBAKEZELÉS
+        {
+            try
+            {
+                if (!Program.LoggedInUsers.ContainsKey(userCheck.Token) || Program.LoggedInUsers[userCheck.Token].Id != userCheck.UserId)
+                {
+                    //return Unauthorized(new ErrorDTO() { Id = 122, Message = "Hozzáférés megtagadva" });
+                }
+
+                List<DateTime> datumok = await _context.UserStatistics
+                    .Where(x => x.UserId == userCheck.UserId)
+                    .Select(x => x.FilloutDate.Date)
+                    .Distinct()
+                    .ToListAsync();
+                datumok.Add(DateTime.Now.Date);
+                datumok.OrderByDescending(x => x);
+
+                int streak = datumok.Skip(1)
+                 .Select((current, index) => new { Current = current, Previous = datumok[index] })
+                 .Where(x => x.Previous - x.Current > new TimeSpan())
+                 .Count();
+
+                return Ok(streak);
             }
             catch (MySqlException)
             {
@@ -255,7 +294,7 @@ namespace ErettsegizzunkApi.Controllers
                 taskFilloutCount = await _context.UserStatistics
                     .Where(x => x.UserId == fillingByDateCount.UserId)
                     .GroupBy(x => x.FilloutDate.Date.ToString())
-                    .ToDictionaryAsync(g => g.Key!, g => g.Count() / 15);
+                    .ToDictionaryAsync(g => g.Key!, g => g.Count() / 15);//----> 15 mert annyi feladat van egy kitöltésben nem dinamikus
 
                 return Ok(taskFilloutCount);
             }
