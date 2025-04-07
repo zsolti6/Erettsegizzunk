@@ -88,7 +88,7 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
         message: error.response?.data?.message || "Hiba történt a statisztika visszaállítása során.",
       });
     } finally {
-      setShowModal(false); // Close the confirmation modal
+      setShowModal(false);
     }
   };
 
@@ -134,9 +134,17 @@ export const Profile = ({ user, setUser, googleLogged, handleLogout }) => {
         await axios.post(
           `${BASE_URL}/erettsegizzunk/Password/jelszo-modositas`,
           updatedFormData
-        );
+        ).then((response) => {
+          setMessageModal({ show: true, type: "success", message: response.message });
+        }).catch((error) => {
+          setMessageModal({
+            show: true,
+            type: "error",
+            message: error.response?.data?.message || "Hiba történt a jelszó módosítása során.",
+          });
+        });
 
-        setMessageModal({ show: true, type: "success", message: "Jelszó sikeresen megváltoztatva!" });
+        
       } catch (error) {
         setMessageModal({
           show: true,

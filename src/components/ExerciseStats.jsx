@@ -26,7 +26,7 @@ export const ExerciseStats = () => {
   return (
     <div className="page-wrapper">
       <div className="container col-md-8 mt-3">
-        <h2 className="mb-4 text-center text-white">Feladatok összegzése</h2>
+        <h2 className="mb-4 text-center text-white mt-4">Feladatok összegzése</h2>
         <div className="table-responsive">
           <table className="table color-bg2">
             <thead className="thead-dark">

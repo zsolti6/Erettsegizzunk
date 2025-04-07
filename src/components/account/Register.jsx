@@ -115,21 +115,27 @@ export const RegisterPage = ({ user }) => {
         CaptchaToken: captchaToken,
       };
       const url = `${BASE_URL}/erettsegizzunk/Auth/regisztracio`;
-      await axios.post(url, user);
-
-      setMessageModal({
-        show: true,
-        type: "success",
-        message: "Sikeres regisztráció! Most már bejelentkezhet.",
+      const response = await axios.post(url, user).then((res) => {
+        setMessageModal({
+          show: true,
+          type: "success",
+          message: res.data,
+        });
+      }).catch((err) => {
+        setMessageModal({
+          show: true,
+          type: "error",
+          message: err.response.data.message
+        });
       });
     } catch (error) {
       setMessageModal({
         show: true,
         type: "error",
-        message: "Hiba történt a regisztráció során: " + (error.response ? error.response.data : error.message),
+        message: error.message
       });
     } finally {
-      setLoading(false); // Hide loading spinner
+      setLoading(false);
     }
   };
 

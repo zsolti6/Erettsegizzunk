@@ -112,7 +112,7 @@ export const StatisticsComponent = ({ user }) => {
         <div className="col-12 col-md-6">
           <div className="card h-100 color-bg2">
             <div className="card-body">
-              <h3 className="card-title text-center mb-0 text-white">Feladatok Statisztikája</h3>
+              <h3 className="card-title text-center mb-0 text-white">Feladatok kitöltve</h3>
               <StatisticsPieChart data={userStats} isMobile={isMobile} />
             </div>
           </div>
@@ -120,7 +120,7 @@ export const StatisticsComponent = ({ user }) => {
         <div className="col-12 col-md-6">
           <div className="card h-100 color-bg2">
             <div className="card-body">
-              <h3 className="card-title text-center mb-3 text-white">Kitöltések Dátum Szerint</h3>
+              <h3 className="card-title text-center mb-3 text-white">Feladatlapok dátum szerint</h3>
               <LineGraph data={fillingByDate} isMobile={isMobile} />
             </div>
           </div>

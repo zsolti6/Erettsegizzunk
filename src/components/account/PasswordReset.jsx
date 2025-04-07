@@ -71,7 +71,7 @@ export const PasswordReset = () => {
 
             <button
               type="submit"
-              className="btn btn-primary w-100"
+              className="btn color-bg1 text-white w-100"
               disabled={loading}
             >
               {loading ? "Küldés..." : "Jelszó visszaállítási link küldése"}

@@ -29,9 +29,6 @@ export const App = () => {
     const storedUser = rememberMe
       ? localStorage.getItem("user")
       : sessionStorage.getItem("user");
-
-    console.log("Stored User on Load:", storedUser);
-
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -62,8 +59,7 @@ export const App = () => {
         },
       })
       .then((response) => {
-        console.log("Active status response:", response.data);
-        if(response.data === false){ 
+        if(response.data === false){
           handleLogout();
         }
       })

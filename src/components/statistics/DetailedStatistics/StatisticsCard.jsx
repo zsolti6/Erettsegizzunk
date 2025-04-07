@@ -1,8 +1,11 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import the icons
+import { FaChevronUp, FaChevronDown } from "react-icons/fa";
+import { IMG_URL } from "../../../config";
+import { FaImage } from "react-icons/fa";
+import { useState } from 'react';
 
-const COLORS = ["#00FF00", "#FF0000"]; // Green (correct), Red (incorrect)
+const COLORS = ["#00FF00", "#FF0000"];
 
 export const StatisticsCard = React.memo(({ 
   item, 
@@ -15,6 +18,7 @@ export const StatisticsCard = React.memo(({
   const total = correct + incorrect;
   const percentage = total > 0 ? ((correct / total) * 100).toFixed(1) : 0;
 
+  const [modalImage, setModalImage] = useState(null);
   // Memoize chart data to prevent re-renders when data hasn't changed
   const chartData = React.useMemo(() => [
     { name: "Helyes", value: correct },
@@ -52,7 +56,6 @@ export const StatisticsCard = React.memo(({
         </div>
         
         <div className="col-2 col-md-2 text-end">
-          {/* Replace plain text arrows with React Icons */}
           <span className="arrow">
             {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
           </span>
@@ -74,7 +77,51 @@ export const StatisticsCard = React.memo(({
                 <div className="fw-bold">Feladat szövege:</div>
                 <div>{item.task.text}</div>
               </div>
+              <br/>
+              <div className="text-center">
+                {item.task.picName && (
+                  <FaImage
+                    className="text-primary clickable-icon"
+                    size={24}
+                    title="Kép megtekintése"
+                    onClick={() => setModalImage(`${IMG_URL}${item.task.picName}`)}
+                  />
+                )}
+              </div>
             </div>
+            
+            {/* Modal for Image */}
+        {modalImage && (
+          <div
+            className="modal fade show d-block"
+            tabIndex="-1"
+            role="dialog"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+          >
+            <div className="modal-dialog modal-dialog-centered" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Feladat kép</h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    aria-label="Close"
+                    onClick={() => setModalImage(null)}
+                  ></button>
+                </div>
+                <div className="d-flex justify-content-center">
+                  <img
+                    id="statsImg"
+                    className="img-fluid rounded p-3"
+                    src={modalImage}
+                    alt="Enlarged view"
+                    style={{ maxHeight: '80vh', maxWidth: '100%' }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
             {/* Metadata Column */}
             <div className="col-12 col-md-2 mb-3 mb-md-0">
@@ -145,11 +192,10 @@ export const StatisticsCard = React.memo(({
     </div>
   );
 }, (prevProps, nextProps) => {
-  // Custom comparison function for React.memo
   return (
     prevProps.item.id === nextProps.item.id &&
     prevProps.isExpanded === nextProps.isExpanded
   );
 });
 
-StatisticsCard.displayName = 'StatisticsCard'; // For better debugging
+StatisticsCard.displayName = 'StatisticsCard';

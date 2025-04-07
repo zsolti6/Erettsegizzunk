@@ -123,7 +123,7 @@ export const LoginPage = ({ user, handleLogin }) => {
         setMessageModal({
           show: true,
           type: "error",
-          message: "Hiba történt a bejelentkezéskor!",
+          message: loginResponse.data.message
         });
       }
     } catch (error) {

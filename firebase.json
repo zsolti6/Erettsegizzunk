@@ -1,24 +1,31 @@
 {
-    "hosting": {
-      "public": "build",
-      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-      "headers": [
-        {
-          "source": "**",
-          "headers": [
-            {
-              "key": "Cross-Origin-Opener-Policy",
-              "value": "same-origin-allow-popups"
-            }
-          ]
-        }
-      ],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    }
+  "hosting": {
+    "public": "build",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "headers": [
+      {
+        "source": "/apps/ErettsegizzunkAdminInstaller.msi",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          },
+          {
+            "key": "Content-Disposition",
+            "value": "attachment; filename=ErettsegizzunkAdminInstaller.msi"
+          },
+          {
+            "key": "Cross-Origin-Opener-Policy",
+            "value": "same-origin-allow-popups"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   }
-  
+}

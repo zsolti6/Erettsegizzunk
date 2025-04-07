@@ -6,6 +6,7 @@ import { FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
 import SettingsWindow from "./SettingsWindow";
 import logo from "../img/logo.png";
 import { IMG_URL } from "../config";
+import { BASE_URL } from "../config";
 
 export const Navbar = ({ user, googleLogged, handleLogout }) => {
   const navigate = useNavigate();
@@ -65,6 +66,15 @@ export const Navbar = ({ user, googleLogged, handleLogout }) => {
               </li>
               <li className="nav-item">
                 <Link to="/feladat-valasztas" className="nav-link fs-5">Új feladatlap</Link>
+              </li>
+              <li className="nav-item">
+                <a 
+                  href="https://erettsegizzunk.web.app/apps/ErettsegizzunkAdminInstaller.msi" 
+                  download="ErettsegizzunkAdminInstaller.msi"
+                  className="nav-link fs-5"
+                >
+                  Admin letöltés Windows
+                </a>
               </li>
             </ul>
             {user ? (
