@@ -54,7 +54,7 @@
                 <DataGridCheckBoxColumn Header="Kijelölés" Binding="{Binding IsSelected}" />
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
                 <DataGridTextColumn Width="300" Header="Leiras" Binding="{Binding Description}" IsReadOnly="True" />
-                <DataGridTextColumn Width="300" Header="Leiras" Binding="{Binding Text}" IsReadOnly="True" />
+                <DataGridTextColumn Width="300" Header="Szöveg" Binding="{Binding Text}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Megoldasok" Binding="{Binding Answers}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Tantargy" Binding="{Binding SubjectName}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Szint" Binding="{Binding LevelName}" IsReadOnly="True" />

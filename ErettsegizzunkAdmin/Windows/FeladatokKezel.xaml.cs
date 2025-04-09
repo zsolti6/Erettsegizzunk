@@ -89,13 +89,13 @@ namespace ErettsegizzunkAdmin.Windows
                 try
                 {
                     List<FeladatokPutPostDTO> feladatoks = new List<FeladatokPutPostDTO>();
-                    StreamReader reader = new StreamReader(openFileDialog.FileName, Encoding.GetEncoding(1252));
+                    StreamReader reader = new StreamReader(openFileDialog.FileName, Encoding.UTF8);//Encoding.GetEncoding(1252));
                     reader.ReadLine();
 
-                    while (!reader.EndOfStream)//TÉMÁK HOZZÁADÁSA
+                    while (!reader.EndOfStream)
                     {
                         string teszt = reader.ReadLine();
-                        string[] sor = teszt.Split("\t",StringSplitOptions.RemoveEmptyEntries);
+                        string[] sor = teszt.Replace("\\n", "\n").Split("\t",StringSplitOptions.RemoveEmptyEntries);
                         if (sor.Length == 9)
                         {
                             feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2].Replace("\"", ""), Helyese = sor[3].Replace("\"",""), TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]), Temak = sor[7].Split(','), KepNev = sor[8] });
@@ -124,7 +124,7 @@ namespace ErettsegizzunkAdmin.Windows
                     MessageBoxes.CustomError(new ErrorDTO(514, "A megadott file nem található").ToString());
                     return;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     MessageBoxes.CustomError(new ErrorDTO(515, "Hiba történt az adatok mentése közben").ToString());
                     return;

@@ -1,0 +1,32 @@
+Magyar:
+Szövegértés - 1
+Szövegalkotás  - 2
+Irodalomtörténet - 3
+Műelemzés és versértelmezés - 4
+Irodalmi műfajok és műnemek - 5
+Intertextualitás és motívumok - 6
+Kortárs irodalom és világirodalom - 7
+Műfajismeret - 8
+
+Történelem:
+A kereszténység - 9
+Az iszlám vallás - 10
+Újkor (1492–1789) - 11
+Az 1848–49-es forradalom és szabadságharc - 12
+Az alkotmányos monarchia kialakulása Angliában - 13
+Újkor (1789–1914) -14
+A polgári állam és a jogállamiság kialakulása - 15
+A második világháború és a holokauszt - 16
+A Horthy-korszak és a két világháború közötti Magyarország (1920–1944) - 17
+20. század (1914–1945) - 18
+A hidegháború (1947–1991) - 19
+
+Matek:
+Algebra
+Abszolútérték, gyök
+Bizonyítások
+Egyenletek
+Halmazok
+Kombinatorika
+Síkgeometria
+Sorozatok

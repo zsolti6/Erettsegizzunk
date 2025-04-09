@@ -33,19 +33,19 @@
         <materialDesign:ColorZone Mode="PrimaryDark" Grid.Row="0" Height="50">
             <DockPanel LastChildFill="True">
 
-                <!-- Menu with a custom ItemsPanel (DockPanel) -->
+                <!-- Menu egyedi panellel -->
                 <Menu materialDesign:ColorZoneAssist.Mode="PrimaryDark"
               VerticalAlignment="Center"
               DockPanel.Dock="Left">
 
-                    <!-- Replace the default ItemsPanel with a DockPanel -->
+                    <!-- Item panel lecserélése -->
                     <Menu.ItemsPanel>
                         <ItemsPanelTemplate>
                             <DockPanel LastChildFill="False"/>
                         </ItemsPanelTemplate>
                     </Menu.ItemsPanel>
 
-                    <!-- Left-aligned menu items -->
+                    <!-- Balra igazított menu items -->
                     <MenuItem x:Name="feladatKezel"
                       Header="Feladatok"
                       Click="feladatKezelese_Click"
@@ -60,7 +60,8 @@
                       Header="Biztonsági mentés"
                       Click="adatbazisBackup_Click"
                       Foreground="{DynamicResource MaterialDesignPaper}"
-                      DockPanel.Dock="Left">
+                      DockPanel.Dock="Left"
+                      Visibility="Collapsed"> <!-- Kiszedni mert nem megy -->
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="FormatListText"
                                              Foreground="{DynamicResource MaterialDesignPaper}"/>
@@ -107,7 +108,7 @@
                         </MenuItem.Icon>
                     </MenuItem>
 
-                    <!-- Right-aligned Logout MenuItem -->
+                    <!-- Jobbra igazított kijelentkezési MenuItem -->
                     <MenuItem Header="Logout"
                       Foreground="{DynamicResource MaterialDesignPaper}"
                       Click="Logout_Click"
@@ -125,9 +126,9 @@
         </materialDesign:ColorZone>
 
 
-        <!-- Main Content -->
+        <!-- Fő Content -->
         <Grid Grid.Row="1" Background="{DynamicResource MaterialDesignPaper}">
-            <!-- Background Visual (Optional Decorative Elements) -->
+            <!-- Felhasználó képe -->
             <Image x:Name="imgUser"
                    HorizontalAlignment="Right" 
                    VerticalAlignment="Top" 
@@ -135,10 +136,10 @@
                    Width="200" 
                    Height="200"/>
 
-            <!-- Welcome Section -->
+            <!-- Üdvozlés rész -->
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 
-                <!-- Welcome Label -->
+                <!-- Üdvözlés felirat -->
                 <Label x:Name="lbUdvozles"
                    FontSize="50" 
                    FontWeight="Bold" 
