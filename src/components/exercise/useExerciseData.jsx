@@ -47,6 +47,7 @@ export const useExerciseData = () => {
               isCorrect: task.isCorrect,
               answers: task.answers,
               values: task.type.name === "textbox" ? [""] : Array(task.isCorrect.split(";").length).fill("0"),
+              type: task.type
             };
             return acc;
           }, {});
