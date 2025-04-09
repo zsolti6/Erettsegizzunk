@@ -286,7 +286,7 @@ namespace ErettsegizzunkApi.Controllers
             {
                 return StatusCode(500, new ErrorDTO() { Id = 26, Message = "Hiba történt az adatok mentése közben" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return StatusCode(500, new ErrorDTO() { Id = 27, Message = "Hiba történt az adatok mentése közben" });
             }
