@@ -33,7 +33,7 @@ namespace ErettsegizzunkApi.Controllers
                     .Include(x => x.Subject)
                     .Include(x => x.Themes)
                     .Include(x => x.Type)
-                    .Where(x => x.Id > mettol)
+                    .Skip(mettol)
                     .Take(50)
                     .ToListAsync();
 
@@ -152,15 +152,25 @@ namespace ErettsegizzunkApi.Controllers
                 return BadRequest(new ErrorDTO() { Id = 13, Message = "Helytelen azonosító" });
             }
 
-            Task? feladat = await _context.Tasks.FindAsync(put.Id);
+            Task? feladat = await _context.Tasks.Include(x => x.Themes).FirstOrDefaultAsync(x => x.Id == put.Id);
 
             if (feladat is null)
             {
                 return NotFound(new ErrorDTO() { Id = 14, Message = "A keresett adat nem található" });
             }
 
+            List<Theme> themes = new List<Theme>();
+            ActionResult temakResult = (await _themesController.GetThemes()).Result;
+
+            if (temakResult is OkObjectResult asd)
+            {
+                themes = (List<Theme>)asd.Value;
+            }
+
             try
             {
+                feladat.Themes.Clear();
+
                 feladat.Description = put.Leiras;
                 feladat.Answers = put.Megoldasok;
                 feladat.IsCorrect = put.Helyese;
@@ -169,6 +179,7 @@ namespace ErettsegizzunkApi.Controllers
                 feladat.LevelId = put.SzintId;
                 feladat.PicName = put.KepNev;
                 feladat.Text = put.Szoveg;
+                feladat.Themes = themes.Where(x => put.Temak.Contains(x.Name)).ToList();
 
                 _context.Entry(feladat).State = EntityState.Modified;
                 await _context.SaveChangesAsync();

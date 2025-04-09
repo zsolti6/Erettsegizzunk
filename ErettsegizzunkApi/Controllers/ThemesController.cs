@@ -12,7 +12,7 @@ namespace ErettsegizzunkApi.Controllers
     {
         private readonly ErettsegizzunkContext _context;
 
-        public ThemesController(ErettsegizzunkContext context)//=============>>>>>>>>>>>>>>>> Ha lesznek témák megírni!!!!!!!!
+        public ThemesController(ErettsegizzunkContext context)
         {
             _context = context;
         }

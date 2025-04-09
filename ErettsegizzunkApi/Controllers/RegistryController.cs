@@ -82,8 +82,7 @@ namespace ErettsegizzunkApi.Controllers
                     user.Active = true;
                     _context.Users.Update(user);
                     await _context.SaveChangesAsync();
-                    string body = "<p>A regisztráció befejezése sikeresen megtörtént</p>" +
-                    "<img src='http://images.erettsegizzunk.nhely.hu/1715962531.84313.123565.jpg' alt='Image'/>";
+                    string body = "<p>A regisztráció befejezése sikeresen megtörtént</p>";
 
                     Program.SendEmail(user.Email, "Regisztráció befejezve", body, true);
 
@@ -125,7 +124,7 @@ namespace ErettsegizzunkApi.Controllers
 
                     await _context.Users.AddAsync(newUser);
 
-                    //AWAIT NEM VÁR MERT KAKI ======>>>>>>>>>>>>>> BUGOS JAVÍTANI
+                    //Néha megy néha nem?
                     await _context.SaveChangesAsync();
 
                     Program.SendEmail(email, "Sikeres regisztráció", "Köszönjük a regisztrálást");
