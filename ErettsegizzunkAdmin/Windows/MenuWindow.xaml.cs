@@ -1,8 +1,10 @@
-﻿using ErettsegizzunkAdmin.DTOs;
+﻿using ErettsegizzunkAdmin.CustomMessageBoxes;
+using ErettsegizzunkAdmin.DTOs;
 using ErettsegizzunkAdmin.Services;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace ErettsegizzunkAdmin.Windows
 {
@@ -32,7 +34,27 @@ namespace ErettsegizzunkAdmin.Windows
             _apiService = new ApiService();
             this.user = user;
             lbUdvozles.Content = "Üdv: " + user.Name;
-            imgUser.Source = user.ProfilePicture;
+            ProfilKepBeallit();
+        }
+
+        //Profil kép beállítása
+        private void ProfilKepBeallit()
+        {
+            try
+            {
+                string imageUrl = "https://res.cloudinary.com/drpkpopsq/image/upload/v1744207314/" + user.ProfilePicturePath;
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(imageUrl);
+                bitmap.EndInit();
+                imgUser.Source = bitmap;
+            }
+            catch (Exception)
+            {
+                MessageBoxes.CustomError("Hiba történt a profilkép betöltése közben");
+                return;
+            }
+            
         }
 
         //Feladatok kezelése

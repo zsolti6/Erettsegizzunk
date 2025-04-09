@@ -22,11 +22,11 @@ A Horthy-korszak és a két világháború közötti Magyarország (1920–1944)
 A hidegháború (1947–1991) - 19
 
 Matek:
-Algebra
-Abszolútérték, gyök
-Bizonyítások
-Egyenletek
-Halmazok
-Kombinatorika
-Síkgeometria
-Sorozatok
+Algebra - 20
+Abszolútérték, gyök - 21
+Bizonyítások - 22
+Egyenletek - 23
+Halmazok - 24
+Kombinatorika - 25
+Síkgeometria - 26
+Sorozatok - 27

@@ -20,7 +20,7 @@
 
         public int SzintId { get; set; }
 
-        public string[] Temak { get; set; }
+        public List<string> Temak { get; set; }
     }
 
     public class FeladatokDeleteDTO : ParentDTO

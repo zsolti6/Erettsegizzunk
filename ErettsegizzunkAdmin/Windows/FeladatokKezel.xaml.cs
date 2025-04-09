@@ -46,7 +46,8 @@ namespace ErettsegizzunkAdmin.Windows
         {
             if (lekerdez)
             {
-                feladatok = await LoadDatasAsync(feladatok.Count == 50 && oldalKov ? feladatok[feladatok.Count - 1].Id : feladatok.Count == 0 ? 0 : feladatok[0].Id - 51);//teszt de elv megy
+                //feladatok = await LoadDatasAsync(feladatok.Count == 50 && oldalKov ? feladatok[feladatok.Count - 1].Id : feladatok.Count == 0 ? 0 : feladatok[0].Id - 51);//teszt de elv megy
+                feladatok = await LoadDatasAsync(pageNumber);//teszt de elv megy
             }
             dgFeladatAdatok.ItemsSource = null;
             dgFeladatAdatok.ItemsSource = feladatok;
@@ -86,10 +87,10 @@ namespace ErettsegizzunkAdmin.Windows
                     return;
                 }
 
+                StreamReader reader = new StreamReader(openFileDialog.FileName, Encoding.UTF8);//Encoding.GetEncoding(1252));
                 try
                 {
                     List<FeladatokPutPostDTO> feladatoks = new List<FeladatokPutPostDTO>();
-                    StreamReader reader = new StreamReader(openFileDialog.FileName, Encoding.UTF8);//Encoding.GetEncoding(1252));
                     reader.ReadLine();
 
                     while (!reader.EndOfStream)
@@ -98,11 +99,11 @@ namespace ErettsegizzunkAdmin.Windows
                         string[] sor = teszt.Replace("\\n", "\n").Split("\t",StringSplitOptions.RemoveEmptyEntries);
                         if (sor.Length == 9)
                         {
-                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2].Replace("\"", ""), Helyese = sor[3].Replace("\"",""), TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]), Temak = sor[7].Split(','), KepNev = sor[8] });
+                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2].Replace("\"", ""), Helyese = sor[3].Replace("\"",""), TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]), Temak = sor[7].Split(',').ToList(), KepNev = sor[8] });
                         }
                         else
                         {
-                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2].Replace("\"", ""), Helyese = sor[3].Replace("\"", ""), TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]), Temak = sor[7].Split(',') });
+                            feladatoks.Add(new FeladatokPutPostDTO { Leiras = sor[0], Szoveg = sor[1], Megoldasok = sor[2].Replace("\"", ""), Helyese = sor[3].Replace("\"", ""), TantargyId = int.Parse(sor[4]), TipusId = int.Parse(sor[5]), SzintId = int.Parse(sor[6]), Temak = sor[7].Split(',').ToList() });
                         }
 
                         if (feladatoks.Count == 1)
@@ -124,17 +125,21 @@ namespace ErettsegizzunkAdmin.Windows
                     MessageBoxes.CustomError(new ErrorDTO(514, "A megadott file nem található").ToString());
                     return;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     MessageBoxes.CustomError(new ErrorDTO(515, "Hiba történt az adatok mentése közben").ToString());
                     return;
+                }
+                finally
+                {
+                    reader.Close();
                 }
             }
         }
 
         private void btnOldalKov_Click(object sender, RoutedEventArgs e)
         {
-            pageNumber++;
+            pageNumber+=50;
             RefreshUi(true);
 
             if (pageNumber > 0)
@@ -150,10 +155,10 @@ namespace ErettsegizzunkAdmin.Windows
 
         private void btnOldalElozo_Click(object sender, RoutedEventArgs e)
         {
-            pageNumber--;
+            pageNumber-=50;
             RefreshUi();
 
-            if (pageNumber < 1)
+            if (pageNumber < 51)
             {
                 (sender as Button).IsEnabled = false;
             }

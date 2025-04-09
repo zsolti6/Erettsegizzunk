@@ -43,6 +43,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -59,6 +75,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -76,6 +108,16 @@
         {
             "LaunchCondition"
             {
+                "{A06ECF26-33A3-4562-8140-9B0E340D4F24}:_193633606D0D4BB9BB4D09AEB34DC327"
+                {
+                "Name" = "8:.NET Core"
+                "Message" = "8:[VSDNETCOREMSG]"
+                "AllowLaterVersions" = "11:FALSE"
+                "InstallUrl" = "8:https://dotnet.microsoft.com/download/dotnet-core/[NetCoreVerMajorDotMinor]"
+                "IsNETCore" = "11:TRUE"
+                "Architecture" = "2:0"
+                "Runtime" = "2:0"
+                }
             }
         }
         "File"
@@ -157,7 +199,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ErettsegizzunkAdminInstaller"
         "ProductCode" = "8:{2EA30DE6-20A8-44BE-8552-1E252A74791E}"
-        "PackageCode" = "8:{032881A0-63DF-453E-8904-A1E664D4733C}"
+        "PackageCode" = "8:{EFA66208-DFA6-42CB-A975-51CFF2FA71D9}"
         "UpgradeCode" = "8:{AA64BFCA-ADF1-4B4E-A54B-6CCB3E5C1F4C}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -165,7 +207,7 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Kando"
+        "Manufacturer" = "8:Pixel Pirates"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:ErettsegizzunkAdminInstaller"
@@ -277,21 +319,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_1484328456B94229AB582B7FA76C418E"
-            {
-            "Name" = "8:Admin"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_1AFCE9B3F6554E8B9A5E886FCD88F326"
-            "Folder" = "8:_D9E3598984CD4706ACD99442F56F2EED"
-            "WorkingFolder" = "8:_A886A0D8DD024377827EAF018B057884"
-            "Icon" = "8:_249C078BC4474634A1FFC772A0BE96CE"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_5B5C2169630D49F7849AC773E4344D34"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_20F9A21D8C8E4A199D6417D6CE6AC5A1"
             {
             "Name" = "8:Admin"
             "Arguments" = "8:"
@@ -301,6 +329,20 @@
             "Transitive" = "11:FALSE"
             "Target" = "8:_1AFCE9B3F6554E8B9A5E886FCD88F326"
             "Folder" = "8:_A886A0D8DD024377827EAF018B057884"
+            "WorkingFolder" = "8:_A886A0D8DD024377827EAF018B057884"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_FCA568B3B9994127AFC25AEAE8E88562"
+            {
+            "Name" = "8:Admin"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_1AFCE9B3F6554E8B9A5E886FCD88F326"
+            "Folder" = "8:_D9E3598984CD4706ACD99442F56F2EED"
             "WorkingFolder" = "8:_A886A0D8DD024377827EAF018B057884"
             "Icon" = "8:_249C078BC4474634A1FFC772A0BE96CE"
             "Feature" = "8:"

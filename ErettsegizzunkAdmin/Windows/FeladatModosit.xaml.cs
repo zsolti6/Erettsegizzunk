@@ -12,6 +12,7 @@ namespace ErettsegizzunkAdmin.Windows
         private Task feladat;
         private readonly ApiService _apiService;
         private LoggedUserDTO user;
+        private List<string> Themes;
         public FeladatModosit(Task feladat, LoggedUserDTO user)
         {
             _apiService = new ApiService();
@@ -33,6 +34,7 @@ namespace ErettsegizzunkAdmin.Windows
         {
             try
             {
+                await GetCheckedTemak();
                 FeladatokPutPostDTO put = new FeladatokPutPostDTO()
                 {
                     Id = feladat.Id,
@@ -44,7 +46,8 @@ namespace ErettsegizzunkAdmin.Windows
                     Helyese = feladat.IsCorrect,
                     TantargyId = feladat.SubjectId,
                     TipusId = feladat.TypeId,
-                    SzintId = feladat.LevelId
+                    SzintId = feladat.LevelId,
+                    Temak = Themes
 
                 };
                 await _apiService.PutFeladatok(put);
@@ -62,6 +65,18 @@ namespace ErettsegizzunkAdmin.Windows
             Close();
         }
 
+        private async System.Threading.Tasks.Task GetCheckedTemak()
+        {
+            Themes = new List<string>();
+            foreach (CheckBox tema in spTemak.Children)
+            {
+                if (tema.IsChecked == true)
+                {
+                    Themes.Add(tema.Content as string);
+                }
+            }
+        }
+
         private async void InitializeAsync()
         {
             await SetLists();
@@ -73,7 +88,8 @@ namespace ErettsegizzunkAdmin.Windows
                 var checkBox = new CheckBox
                 {
                     Content = item,
-                    IsChecked = feladat.Themes.Select(x => x.Name).Contains(item)
+                    IsChecked = feladat.Themes.Select(x => x.Name).Contains(item),
+                    Margin = new Thickness(5) // Optional: better spacing
                 };
 
                 if (Application.Current.TryFindResource("MaterialDesignCheckBox") is Style materialCheckBoxStyle)
@@ -86,5 +102,6 @@ namespace ErettsegizzunkAdmin.Windows
 
             DataContext = feladat;
         }
+
     }
 }

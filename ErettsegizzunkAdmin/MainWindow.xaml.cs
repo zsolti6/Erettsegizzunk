@@ -40,7 +40,6 @@ namespace ErettsegizzunkAdmin
                     return;
                 }
 
-                user.ProfilePicture = await _apiService.ByteArrayToBitmapImage(user.ProfilePicturePath);
             }
             catch (Exception)
             {

@@ -107,7 +107,7 @@
                           materialDesign:HintAssist.Hint="Típus" />
 
                     <TextBlock Text="Témák:" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="8" Margin="0,8,12,0"/>
-                    <StackPanel x:Name="spTemak" Orientation="Horizontal" Margin="20" Grid.Row="8" Grid.Column="1"/>
+                    <WrapPanel x:Name="spTemak" Orientation="Horizontal" Margin="20" Grid.Row="8" Grid.Column="1"/>
                     <!-- Action Buttons -->
                     <StackPanel Grid.Row="9" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
                         <Button x:Name="btnSave"
