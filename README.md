@@ -26,6 +26,8 @@ A repository-nak négy fő branch-je van:
 - **Backend:** Ez a branch tartalmazza a projekt **szerveroldali logikáját**, adatbázis műveleteit, API-kat és egyéb backend funkciókat. Itt találhatók a projekt szerveroldali kódjai, amelyeket a frontend alkalmazás adatainak kiszolgálására és a felhasználói kérések kezelésére használunk.
 - **Dokumentáció:** Ez a branch a projekt **dokumentációját** tartalmazza, amely segít a fejlesztőknek és a felhasználóknak megérteni a projekt működését, telepítését, és használatát. A dokumentáció tartalmazza a telepítési útmutatókat, API referencia dokumentációkat, a projekt struktúráját, valamint a használati útmutatókat.
 - **Tesztelés:** Ez a branch a projekt átfogó és alapos teszteléséért felel, biztosítva a rendszer megbízhatóságát, stabilitását és hibamentes működését.
+- **Mobil:** Ez a branch a projekt mobilalkalmazását tartalmazza, amely React Native technológiával készült. Célja a platformfüggetlen, natív élményt nyújtó mobil app fejlesztése egyelőre csak Android, de később sizintén IOS rendszerekre.
+- **Admin:** Ez a branch a projekt adminisztrációs felületét tartalmazza, amely WPF (Windows Presentation Foundation) technológiával készült. Ez a rész biztosítja a rendszer adminisztrációs és háttérmenedzsment funkcióit.
 
 ## Fejlesztői környezeteek és programnyelvek amelyeket használunk
 ### Két fő környezet:
