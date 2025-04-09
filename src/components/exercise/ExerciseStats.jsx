@@ -13,40 +13,72 @@ export const ExerciseStats = () => {
   const sortedTaskValues = Object.values(taskValues || {}).sort((a, b) => a.taskId - b.taskId);
   console.log(exercises);
   
-  const [modalImage, setModalImage] = useState(null); // State to store the image for the modal
+  const [modalImage, setModalImage] = useState(null); 
 
   const getCorrectAnswers = (task) => {
-    if(task.type == "textbox"){
+    if (task.type.name === "textbox") {
+      if (task.isCorrect.split("|").length === 1) {
+        if(task.isCorrect.includes(';')){
+          return { __html: `<b>${task.answers}</b>` };
+        }
+        return { __html: `<b>${task.isCorrect || "-"}</b>` };
+      }
       // Split the isCorrect field into parts for each textbox
-      return task.isCorrect.split("|").map((textboxData, textboxIndex) => {
-        const [text, values] = textboxData.split("_");
-        const validIndexes = values.split(";").map((v, i) => (v === "1" ? i : -1)).filter((i) => i !== -1);
-        const correctAnswers = validIndexes.map((i) => task.answers.split(";")[i]).join(", ");
-        return `${correctAnswers}`;
-      }).join(", ");
+      return {
+        __html: task.isCorrect
+          .split("|")
+          .map((textboxData, textboxIndex) => {
+            const [text, values] = textboxData.split("_");
+            const validIndexes = values
+              .split(";")
+              .map((v, i) => (v === "1" ? i : -1))
+              .filter((i) => i !== -1);
+            const correctAnswers = validIndexes
+              .map((i) => task.answers.split(";")[i])
+              .join(", ");
+            return `${text}<b>${correctAnswers}</b>`;
+          })
+          .join(", "),
+      };
     }
-    return task.answers.split(";").filter((_, i) => task.isCorrect.split(";")[i] === "1").join(", ");
+    const correctAnswers = task.answers
+      .split(";")
+      .filter((_, i) => task.isCorrect.split(";")[i] === "1")
+      .join(", ");
+    return { __html: `<b>${correctAnswers || "-"}</b>` };
   };
 
   const getUserAnswers = (task) => {
-    if(task.type == "textbox"){
+    console.log(task);
+
+    if (task.type.name === "textbox") {
+      if (task.values.length === 1) {
+        const userAnswerString = task.values[0] || "Nem válaszoltál";
+        return { __html: `<b>${userAnswerString}</b>` };
+      }
       // Split the isCorrect field into parts for each textbox
-      return task.isCorrect.split("|").map((textboxData, textboxIndex) => {
-        const [text, values] = textboxData.split("_");
-        const validIndexes = values.split(";").map((v, i) => (v === "1" ? i : -1)).filter((i) => i !== -1);
+      return {
+        __html: task.isCorrect
+          .split("|")
+          .map((textboxData, textboxIndex) => {
+            const [text, values] = textboxData.split("_");
 
-        // Get the correct answers for the current textbox
-        const correctAnswers = validIndexes.map((i) => task.answers.split(";")[i]);
+            // Get the user's answers for the current textbox
+            const userAnswers =
+              task.values[textboxIndex]?.split(",").map((ans) => ans.trim()) || [];
 
-        // Get the user's answers for the current textbox
-        const userAnswers = task.values[textboxIndex]?.split(",").map((ans) => ans.trim()) || [];
-
-        // Always return the user's answers, even if they are incorrect
-        const userAnswerString = userAnswers.join(", ");
-        return `${userAnswerString || "-"}`;
-      }).join(", ");
+            // Always return the user's answers, even if they are incorrect
+            const userAnswerString = userAnswers.join(", ");
+            return `${text}<b>${userAnswerString || "-"}</b>`;
+          })
+          .join(", "),
+      };
     }
-    return task.answers.split(";").filter((_, i) => task.values[i] === "1").join(", ") || "Nem válaszoltál";
+    const userAnswers = task.answers
+      .split(";")
+      .filter((_, i) => task.values[i] === "1")
+      .join(", ");
+    return { __html: `<b>${userAnswers || "Nem válaszoltál"}</b>` };
   };
     
   useEffect(() => {
@@ -84,14 +116,26 @@ export const ExerciseStats = () => {
                       />
                     )}
                   </td>
-                  <td className="color-bg3" title="asd">{getCorrectAnswers(task)}</td>
-                  <td className="color-bg3">{getUserAnswers(task)}</td>
+                  <td className="color-bg3" dangerouslySetInnerHTML={getCorrectAnswers(task)}></td>
+                  <td className="color-bg3" dangerouslySetInnerHTML={getUserAnswers(task)}></td>
                   <td className="text-center color-bg3">
-                    {getCorrectAnswers(task).toLowerCase() === getUserAnswers(task).toLowerCase() ? (
+                  {task.type.name === "textbox" && getCorrectAnswers(task).__html.includes(";") ? (
+                    getCorrectAnswers(task).__html
+                      .split(";")
+                      .some((correctAnswer) =>
+                        correctAnswer.trim().toLowerCase().includes(getUserAnswers(task).__html.replace(/<\/?b>/g, "").trim().toLowerCase())
+                      ) ? (
+                        <span className="text-success">✅</span>
+                      ) : (
+                        <span className="text-danger">❌</span>
+                      )
+                  ) : (
+                    getCorrectAnswers(task).__html.replace(/<\/?b>/g, "").toLowerCase() === getUserAnswers(task).__html.replace(/<\/?b>/g, "").toLowerCase() ? (
                       <span className="text-success">✅</span>
                     ) : (
                       <span className="text-danger">❌</span>
-                    )}
+                    )
+                  )}
                   </td>
                 </tr>
               ))}

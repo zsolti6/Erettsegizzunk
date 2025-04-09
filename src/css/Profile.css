@@ -66,3 +66,15 @@
 .form-check-input {
   margin-top: 0.3rem;
 }
+
+.profile-picture-container {
+  transition: all 0.3s ease;
+}
+
+.profile-picture-container:hover {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.profile-picture-container img {
+  display: block;
+}

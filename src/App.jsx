@@ -8,7 +8,6 @@ import { ExerciseComponent } from "./components/exercise/ExerciseComponent.jsx";
 import { LoginPage } from "./components/account/Login";
 import { RegisterPage } from "./components/account/Register";
 import { StatisticsComponent } from "./components/statistics/StatisticsComponent.jsx";
-import { TutorialComponent } from "./components/TutorialComponent";
 import { SelectorComponent } from "./components/SelectorComponent";
 import { ExerciseStats } from "./components/exercise/ExerciseStats.jsx";
 import { Profile } from "./components/account/Profile";
@@ -78,7 +77,7 @@ export const App = () => {
     }).then((response) => {
       console.log("Logout response:", response.data);
     }).catch((error) => {
-      console.error("Error logging out:", error);
+      console.log("Error logging out:", error);
     });
     setUser(null);
     setGoogleLogged(false);
@@ -92,7 +91,7 @@ export const App = () => {
       sessionStorage.removeItem("googleLogged");
     }
     localStorage.removeItem("rememberMe");
-    window.location.href = "/"; // Navigate back to home
+    window.location.href = "/";
   };
 
   const handleLogin = (userData, isGoogleLogged) => {
@@ -100,7 +99,6 @@ export const App = () => {
     setGoogleLogged(isGoogleLogged);
   };
 
-  // Persist user in storage when user state updates
   useEffect(() => {
     if (user) {
       if (rememberMe) {
@@ -120,7 +118,6 @@ export const App = () => {
           <Routes>
             <Route path="/" element={user ? <HomeLoggedIn user={user} /> : <Home />} />
             <Route path="/statisztika" element={<StatisticsComponent user={user} />} />
-            <Route path="/utmutato" element={<TutorialComponent />} />
             <Route path="/gyakorlas" element={<ExerciseComponent />} />
             <Route path="/feladat-valasztas" element={<SelectorComponent />} />
             <Route path="/gyakorlas/statisztika" element={<ExerciseStats />} />

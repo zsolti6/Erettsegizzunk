@@ -61,11 +61,11 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
             <div className="d-flex justify-content-center">
               <img
                 id="taskImg"
-                className="img-fluid rounded clickable-img w-100"
+                className="img-fluid rounded clickable-img"
                 src={`${IMG_URL}${elem.picName}`}
                 alt={elem.picName}
                 onClick={() => openModal(`${IMG_URL}${elem.picName}`)}
-                style={{ maxWidth: "100%", height: "auto" }}
+                style={{ maxWidth: "50%", height: "auto", marginBottom: "20px" }}
               />
             </div>
           )}
@@ -153,7 +153,7 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
         <Modal.Body>
           <div className="d-flex justify-content-center">
             <img
-              className="img-fluid rounded"
+              className="img-fluid rounded w-100"
               src={imageSrc}
               alt="Enlarged view"
               style={{ maxHeight: '80vh', maxWidth: '100%' }}
