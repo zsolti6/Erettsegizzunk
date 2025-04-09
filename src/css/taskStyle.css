@@ -461,3 +461,12 @@ td{
 #statsImg:hover{
   border: none;
 }
+
+#taskText{
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 10px;
+  line-height: 50px;
+  margin-right: 10px;
+}

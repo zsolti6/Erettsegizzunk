@@ -7,7 +7,7 @@ import { BASE_URL } from "../../../config";
 import { useMediaQuery } from "react-responsive";
 import { MessageModal } from "../../common/MessageModal"; // Import the reusable MessageModal component
 
-export const DetailedStatistics = ({ user }) => {
+export const DetailedStatistics = ({ user, modalImage, setModalImage }) => {
   const [data, setData] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -81,6 +81,8 @@ export const DetailedStatistics = ({ user }) => {
         {data.map((item) => (
           <div key={item.task.id} className="col-12">
             <StatisticsCard
+              modalImage={modalImage}
+              setModalImage={setModalImage}
               item={item}
               isExpanded={expandedCardId === item.task.id}
               onToggleExpand={() =>

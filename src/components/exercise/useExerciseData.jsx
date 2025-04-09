@@ -3,8 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from '../../config';
 import { useLocalStorage } from './useLocalStorage';
-import { Modal, Button } from 'react-bootstrap'; // Import Bootstrap Modal
-import { MessageModal } from "../common/MessageModal"; // Adjust the path as needed
 
 export const useExerciseData = () => {
   const [exercises, setExercises] = useState([]);

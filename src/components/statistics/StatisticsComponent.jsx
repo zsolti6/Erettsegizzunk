@@ -14,6 +14,7 @@ export const StatisticsComponent = ({ user }) => {
   const [userStats, setUserStats] = useState([]);
   const [fillingByDate, setFillingByDate] = useState([]);
   const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for modal
+  const [modalImage, setModalImage] = useState(null);
 
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
@@ -131,11 +132,45 @@ export const StatisticsComponent = ({ user }) => {
         <div className="col-12">
           <div className="card taskCard color-bg2">
             <div className="card-body">
-              <DetailedStatistics user={user} isMobile={isMobile} />
+              <DetailedStatistics modalImage={modalImage} setModalImage={setModalImage} user={user} isMobile={isMobile} />
             </div>
           </div>
         </div>
       </div>
+
+      
+            {/* Modal for Image */}
+            {modalImage && (
+              <div
+                className="modal fade show d-block"
+                tabIndex="-1"
+                role="dialog"
+                style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+              >
+                <div className="modal-dialog modal-dialog-centered" role="document">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title">Feladat kép</h5>
+                      <button
+                        type="button"
+                        className="btn-close"
+                        aria-label="Close"
+                        onClick={() => setModalImage(null)}
+                      ></button>
+                    </div>
+                    <div className="d-flex justify-content-center">
+                      <img
+                        id="statsImg"
+                        className="img-fluid rounded p-3"
+                        src={modalImage}
+                        alt="Enlarged view"
+                        style={{ maxHeight: '80vh', maxWidth: '100%' }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
       {/* Reusable Message Modal */}
       <MessageModal

@@ -14,11 +14,34 @@ export const ExerciseStats = () => {
 
   const [modalImage, setModalImage] = useState(null); // State to store the image for the modal
 
-  const getCorrectAnswers = (task) =>
-    task.answers.split(";").filter((_, i) => task.isCorrect.split(";")[i] === "1").join(", ");
-  const getUserAnswers = (task) =>
-    task.answers.split(";").filter((_, i) => task.values[i] === "1").join(", ") || "Nem válaszoltál";
+  const getCorrectAnswers = (task) => {
+    // Split the isCorrect field into parts for each textbox
+    return task.isCorrect.split("|").map((textboxData, textboxIndex) => {
+      const [text, values] = textboxData.split("_");
+      const validIndexes = values.split(";").map((v, i) => (v === "1" ? i : -1)).filter((i) => i !== -1);
+      const correctAnswers = validIndexes.map((i) => task.answers.split(";")[i]).join(", ");
+      return `${text ? text + ": " : ""}${correctAnswers}`;
+    }).join(" | ");
+  };
 
+  const getUserAnswers = (task) => {
+    // Split the isCorrect field into parts for each textbox
+    return task.isCorrect.split("|").map((textboxData, textboxIndex) => {
+      const [text, values] = textboxData.split("_");
+      const validIndexes = values.split(";").map((v, i) => (v === "1" ? i : -1)).filter((i) => i !== -1);
+
+      // Get the correct answers for the current textbox
+      const correctAnswers = validIndexes.map((i) => task.answers.split(";")[i]);
+
+      // Get the user's answers for the current textbox
+      const userAnswers = task.values[textboxIndex]?.split(",").map((ans) => ans.trim()) || [];
+
+      // Always return the user's answers, even if they are incorrect
+      const userAnswerString = userAnswers.join(", ");
+      return `${text ? text + ": " : ""}${userAnswerString || "Nem válaszoltál"}`;
+    }).join(" | ");
+  };
+    
   useEffect(() => {
     document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((el) => new Tooltip(el));
   }, []);
@@ -57,7 +80,8 @@ export const ExerciseStats = () => {
                   <td className="color-bg3" title="asd">{getCorrectAnswers(task)}</td>
                   <td className="color-bg3">{getUserAnswers(task)}</td>
                   <td className="text-center color-bg3">
-                    {getCorrectAnswers(task) === getUserAnswers(task) ? (
+                    {console.log(task)}
+                    {getCorrectAnswers(task).toLowerCase() === getUserAnswers(task).toLowerCase() ? (
                       <span className="text-success">✅</span>
                     ) : (
                       <span className="text-danger">❌</span>

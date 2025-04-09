@@ -17,6 +17,7 @@ import { Navbar } from "./components/Navbar";
 import { BASE_URL } from "./config";
 import axios from "axios";
 import { PolygonBackground } from "./components/Poly.tsx";
+import { Navigate } from "react-router-dom";
 
 export const App = () => {
   usePreventZoom();
@@ -32,7 +33,6 @@ export const App = () => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-    console.log(storedUser);
     
     const storedGoogleLogged = rememberMe
       ? localStorage.getItem("googleLogged")
@@ -128,6 +128,7 @@ export const App = () => {
             <Route path="/regisztracio" element={<RegisterPage user={user} />} />
             <Route path="/profil" element={<Profile user={user} setUser={setUser} googleLogged={googleLogged} handleLogout={handleLogout} />} />
             <Route path="/elfelejtett-jelszo" element={<PasswordReset />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
       </div>
