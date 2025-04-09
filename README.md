@@ -38,6 +38,7 @@ A repository-nak négy fő branch-je van:
 - SQL
 - HTML
 - REACT, JS
+- React native
 
 Látogasd meg a [Trello](https://trello.com/b/b6vkSv3I/érettségizzünk)nkat is!
 
