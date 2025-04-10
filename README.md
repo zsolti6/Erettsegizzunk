@@ -8,6 +8,12 @@ Ez a `frontend` branch tartalmazza a felhasználói felület kódját, amely egy
 - JavaScript
 - npm
 
+## 🌐 Elérhetőség
+
+A bebuildelt és publikusan elérhető weboldal itt található: https://xy-link.netlify.app
+
+Modern, reszponzív dizájnnal és gyors betöltési időkkel, mobilbarát kialakítással.
+
 ## 🛠️ Telepítés és futtatás
 
 1. **Repo klónozása**
