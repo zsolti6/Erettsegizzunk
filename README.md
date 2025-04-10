@@ -28,13 +28,6 @@ Ez a `frontend` branch tartalmazza a felhasználói felület kódját, amely egy
    ```
 
    Ez elindítja a fejlesztői szervert, ami alapértelemezetten a `http://localhost:3000` címen érhető el.md
-```
-
-## 🧪 Tesztelés *(ha van tesztelés beállítva)*
-
-```bash
-npm test
-```
 
 ## 💡 Tippek
 
