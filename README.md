@@ -13,9 +13,9 @@ Ez a `tesztelés` branch egy Python szkriptet tartalmaz, amely automatikusan vé
 1. **Repository klónozása**
    Klónozd a repository-t és válts a `tesztelés` branch-re:
    ```bash
-   git clone https://github.com/felhasznalonev/repo-nev.git
-   cd repo-nev
-   git checkout teszteles
+   git clone https://github.com/zsolti6/Erettsegizzunk.git
+   cd Erettsegizzunk
+   git checkout Testing
    ```
 
 2. Környezeti beállítások Telepítsd a szükséges Python csomagokat:
