@@ -34,6 +34,6 @@ A bebuldelt backend amit a frontend használ, elérhető ezen az URL-en kereszt�
    ```bash
    dotnet run
    ```
-Az API elérhető lesz a https://localhost:7066 vagy http://localhost:5000 címen.
+Az API elérhető lesz a (https://localhost:7066) vagy (http://localhost:5000) címen.
 
 Kérdésed van? Nyugodtan nyiss egy [Issue-t](https://github.com/zsolti6/Erettsegizzunk/issues)!
