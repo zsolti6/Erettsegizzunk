@@ -1,6 +1,6 @@
 ## 🛰️ Backend API (ASP.NET Core)
 
-Ez a `backend` branch egy ASP.NET Core Web API projektet tartalmaz, amely a frontend alkalmazás és az adatbázis közötti kapcsolatot biztosítja RESTful API-k segítségével.
+A `Backend` branch egy ASP.NET Core Web API projektet tartalmaz, amely a frontend alkalmazás és az adatbázis közötti kapcsolatot biztosítja RESTful API-k segítségével.
 
 ## 🔧 Technológiák
 
