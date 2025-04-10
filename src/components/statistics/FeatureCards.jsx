@@ -1,22 +1,22 @@
-import React from 'react';
+import React from "react";
 
 export const FeatureCards = () => {
   const features = [
     {
       icon: "fas fa-chart-pie",
       title: "Statisztikák",
-      description: "Kövesd a feladatok megoldásának eredményeit"
+      description: "Kövesd a feladatok megoldásának eredményeit",
     },
     {
       icon: "fas fa-tasks",
       title: "Feladatok",
-      description: "Gyakorolj különböző témakörökben"
+      description: "Gyakorolj különböző témakörökben",
     },
     {
       icon: "fas fa-calendar-alt",
       title: "Idővonal",
-      description: "Nézd meg a kitöltéseid időrendben"
-    }
+      description: "Nézd meg a kitöltéseid időrendben",
+    },
   ];
 
   return (

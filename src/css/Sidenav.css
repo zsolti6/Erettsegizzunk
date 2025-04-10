@@ -1,20 +1,19 @@
 /* Sidebar container */
 .sidenav {
-  height: calc(100vh - 50px); /* Adjust height to account for navbar */
+  height: calc(100vh - 50px);
   width: 250px;
-  background-color: var(--bg-color); /* Primary background color */
+  background-color: var(--bg-color);
   padding: 20px;
   overflow-y: auto;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   position: fixed;
   left: 0;
-  z-index: 1000; /* Ensure it's above other elements */
-  transform: translateX(0); /* Default: visible */
+  z-index: 1000;
+  transform: translateX(0);
   transition: transform 0.3s ease-in-out;
-  color: #fff; /* White text color */
+  color: #fff;
 }
 
-/* When sidebar is closed */
 .sidenav.closed {
   transform: translateX(-100%);
 }

@@ -15,7 +15,11 @@ export const LoginPage = ({ user, handleLogin }) => {
   const [captchaToken, setCaptchaToken] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false); // Loading state
-  const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for modal
+  const [messageModal, setMessageModal] = useState({
+    show: false,
+    type: "",
+    message: "",
+  }); // State for modal
   const navigator = useNavigate();
 
   useEffect(() => {
@@ -123,14 +127,15 @@ export const LoginPage = ({ user, handleLogin }) => {
         setMessageModal({
           show: true,
           type: "error",
-          message: loginResponse.data.message
+          message: loginResponse.data.message,
         });
       }
     } catch (error) {
       setMessageModal({
         show: true,
         type: "error",
-        message: error.response?.data?.message || "Hiba történt a bejelentkezéskor!",
+        message:
+          error.response?.data?.message || "Hiba történt a bejelentkezéskor!",
       });
     } finally {
       setLoading(false); // Hide loading spinner
@@ -181,7 +186,11 @@ export const LoginPage = ({ user, handleLogin }) => {
                   className="btn btn-outline-secondary"
                   onClick={togglePasswordVisibility}
                 >
-                  {passwordVisible ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
+                  {passwordVisible ? (
+                    <i className="bi bi-eye"></i>
+                  ) : (
+                    <i className="bi bi-eye-slash"></i>
+                  )}
                 </button>
               </div>
             </div>
@@ -220,7 +229,10 @@ export const LoginPage = ({ user, handleLogin }) => {
               </a>
             </div>
             <div className="d-flex justify-content-center">
-              <button className="googleLogin mt-3 btn border" onClick={handleGoogleLogin}>
+              <button
+                className="googleLogin mt-3 btn border"
+                onClick={handleGoogleLogin}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   preserveAspectRatio="xMidYMid"

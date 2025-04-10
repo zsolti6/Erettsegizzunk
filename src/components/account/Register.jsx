@@ -9,7 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { MessageModal } from "../common/MessageModal"; // Import the reusable MessageModal component
 
 export const GenerateSalt = (SaltLength) => {
-  const karakterek = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const karakterek =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let salt = "";
   for (let i = 0; i < SaltLength; i++) {
     const randomIndex = Math.floor(Math.random() * karakterek.length);
@@ -32,7 +33,10 @@ function GenerateRandomPassword(length = 16) {
   for (let i = password.length; i < length; i++) {
     password += allChars[Math.floor(Math.random() * allChars.length)];
   }
-  password = password.split("").sort(() => Math.random() - 0.5).join("");
+  password = password
+    .split("")
+    .sort(() => Math.random() - 0.5)
+    .join("");
   return password;
 }
 
@@ -43,7 +47,11 @@ export const RegisterPage = ({ user }) => {
     confirmPassword: "",
     email: "",
   });
-  const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for modal
+  const [messageModal, setMessageModal] = useState({
+    show: false,
+    type: "",
+    message: "",
+  }); // State for modal
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
   const [loading, setLoading] = useState(false); // Loading state
@@ -65,14 +73,19 @@ export const RegisterPage = ({ user }) => {
 
   const handleGeneratePassword = () => {
     const newPassword = GenerateRandomPassword();
-    setFormData({ ...formData, password: newPassword, confirmPassword: newPassword });
+    setFormData({
+      ...formData,
+      password: newPassword,
+      confirmPassword: newPassword,
+    });
   };
 
   const validateForm = () => {
     if (!formData.loginName) return "Kérjük, adja meg a felhasználónevet!";
     if (!formData.email) return "Kérjük, adja meg az email címét!";
     if (!formData.password) return "Kérjük, adjon meg egy jelszót!";
-    if (formData.password !== formData.confirmPassword) return "A jelszavak nem egyeznek!";
+    if (formData.password !== formData.confirmPassword)
+      return "A jelszavak nem egyeznek!";
     return "";
   };
 
@@ -115,24 +128,27 @@ export const RegisterPage = ({ user }) => {
         CaptchaToken: captchaToken,
       };
       const url = `${BASE_URL}/erettsegizzunk/Auth/regisztracio`;
-      const response = await axios.post(url, user).then((res) => {
-        setMessageModal({
-          show: true,
-          type: "success",
-          message: res.data,
+      const response = await axios
+        .post(url, user)
+        .then((res) => {
+          setMessageModal({
+            show: true,
+            type: "success",
+            message: res.data,
+          });
+        })
+        .catch((err) => {
+          setMessageModal({
+            show: true,
+            type: "error",
+            message: err.response.data.message,
+          });
         });
-      }).catch((err) => {
-        setMessageModal({
-          show: true,
-          type: "error",
-          message: err.response.data.message
-        });
-      });
     } catch (error) {
       setMessageModal({
         show: true,
         type: "error",
-        message: error.message
+        message: error.message,
       });
     } finally {
       setLoading(false);
@@ -193,7 +209,11 @@ export const RegisterPage = ({ user }) => {
                   className="btn btn-outline-secondary"
                   onClick={togglePasswordVisibility}
                 >
-                  {passwordVisible ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
+                  {passwordVisible ? (
+                    <i className="bi bi-eye"></i>
+                  ) : (
+                    <i className="bi bi-eye-slash"></i>
+                  )}
                 </button>
                 <button
                   type="button"

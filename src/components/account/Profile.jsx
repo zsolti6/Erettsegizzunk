@@ -431,7 +431,11 @@ export const Profile = ({ user, setUser, googleLogged }) => {
       </Modal>
 
       {/* Picture Selection Modal */}
-      <Modal show={showPictureModal} onHide={() => setShowPictureModal(false)} centered>
+      <Modal
+        show={showPictureModal}
+        onHide={() => setShowPictureModal(false)}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Válassz profilképet</Modal.Title>
         </Modal.Header>
@@ -442,12 +446,19 @@ export const Profile = ({ user, setUser, googleLogged }) => {
                 key={num}
                 src={`${IMG_URL}profile${num}.png`}
                 alt={`profile${num}`}
-                className={`rounded-circle ${selectedPicture === `profile${num}.png` ? "border border-primary" : ""}`}
+                className={`rounded-circle ${
+                  selectedPicture === `profile${num}.png`
+                    ? "border border-primary"
+                    : ""
+                }`}
                 style={{
                   width: "80px",
                   height: "80px",
                   cursor: "pointer",
-                  border: selectedPicture === `profile${num}.png` ? "3px solid blue" : "none",
+                  border:
+                    selectedPicture === `profile${num}.png`
+                      ? "3px solid blue"
+                      : "none",
                 }}
                 onClick={() => setSelectedPicture(`profile${num}.png`)}
               />
@@ -455,10 +466,17 @@ export const Profile = ({ user, setUser, googleLogged }) => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowPictureModal(false)}>
+          <Button
+            variant="secondary"
+            onClick={() => setShowPictureModal(false)}
+          >
             Mégse
           </Button>
-          <Button variant="primary" onClick={handlePictureChange} disabled={!selectedPicture}>
+          <Button
+            variant="primary"
+            onClick={handlePictureChange}
+            disabled={!selectedPicture}
+          >
             Profilkép módosítása
           </Button>
         </Modal.Footer>

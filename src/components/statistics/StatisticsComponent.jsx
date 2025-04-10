@@ -13,7 +13,11 @@ export const StatisticsComponent = ({ user }) => {
   const [loading, setLoading] = useState(true);
   const [userStats, setUserStats] = useState([]);
   const [fillingByDate, setFillingByDate] = useState([]);
-  const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for modal
+  const [messageModal, setMessageModal] = useState({
+    show: false,
+    type: "",
+    message: "",
+  }); // State for modal
   const [modalImage, setModalImage] = useState(null);
 
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
@@ -25,24 +29,38 @@ export const StatisticsComponent = ({ user }) => {
           setLoading(true);
 
           const [statsResponse, fillingResponse] = await Promise.all([
-            axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/get-taskFilloutCount`, {
-              userId: user.id,
-              token: user.token,
-            }),
-            axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/get-filling-byDate`, {
-              userId: user.id,
-              token: user.token,
-            }),
+            axios.post(
+              `${BASE_URL}/erettsegizzunk/UserStatistics/get-taskFilloutCount`,
+              {
+                userId: user.id,
+                token: user.token,
+              }
+            ),
+            axios.post(
+              `${BASE_URL}/erettsegizzunk/UserStatistics/get-filling-byDate`,
+              {
+                userId: user.id,
+                token: user.token,
+              }
+            ),
           ]);
 
           const statsData = statsResponse.data;
-          setUserStats(Object.entries(statsData).map(([name, count]) => ({ name, count })));
-          setFillingByDate(Object.entries(fillingResponse.data).map(([date, value]) => ({ date, value })));
+          setUserStats(
+            Object.entries(statsData).map(([name, count]) => ({ name, count }))
+          );
+          setFillingByDate(
+            Object.entries(fillingResponse.data).map(([date, value]) => ({
+              date,
+              value,
+            }))
+          );
         } catch (error) {
           setMessageModal({
             show: true,
             type: "error",
-            message: "Hiba történt az adatok betöltése során. Kérjük, próbálja újra később.",
+            message:
+              "Hiba történt az adatok betöltése során. Kérjük, próbálja újra később.",
           });
         } finally {
           setLoading(false);
@@ -94,7 +112,8 @@ export const StatisticsComponent = ({ user }) => {
         <div className="text-center">
           <h1 className="text-white">Nincsenek elérhető statisztikák</h1>
           <p className="lead text-white mt-3">
-            Úgy tűnik, hogy még nem fejeztél be egyetlen feladatot sem. Kezdd el a gyakorlást, hogy megtekinthesd a statisztikáidat!
+            Úgy tűnik, hogy még nem fejeztél be egyetlen feladatot sem. Kezdd el
+            a gyakorlást, hogy megtekinthesd a statisztikáidat!
           </p>
           <button
             className="btn btn-primary btn-lg mt-4"
@@ -113,7 +132,9 @@ export const StatisticsComponent = ({ user }) => {
         <div className="col-12 col-md-6">
           <div className="card h-100 color-bg2">
             <div className="card-body">
-              <h3 className="card-title text-center mb-0 text-white">Feladatok kitöltve</h3>
+              <h3 className="card-title text-center mb-0 text-white">
+                Feladatok kitöltve
+              </h3>
               <StatisticsPieChart data={userStats} isMobile={isMobile} />
             </div>
           </div>
@@ -121,7 +142,9 @@ export const StatisticsComponent = ({ user }) => {
         <div className="col-12 col-md-6">
           <div className="card h-100 color-bg2">
             <div className="card-body">
-              <h3 className="card-title text-center mb-3 text-white">Feladatlapok dátum szerint</h3>
+              <h3 className="card-title text-center mb-3 text-white">
+                Feladatlapok dátum szerint
+              </h3>
               <LineGraph data={fillingByDate} isMobile={isMobile} />
             </div>
           </div>
@@ -132,45 +155,49 @@ export const StatisticsComponent = ({ user }) => {
         <div className="col-12">
           <div className="card taskCard color-bg2">
             <div className="card-body">
-              <DetailedStatistics modalImage={modalImage} setModalImage={setModalImage} user={user} isMobile={isMobile} />
+              <DetailedStatistics
+                modalImage={modalImage}
+                setModalImage={setModalImage}
+                user={user}
+                isMobile={isMobile}
+              />
             </div>
           </div>
         </div>
       </div>
 
-      
-            {/* Modal for Image */}
-            {modalImage && (
-              <div
-                className="modal fade show d-block"
-                tabIndex="-1"
-                role="dialog"
-                style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-              >
-                <div className="modal-dialog modal-dialog-centered" role="document">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title">Feladat kép</h5>
-                      <button
-                        type="button"
-                        className="btn-close"
-                        aria-label="Close"
-                        onClick={() => setModalImage(null)}
-                      ></button>
-                    </div>
-                    <div className="d-flex justify-content-center">
-                      <img
-                        id="statsImg"
-                        className="img-fluid rounded p-3"
-                        src={modalImage}
-                        alt="Enlarged view"
-                        style={{ maxHeight: '80vh', maxWidth: '100%' }}
-                      />
-                    </div>
-                  </div>
-                </div>
+      {/* Modal for Image */}
+      {modalImage && (
+        <div
+          className="modal fade show d-block"
+          tabIndex="-1"
+          role="dialog"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Feladat kép</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  aria-label="Close"
+                  onClick={() => setModalImage(null)}
+                ></button>
               </div>
-            )}
+              <div className="d-flex justify-content-center">
+                <img
+                  id="statsImg"
+                  className="img-fluid rounded p-3"
+                  src={modalImage}
+                  alt="Enlarged view"
+                  style={{ maxHeight: "80vh", maxWidth: "100%" }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Reusable Message Modal */}
       <MessageModal

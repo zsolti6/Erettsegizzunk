@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { BASE_URL } from '../../config';
-import { useLocalStorage } from './useLocalStorage';
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BASE_URL } from "../../config";
+import { useLocalStorage } from "./useLocalStorage";
 
 export const useExerciseData = () => {
   const [exercises, setExercises] = useState([]);
@@ -10,10 +10,21 @@ export const useExerciseData = () => {
   const [taskValues, setTaskValues] = useState({});
   const [isOpen, setIsOpen] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for modal
+  const [messageModal, setMessageModal] = useState({
+    show: false,
+    type: "",
+    message: "",
+  }); // State for modal
   const navigate = useNavigate();
   const location = useLocation();
-  const { subject, difficulty, subjectId, savedExercises, savedTaskValues, themeIds } = location.state || {};
+  const {
+    subject,
+    difficulty,
+    subjectId,
+    savedExercises,
+    savedTaskValues,
+    themeIds,
+  } = location.state || {};
   const { saveToLocalStorage } = useLocalStorage(exercises, taskValues);
 
   useEffect(() => {
@@ -33,7 +44,10 @@ export const useExerciseData = () => {
             requestData.Themes = themeIds;
           }
 
-          const response = await axios.post(`${BASE_URL}/erettsegizzunk/Feladatok/get-random-feladatok`, requestData);
+          const response = await axios.post(
+            `${BASE_URL}/erettsegizzunk/Feladatok/get-random-feladatok`,
+            requestData
+          );
 
           const tasksWithIds = response.data.map((task, index) => ({
             ...task,
@@ -46,8 +60,11 @@ export const useExerciseData = () => {
               taskId: task.taskId,
               isCorrect: task.isCorrect,
               answers: task.answers,
-              values: task.type.name === "textbox" ? [""] : Array(task.isCorrect.split(";").length).fill("0"),
-              type: task.type
+              values:
+                task.type.name === "textbox"
+                  ? [""]
+                  : Array(task.isCorrect.split(";").length).fill("0"),
+              type: task.type,
             };
             return acc;
           }, {});
@@ -92,6 +109,9 @@ export const useExerciseData = () => {
 
         const getCorrectAnswers = (task) => {
           if (task.type.name === "textbox") {
+            if(task.isCorrect == "1"){
+              return { __html: `<b>${task.answers}</b>` };
+            }
             if (task.isCorrect.split("|").length === 1) {
               if (task.isCorrect.includes(";")) {
                 return { __html: task.answers };
@@ -133,7 +153,9 @@ export const useExerciseData = () => {
                 .map((textboxData, textboxIndex) => {
                   const [text] = textboxData.split("_");
                   const userAnswers =
-                    task.values[textboxIndex]?.split(",").map((ans) => ans.trim()) || [];
+                    task.values[textboxIndex]
+                      ?.split(",")
+                      .map((ans) => ans.trim()) || [];
                   return `${text}${userAnswers.join(", ") || "-"}`;
                 })
                 .join(", "),
@@ -151,23 +173,33 @@ export const useExerciseData = () => {
 
         const isCorrect =
           task.type.name === "textbox" && correct.includes(";")
-            ? correct
-                .split(";")
-                .some((correctAnswer) =>
-                  correctAnswer.trim().toLowerCase().includes(userResponse.replace(/<\/?b>/g, "").trim().toLowerCase())
-                )
-            : correct.replace(/<\/?b>/g, "").toLowerCase() === userResponse.replace(/<\/?b>/g, "").toLowerCase();
+            ? correct.split(";").some((correctAnswer) =>
+                correctAnswer
+                  .trim()
+                  .toLowerCase()
+                  .includes(
+                    userResponse
+                      .replace(/<\/?b>/g, "")
+                      .trim()
+                      .toLowerCase()
+                  )
+              )
+            : correct.replace(/<\/?b>/g, "").toLowerCase() ===
+              userResponse.replace(/<\/?b>/g, "").toLowerCase();
 
         acc[exercise.id] = isCorrect;
         return acc;
       }, {});
 
       try {
-        await axios.post(`${BASE_URL}/erettsegizzunk/UserStatistics/post-user-statistics`, {
-          userId: user.id,
-          token: user.token,
-          taskIds: taskCorrects,
-        });
+        await axios.post(
+          `${BASE_URL}/erettsegizzunk/UserStatistics/post-user-statistics`,
+          {
+            userId: user.id,
+            token: user.token,
+            taskIds: taskCorrects,
+          }
+        );
         setMessageModal({
           show: true,
           type: "success",
@@ -185,7 +217,9 @@ export const useExerciseData = () => {
     localStorage.removeItem("exercises");
     localStorage.removeItem("taskValues");
 
-    navigate("/gyakorlas/statisztika", { state: { taskValues, exercises, subjectId } });
+    navigate("/gyakorlas/statisztika", {
+      state: { taskValues, exercises, subjectId },
+    });
   };
 
   const closeModal = () => {

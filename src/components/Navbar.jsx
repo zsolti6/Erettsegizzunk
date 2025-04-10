@@ -43,9 +43,14 @@ export const Navbar = ({ user, googleLogged, handleLogout }) => {
 
   return (
     <>
-      <nav ref={navbarRef} className="navbar navbar-expand-lg navbar-dark color-bg1 fixed-top">
+      <nav
+        ref={navbarRef}
+        className="navbar navbar-expand-lg navbar-dark color-bg1 fixed-top"
+      >
         <div className="container-fluid">
-          <span className="navbar-brand" onClick={() => navigate("/")}><img src={logo} className="mt-0 navLogo"></img></span>
+          <span className="navbar-brand" onClick={() => navigate("/")}>
+            <img src={logo} className="mt-0 navLogo"></img>
+          </span>
           <button
             className="navbar-toggler"
             type="button"
@@ -58,29 +63,40 @@ export const Navbar = ({ user, googleLogged, handleLogout }) => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className={`collapse navbar-collapse ${navbarCollapsed ? "" : "show"}`} id="navbarNav">
+          <div
+            className={`collapse navbar-collapse ${
+              navbarCollapsed ? "" : "show"
+            }`}
+            id="navbarNav"
+          >
             <ul className="navbar-nav me-auto">
               <li className="nav-item">
-                <Link to="/statisztika" className="nav-link fs-5">Statisztika</Link>
+                <Link to="/statisztika" className="nav-link fs-5">
+                  Statisztika
+                </Link>
               </li>
               <li className="nav-item">
-                <Link to="/feladat-valasztas" className="nav-link fs-5">Új feladatlap</Link>
+                <Link to="/feladat-valasztas" className="nav-link fs-5">
+                  Új feladatlap
+                </Link>
               </li>
               {user && user.permission == 2 && (
-              <li className="nav-item">
-                <a 
-                  href="https://erettsegizzunk.web.app/apps/ErettsegizzunkAdminInstaller.msi" 
-                  download="ErettsegizzunkAdminInstaller.msi"
-                  className="nav-link fs-5"
-                >
-                  Admin letöltés Windows-ra
-                </a>
-              </li>
+                <li className="nav-item">
+                  <a
+                    href="https://erettsegizzunk.web.app/apps/ErettsegizzunkAdminInstaller.msi"
+                    download="ErettsegizzunkAdminInstaller.msi"
+                    className="nav-link fs-5"
+                  >
+                    Admin letöltés Windows-ra
+                  </a>
+                </li>
               )}
             </ul>
             {user ? (
               <div className="d-flex align-items-center position-relative">
-                <span className="me-2 fs-5 text-white">{user.name || user.displayName}</span>
+                <span className="me-2 fs-5 text-white">
+                  {user.name || user.displayName}
+                </span>
                 <img
                   onClick={toggleDropdown}
                   src={
@@ -89,20 +105,34 @@ export const Navbar = ({ user, googleLogged, handleLogout }) => {
                       : `${IMG_URL}${user.profilePicturePath}`
                   }
                   alt="kep"
-                  className="rounded-circle" style={{ maxHeight: "35px", cursor: "pointer" }}
+                  className="rounded-circle"
+                  style={{ maxHeight: "35px", cursor: "pointer" }}
                 />
                 {dropdownOpen && (
-                  <div className="dropdown-menu dropdown-menu-end color-bg1 show position-absolute menuButton" style={{ top: "100%", right: 0 }}>
-                    <Link to="/profil" onClick={toggleDropdown} className="dropdown-item menuButton">
+                  <div
+                    className="dropdown-menu dropdown-menu-end color-bg1 show position-absolute menuButton"
+                    style={{ top: "100%", right: 0 }}
+                  >
+                    <Link
+                      to="/profil"
+                      onClick={toggleDropdown}
+                      className="dropdown-item menuButton"
+                    >
                       <FaUser className="me-2" /> Profilom
                     </Link>
-                    <button onClick={openSettings} className="dropdown-item menuButton">
+                    <button
+                      onClick={openSettings}
+                      className="dropdown-item menuButton"
+                    >
                       <FaCog className="me-2" /> Beállítások
                     </button>
-                    <button className="dropdown-item menuButton" onClick={() => {
-                      toggleDropdown();
-                      handleLogout();
-                    }}>
+                    <button
+                      className="dropdown-item menuButton"
+                      onClick={() => {
+                        toggleDropdown();
+                        handleLogout();
+                      }}
+                    >
                       <FaSignOutAlt className="me-2" /> Kijelentkezés
                     </button>
                   </div>
@@ -110,9 +140,20 @@ export const Navbar = ({ user, googleLogged, handleLogout }) => {
               </div>
             ) : (
               <div className="d-flex align-items-center">
-                <Link to="/belepes" className="btn btn-outline-light me-2">Bejelentkezés</Link>
-                <Link to="/regisztracio" className="btn btn-light color-text2 me-2">Regisztráció</Link>
-                <button onClick={openSettings} id="settings" className="fs-3 mb-2 bg-transparent border-0 text-white">
+                <Link to="/belepes" className="btn btn-outline-light me-2">
+                  Bejelentkezés
+                </Link>
+                <Link
+                  to="/regisztracio"
+                  className="btn btn-light color-text2 me-2"
+                >
+                  Regisztráció
+                </Link>
+                <button
+                  onClick={openSettings}
+                  id="settings"
+                  className="fs-3 mb-2 bg-transparent border-0 text-white"
+                >
                   <FaCog className="me-2" />
                 </button>
               </div>

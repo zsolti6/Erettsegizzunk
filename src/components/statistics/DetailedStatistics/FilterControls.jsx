@@ -10,21 +10,27 @@ export const FilterControls = ({
   onFilterChange,
   onApplyFilters,
   showFilters,
-  setShowFilters
+  setShowFilters,
 }) => {
   const [subjectOptions, setSubjectOptions] = useState([]);
   const [difficultyOptions, setDifficultyOptions] = useState([]);
   const [themeOptions, setThemeOptions] = useState([]);
-  const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for modal
+  const [messageModal, setMessageModal] = useState({
+    show: false,
+    type: "",
+    message: "",
+  }); // State for modal
 
   // Fetch subject options from the API
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/erettsegizzunk/Tantargyak/get-tantargyak`);
+        const response = await axios.get(
+          `${BASE_URL}/erettsegizzunk/Tantargyak/get-tantargyak`
+        );
         const options = response.data.map((subject) => ({
           value: subject.id,
-          label: subject.name
+          label: subject.name,
         }));
         setSubjectOptions(options);
       } catch (error) {
@@ -43,7 +49,9 @@ export const FilterControls = ({
   useEffect(() => {
     const fetchDifficulties = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/erettsegizzunk/Levels/get-szintek`);
+        const response = await axios.get(
+          `${BASE_URL}/erettsegizzunk/Levels/get-szintek`
+        );
         const options = response.data.map((level) => ({
           value: level.id, // Assuming the API returns an `id` field
           label: level.name, // Assuming the API returns a `name` field
@@ -70,7 +78,9 @@ export const FilterControls = ({
     onFilterChange({ ...filters, subjects: selected });
     if (selected) {
       try {
-        const response = await axios.get(`${BASE_URL}/erettsegizzunk/Themes/get-temak-feladatonkent`);
+        const response = await axios.get(
+          `${BASE_URL}/erettsegizzunk/Themes/get-temak-feladatonkent`
+        );
         const themesForSubject = response.data[selected.label];
 
         if (themesForSubject) {
@@ -118,7 +128,10 @@ export const FilterControls = ({
 
   return (
     <>
-      <button className="btn btn-primary mb-2" onClick={() => setShowFilters(!showFilters)}>
+      <button
+        className="btn btn-primary mb-2"
+        onClick={() => setShowFilters(!showFilters)}
+      >
         <FaFilter className="me-2" />
         {showFilters ? "Szűrők elrejtése" : "Szűrők megjelenítése"}
       </button>
@@ -139,7 +152,9 @@ export const FilterControls = ({
                 {filters.searchText && (
                   <button
                     className="btn btn-outline-secondary"
-                    onClick={() => handleSearchTextChange({ target: { value: "" } })}
+                    onClick={() =>
+                      handleSearchTextChange({ target: { value: "" } })
+                    }
                   >
                     <FaTimes />
                   </button>

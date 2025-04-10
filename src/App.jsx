@@ -32,7 +32,7 @@ export const App = () => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-    
+
     const storedGoogleLogged = rememberMe
       ? localStorage.getItem("googleLogged")
       : sessionStorage.getItem("googleLogged");
@@ -43,7 +43,7 @@ export const App = () => {
 
     // Load background color from localStorage
     const storedBgColor = localStorage.getItem("bgColor") || "#303D5C";
-    document.documentElement.style.setProperty('--bg-color', storedBgColor);
+    document.documentElement.style.setProperty("--bg-color", storedBgColor);
   }, []);
 
   // Check if user is active after state updates
@@ -53,32 +53,36 @@ export const App = () => {
 
   const checkActiveStatus = () => {
     if (user && user.token) {
-      axios.post(`${BASE_URL}/erettsegizzunk/Logout/active`, user.token, {
+      axios
+        .post(`${BASE_URL}/erettsegizzunk/Logout/active`, user.token, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          if (response.data === false) {
+            handleLogout();
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking active status:", error);
+        });
+    }
+  };
+
+  const handleLogout = async () => {
+    await axios
+      .post(`${BASE_URL}/erettsegizzunk/Logout`, user.token, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then((response) => {
-        if(response.data === false){
-          handleLogout();
-        }
+        console.log("Logout response:", response.data);
       })
       .catch((error) => {
-        console.error("Error checking active status:", error);
+        console.log("Error logging out:", error);
       });
-    }
-  }
-
-  const handleLogout = async () => {
-    await axios.post(`${BASE_URL}/erettsegizzunk/Logout`, user.token, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((response) => {
-      console.log("Logout response:", response.data);
-    }).catch((error) => {
-      console.log("Error logging out:", error);
-    });
     setUser(null);
     setGoogleLogged(false);
     if (rememberMe) {
@@ -113,17 +117,43 @@ export const App = () => {
     <Router>
       <div className="d-flex flex-column min-vh-100">
         <PolygonBackground className="polygon-background" />
-        <Navbar user={user} googleLogged={googleLogged} handleLogout={handleLogout} />
+        <Navbar
+          user={user}
+          googleLogged={googleLogged}
+          handleLogout={handleLogout}
+        />
         <div className="flex-grow-1">
           <Routes>
-            <Route path="/" element={user ? <HomeLoggedIn user={user} /> : <Home />} />
-            <Route path="/statisztika" element={<StatisticsComponent user={user} />} />
+            <Route
+              path="/"
+              element={user ? <HomeLoggedIn user={user} /> : <Home />}
+            />
+            <Route
+              path="/statisztika"
+              element={<StatisticsComponent user={user} />}
+            />
             <Route path="/gyakorlas" element={<ExerciseComponent />} />
             <Route path="/feladat-valasztas" element={<SelectorComponent />} />
             <Route path="/gyakorlas/statisztika" element={<ExerciseStats />} />
-            <Route path="/belepes" element={<LoginPage user={user} handleLogin={handleLogin} />} />
-            <Route path="/regisztracio" element={<RegisterPage user={user} />} />
-            <Route path="/profil" element={<Profile user={user} setUser={setUser} googleLogged={googleLogged} handleLogout={handleLogout} />} />
+            <Route
+              path="/belepes"
+              element={<LoginPage user={user} handleLogin={handleLogin} />}
+            />
+            <Route
+              path="/regisztracio"
+              element={<RegisterPage user={user} />}
+            />
+            <Route
+              path="/profil"
+              element={
+                <Profile
+                  user={user}
+                  setUser={setUser}
+                  googleLogged={googleLogged}
+                  handleLogout={handleLogout}
+                />
+              }
+            />
             <Route path="/elfelejtett-jelszo" element={<PasswordReset />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

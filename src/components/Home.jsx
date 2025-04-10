@@ -18,11 +18,17 @@ export const Home = () => {
         }}
       >
         <div className="container">
-          <h1 className="display-4">Üdvözöllek az Érettségi Gyakorló Oldalon!</h1>
+          <h1 className="display-4">
+            Üdvözöllek az Érettségi Gyakorló Oldalon!
+          </h1>
           <p className="lead text-white">
-            Készülj fel az érettségire hatékonyan és szórakoztatóan. Kezdd el a gyakorlást még ma!
+            Készülj fel az érettségire hatékonyan és szórakoztatóan. Kezdd el a
+            gyakorlást még ma!
           </p>
-          <a href="#featured" className="btn btn-primary btn-lg color-bg2 border-0">
+          <a
+            href="#featured"
+            className="btn btn-primary btn-lg color-bg2 border-0"
+          >
             Kezdjük!
           </a>
         </div>
@@ -37,14 +43,27 @@ export const Home = () => {
               <div className="feature-item p-4 shadow-sm">
                 <i className="fas fa-book-open fa-3x mb-3 text-primary"></i>
                 <h3 className="text-primary">Széles választék</h3>
-                <p>Rengeteg feladat és segédanyag elérhető különböző tantárgyakból.</p>
+                <p>
+                  Rengeteg feladat és segédanyag elérhető különböző
+                  tantárgyakból.
+                </p>
               </div>
             </div>
             <div className="col-md-4 text-center">
               <div className="feature-item p-4 shadow-sm">
                 <i className="fas fa-user-friends fa-3x mb-3 text-info"></i>
                 <h3 className="text-info">Közösség</h3>
-                <p>Csatlakozz más diákokhoz és osszd meg tapasztalataidat a <a href="https://discord.gg/uR3uvaY5tp" target="_blank" className="discord-link"><FaDiscord className="fs-4"/> Discord</a> szerverünkön.</p>
+                <p>
+                  Csatlakozz más diákokhoz és osszd meg tapasztalataidat a{" "}
+                  <a
+                    href="https://discord.gg/uR3uvaY5tp"
+                    target="_blank"
+                    className="discord-link"
+                  >
+                    <FaDiscord className="fs-4" /> Discord
+                  </a>{" "}
+                  szerverünkön.
+                </p>
               </div>
             </div>
             <div className="col-md-4 text-center">
@@ -72,7 +91,10 @@ export const Home = () => {
           <p className="lead mb-4 text-white">
             Regisztrálj most, és kezdd el a gyakorlást azonnal!
           </p>
-          <a href="/regisztracio" className="btn btn-light btn-lg color-bg3 border-0">
+          <a
+            href="/regisztracio"
+            className="btn btn-light btn-lg color-bg3 border-0"
+          >
             Regisztráció
           </a>
         </div>

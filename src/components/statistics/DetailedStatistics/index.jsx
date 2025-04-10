@@ -13,7 +13,11 @@ export const DetailedStatistics = ({ user, modalImage, setModalImage }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [expandedCardId, setExpandedCardId] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
-  const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for modal
+  const [messageModal, setMessageModal] = useState({
+    show: false,
+    type: "",
+    message: "",
+  }); // State for modal
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const [filters, setFilters] = useState({
@@ -31,7 +35,12 @@ export const DetailedStatistics = ({ user, modalImage, setModalImage }) => {
         oldal: currentPage - 1,
       };
 
-      if (appliedFilters.searchText || appliedFilters.subjects || appliedFilters.difficulty || appliedFilters.themes) {
+      if (
+        appliedFilters.searchText ||
+        appliedFilters.subjects ||
+        appliedFilters.difficulty ||
+        appliedFilters.themes
+      ) {
         body.themeId = appliedFilters?.themes?.value || 0;
         body.szoveg = appliedFilters?.searchText || "";
         body.subjectId = appliedFilters?.subjects?.value || 0;
@@ -48,7 +57,8 @@ export const DetailedStatistics = ({ user, modalImage, setModalImage }) => {
       setMessageModal({
         show: true,
         type: "error",
-        message: "Hiba történt az adatok betöltése során. Kérjük, próbálja újra később.",
+        message:
+          "Hiba történt az adatok betöltése során. Kérjük, próbálja újra később.",
       });
     }
   };
@@ -62,7 +72,11 @@ export const DetailedStatistics = ({ user, modalImage, setModalImage }) => {
     fetchData(filters); // Fetch data with the applied filters
   };
 
-  const paginationProps = { currentPage, pageCount, onPageChange: setCurrentPage };
+  const paginationProps = {
+    currentPage,
+    pageCount,
+    onPageChange: setCurrentPage,
+  };
 
   return (
     <div className={`container-fluid ${isMobile ? "px-0" : "px-3"}`}>
@@ -86,7 +100,9 @@ export const DetailedStatistics = ({ user, modalImage, setModalImage }) => {
               item={item}
               isExpanded={expandedCardId === item.task.id}
               onToggleExpand={() =>
-                setExpandedCardId((prev) => (prev === item.task.id ? null : item.task.id))
+                setExpandedCardId((prev) =>
+                  prev === item.task.id ? null : item.task.id
+                )
               }
               isMobile={isMobile}
             />

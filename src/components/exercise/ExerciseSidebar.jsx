@@ -1,8 +1,15 @@
-import React from 'react';
-import { Sidenav } from '../SideNav';
+import React from "react";
+import { Sidenav } from "../SideNav";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-export const ExerciseSidebar = ({ isOpen, setIsOpen, exercises, activeIndex, setActiveIndex, taskValues }) => {
+export const ExerciseSidebar = ({
+  isOpen,
+  setIsOpen,
+  exercises,
+  activeIndex,
+  setActiveIndex,
+  taskValues,
+}) => {
   return (
     <>
       <button
@@ -31,13 +38,13 @@ export const ExerciseSidebar = ({ isOpen, setIsOpen, exercises, activeIndex, set
           height: "100vh",
         }}
       >
-        <Sidenav 
-          tasks={exercises} 
-          isOpen={isOpen} 
-          setIsOpen={setIsOpen} 
-          setActiveComponent={setActiveIndex} 
-          activeIndex={activeIndex} 
-          taskValues={taskValues} 
+        <Sidenav
+          tasks={exercises}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          setActiveComponent={setActiveIndex}
+          activeIndex={activeIndex}
+          taskValues={taskValues}
         />
       </div>
     </>

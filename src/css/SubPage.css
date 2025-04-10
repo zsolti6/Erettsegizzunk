@@ -13,7 +13,7 @@
   .action {
     height: 20vh;
   }
-  .action h2 i{
+  .action h2 i {
     font-size: 3rem;
   }
 }
@@ -25,7 +25,7 @@
     font-size: 1rem !important;
     border-radius: 10%;
   }
-  .action h2 i{
+  .action h2 i {
     font-size: 2rem;
   }
 }
@@ -47,7 +47,7 @@
   color: rgb(65, 63, 63);
   background-color: #fff;
   cursor: pointer;
-  transition: all .6s ease;
+  transition: all 0.6s ease;
   margin: auto;
 }
 
@@ -59,25 +59,25 @@
   transform: scale(1.02);
 }
 
-#contentDiv{
+#contentDiv {
   margin-top: -20vh;
   width: 100%;
   height: 50vh;
 }
 
-p{
+p {
   margin: auto;
 }
 
-.nav-link{
+.nav-link {
   color: white !important;
 }
 
-.nav-link:hover{
+.nav-link:hover {
   color: lightgray !important;
 }
 
-h2 i{
+h2 i {
   font-size: 7rem;
 }
 
@@ -301,7 +301,7 @@ h2 i{
   padding-top: 5rem; /* Adjust the value as needed */
 }
 
-.card-header:hover{
+.card-header:hover {
   cursor: pointer;
 }
 
@@ -309,7 +309,7 @@ h2 i{
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #DEE6EF;
+  background-color: #dee6ef;
 }
 
 #subDiv {
@@ -383,7 +383,7 @@ h2 i{
   }
 }
 
-.homeArrow{
+.homeArrow {
   margin-top: 5px;
   font-size: 5rem;
   transform: scaleX(1.5) translateX(-50%);
@@ -395,15 +395,14 @@ h2 i{
   user-select: none;
 }
 
-.arrow:hover{
+.arrow:hover {
   cursor: pointer;
 }
 
-.article-card{
-  
+.article-card {
 }
 
-.taskCard:hover{
+.taskCard:hover {
   transform: none !important;
 }
 
@@ -483,7 +482,7 @@ h2 i{
   text-decoration: none;
 }
 
-.exercise{
+.exercise {
   min-height: 55vh;
 }
 

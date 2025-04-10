@@ -6,7 +6,11 @@ import { MessageModal } from "../common/MessageModal"; // Import the reusable Me
 
 export const PasswordReset = () => {
   const [email, setEmail] = useState("");
-  const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for modal
+  const [messageModal, setMessageModal] = useState({
+    show: false,
+    type: "",
+    message: "",
+  }); // State for modal
   const [loading, setLoading] = useState(false);
 
   const handlePasswordReset = async (e) => {
@@ -28,13 +32,15 @@ export const PasswordReset = () => {
         setMessageModal({
           show: true,
           type: "success",
-          message: "Sikeres jelszó visszaállítási kérelem. Ellenőrizze az email fiókját!",
+          message:
+            "Sikeres jelszó visszaállítási kérelem. Ellenőrizze az email fiókját!",
         });
       } else {
         setMessageModal({
           show: true,
           type: "error",
-          message: "Hiba történt a kérés feldolgozásakor. Próbálja újra később.",
+          message:
+            "Hiba történt a kérés feldolgozásakor. Próbálja újra később.",
         });
       }
     } catch (error) {
@@ -42,7 +48,8 @@ export const PasswordReset = () => {
       setMessageModal({
         show: true,
         type: "error",
-        message: "Nem sikerült elküldeni a kérést. Ellenőrizze az email címet és próbálja újra.",
+        message:
+          "Nem sikerült elküldeni a kérést. Ellenőrizze az email címet és próbálja újra.",
       });
     } finally {
       setLoading(false);

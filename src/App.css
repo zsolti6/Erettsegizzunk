@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-.App a{
+.App a {
   text-decoration: none;
 }
 
@@ -41,7 +41,10 @@
   }
 }
 
-html, body, #root, .App {
+html,
+body,
+#root,
+.App {
   height: 100vh;
   display: flex;
   flex-direction: column;

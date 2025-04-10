@@ -20,7 +20,11 @@ export const SelectorComponent = () => {
   const [themeFilter, setThemeFilter] = useState("");
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [messageModal, setMessageModal] = useState({ show: false, type: "", message: "" }); // State for modal
+  const [messageModal, setMessageModal] = useState({
+    show: false,
+    type: "",
+    message: "",
+  }); // State for modal
   const [dropdownOpen, setDropdownOpen] = useState(false); // New state variable for dropdown
   const navigate = useNavigate();
 
@@ -76,7 +80,7 @@ export const SelectorComponent = () => {
     const savedExercises = localStorage.getItem("exercises");
     const savedTaskValues = localStorage.getItem("taskValues");
     console.log(savedExercises);
-    
+
     if (savedExercises && savedTaskValues) {
       setShowModal(true);
     }
@@ -104,7 +108,9 @@ export const SelectorComponent = () => {
     const { name, value } = e.target;
 
     if (name === "subject") {
-      const selectedSubject = subjects.find((subject) => subject.id.toString() === value);
+      const selectedSubject = subjects.find(
+        (subject) => subject.id.toString() === value
+      );
       if (selectedSubject) {
         setSubjectId(selectedSubject.id);
         setFormData((prev) => ({
@@ -133,7 +139,9 @@ export const SelectorComponent = () => {
   };
 
   const handleStartExercise = () => {
-    navigate("/gyakorlas", { state: { ...formData, subjectId, themeIds: selectedThemes } });
+    navigate("/gyakorlas", {
+      state: { ...formData, subjectId, themeIds: selectedThemes },
+    });
   };
 
   const filteredThemes =
@@ -170,7 +178,10 @@ export const SelectorComponent = () => {
                     ))}
                   </div>
 
-                  <p>Középszintű vagy emelt szintű érettségi feladatokat szeretnél gyakorolni?</p>
+                  <p>
+                    Középszintű vagy emelt szintű érettségi feladatokat
+                    szeretnél gyakorolni?
+                  </p>
 
                   <div className="radio-group">
                     <label className="radio-option">
@@ -229,7 +240,9 @@ export const SelectorComponent = () => {
                               checked={selectedThemes.includes(theme.theme.id)}
                               onChange={() => handleThemeSelect(theme.theme.id)}
                             />
-                            <span className="name">{theme.theme.name} ({theme.count})</span>
+                            <span className="name">
+                              {theme.theme.name} ({theme.count})
+                            </span>
                           </label>
                         ))}
                       </div>
@@ -238,7 +251,9 @@ export const SelectorComponent = () => {
                 </div>
                 <div className="selected-themes">
                   {selectedThemes.map((themeId, index) => {
-                    const theme = filteredThemes.find((t) => t.theme.id === themeId);
+                    const theme = filteredThemes.find(
+                      (t) => t.theme.id === themeId
+                    );
                     return (
                       <button
                         key={index}

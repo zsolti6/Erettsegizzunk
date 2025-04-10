@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Card, Modal} from "react-bootstrap";
+import { Card, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../../css/taskStyle.css";
 import { IMG_URL } from "../../../config";
 
 export const TaskComponent = ({ elem, values, updateValues }) => {
-  const [taskValues, setTaskValues] = useState(Array.isArray(values) ? values : [values]);
-  const [showModal, setShowModal] = useState(false);  // To manage modal visibility
-  const [imageSrc, setImageSrc] = useState("");  // To store image source for modal
+  const [taskValues, setTaskValues] = useState(
+    Array.isArray(values) ? values : [values]
+  );
+  const [showModal, setShowModal] = useState(false); // To manage modal visibility
+  const [imageSrc, setImageSrc] = useState(""); // To store image source for modal
 
   useEffect(() => {
     setTaskValues(Array.isArray(values) ? values : [values]);
@@ -47,16 +49,21 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
 
   return (
     <div>
-      <Card id="taskCard" className="shadow-sm p-3 mb-4 color-bg2 rounded w-100 mx-auto">
+      <Card
+        id="taskCard"
+        className="shadow-sm p-3 mb-4 color-bg2 rounded w-100 mx-auto"
+      >
         <Card.Body>
           <Card.Title className="text-center text-white">
             {elem.taskId}. feladat<br></br> {elem.description}
           </Card.Title>
           <Card.Text
             className="text-center text-white"
-            dangerouslySetInnerHTML={{ __html: elem.text.replace(/^"|"$/g, "").replace(/\n/g, "<br>") }}
+            dangerouslySetInnerHTML={{
+              __html: elem.text.replace(/^"|"$/g, "").replace(/\n/g, "<br>"),
+            }}
           ></Card.Text>
-          
+
           {elem.picName && (
             <div className="d-flex justify-content-center">
               <img
@@ -65,38 +72,46 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
                 src={`${IMG_URL}${elem.picName}`}
                 alt={elem.picName}
                 onClick={() => openModal(`${IMG_URL}${elem.picName}`)}
-                style={{ maxWidth: "50%", height: "auto", marginBottom: "20px" }}
+                style={{
+                  maxWidth: "50%",
+                  height: "auto",
+                  marginBottom: "20px",
+                }}
               />
             </div>
           )}
 
           <div className="mt-auto color-bg2" id="taskInputs">
             {/* Modern Styled Textbox */}
-            {elem.type.name === "textbox" && (
+            {elem.type.name === "textbox" &&
               elem.isCorrect.split("|").map((_, index) => (
                 <div key={index} className="d-flex justify-content-center">
-                  {
-                    _.split('_').length > 1 ? (
-                      <>
-                        <b id="taskText" className="text-white">{_.split('_')[0]}</b>
-                        <input
-                          className="textbox-style mb-3 w-50 ml-3 color-bg3"
-                          type="text"
-                          value={taskValues[index] || ""}
-                          onChange={(e) => handleTextboxChange(index, e.target.value)}
-                        />
-                      </>
-                    ) : (
+                  {_.split("_").length > 1 ? (
+                    <>
+                      <b id="taskText" className="text-white">
+                        {_.split("_")[0]}
+                      </b>
                       <input
                         className="textbox-style mb-3 w-50 ml-3 color-bg3"
                         type="text"
                         value={taskValues[index] || ""}
-                        onChange={(e) => handleTextboxChange(index, e.target.value)}
+                        onChange={(e) =>
+                          handleTextboxChange(index, e.target.value)
+                        }
                       />
-                    )
-                  }
+                    </>
+                  ) : (
+                    <input
+                      className="textbox-style mb-3 w-50 ml-3 color-bg3"
+                      type="text"
+                      value={taskValues[index] || ""}
+                      onChange={(e) =>
+                        handleTextboxChange(index, e.target.value)
+                      }
+                    />
+                  )}
                 </div>
-              )))}
+              ))}
 
             {/* Modern Radio Buttons (2x2 Grid) */}
             {elem.type.name === "radio" && (
@@ -112,7 +127,10 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
                         checked={taskValues[index] === "1"}
                         onChange={() => handleRadioChange(index)}
                       />
-                      <label htmlFor={`radio-${elem.id}-${index}`} className="radio-label color-bg3">
+                      <label
+                        htmlFor={`radio-${elem.id}-${index}`}
+                        className="radio-label color-bg3"
+                      >
                         {elem.answers.split(";")[index]}
                       </label>
                     </div>
@@ -134,7 +152,10 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
                         checked={taskValues[index] === "1"}
                         onChange={() => handleCheckboxChange(index)}
                       />
-                      <label htmlFor={`checkbox-${elem.id}-${index}`} className="checkbox-label color-bg3">
+                      <label
+                        htmlFor={`checkbox-${elem.id}-${index}`}
+                        className="checkbox-label color-bg3"
+                      >
                         {elem.answers.split(";")[index]}
                       </label>
                     </div>
@@ -148,15 +169,14 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
 
       {/* Modal for displaying image */}
       <Modal show={showModal} onHide={closeModal} centered>
-        <Modal.Header closeButton>
-        </Modal.Header> 
+        <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
           <div className="d-flex justify-content-center">
             <img
               className="img-fluid rounded w-100"
               src={imageSrc}
               alt="Enlarged view"
-              style={{ maxHeight: '80vh', maxWidth: '100%' }}
+              style={{ maxHeight: "80vh", maxWidth: "100%" }}
             />
           </div>
         </Modal.Body>

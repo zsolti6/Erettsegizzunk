@@ -1,7 +1,14 @@
 import React from "react";
 import "../css/Sidenav.css";
 
-export const Sidenav = ({ tasks, setActiveComponent, activeIndex, isOpen, setIsOpen, taskValues }) => {
+export const Sidenav = ({
+  tasks,
+  setActiveComponent,
+  activeIndex,
+  isOpen,
+  setIsOpen,
+  taskValues,
+}) => {
   return (
     <div className={`sidenav ${isOpen ? "open" : "closed"}`}>
       {/* Task Buttons */}
@@ -14,7 +21,15 @@ export const Sidenav = ({ tasks, setActiveComponent, activeIndex, isOpen, setIsO
           onClick={() => setActiveComponent(task.taskId - 1)}
         >
           Feladat {task.taskId}
-          <span className={`answer-indicator ${taskValues[task.id]?.values.some(value => value !== "0" && value !== "") ? "answered" : "not-answered"}`}></span>
+          <span
+            className={`answer-indicator ${
+              taskValues[task.id]?.values.some(
+                (value) => value !== "0" && value !== ""
+              )
+                ? "answered"
+                : "not-answered"
+            }`}
+          ></span>
         </button>
       ))}
     </div>

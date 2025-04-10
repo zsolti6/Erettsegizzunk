@@ -1,11 +1,11 @@
 :root {
-  --bg-color: #303D5C;
+  --bg-color: #303d5c;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -14,7 +14,7 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -46,7 +46,9 @@ body {
   height: 100%;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%; /* Ensure the root element takes full height */
 }
 
@@ -61,7 +63,7 @@ html, body, #root {
 }
 
 :root {
-  --primary-shade-1:  color-mix(in srgb, var(--bg-color), white 10%);
+  --primary-shade-1: color-mix(in srgb, var(--bg-color), white 10%);
   --primary-shade-2: color-mix(in srgb, var(--bg-color), white 20%);
   --primary-shade-3: color-mix(in srgb, var(--bg-color), white 40%);
   --primary-shade-4: color-mix(in srgb, var(--bg-color), white 60%);

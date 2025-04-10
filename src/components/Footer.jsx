@@ -6,7 +6,11 @@ export const FooterComponent = () => {
       <div className="container">
         <p className="mb-0 text-white">
           Github: @
-          <a target="_blank" href="https://github.com/zsolti6/Erettsegizzunk" className="text-white hover:text-gray-300">
+          <a
+            target="_blank"
+            href="https://github.com/zsolti6/Erettsegizzunk"
+            className="text-white hover:text-gray-300"
+          >
             Érettségizzünk
           </a>
         </p>
