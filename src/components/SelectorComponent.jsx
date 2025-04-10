@@ -5,7 +5,7 @@ import { Modal, Button } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
 import "../css/Selector.css";
 import { BASE_URL } from "../config";
-import { MessageModal } from "./common/MessageModal"; // Import the reusable MessageModal component
+import { MessageModal } from "./common/MessageModal";
 
 export const SelectorComponent = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ export const SelectorComponent = () => {
     show: false,
     type: "",
     message: "",
-  }); // State for modal
+  });
   const [dropdownOpen, setDropdownOpen] = useState(true);
   const navigate = useNavigate();
 
@@ -127,22 +127,10 @@ export const SelectorComponent = () => {
     setThemeFilter(e.target.value);
   };
 
-  const handleThemeSelect = (themeId) => {
-    if (!selectedThemes.includes(themeId)) {
-      setSelectedThemes([...selectedThemes, themeId]);
-    }
-  };
-
-  const handleThemeRemove = (themeId) => {
-    setSelectedThemes(selectedThemes.filter((t) => t !== themeId));
-  };
-
   const handleThemeToggle = (themeId) => {
     if (selectedThemes.includes(themeId)) {
-      // Deselect the theme
       setSelectedThemes(selectedThemes.filter((id) => id !== themeId));
     } else {
-      // Select the theme
       setSelectedThemes([...selectedThemes, themeId]);
     }
   };
@@ -168,7 +156,6 @@ export const SelectorComponent = () => {
         <>
           <div className="content-container">
             <div className="row">
-              {/* Left Column: Subject and Difficulty Selection */}
               <div className="col-lg-6 col-12">
                 <h4>Válassz tantárgyat</h4>
                 <form className="exercise-form">
@@ -208,6 +195,7 @@ export const SelectorComponent = () => {
                         type="radio"
                         name="difficulty"
                         value="emelt"
+                        disabled={true}
                         checked={formData.difficulty === "emelt"}
                         onChange={handleChange}
                       />
@@ -217,7 +205,6 @@ export const SelectorComponent = () => {
                 </form>
               </div>
 
-              {/* Right Column: Theme Selection */}
               <div className="col-lg-6 col-12">
                 <h4>Témák</h4>
                 <div className="theme-dropdown-container">
@@ -232,7 +219,7 @@ export const SelectorComponent = () => {
                       value={themeFilter}
                       onChange={handleThemeFilterChange}
                       className="theme-dropdown-search-inline"
-                      onClick={() => setDropdownOpen(!dropdownOpen)} // Open dropdown on click
+                      onClick={() => setDropdownOpen(!dropdownOpen)}
                     />
                     <FaSearch className="dropdown-icon" />
                   </div>
@@ -259,7 +246,6 @@ export const SelectorComponent = () => {
               </div>
             </div>
 
-            {/* Start Exercise Button - Moved Outside the Columns */}
             <div className="start-button-container">
               <button
                 type="button"
@@ -273,7 +259,6 @@ export const SelectorComponent = () => {
         </>
       )}
 
-      {/* Modal for Continuing Previous Attempt */}
       <Modal show={showModal} onHide={handleNewAttempt} centered>
         <Modal.Header closeButton>
           <Modal.Title>Folytatni szeretnéd?</Modal.Title>
@@ -291,7 +276,6 @@ export const SelectorComponent = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* Reusable Message Modal */}
       <MessageModal
         show={messageModal.show}
         type={messageModal.type}

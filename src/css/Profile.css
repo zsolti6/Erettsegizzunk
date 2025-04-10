@@ -51,8 +51,8 @@
 }
 
 .input-group .btn-outline-secondary {
-  border: 2px solid #d1d5db; /* Add border */
-  border-radius: 8px; /* Match the input border radius */
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
   background: transparent;
   color: #6c757d;
   transition: all 0.3s ease-in-out;
@@ -60,7 +60,7 @@
 
 .input-group .btn-outline-secondary:hover {
   color: #333;
-  border-color: var(--bg-color); /* Change border color on hover */
+  border-color: var(--bg-color);
 }
 
 .form-check-input {

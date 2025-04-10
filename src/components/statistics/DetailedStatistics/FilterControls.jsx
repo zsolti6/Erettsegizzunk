@@ -3,7 +3,7 @@ import Select from "react-select";
 import { FaFilter, FaSearch, FaTimes } from "react-icons/fa";
 import axios from "axios";
 import { BASE_URL } from "../../../config";
-import { MessageModal } from "../../common/MessageModal"; // Import the reusable MessageModal component
+import { MessageModal } from "../../common/MessageModal";
 
 export const FilterControls = ({
   filters,
@@ -19,9 +19,8 @@ export const FilterControls = ({
     show: false,
     type: "",
     message: "",
-  }); // State for modal
+  });
 
-  // Fetch subject options from the API
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
@@ -45,7 +44,6 @@ export const FilterControls = ({
     fetchSubjects();
   }, []);
 
-  // Fetch difficulty options from the API
   useEffect(() => {
     const fetchDifficulties = async () => {
       try {
@@ -53,8 +51,8 @@ export const FilterControls = ({
           `${BASE_URL}/erettsegizzunk/Levels/get-szintek`
         );
         const options = response.data.map((level) => ({
-          value: level.id, // Assuming the API returns an `id` field
-          label: level.name, // Assuming the API returns a `name` field
+          value: level.id,
+          label: level.name,
         }));
         setDifficultyOptions(options);
       } catch (error) {
@@ -101,7 +99,6 @@ export const FilterControls = ({
         setThemeOptions([]);
       }
     } else {
-      // Clear the theme options and reset the theme filter
       setThemeOptions([]);
       filters.subjects = null;
       onFilterChange({ ...filters, theme: null });
@@ -205,7 +202,7 @@ export const FilterControls = ({
               <button
                 className="btn btn-success w-100"
                 onClick={() => {
-                  onApplyFilters(); // Trigger the apply filters callback
+                  onApplyFilters();
                 }}
               >
                 <FaSearch className="me-2" />
@@ -222,7 +219,6 @@ export const FilterControls = ({
         </div>
       )}
 
-      {/* Reusable Message Modal */}
       <MessageModal
         show={messageModal.show}
         type={messageModal.type}

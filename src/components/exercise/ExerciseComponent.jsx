@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { ExerciseWindow } from "./ExerciseWindow";
 import { ExerciseControls } from "./ExerciseControls";
 import { ExerciseSidebar } from "./ExerciseSidebar";
 import { useExerciseData } from "./useExerciseData";
 import "../../css/taskStyle.css";
-import { useNavigate } from "react-router-dom";
 
 export const ExerciseComponent = () => {
   const {

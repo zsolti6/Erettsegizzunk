@@ -1,4 +1,3 @@
-/* Sidebar container */
 .sidenav {
   height: calc(100vh - 50px);
   width: 250px;
@@ -18,7 +17,6 @@
   transform: translateX(-100%);
 }
 
-/* Task buttons */
 .sidenav .task-button {
   display: flex;
   justify-content: space-between;
@@ -26,7 +24,7 @@
   width: 100%;
   padding: 10px 15px;
   margin-bottom: 10px;
-  background-color: color-mix(in srgb, var(--bg-color), white 20%); /* 20% white mixed with --bg-color */
+  background-color: color-mix(in srgb, var(--bg-color), white 20%);
   border: none;
   border-radius: 8px;
   color: #fff;
@@ -36,37 +34,35 @@
 }
 
 .sidenav .task-button:hover {
-  background-color: color-mix(in srgb, var(--bg-color), white 10%); /* Slightly less bright on hover */
+  background-color: color-mix(in srgb, var(--bg-color), white 10%);
 }
 
 .sidenav .task-button.active {
-  background-color: color-mix(in srgb, var(--bg-color), white 30%); /* Even brighter for active state */
+  background-color: color-mix(in srgb, var(--bg-color), white 30%);
 }
 
-/* Answer indicator */
 .answer-indicator {
   display: inline-block;
   width: 12px;
   height: 12px;
-  border-radius: 3px; /* Square shape */
+  border-radius: 3px;
   margin-left: 10px;
 }
 
 .answered {
-  background-color: #28a745; /* Green for answered */
+  background-color: #28a745;
 }
 
 .not-answered {
-  background-color: #dc3545; /* Red for not answered */
+  background-color: #dc3545;
 }
 
-/* Mobile Styles */
 @media (max-width: 992px) {
   .sidenav {
     position: fixed;
     width: 250px;
-    left: -250px; /* Hidden by default */
-    z-index: 1050; /* Ensure it's above everything else */
+    left: -250px;
+    z-index: 1050;
   }
 
   .sidenav.open {

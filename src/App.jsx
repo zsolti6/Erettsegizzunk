@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
 import usePreventZoom from "./usePreventZoom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -24,53 +24,7 @@ export const App = () => {
   const [googleLogged, setGoogleLogged] = useState(false);
   const rememberMe = localStorage.getItem("rememberMe") === "true";
 
-  // Load user and settings from storage on first render
-  useEffect(() => {
-    const storedUser = rememberMe
-      ? localStorage.getItem("user")
-      : sessionStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-
-    const storedGoogleLogged = rememberMe
-      ? localStorage.getItem("googleLogged")
-      : sessionStorage.getItem("googleLogged");
-
-    if (storedGoogleLogged) {
-      setGoogleLogged(JSON.parse(storedGoogleLogged));
-    }
-
-    // Load background color from localStorage
-    const storedBgColor = localStorage.getItem("bgColor") || "#303D5C";
-    document.documentElement.style.setProperty("--bg-color", storedBgColor);
-  }, []);
-
-  // Check if user is active after state updates
-  useEffect(() => {
-    checkActiveStatus();
-  }, [user]);
-
-  const checkActiveStatus = () => {
-    if (user && user.token) {
-      axios
-        .post(`${BASE_URL}/erettsegizzunk/Logout/active`, user.token, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((response) => {
-          if (response.data === false) {
-            handleLogout();
-          }
-        })
-        .catch((error) => {
-          console.error("Error checking active status:", error);
-        });
-    }
-  };
-
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     await axios
       .post(`${BASE_URL}/erettsegizzunk/Logout`, user.token, {
         headers: {
@@ -96,7 +50,50 @@ export const App = () => {
     }
     localStorage.removeItem("rememberMe");
     window.location.href = "/";
-  };
+  }, [user, rememberMe]);
+
+  const checkActiveStatus = useCallback(() => {
+    if (user && user.token) {
+      axios
+        .post(`${BASE_URL}/erettsegizzunk/Logout/active`, user.token, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          if (response.data === false) {
+            handleLogout();
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking active status:", error);
+        });
+    }
+  }, [user, handleLogout]);
+
+  useEffect(() => {
+    const storedUser = rememberMe
+      ? localStorage.getItem("user")
+      : sessionStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+
+    const storedGoogleLogged = rememberMe
+      ? localStorage.getItem("googleLogged")
+      : sessionStorage.getItem("googleLogged");
+
+    if (storedGoogleLogged) {
+      setGoogleLogged(JSON.parse(storedGoogleLogged));
+    }
+
+    const storedBgColor = localStorage.getItem("bgColor") || "#303D5C";
+    document.documentElement.style.setProperty("--bg-color", storedBgColor);
+  }, [rememberMe]);
+
+  useEffect(() => {
+    checkActiveStatus();
+  }, [user, checkActiveStatus]);
 
   const handleLogin = (userData, isGoogleLogged) => {
     setUser(userData);
@@ -111,7 +108,7 @@ export const App = () => {
         sessionStorage.setItem("user", JSON.stringify(user));
       }
     }
-  }, [user]);
+  }, [user, rememberMe]);
 
   return (
     <Router>

@@ -5,7 +5,7 @@ import { PaginationControls } from "./PaginationControls";
 import axios from "axios";
 import { BASE_URL } from "../../../config";
 import { useMediaQuery } from "react-responsive";
-import { MessageModal } from "../../common/MessageModal"; // Import the reusable MessageModal component
+import { MessageModal } from "../../common/MessageModal";
 
 export const DetailedStatistics = ({ user, modalImage, setModalImage }) => {
   const [data, setData] = useState([]);
@@ -17,7 +17,7 @@ export const DetailedStatistics = ({ user, modalImage, setModalImage }) => {
     show: false,
     type: "",
     message: "",
-  }); // State for modal
+  });
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const [filters, setFilters] = useState({
@@ -68,8 +68,8 @@ export const DetailedStatistics = ({ user, modalImage, setModalImage }) => {
   }, [currentPage, user]);
 
   const handleApplyFilters = () => {
-    setCurrentPage(1); // Reset to the first page
-    fetchData(filters); // Fetch data with the applied filters
+    setCurrentPage(1);
+    fetchData(filters);
   };
 
   const paginationProps = {
@@ -83,7 +83,7 @@ export const DetailedStatistics = ({ user, modalImage, setModalImage }) => {
       <FilterControls
         filters={filters}
         onFilterChange={setFilters}
-        onApplyFilters={handleApplyFilters} // Pass the apply filters handler
+        onApplyFilters={handleApplyFilters}
         showFilters={showFilters}
         setShowFilters={setShowFilters}
         isMobile={isMobile}
@@ -112,7 +112,6 @@ export const DetailedStatistics = ({ user, modalImage, setModalImage }) => {
 
       <PaginationControls {...paginationProps} />
 
-      {/* Reusable Message Modal */}
       <MessageModal
         show={messageModal.show}
         type={messageModal.type}

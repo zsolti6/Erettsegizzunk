@@ -2,8 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /*background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-  */
   min-height: 100vh;
   padding: 20px;
 }
@@ -15,7 +13,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  max-width: 1000px; /* Adjust as needed */
+  max-width: 1000px;
   height: 554.95px;
   width: 100%;
 }
@@ -26,15 +24,10 @@
 
 .login-image {
   flex: 1;
-  display: none; /* Hide on smaller screens */
+  display: none;
   user-select: none;
   -webkit-user-drag: none;
   object-fit: cover;
-}
-
-.login-image img:hover {
-  border: none;
-  cursor: default;
 }
 
 .login-image img {
@@ -47,25 +40,10 @@
   flex: 1;
   padding: 2rem;
   max-width: 400px;
-
-  background: lightgrey;
-  width: 100%;
-}
-
-/* Responsive adjustments */
-@media (min-width: 768px) {
-  .login-image {
-    display: block; /* Show the image on larger screens */
-  }
-}
-
-.login-card {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  width: 400px;
-  max-width: 100%;
+  width: 100%;
 }
 
 .login-card h2 {
@@ -132,8 +110,8 @@
 }
 
 .input-group .btn-outline-secondary {
-  border: 2px solid #d1d5db; /* Add border */
-  border-radius: 8px; /* Match the input border radius */
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
   background: transparent;
   color: #6c757d;
   transition: all 0.3s ease-in-out;
@@ -141,7 +119,7 @@
 
 .input-group .btn-outline-secondary:hover {
   color: #333;
-  border-color: var(--bg-color); /* Change border color on hover */
+  border-color: var(--bg-color);
 }
 
 .form-check-input {
@@ -149,7 +127,6 @@
   border: 2px solid lightgray !important;
 }
 
-/* New CSS class for reCAPTCHA container */
 .recaptcha-container {
   width: 100%;
   display: flex;
@@ -189,4 +166,10 @@
 
 #togglePassword:hover {
   background-color: var(--bg-color) !important;
+}
+
+@media (min-width: 768px) {
+  .login-image {
+    display: block;
+  }
 }

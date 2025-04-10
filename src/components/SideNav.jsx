@@ -6,12 +6,10 @@ export const Sidenav = ({
   setActiveComponent,
   activeIndex,
   isOpen,
-  setIsOpen,
   taskValues,
 }) => {
   return (
     <div className={`sidenav ${isOpen ? "open" : "closed"}`}>
-      {/* Task Buttons */}
       {tasks.map((task, index) => (
         <button
           key={task.id}

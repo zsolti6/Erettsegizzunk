@@ -8,8 +8,8 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
   const [taskValues, setTaskValues] = useState(
     Array.isArray(values) ? values : [values]
   );
-  const [showModal, setShowModal] = useState(false); // To manage modal visibility
-  const [imageSrc, setImageSrc] = useState(""); // To store image source for modal
+  const [showModal, setShowModal] = useState(false);
+  const [imageSrc, setImageSrc] = useState("");
 
   useEffect(() => {
     setTaskValues(Array.isArray(values) ? values : [values]);
@@ -35,13 +35,11 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
     updateValues(newValues);
   };
 
-  // Open modal with the image source
   const openModal = (imgSrc) => {
     setImageSrc(imgSrc);
     setShowModal(true);
   };
 
-  // Close modal
   const closeModal = () => {
     setShowModal(false);
     setImageSrc("");
@@ -82,7 +80,6 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
           )}
 
           <div className="mt-auto color-bg2" id="taskInputs">
-            {/* Modern Styled Textbox */}
             {elem.type.name === "textbox" &&
               elem.isCorrect.split("|").map((_, index) => (
                 <div key={index} className="d-flex justify-content-center">
@@ -113,7 +110,6 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
                 </div>
               ))}
 
-            {/* Modern Radio Buttons (2x2 Grid) */}
             {elem.type.name === "radio" && (
               <div className="d-flex justify-content-center">
                 <div className="radio-container">
@@ -139,7 +135,6 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
               </div>
             )}
 
-            {/* Modern Checkboxes (Toggle Style) */}
             {elem.type.name === "checkbox" && (
               <div className="d-flex justify-content-center">
                 <div className="checkbox-container color-bg2">
@@ -167,7 +162,6 @@ export const TaskComponent = ({ elem, values, updateValues }) => {
         </Card.Body>
       </Card>
 
-      {/* Modal for displaying image */}
       <Modal show={showModal} onHide={closeModal} centered>
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>

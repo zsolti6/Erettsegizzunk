@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ReCAPTCHA from "react-google-recaptcha"; // Import reCAPTCHA
+import ReCAPTCHA from "react-google-recaptcha";
 import sha256 from "crypto-js/sha256";
 import { useNavigate } from "react-router-dom";
 import { auth, provider, signInWithPopup } from "../../firebaseConfig";
 import { BASE_URL } from "../../config";
 import "../../css/Login.css";
 import { MessageModal } from "../common/MessageModal";
+import { saltRequest } from "../common/saltRequest";
 
 export const LoginPage = ({ user, handleLogin }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -23,7 +24,7 @@ export const LoginPage = ({ user, handleLogin }) => {
   const navigator = useNavigate();
 
   useEffect(() => {
-    if (user != null) {
+    if (user) {
       navigator("/profil");
     }
   }, [navigator, user]);
@@ -33,8 +34,8 @@ export const LoginPage = ({ user, handleLogin }) => {
   };
 
   const handleGoogleLogin = async () => {
-    setLoading(true); // Show loading spinner
-    setMessageModal({ show: false, type: "", message: "" }); // Clear previous modal message
+    setLoading(true);
+    setMessageModal({ show: false, type: "", message: "" });
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
@@ -46,24 +47,24 @@ export const LoginPage = ({ user, handleLogin }) => {
       }
 
       const url = `${BASE_URL}/erettsegizzunk/Registry/googleLogin`;
-      await axios
-        .post(url, JSON.stringify(user.email), {
-          headers: { "Content-Type": "application/json" },
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            const userData = response.data;
-            userData.photoURL = user.photoURL;
-            if (rememberMe) {
-              localStorage.setItem("user", JSON.stringify(userData));
-              localStorage.setItem("googleLogged", true);
-            } else {
-              sessionStorage.setItem("user", JSON.stringify(userData));
-              sessionStorage.setItem("googleLogged", true);
-            }
-            handleLogin(userData, true); // Update the App state
-          }
-        });
+      const response = await axios.post(url, JSON.stringify(user.email), {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.status === 200) {
+        const userData = response.data;
+        userData.photoURL = user.photoURL;
+
+        if (rememberMe) {
+          localStorage.setItem("user", JSON.stringify(userData));
+          localStorage.setItem("googleLogged", true);
+        } else {
+          sessionStorage.setItem("user", JSON.stringify(userData));
+          sessionStorage.setItem("googleLogged", true);
+        }
+        handleLogin(userData, true);
+      }
+
       localStorage.setItem("rememberMe", rememberMe);
       navigator("/");
     } catch (error) {
@@ -73,14 +74,14 @@ export const LoginPage = ({ user, handleLogin }) => {
         message: error.message,
       });
     } finally {
-      setLoading(false); // Hide loading spinner
+      setLoading(false);
     }
   };
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Show loading spinner
-    setMessageModal({ show: false, type: "", message: "" }); // Clear previous modal message
+    setLoading(true);
+    setMessageModal({ show: false, type: "", message: "" });
 
     if (!captchaToken) {
       setMessageModal({
@@ -88,30 +89,24 @@ export const LoginPage = ({ user, handleLogin }) => {
         type: "error",
         message: "Kérjük, igazolja, hogy nem robot!",
       });
-      setLoading(false); // Hide loading spinner
+      setLoading(false);
       return;
     }
 
     try {
-      const saltUrl = `${BASE_URL}/erettsegizzunk/Login/SaltRequest`;
-      const saltResponse = await axios.post(saltUrl, JSON.stringify(username), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const salt = saltResponse.data;
+      const salt = await saltRequest(username);
       const tmpHash = sha256(password + salt.toString()).toString();
       const loginUrl = `${BASE_URL}/erettsegizzunk/Auth/Login`;
       const body = {
-        username: username,
+        username,
         password: tmpHash,
-        captchaToken: captchaToken,
+        captchaToken,
       };
 
       const loginResponse = await axios.post(loginUrl, body);
       if (loginResponse.status === 200) {
         const userData = loginResponse.data;
+
         if (rememberMe) {
           localStorage.setItem("user", JSON.stringify(userData));
           localStorage.setItem("googleLogged", false);
@@ -121,7 +116,7 @@ export const LoginPage = ({ user, handleLogin }) => {
         }
 
         localStorage.setItem("rememberMe", rememberMe);
-        handleLogin(userData, false); // Update the App state
+        handleLogin(userData, false);
         navigator("/");
       } else {
         setMessageModal({
@@ -138,7 +133,7 @@ export const LoginPage = ({ user, handleLogin }) => {
           error.response?.data?.message || "Hiba történt a bejelentkezéskor!",
       });
     } finally {
-      setLoading(false); // Hide loading spinner
+      setLoading(false);
     }
   };
 
@@ -262,7 +257,6 @@ export const LoginPage = ({ user, handleLogin }) => {
         </div>
       </div>
 
-      {/* Reusable Message Modal */}
       <MessageModal
         show={messageModal.show}
         type={messageModal.type}

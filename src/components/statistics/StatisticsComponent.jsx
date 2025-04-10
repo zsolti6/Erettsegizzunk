@@ -7,7 +7,7 @@ import { DetailedStatistics } from "./DetailedStatistics";
 import { FeatureCards } from "./FeatureCards";
 import "../../css/SubPage.css";
 import { useMediaQuery } from "react-responsive";
-import { MessageModal } from "../common/MessageModal"; // Import the reusable MessageModal component
+import { MessageModal } from "../common/MessageModal";
 
 export const StatisticsComponent = ({ user }) => {
   const [loading, setLoading] = useState(true);
@@ -17,7 +17,7 @@ export const StatisticsComponent = ({ user }) => {
     show: false,
     type: "",
     message: "",
-  }); // State for modal
+  });
   const [modalImage, setModalImage] = useState(null);
 
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
@@ -105,7 +105,6 @@ export const StatisticsComponent = ({ user }) => {
     );
   }
 
-  // Check if userStats is empty
   if (userStats.length === 0) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
@@ -166,7 +165,6 @@ export const StatisticsComponent = ({ user }) => {
         </div>
       </div>
 
-      {/* Modal for Image */}
       {modalImage && (
         <div
           className="modal fade show d-block"
@@ -199,7 +197,6 @@ export const StatisticsComponent = ({ user }) => {
         </div>
       )}
 
-      {/* Reusable Message Modal */}
       <MessageModal
         show={messageModal.show}
         type={messageModal.type}

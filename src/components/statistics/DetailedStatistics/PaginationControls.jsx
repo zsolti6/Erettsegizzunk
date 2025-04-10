@@ -1,6 +1,6 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa"; // Import icons
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 export const PaginationControls = ({
   currentPage,
@@ -9,14 +9,11 @@ export const PaginationControls = ({
 }) => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
-  // Show limited page numbers on mobile
   const getVisiblePages = () => {
     if (isMobile) {
       const visiblePages = [];
-      // Always show first page
       if (currentPage > 2) visiblePages.push(1);
       if (currentPage > 3) visiblePages.push("...");
-      // Show current page and neighbors
       for (
         let i = Math.max(1, currentPage - 1);
         i <= Math.min(pageCount, currentPage + 1);
@@ -25,11 +22,9 @@ export const PaginationControls = ({
         visiblePages.push(i);
       }
       if (currentPage < pageCount - 2) visiblePages.push("...");
-      // Always show last page if different
       if (currentPage < pageCount - 1) visiblePages.push(pageCount);
       return visiblePages;
     }
-    // Show all pages on desktop
     return Array.from({ length: pageCount }, (_, i) => i + 1);
   };
 
@@ -42,7 +37,7 @@ export const PaginationControls = ({
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
-        <FaChevronLeft /> {/* Left arrow icon */}
+        <FaChevronLeft />
         {!isMobile && " Előző"}
       </button>
 
@@ -75,7 +70,7 @@ export const PaginationControls = ({
         disabled={currentPage === pageCount}
       >
         {!isMobile && "Következő "}
-        <FaChevronRight /> {/* Right arrow icon */}
+        <FaChevronRight />
       </button>
     </div>
   );

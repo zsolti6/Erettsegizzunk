@@ -33,7 +33,6 @@ export const HomeLoggedIn = ({ user }) => {
 
   return (
     <div id="mainDiv" className="d-flex flex-column min-vh-100">
-      {/* Hero Section */}
       <section
         className="hero-section text-center text-white d-flex justify-content-center align-items-center"
         style={{
@@ -164,7 +163,6 @@ export const HomeLoggedIn = ({ user }) => {
         </div>
       </section>
 
-      {/* Featured Section */}
       <section className="featured-section py-5" id="featured">
         <div className="container">
           <h2 className="text-center mb-5">Mit szeretnél csinálni ma?</h2>
@@ -219,7 +217,6 @@ export const HomeLoggedIn = ({ user }) => {
         </div>
       </section>
 
-      {/* Call to Action Section */}
       <section
         className="cta-section text-center text-white py-5"
         style={{

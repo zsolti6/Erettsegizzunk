@@ -14,7 +14,7 @@ export const useExerciseData = () => {
     show: false,
     type: "",
     message: "",
-  }); // State for modal
+  });
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -25,6 +25,7 @@ export const useExerciseData = () => {
     savedTaskValues,
     themeIds,
   } = location.state || {};
+  
   const { saveToLocalStorage } = useLocalStorage(exercises, taskValues);
 
   useEffect(() => {

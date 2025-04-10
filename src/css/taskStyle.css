@@ -1,13 +1,10 @@
-/* General Styles */
 body {
   font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f4f7fc;
   color: #333;
-  overflow: auto;
-  height: 2000px;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow-x: hidden;
 }
 
 h3 {
@@ -22,7 +19,6 @@ p {
   color: #555;
 }
 
-/* Modern Card Styles */
 .card {
   border: none;
   border-radius: 12px;
@@ -30,7 +26,6 @@ p {
   transition: transform 0.2s ease-in-out;
   background: white;
   width: 100%;
-  max-width: 100%; /* Make sure the card is not too wide */
 }
 
 .card:hover {
@@ -53,17 +48,15 @@ p {
   color: #666;
 }
 
-/* Image Styling */
 img.img-fluid {
   border-radius: 10px;
   max-height: 250px;
   object-fit: cover;
   margin-top: 10px;
-  max-width: 100%; /* Ensure images don't overflow */
+  max-width: 100%;
   height: auto;
 }
 
-/* Input Styles */
 input.form-control,
 .textbox-style {
   padding: 12px;
@@ -71,7 +64,7 @@ input.form-control,
   border: 2px solid #d1d5db;
   border-radius: 8px;
   transition: all 0.3s ease-in-out;
-  width: 100%; /* Make inputs take full width */
+  width: 100%;
 }
 
 input.form-control:focus,
@@ -81,19 +74,13 @@ input.form-control:focus,
   outline: none;
 }
 
-/* Radio & Checkbox Container */
 .form-check {
   display: flex;
   align-items: center;
   background: #fff;
-  padding-left: 0px !important;
   margin-bottom: 10px;
   transition: all 0.3s ease;
   cursor: pointer;
-}
-
-.form-check:hover {
-  border-color: var(--bg-color);
 }
 
 .form-check-input {
@@ -109,7 +96,6 @@ input.form-control:focus,
   border-color: var(--bg-color);
 }
 
-/* Radio & Checkbox Labels */
 .form-check-label {
   font-size: 1rem;
   font-weight: 500;
@@ -117,7 +103,6 @@ input.form-control:focus,
   cursor: pointer;
 }
 
-/* Buttons */
 .btn {
   font-size: 1rem;
   font-weight: 500;
@@ -140,7 +125,6 @@ input.form-control:focus,
   cursor: not-allowed;
 }
 
-/* Responsive Adjustments */
 @media (max-width: 768px) {
   .card {
     padding: 15px;
@@ -158,6 +142,12 @@ input.form-control:focus,
     font-size: 0.9rem;
     padding: 10px 16px;
   }
+
+  .table thead th,
+  .table tbody td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 576px) {
@@ -169,9 +159,22 @@ input.form-control:focus,
     font-size: 0.85rem;
     padding: 8px 14px;
   }
+
+  .exercise-stats-container {
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .table thead th,
+  .table tbody td {
+    padding: 6px;
+    font-size: 0.8rem;
+  }
 }
 
-/* Modern Rectangular Radio Buttons */
 .radio-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -210,7 +213,6 @@ input[type="radio"]:checked + .radio-label {
   border-color: var(--bg-color);
 }
 
-/* Modern Checkboxes (Toggle Switch Style) */
 .checkbox-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -259,13 +261,11 @@ input[type="radio"]:checked + .radio-label {
   text-align: center;
 }
 
-/* Make the image clickable */
 .clickable-img {
   cursor: pointer;
   transition: transform 0.3s ease;
 }
 
-/* Style for the Modal's image */
 .modal-content {
   border-radius: 10px;
 }
@@ -286,9 +286,9 @@ input[type="radio"]:checked + .radio-label {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height */
-  width: 100%; /* Full width */
-  position: fixed; /* Ensure it covers the entire viewport */
+  height: 100vh;
+  width: 100%;
+  position: fixed;
   top: 0;
   left: 0;
 }
@@ -308,7 +308,6 @@ input[type="radio"]:checked + .radio-label {
   }
 }
 
-/* ExerciseStats Container */
 .exercise-stats-container {
   margin-top: 8vh;
   padding: 20px;
@@ -319,7 +318,6 @@ input[type="radio"]:checked + .radio-label {
   margin-right: auto;
 }
 
-/* Table Styles */
 .table {
   width: 100%;
   border-collapse: separate;
@@ -353,7 +351,6 @@ input[type="radio"]:checked + .radio-label {
   background-color: #f8f9fa;
 }
 
-/* Responsive Table */
 @media (max-width: 768px) {
   .table thead th,
   .table tbody td {
@@ -362,7 +359,6 @@ input[type="radio"]:checked + .radio-label {
   }
 }
 
-/* Success and Error Icons */
 .text-success {
   color: #28a745;
 }
@@ -371,7 +367,6 @@ input[type="radio"]:checked + .radio-label {
   color: #dc3545;
 }
 
-/* General Typography */
 h2 {
   font-size: 2rem;
   font-weight: 600;
@@ -379,7 +374,6 @@ h2 {
   margin-bottom: 1.5rem;
 }
 
-/* Button Styles */
 .btn {
   font-size: 1rem;
   font-weight: 500;
@@ -397,7 +391,6 @@ h2 {
   background-color: var(--bg-color);
 }
 
-/* Tooltip Styles */
 .tooltip-inner {
   background-color: var(--bg-color);
   border-radius: 8px;
@@ -409,7 +402,6 @@ h2 {
   border-top-color: var(--bg-color);
 }
 
-/* Responsive Adjustments */
 @media (max-width: 576px) {
   .exercise-stats-container {
     padding: 10px;
@@ -437,36 +429,34 @@ h2 {
   box-sizing: border-box;
 }
 
-/* Ensure the container is a flexbox and has a minimum height */
 #taskCard .card-body {
   display: flex;
   flex-direction: column;
-  min-height: 60vh; /* Ensure the container takes up the full height */
-}
+  min-height: 60vh;
 
-/* Push #taskInputs to the bottom of the container */
-#taskInputs {
-  margin-top: auto; /* This pushes the element to the bottom */
-  width: 100%; /* Ensure it takes the full width */
-}
+  #taskInputs {
+    margin-top: auto;
+    width: 100%;
+  }
 
-td {
-  border: 1px solid black;
-}
+  td {
+    border: 1px solid black;
+  }
 
-.clickable-icon {
-  cursor: pointer;
-}
+  .clickable-icon {
+    cursor: pointer;
+  }
 
-#statsImg:hover {
-  border: none;
-}
+  #statsImg:hover {
+    border: none;
+  }
 
-#taskText {
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  vertical-align: middle;
+  #taskText {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
 }

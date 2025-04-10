@@ -8,6 +8,7 @@ export const FooterComponent = () => {
           Github: @
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="https://github.com/zsolti6/Erettsegizzunk"
             className="text-white hover:text-gray-300"
           >

@@ -95,7 +95,6 @@ export const PasswordReset = () => {
         </div>
       </div>
 
-      {/* Reusable Message Modal */}
       <MessageModal
         show={messageModal.show}
         type={messageModal.type}

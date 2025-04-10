@@ -18,7 +18,7 @@ export const ExerciseStats = () => {
 
   const getCorrectAnswers = (task) => {
     if (task.type.name === "textbox") {
-      if(task.isCorrect == "1"){
+      if(task.isCorrect === "1"){
         return { __html: `<b>${task.answers}</b>` };
       }
       if (task.isCorrect.split("|").length === 1) {
@@ -27,7 +27,6 @@ export const ExerciseStats = () => {
         }
         return { __html: `<b>${task.isCorrect || "-"}</b>` };
       }
-      // Split the isCorrect field into parts for each textbox
       return {
         __html: task.isCorrect
           .split("|")
@@ -58,19 +57,16 @@ export const ExerciseStats = () => {
         const userAnswerString = task.values[0] || "Nem válaszoltál";
         return { __html: `<b>${userAnswerString}</b>` };
       }
-      // Split the isCorrect field into parts for each textbox
       return {
         __html: task.isCorrect
           .split("|")
           .map((textboxData, textboxIndex) => {
-            const [text, values] = textboxData.split("_");
+            const [text] = textboxData.split("_")[0];
 
-            // Get the user's answers for the current textbox
             const userAnswers =
               task.values[textboxIndex]?.split(",").map((ans) => ans.trim()) ||
               [];
 
-            // Always return the user's answers, even if they are incorrect
             const userAnswerString = userAnswers.join(", ");
             return `${text}<b>${userAnswerString || "-"}</b>`;
           })
@@ -178,7 +174,6 @@ export const ExerciseStats = () => {
           </table>
         </div>
 
-        {/* Modal for Image */}
         {modalImage && (
           <div
             className="modal fade show d-block"
@@ -211,7 +206,6 @@ export const ExerciseStats = () => {
           </div>
         )}
 
-        {/* Buttons at the bottom */}
         <div className="d-flex justify-content-center gap-3 mt-4">
           <button
             className="btn color-bg1 text-white"

@@ -49,7 +49,7 @@ export const Navbar = ({ user, googleLogged, handleLogout }) => {
       >
         <div className="container-fluid">
           <span className="navbar-brand" onClick={() => navigate("/")}>
-            <img src={logo} className="mt-0 navLogo"></img>
+            <img src={logo} className="mt-0 navLogo" alt="logo"></img>
           </span>
           <button
             className="navbar-toggler"
@@ -80,7 +80,7 @@ export const Navbar = ({ user, googleLogged, handleLogout }) => {
                   Új feladatlap
                 </Link>
               </li>
-              {user && user.permission == 2 && (
+              {user && user.permission === 2 && (
                 <li className="nav-item">
                   <a
                     href="https://erettsegizzunk.web.app/apps/ErettsegizzunkAdminInstaller.msi"
@@ -98,6 +98,7 @@ export const Navbar = ({ user, googleLogged, handleLogout }) => {
                   {user.name || user.displayName}
                 </span>
                 <img
+                  id="profileImg"  
                   onClick={toggleDropdown}
                   src={
                     googleLogged

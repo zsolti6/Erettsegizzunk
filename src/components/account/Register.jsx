@@ -6,33 +6,26 @@ import sha256 from "crypto-js/sha256";
 import { BASE_URL } from "../../config";
 import "../../css/Login.css";
 import { useNavigate } from "react-router-dom";
-import { MessageModal } from "../common/MessageModal"; // Import the reusable MessageModal component
-
-export const GenerateSalt = (SaltLength) => {
-  const karakterek =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let salt = "";
-  for (let i = 0; i < SaltLength; i++) {
-    const randomIndex = Math.floor(Math.random() * karakterek.length);
-    salt += karakterek[randomIndex];
-  }
-  return salt;
-};
+import { MessageModal } from "../common/MessageModal";
+import { saltRequest } from "../common/saltRequest";
 
 function GenerateRandomPassword(length = 16) {
   const lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
   const upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const digits = "0123456789";
   const specialChars = "!@#$%^&*()_+-=[]{}|;:,.<>?/";
+
   const allChars = lowerCaseChars + upperCaseChars + digits + specialChars;
   let password = "";
   password += lowerCaseChars[Math.floor(Math.random() * lowerCaseChars.length)];
   password += upperCaseChars[Math.floor(Math.random() * upperCaseChars.length)];
   password += digits[Math.floor(Math.random() * digits.length)];
   password += specialChars[Math.floor(Math.random() * specialChars.length)];
+
   for (let i = password.length; i < length; i++) {
     password += allChars[Math.floor(Math.random() * allChars.length)];
   }
+
   password = password
     .split("")
     .sort(() => Math.random() - 0.5)
@@ -51,10 +44,10 @@ export const RegisterPage = ({ user }) => {
     show: false,
     type: "",
     message: "",
-  }); // State for modal
+  });
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
   const navigator = useNavigate();
 
   useEffect(() => {
@@ -111,9 +104,9 @@ export const RegisterPage = ({ user }) => {
       return;
     }
 
-    setLoading(true); // Show loading spinner
+    setLoading(true);
     try {
-      const salt = GenerateSalt(64);
+      const salt = await saltRequest(formData.loginName);
       const body = {
         loginName: formData.loginName,
         hash: sha256(formData.password + salt).toString(),
@@ -128,27 +121,18 @@ export const RegisterPage = ({ user }) => {
         CaptchaToken: captchaToken,
       };
       const url = `${BASE_URL}/erettsegizzunk/Auth/regisztracio`;
-      const response = await axios
-        .post(url, user)
-        .then((res) => {
-          setMessageModal({
-            show: true,
-            type: "success",
-            message: res.data,
-          });
-        })
-        .catch((err) => {
-          setMessageModal({
-            show: true,
-            type: "error",
-            message: err.response.data.message,
-          });
+      await axios.post(url, user).then((res) => {
+        setMessageModal({
+          show: true,
+          type: "success",
+          message: res.data,
         });
+      });
     } catch (error) {
       setMessageModal({
         show: true,
         type: "error",
-        message: error.message,
+        message: error.response?.data?.message || error.message,
       });
     } finally {
       setLoading(false);
@@ -254,7 +238,6 @@ export const RegisterPage = ({ user }) => {
         </div>
       </div>
 
-      {/* Reusable Message Modal */}
       <MessageModal
         show={messageModal.show}
         type={messageModal.type}

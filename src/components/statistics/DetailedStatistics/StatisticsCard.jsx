@@ -3,19 +3,16 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 import { IMG_URL } from "../../../config";
 import { FaImage } from "react-icons/fa";
-import { useState } from "react";
 
 const COLORS = ["#00FF00", "#FF0000"];
 
 export const StatisticsCard = React.memo(
   ({ item, isExpanded, onToggleExpand, modalImage, setModalImage }) => {
-    // Calculate statistics
     const correct = item.joRossz[0];
     const incorrect = item.joRossz[1];
     const total = correct + incorrect;
     const percentage = total > 0 ? ((correct / total) * 100).toFixed(1) : 0;
 
-    // Memoize chart data to prevent re-renders when data hasn't changed
     const chartData = React.useMemo(
       () => [
         { name: "Helyes", value: correct },
@@ -24,13 +21,11 @@ export const StatisticsCard = React.memo(
       [correct, incorrect]
     );
 
-    // Format date only once
     const formattedDate = React.useMemo(
       () => new Date(item.utolsoKitoltesDatum).toLocaleDateString("hu-HU"),
       [item.utolsoKitoltesDatum]
     );
 
-    // Combine themes only once
     const themesList = React.useMemo(
       () => item.task.themes.map((x) => x.name).join(", ") || "Nincs téma",
       [item.task.themes]
@@ -38,7 +33,6 @@ export const StatisticsCard = React.memo(
 
     return (
       <div className="statisticsCard mb-3 color-bg3">
-        {/* Collapsible Header */}
         <div
           className="card-header d-flex justify-content-between align-items-center cursor-pointer color-bg3 detailedTaskCardHeader"
           onClick={onToggleExpand}
@@ -63,11 +57,9 @@ export const StatisticsCard = React.memo(
           </div>
         </div>
 
-        {/* Expandable Content */}
         {isExpanded && (
           <div className="card-body">
             <div className="row">
-              {/* Task Description Column */}
               <div className="col-12 col-md-6 mb-3 mb-md-0">
                 <div className="mb-3">
                   <div className="fw-bold">Feladat leírása:</div>
@@ -93,7 +85,6 @@ export const StatisticsCard = React.memo(
                 </div>
               </div>
 
-              {/* Metadata Column */}
               <div className="col-12 col-md-2 mb-3 mb-md-0">
                 <div className="mb-2">
                   <div className="fw-bold text-center">Témák:</div>
@@ -106,7 +97,6 @@ export const StatisticsCard = React.memo(
                 </div>
               </div>
 
-              {/* Date/Result Column */}
               <div className="col-12 col-md-2 mb-3 mb-md-0">
                 <div className="mb-2">
                   <div className="fw-bold text-center">Utolsó kitöltés:</div>
@@ -125,7 +115,6 @@ export const StatisticsCard = React.memo(
                 </div>
               </div>
 
-              {/* Chart Column */}
               <div className="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
                 <div style={{ width: "100%", height: 100 }}>
                   <ResponsiveContainer>
