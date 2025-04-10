@@ -19,13 +19,16 @@ A `Testing` branch egy Python szkriptet tartalmaz, amely automatikusan végrehaj
    git checkout Testing
    ```
 
-3. Környezeti beállítások Telepítsd a szükséges Python csomagokat:
+3. Környezeti beállítások
+
+   Telepítsd a szükséges Python csomagokat:
    ```bash
     pip install selenium
     pip install pytest
    ```
 
-4. 🧪 Teszt futtatása
+5. 🧪 Teszt futtatása
+
    A teszteléshez használd a következő parancsot:
    ```bash
     cd path/to/your/file
