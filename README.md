@@ -18,6 +18,7 @@ Ez a `backend` branch egy ASP.NET Core Web API projektet tartalmaz, amely a fron
 ## 🔌 Futtatás
 
 1. **Repo klónozása és branch beállítása**
+   
    ```bash
    git clone https://github.com/felhasznalonev/repo-nev.git
    cd repo-nev
@@ -28,6 +29,13 @@ Ez a `backend` branch egy ASP.NET Core Web API projektet tartalmaz, amely a fron
 Állítsd be a kapcsolatot az adatbázissal a appsettings.json vagy appsettings.Development.json fájlban.
 
 3. Adatbázis migráció futtatása
+4. 
    ```bash
    dotnet ef database update
    ```
+5. Projekt futtatása
+
+   ```bash
+   dotnet run
+   ```
+Az API elérhető lesz a https://localhost:7066 vagy http://localhost:5000 címen.
