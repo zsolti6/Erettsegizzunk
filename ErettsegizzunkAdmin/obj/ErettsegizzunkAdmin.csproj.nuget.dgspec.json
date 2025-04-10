@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Prog gyak\\Gyakorlas\\14_D - Hazi\\Erettsegizzunk\\Admin\\ErettsegizzunkAdmin\\ErettsegizzunkAdmin.csproj": {}
+    "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Admin2\\ErettsegizzunkAdmin\\ErettsegizzunkAdmin.csproj": {}
   },
   "projects": {
-    "D:\\Prog gyak\\Gyakorlas\\14_D - Hazi\\Erettsegizzunk\\Admin\\ErettsegizzunkAdmin\\ErettsegizzunkAdmin.csproj": {
+    "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Admin2\\ErettsegizzunkAdmin\\ErettsegizzunkAdmin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Prog gyak\\Gyakorlas\\14_D - Hazi\\Erettsegizzunk\\Admin\\ErettsegizzunkAdmin\\ErettsegizzunkAdmin.csproj",
+        "projectUniqueName": "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Admin2\\ErettsegizzunkAdmin\\ErettsegizzunkAdmin.csproj",
         "projectName": "ErettsegizzunkAdmin",
-        "projectPath": "D:\\Prog gyak\\Gyakorlas\\14_D - Hazi\\Erettsegizzunk\\Admin\\ErettsegizzunkAdmin\\ErettsegizzunkAdmin.csproj",
-        "packagesPath": "C:\\Users\\Olivér\\.nuget\\packages\\",
-        "outputPath": "D:\\Prog gyak\\Gyakorlas\\14_D - Hazi\\Erettsegizzunk\\Admin\\ErettsegizzunkAdmin\\obj\\",
+        "projectPath": "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Admin2\\ErettsegizzunkAdmin\\ErettsegizzunkAdmin.csproj",
+        "packagesPath": "C:\\Users\\Bernát Olivér\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Bernát Olivér\\Desktop\\projektFeladat\\Admin2\\ErettsegizzunkAdmin\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Olivér\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Bernát Olivér\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -89,7 +94,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
