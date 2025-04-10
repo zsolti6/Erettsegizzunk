@@ -24,16 +24,8 @@ Ez a `backend` branch egy ASP.NET Core Web API projektet tartalmaz, amely a fron
    cd repo-nev
    git checkout backend
    ```
-2. Konfiguráció beállítása
-
-   Állítsd be a kapcsolatot az adatbázissal a appsettings.json vagy appsettings.Development.json fájlban.
-
-3. Adatbázis migráció futtatása
- 
-   ```bash
-   dotnet ef database update
-   ```
-5. Projekt futtatása
+   
+2. Projekt futtatása
 
    ```bash
    dotnet run
