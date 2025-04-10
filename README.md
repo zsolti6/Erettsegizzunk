@@ -1,6 +1,6 @@
 # 🧪 Tesztelés (Frontend tesztelés Python script segítségével)
 
-Ez a `tesztelés` branch egy Python szkriptet tartalmaz, amely automatikusan végrehajt 5 funkcionális tesztet a frontend alkalmazáson. A tesztek segítségével ellenőrizhetjük a webalkalmazás alapvető funkcionalitását és hibamentességét.
+A `Testing` branch egy Python szkriptet tartalmaz, amely automatikusan végrehajt 5 funkcionális tesztet a frontend alkalmazáson. A tesztek segítségével ellenőrizhetjük a webalkalmazás alapvető funkcionalitását és hibamentességét.
 
 ## 🔧 Használt technológia
 
