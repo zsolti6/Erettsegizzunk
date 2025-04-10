@@ -1,41 +1,33 @@
-# Érettségizzünk!
-Ez a projekt egy forradalmian új, jövőbe mutató megoldás, amely a legmodernebb technológiákat alkalmazza a felhasználói élmény és hatékonyság javítása érdekében.
+# 🧪 Tesztelés (Frontend tesztelés Python script segítségével)
 
-## A projekt célja
-Ez egy középiskolás diákok számára, *matematika*, *történelem* és *magyar nyelv* érettségire való gyakorlásban segítséget nyújtó interaktív program, azonnali visszajelzéssel.
-Több platformon (PC, Mobile) is elérhetővé tervezzük tenni, a nagyobb hozzáférhetőség érdekében, így több felhasználóhoz próbálunk elérni és több embernek segíteni.
+Ez a `tesztelés` branch egy Python szkriptet tartalmaz, amely automatikusan végrehajt 5 funkcionális tesztet a frontend alkalmazáson. A tesztek segítségével ellenőrizhetjük a webalkalmazás alapvető funkcionalitását és hibamentességét.
 
-## Funkciók és ötletek
-### Elsődleges:
-- Főmenü
-- Felhasználási útmutató
-- Quiz interfész
-- Feladatok listázása, review
-- Feladatok randomolása
-  
-### Extra:
-- Progress reset
-- Reklámok
-- Hírlevél regisztráció
-- Spaced repetition
-- Napi streak (duolingo style)
+## 🔧 Használt technológia
 
-## Branch-ek
-A repository-nak három fő branch-je van:
-- **Frontend:** Ez a branch tartalmazza a projekt **felhasználói felületét** (UI). Itt található minden, ami a frontend technológiákkal kapcsolatos, beleértve a HTML, CSS, JavaScript (React).
-- **Backend:** Ez a branch tartalmazza a projekt **szerveroldali logikáját**, adatbázis műveleteit, API-kat és egyéb backend funkciókat. Itt találhatók a projekt szerveroldali kódjai, amelyeket a frontend alkalmazás adatainak kiszolgálására és a felhasználói kérések kezelésére használunk.
-- **Dokumentáció:** Ez a branch a projekt **dokumentációját** tartalmazza, amely segít a fejlesztőknek és a felhasználóknak megérteni a projekt működését, telepítését, és használatát. A dokumentáció tartalmazza a telepítési útmutatókat, API referencia dokumentációkat, a projekt struktúráját, valamint a használati útmutatókat.
+- **Python**: A teszteléshez használt nyelv.
+- **Selenium**: A frontend alkalmazás automatizált tesztelésére használt könyvtár.
+- **ChromeDriver**: A Selenium Chrome böngészőhöz való integrálásához szükséges illesztőprogram.
 
-## Fejlesztői környezeteek és programnyelvek amelyeket használunk
-### Két fő környezet:
-- Visual Studio
-- Visual Studio Code
-### Használt programnyelvek:
-- C#
-- SQL
-- HTML
-- REACT, JS
+## ⚙️ Tesztelés előkészítése
 
-Látogasd meg a [Trello](https://trello.com/b/b6vkSv3I/érettségizzünk)nkat is!
+1. **Repository klónozása**
+   Klónozd a repository-t és válts a `tesztelés` branch-re:
+   ```bash
+   git clone https://github.com/felhasznalonev/repo-nev.git
+   cd repo-nev
+   git checkout teszteles
+   ```
 
-**Presented by: *Pixel Pirates***
+2. Környezeti beállítások Telepítsd a szükséges Python csomagokat:
+   ```bash
+    pip install selenium
+    pip install pytest
+   ```
+
+3. 🧪 Teszt futtatása
+  A teszteléshez használd a következő parancsot:
+  ```bash
+    cd path/to/your/file
+    pytest test.py
+  ```
+A teszt során az alkalmazás a konfigurált böngészőben elindul, és az 5 alapvető funkcionális tesztet lefuttatja.
