@@ -33,7 +33,7 @@ Modern, reszponzív dizájnnal és gyors betöltési időkkel, mobilbarát kiala
    npm start
    ```
 
-   Ez elindítja a fejlesztői szervert, ami alapértelemezetten a `http://localhost:3000` címen érhető el.md
+   Ez elindítja a fejlesztői szervert, ami alapértelemezetten a `http://localhost:3000` címen érhető el.
 
 ## 💡 Tippek
 
