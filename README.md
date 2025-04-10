@@ -25,9 +25,9 @@ Ez a `tesztelés` branch egy Python szkriptet tartalmaz, amely automatikusan vé
    ```
 
 3. 🧪 Teszt futtatása
-  A teszteléshez használd a következő parancsot:
-  ```bash
+   A teszteléshez használd a következő parancsot:
+   ```bash
     cd path/to/your/file
     pytest test.py
-  ```
+   ```
 A teszt során az alkalmazás a konfigurált böngészőben elindul, és az 5 alapvető funkcionális tesztet lefuttatja.
