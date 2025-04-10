@@ -1,5 +1,4 @@
-# ![image](https://github.com/user-attachments/assets/0c07a6a4-5365-47e3-8378-ccd09a07f5ea)
- Backend API (ASP.NET Core)
+## 🛰️ Backend API (ASP.NET Core)
 
 Ez a `backend` branch egy ASP.NET Core Web API projektet tartalmaz, amely a frontend alkalmazás és az adatbázis közötti kapcsolatot biztosítja RESTful API-k segítségével.
 
