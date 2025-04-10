@@ -79,7 +79,6 @@ export const SelectorComponent = () => {
   useEffect(() => {
     const savedExercises = localStorage.getItem("exercises");
     const savedTaskValues = localStorage.getItem("taskValues");
-    console.log(savedExercises);
 
     if (savedExercises && savedTaskValues) {
       setShowModal(true);

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../config";
-import "../../css/Login.css"; // Import the CSS file
-import { MessageModal } from "../common/MessageModal"; // Import the reusable MessageModal component
+import "../../css/Login.css";
+import { MessageModal } from "../common/MessageModal";
 
 export const PasswordReset = () => {
   const [email, setEmail] = useState("");
@@ -10,7 +10,7 @@ export const PasswordReset = () => {
     show: false,
     type: "",
     message: "",
-  }); // State for modal
+  });
   const [loading, setLoading] = useState(false);
 
   const handlePasswordReset = async (e) => {
@@ -44,7 +44,6 @@ export const PasswordReset = () => {
         });
       }
     } catch (error) {
-      console.error("Password reset request failed", error);
       setMessageModal({
         show: true,
         type: "error",

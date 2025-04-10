@@ -13,7 +13,6 @@ export const ExerciseStats = () => {
   const sortedTaskValues = Object.values(taskValues || {}).sort(
     (a, b) => a.taskId - b.taskId
   );
-  console.log(exercises);
 
   const [modalImage, setModalImage] = useState(null);
 
