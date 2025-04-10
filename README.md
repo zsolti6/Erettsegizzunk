@@ -11,7 +11,7 @@ A `Testing` branch egy Python szkriptet tartalmaz, amely automatikusan végrehaj
 ## ⚙️ Tesztelés előkészítése
 
 1. **Repository klónozása**
-   Klónozd a repository-t és válts a `tesztelés` branch-re:
+   Klónozd a repository-t és válts a `Testing` branch-re:
    ```bash
    git clone https://github.com/zsolti6/Erettsegizzunk.git
    cd Erettsegizzunk
