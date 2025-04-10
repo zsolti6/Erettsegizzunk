@@ -1,6 +1,6 @@
 ## 💻 Admin alkalmazás (C# WPF)
 
-Ez a admin branch tartalmazza a C# WPF-ben készült asztali alkalmazást, amely az adatbázis karbantartására szolgál.
+Ez az `admin` branch tartalmazza a C# WPF-ben készült asztali alkalmazást, amely az adatbázis karbantartására szolgál.
 
 📦 Technológiák
 
