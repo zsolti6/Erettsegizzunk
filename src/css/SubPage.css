@@ -399,9 +399,6 @@ h2 i {
   cursor: pointer;
 }
 
-.article-card {
-}
-
 .taskCard:hover {
   transform: none !important;
 }
