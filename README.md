@@ -36,4 +36,12 @@ A bebuldelt backend amit a frontend használ, elérhető ezen az URL-en kereszt�
    ```
 Az API elérhető lesz a https://localhost:7066 vagy http://localhost:5000 címen.
 
+## 🗃️ Adatbázis
+
+A `backend` branch tartalmazza az adatbázis konfigurációját és sémáját is, amely az Entity Framework Core segítségével van kezelve. Az adatbázis inicializálása és kezelése kódból történik, így az adatbázis migrációk könnyedén verziókövethetők és szinkronban tarthatók a kódbázissal.
+
+Az adatbázis sémát az `DbContext` osztály tartalmazza, amely az adatbázis tábláit és azok kapcsolatait definiálja. Az adatbázis migrációk kezelése a `dotnet ef migrations` parancsokkal történik.
+
+A projekt első indításakor a szükséges adatbázis-migrációk automatikusan alkalmazásra kerülnek, és a táblák létrejönnek. Az adatbázis konfigurációja a `appsettings.json` fájlban található, ahol a kapcsolat string beállítható.
+
 Kérdésed van? Nyugodtan nyiss egy [Issue-t](https://github.com/zsolti6/Erettsegizzunk/issues)!
