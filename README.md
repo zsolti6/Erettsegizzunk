@@ -18,7 +18,7 @@ Modern, reszponzív dizájnnal és gyors betöltési időkkel, mobilbarát kiala
 
 1. **Repo klónozása**
    ```bash
-   git clone https://github.com/felhasznalonev/repo-nev.git](https://github.com/zsolti6/Erettsegizzunk.git
+   git clone https://github.com/zsolti6/Erettsegizzunk.git
    cd Erettsegizzunk
    git checkout Frontend
    ```
