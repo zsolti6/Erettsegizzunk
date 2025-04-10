@@ -7,7 +7,11 @@ Ez a `backend` branch egy ASP.NET Core Web API projektet tartalmaz, amely a fron
 - ASP.NET Core
 - Entity Framework Core
 - C#
-- SQL Server / SQLite *(attól függően, mit használtok)*
+- Nuget packagek
+
+## 🌐 Elérhetőség
+
+A bebuldelt backend amit a frontend használ, elérhető ezen az URL-en keresztül: [https://erettsegizzunk.onrender.com](https://erettsegizzunk.onrender.com)
 
 ## ⚙️ Funkciók
 
@@ -31,3 +35,5 @@ Ez a `backend` branch egy ASP.NET Core Web API projektet tartalmaz, amely a fron
    dotnet run
    ```
 Az API elérhető lesz a https://localhost:7066 vagy http://localhost:5000 címen.
+
+Kérdésed van? Nyugodtan nyiss egy [Issue-t](https://github.com/zsolti6/Erettsegizzunk/issues)!
