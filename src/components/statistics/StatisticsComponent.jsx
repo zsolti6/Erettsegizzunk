@@ -74,7 +74,7 @@ export const StatisticsComponent = ({ user }) => {
   if (!user) {
     return (
       <div className="page-wrapper">
-        <div className="text-center mt-5">
+        <div className="text-center login-required-container">
           <h1 style={{ marginTop: "5rem" }}>Bejelentkezés szükséges</h1>
           <p className="lead text-white mt-3">
             Jelentkezz be a statisztika funkció használatához.
@@ -109,7 +109,7 @@ export const StatisticsComponent = ({ user }) => {
   if (userStats.length === 0) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
-        <div className="text-center">
+        <div className="text-center no-stats-container">
           <h1 className="text-white">Nincsenek elérhető statisztikák</h1>
           <p className="lead text-white mt-3">
             Úgy tűnik, hogy még nem fejeztél be egyetlen feladatot sem. Kezdd el

@@ -25,7 +25,7 @@ export const SelectorComponent = () => {
     type: "",
     message: "",
   }); // State for modal
-  const [dropdownOpen, setDropdownOpen] = useState(false); // New state variable for dropdown
+  const [dropdownOpen, setDropdownOpen] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -138,6 +138,16 @@ export const SelectorComponent = () => {
     setSelectedThemes(selectedThemes.filter((t) => t !== themeId));
   };
 
+  const handleThemeToggle = (themeId) => {
+    if (selectedThemes.includes(themeId)) {
+      // Deselect the theme
+      setSelectedThemes(selectedThemes.filter((id) => id !== themeId));
+    } else {
+      // Select the theme
+      setSelectedThemes([...selectedThemes, themeId]);
+    }
+  };
+
   const handleStartExercise = () => {
     navigate("/gyakorlas", {
       state: { ...formData, subjectId, themeIds: selectedThemes },
@@ -212,33 +222,31 @@ export const SelectorComponent = () => {
               <div className="col-lg-6 col-12">
                 <h4>Témák</h4>
                 <div className="theme-dropdown-container">
-                  <div
-                    className="theme-dropdown-header"
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                  >
-                    <span>
-                      {selectedThemes.length > 0
-                        ? `${selectedThemes.length} téma kiválasztva`
-                        : "Válassz témákat"}
-                    </span>
+                  <div className="theme-dropdown-header">
+                    <input
+                      type="text"
+                      placeholder={
+                        selectedThemes.length > 0
+                          ? `${selectedThemes.length} téma kiválasztva`
+                          : "Válassz témákat"
+                      }
+                      value={themeFilter}
+                      onChange={handleThemeFilterChange}
+                      className="theme-dropdown-search-inline"
+                      onClick={() => setDropdownOpen(!dropdownOpen)} // Open dropdown on click
+                    />
                     <FaSearch className="dropdown-icon" />
                   </div>
                   {dropdownOpen && (
-                    <div className="theme-dropdown-menu">
-                      <input
-                        type="text"
-                        placeholder="Szűrés témák szerint"
-                        value={themeFilter}
-                        onChange={handleThemeFilterChange}
-                        className="theme-dropdown-search"
-                      />
+                    <div className="theme-dropdown-menu full-height">
                       <div className="theme-checkbox-group">
                         {filteredThemes.map((theme, index) => (
                           <label className="checkbox-option" key={index}>
                             <input
+                              className="themeCb"
                               type="checkbox"
                               checked={selectedThemes.includes(theme.theme.id)}
-                              onChange={() => handleThemeSelect(theme.theme.id)}
+                              onChange={() => handleThemeToggle(theme.theme.id)}
                             />
                             <span className="name">
                               {theme.theme.name} ({theme.count})
@@ -248,23 +256,6 @@ export const SelectorComponent = () => {
                       </div>
                     </div>
                   )}
-                </div>
-                <div className="selected-themes">
-                  {selectedThemes.map((themeId, index) => {
-                    const theme = filteredThemes.find(
-                      (t) => t.theme.id === themeId
-                    );
-                    return (
-                      <button
-                        key={index}
-                        type="button"
-                        className="theme-tag color-bg2"
-                        onClick={() => handleThemeRemove(themeId)}
-                      >
-                        {theme?.theme.name} &times;
-                      </button>
-                    );
-                  })}
                 </div>
               </div>
             </div>

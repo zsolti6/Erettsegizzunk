@@ -491,3 +491,25 @@ h2 i {
   transform: scale(1.005) !important;
   transition-duration: 200ms;
 }
+
+.login-required-container {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 80vh;
+  margin: auto;
+  margin-top: 16vh;
+}
+
+.no-stats-container {
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+  color: white; /* Ensure text is white for visibility */
+  padding: 20px;
+  border-radius: 12px; /* Rounded corners for better aesthetics */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  max-width: 80vh; /* Limit the width for better readability */
+  margin: auto; /* Center the container */
+  text-align: center; /* Center the text */
+}
