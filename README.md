@@ -8,8 +8,8 @@ Az alkalmazás itt érhető el, vagy weben, vagy expo go QR kód beolvasásával
 
 Az alkalmazás ezen QR kód használatával is elérhető:
 
-![QR Kód](https://github.com/user-attachments/assets/71b80e44-b493-4679-943c-d84ba7ed162f)
- 
+![QR Kód](https://github.com/user-attachments/assets/33dbcd51-81ea-4534-b7ce-e95902f3864c)
+
 
 ## 🔧 Technológiai háttér
 
