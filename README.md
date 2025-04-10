@@ -5,7 +5,8 @@ A `mobil` branch egy React Native alkalmazás kódját tartalmazza, amelyet Expo
 ## 🌐 Elérhetőség
 
 Az alkalmazás itt érhető el, vagy weben, vagy expo go QR kód beolvasásával: https://snack.expo.dev/@ldarius/erettsegimobil
-Az alkalmazás ezen QR használatával is elérhető: ![image](https://github.com/user-attachments/assets/71b80e44-b493-4679-943c-d84ba7ed162f)
+Az alkalmazás ezen QR használatával is elérhető: 
+![image](https://github.com/user-attachments/assets/71b80e44-b493-4679-943c-d84ba7ed162f)
  
 
 ## 🔧 Technológiai háttér
