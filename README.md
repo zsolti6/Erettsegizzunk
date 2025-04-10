@@ -11,6 +11,7 @@ A `Testing` branch egy Python szkriptet tartalmaz, amely automatikusan végrehaj
 ## ⚙️ Tesztelés előkészítése
 
 1. **Repository klónozása**
+   
    Klónozd a repository-t és válts a `Testing` branch-re:
    ```bash
    git clone https://github.com/zsolti6/Erettsegizzunk.git
@@ -18,13 +19,13 @@ A `Testing` branch egy Python szkriptet tartalmaz, amely automatikusan végrehaj
    git checkout Testing
    ```
 
-2. Környezeti beállítások Telepítsd a szükséges Python csomagokat:
+3. Környezeti beállítások Telepítsd a szükséges Python csomagokat:
    ```bash
     pip install selenium
     pip install pytest
    ```
 
-3. 🧪 Teszt futtatása
+4. 🧪 Teszt futtatása
    A teszteléshez használd a következő parancsot:
    ```bash
     cd path/to/your/file
