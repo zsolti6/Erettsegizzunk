@@ -14,9 +14,9 @@ Adat-export/áttekintés adminisztrációs célokra
 
 A telepítő elérhető:
 
-A projekt weboldalán: https://xy-link.netlify.app/admin
+A projekt weboldalán bejelentkezve admin fiókkal a menüsorban: [https://erettsegizzunk.web.app/](https://erettsegizzunk.web.app/)
 
-Vagy GitHub Release-ként: Releases
+Vagy GitHub Release-ként: [Releases](https://github.com/zsolti6/Erettsegizzunk/releases)
 
 Töltsd le a legfrissebb verzót, futtasd az .exe telepítőfájlt, majd indítsd el az alkalmazást.
 
