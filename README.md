@@ -1,6 +1,6 @@
 # 🚀 React frontend
 
-A `frontend` branch tartalmazza a felhasználói felület kódját, amely egy modern JavaScript stackre épül (React, stb.).
+A `Frontend` branch tartalmazza a felhasználói felület kódját, amely egy modern JavaScript stackre épül (React, stb.).
 
 ## 📦 Technológiák
 
