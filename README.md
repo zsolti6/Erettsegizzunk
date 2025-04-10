@@ -18,7 +18,7 @@ A projekt weboldalán bejelentkezve admin fiókkal a menüsorban: [https://erett
 
 Vagy GitHub Release-ként: [Releases](https://github.com/zsolti6/Erettsegizzunk/releases)
 
-Töltsd le a legfrissebb verzót, futtasd az .exe telepítőfájlt, majd indítsd el az alkalmazást.
+Töltsd le a legfrissebb verzót, futtasd a .msi telepítőfájlt, majd indítsd el az alkalmazást.
 
 ## 🎨 Felhasználói felület
 
