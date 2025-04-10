@@ -1,6 +1,6 @@
 # 📱 Mobil alkalmazás (React Native)
 
-A `mobil` branch egy React Native alkalmazás kódját tartalmazza, amelyet Expo Go segítségével lehet tesztelni és futtatni. A branch **csak a forráskódot** tartalmazza, az Expo Go alkalmazásban van lehetőség az app tesztelésére.
+A `Mobil` branch egy React Native alkalmazás kódját tartalmazza, amelyet Expo Go segítségével lehet tesztelni és futtatni. A branch **csak a forráskódot** tartalmazza, az Expo Go alkalmazásban van lehetőség az app tesztelésére.
 
 ## 🌐 Elérhetőség
 
