@@ -10,7 +10,7 @@ Ez a `frontend` branch tartalmazza a felhasználói felület kódját, amely egy
 
 ## 🌐 Elérhetőség
 
-A bebuildelt és publikusan elérhető weboldal itt található: https://xy-link.netlify.app
+A bebuildelt és publikusan elérhető weboldal itt található: [https://erettsegizzunk.web.app](https://erettsegizzunk.web.app)
 
 Modern, reszponzív dizájnnal és gyors betöltési időkkel, mobilbarát kialakítással.
 
