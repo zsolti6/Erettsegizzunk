@@ -8,17 +8,16 @@ Több platformon (PC, Mobile) is elérhetővé tervezzük tenni, a nagyobb hozz�
 ## Funkciók és ötletek
 ### Elsődleges:
 - Főmenü
-- Felhasználási útmutató
 - Quiz interfész
 - Feladatok listázása, review
 - Feladatok randomolása
+- Progress reset
+- Hírlevél regisztráció
+- Napi streak (duolingo style)
   
 ### Extra:
-- Progress reset
 - Reklámok
-- Hírlevél regisztráció
 - Spaced repetition
-- Napi streak (duolingo style)
 
 ## Branch-ek
 A repository-nak négy fő branch-je van:
