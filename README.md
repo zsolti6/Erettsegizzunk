@@ -1,4 +1,4 @@
-## 🛰️ Backend API (ASP.NET Core)
+# 🛰️ Backend API (ASP.NET Core)
 
 A `Backend` branch egy ASP.NET Core Web API projektet tartalmaz, amely a frontend alkalmazás és az adatbázis közötti kapcsolatot biztosítja RESTful API-k segítségével.
 
@@ -24,9 +24,9 @@ A bebuldelt backend amit a frontend használ, elérhető ezen az URL-en kereszt�
 1. **Repo klónozása és branch beállítása**
    
    ```bash
-   git clone https://github.com/felhasznalonev/repo-nev.git
-   cd repo-nev
-   git checkout backend
+   git clone  https://github.com/zsolti6/Erettsegizzunk.git
+   cd Erettsegizzunk
+   git checkout Backend
    ```
    
 2. Projekt futtatása
