@@ -37,7 +37,7 @@ Modern, reszponzív dizájnnal és gyors betöltési időkkel, mobilbarát kiala
 
 ## 💡 Tippek
 
-- Ha hibába futsz, futtasd a `npm install` parancsot újra.
+- Ha hibába futsz, futtasd az `npm install` parancsot újra.
 
 ---
 
