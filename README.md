@@ -11,7 +11,7 @@ A `Backend` branch egy ASP.NET Core Web API projektet tartalmaz, amely a fronten
 
 ## 🌐 Elérhetőség
 
-A bebuldelt backend amit a frontend használ, elérhető ezen az URL-en keresztül: [https://erettsegizzunk.onrender.com](https://erettsegizzunk.onrender.com)
+A bebuildelt backend amit a frontend használ, elérhető ezen az URL-en keresztül: [https://erettsegizzunk.onrender.com](https://erettsegizzunk.onrender.com)
 
 ## ⚙️ Funkciók
 
